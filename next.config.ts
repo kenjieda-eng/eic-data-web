@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
+
+const withMDX = createMDX({});
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
 
   experimental: {
     staleTimes: {
@@ -27,4 +32,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withMDX(nextConfig);

@@ -1,0 +1,69 @@
+import ChartLine from "@/components/ChartLine";
+
+export const metadata = {
+  title: "気温 × 電力価格：東京 15 年史 | EIC Data",
+  description:
+    "JMA 日平均気温（東京）と JEPX 東京エリア卸電力価格の 15 年相関を見る。冷暖房需要が JEPX 価格を動かす最も基礎的な構造。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 気温 × 電力価格：東京 15 年史
+
+> JMA 日平均気温（東京）と JEPX 東京エリア卸電力価格の 15 年相関を見る。
+
+## 背景
+
+日本の電力需要は気温に強く依存する。冬は暖房、夏は冷房。中間期（春・秋）は需要が落ち着く。
+JEPX 東京エリアスポット価格は、需要と供給のバランスをリアルタイムに反映するため、
+気温の動きに対して **負相関（寒い・暑いほど高い）** を示すと期待される。
+
+## 気温（東京、日次平均）
+
+<ChartLine id="jma-temp-avg-tokyo" color="#dc2626" height={300} />
+
+## JEPX 東京エリア（日次平均、¥/kWh）
+
+<ChartLine id="jepx-spot-tokyo" color="#047857" height={300} />
+
+## 解釈
+
+### 1. 季節性
+
+- **冬（12〜2 月）**: 気温 5℃ 前後、JEPX は 15〜25 ¥/kWh の高水準
+- **夏（7〜9 月）**: 気温 28℃ 前後、JEPX は 12〜20 ¥/kWh
+- **中間期（4〜5 月、10〜11 月）**: 気温 15〜20℃、JEPX は 8〜12 ¥/kWh
+
+### 2. 2022 年の異常
+
+2022 年欧州ガス危機で日本の LNG 輸入価格が 3 倍に高騰した影響で、JEPX の年間平均水準が大きく切り上がった。気温の効きは同じパターンだが、ベースラインが上昇している点に注意。
+
+詳細は Insight #11 LNG × JEPX 東京（Phase B で MDX 化予定）参照。
+
+### 3. 2024 年以降の落ち着き
+
+LNG 価格の正常化に伴い、JEPX のベースラインは 2020 年水準に近づいている。気温との相関は維持。
+
+## 引用
+
+本記事の数値を引用する場合の推奨形式（methodology v2 §8 参照）:
+
+```
+気温 × JEPX 東京 月次相関分析（2011-2026）
+／ 出典: EIC Data, https://data.eic-jp.org/insight/temp-vs-price
+（as-of 2026-05-02）
+一次出典:
+  JEPX スポット市場 https://www.jepx.jp/electricpower/market-data/spot/
+  ＋ 気象庁 日次気温観測 https://www.data.jma.go.jp/
+ライセンス:
+  jepx-terms（再配布可、原典明示必須）
+  ＋ jma-terms（出典明示必須、加工自由）
+```
+
+---
+
+*構成系列: `jma-temp-avg-tokyo` ＋ `jepx-spot-tokyo`（D-011 depends_on）*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase A Day 5 で MDX 化（2026-05-02、リン + ミオ）*
+
+</div>
