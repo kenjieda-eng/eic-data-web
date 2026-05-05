@@ -71,6 +71,30 @@ const INSIGHTS: {
     sources: ["JEPX スポット市場", "気象庁 日次気温"],
     updated: "2026-05-05",
   },
+  {
+    slug: "temp-vs-price-chugoku",
+    title: "広島日平均気温 × 中国 JEPX：太陽光大規模導入エリアの昼間反転",
+    lede: "国内 2 位の太陽光導入比率 + 島根 2 号機 2024 年再稼働の構造変化",
+    tags: ["電力", "気象", "中国", "太陽光", "原発"],
+    sources: ["JEPX スポット市場", "気象庁 日次気温"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "temp-vs-price-shikoku",
+    title: "高松日平均気温 × 四国 JEPX：小規模市場と原発再稼働",
+    lede: "国内最小級市場、伊方 3 号機の運転 / 停止が価格に直接反映",
+    tags: ["電力", "気象", "四国", "原発"],
+    sources: ["JEPX スポット市場", "気象庁 日次気温"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "temp-vs-price-hokuriku",
+    title: "金沢日平均気温 × 北陸 JEPX：水力ベースロード × 豪雪需要",
+    lede: "水力比率国内トップで平時は安定、豪雪期は暖房 + 融雪需要で価格上振れ",
+    tags: ["電力", "気象", "北陸", "水力", "豪雪"],
+    sources: ["JEPX スポット市場", "気象庁 日次気温"],
+    updated: "2026-05-05",
+  },
 ];
 
 export default function InsightIndexPage() {
