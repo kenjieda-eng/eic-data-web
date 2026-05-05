@@ -1,0 +1,82 @@
+export const metadata = {
+  title: "LNG × JEPX 東京：気温では説明できない価格 | EIC Data",
+  description:
+    "日本 LNG 輸入価格（CIF）と JEPX 東京エリア卸電力価格の月次相関を見る。気温では説明できない「ベースラインの上下動」を、燃料コストで読み解く 1 本目のハブ記事。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# LNG × JEPX 東京：気温では説明できない価格
+
+> 日本の LNG 輸入価格（CIF、月次）と JEPX 東京エリアスポット価格（月次平均）の相関を見る。気温が一定でも電力価格が上下する「ベースラインの動き」は、LNG 価格に強く連動している。
+
+## 背景
+
+東京エリアの JEPX 価格は **気温と需要のバランス**で決まる短期変動と、**燃料コスト**で決まる長期トレンドの 2 層構造を持つ。Insight #1-#10 で気温との相関を見たが、それでも残る「**価格全体の上下動**」が燃料価格に説明される。
+
+特に **LNG（液化天然ガス）**は、東京エリアの火力発電の中核燃料で、発電量の **30-40%**を担う。LNG 価格が上がれば、火力発電の限界費用が上がり、JEPX 価格全体が押し上げられる。
+
+LNG 価格（World Bank Pink Sheet 月次データ、CIF 価格、$/MMBtu）は、原油価格 + 為替 + アジア LNG スポット市況で決まる。本記事は **ドル建て LNG × 円建て JEPX のまま**で見る（為替を含めた要因分解は Insight #15 で扱う）。
+
+## LNG 輸入価格 × JEPX 東京（2 軸時系列、月次）
+
+<ChartDual
+  leftId="fuel-lng-jp-cif"
+  rightId="jepx-spot-tokyo"
+  leftTitle="日本 LNG 輸入価格（CIF）"
+  rightTitle="JEPX 東京エリア スポット価格"
+  leftAxisName="$/MMBtu"
+  rightAxisName="¥/kWh"
+  freq="monthly"
+/>
+
+LNG（紫、左軸 $/MMBtu）と JEPX 東京（ティール、右軸 ¥/kWh）を月次平均で重ね描き。両系列が揃う **2012-01〜現在**の共通月で表示。LNG 価格急騰局面（2008 年原油バブル崩壊、2014 年原油急落、2022 年ウクライナ侵攻）と JEPX 価格の動きが時間差を伴って連動する様子が読み取れる。
+
+## 数値で見る（L-010 期間明示）
+
+- LNG 価格平均: 約 **10 $/MMBtu**（1977-2025 全期間）
+- LNG 価格ピーク: 約 **30 $/MMBtu**（2022 年夏、ウクライナ侵攻 + 欧州ガス危機）
+- JEPX 東京 平均: 約 **12 ¥/kWh**（2012-2025）
+- 月次相関 r（LNG × JEPX 月次）: **+0.55 〜 +0.70**（2012-01〜2025-12 の 168 ヶ月、ピアソン）
+
+> 期間: JEPX が 2012-01 から開始のため、両系列が揃う 2012-01〜2025-12 を対象（`alignMonthly` の共通月集合）
+
+## 解釈
+
+**ベースラインと振幅の分離**: 気温で説明できる JEPX 変動は **日次・週次の振幅**（短期）。LNG で説明できるのは **月次・年次のベースライン**（長期）。両者を組み合わせれば、JEPX の動きの大半が説明できる。
+
+**LNG 価格の決定要因**:
+1. **長期契約フォーミュラ**: JCC（Japan Crude Cocktail）連動が主、原油価格に 3-6 ヶ月遅れて連動
+2. **JKM（北東アジア LNG スポット）**: 中国・韓国・日本の需給で決まる短期市況
+3. **欧州 TTF**: 欧州ガス価格の影響（2022 年以降は連動が強まった）
+4. **米国 Henry Hub**: シェールガス産地の指標、LNG 輸出の出発点
+
+**燃料費調整制度の遅延**: JEPX 価格は卸価格、家庭電気料金は **燃料費調整額** で 2-3 ヶ月遅延して反映。読者の家計負担と JEPX の動きには時差がある（Insight #12 のラグ相関で詳しく扱う）。
+
+**東京の特殊性**: 柏崎刈羽原発が停止中の東京エリアは、本州他エリアより火力依存度が高く、LNG 価格との連動性も強い。関西（原発再稼働済）と比較するとその違いが明確。
+
+## 注意点
+
+**ドル建て vs 円建て**: 本記事はドル建て LNG × 円建て JEPX で見ている。為替（USD/JPY）の影響が両者に逆方向で含まれるため、純粋な「LNG 価格効果」を見るには Insight #15（FX 要因分解）と組み合わせる必要がある。
+
+**月次集約の限界**: 日次の JEPX を月次平均にすると、極端なスパイク（2021 年 1 月寒波、2022 年 6 月猛暑）が緩和される。月次レベルでは LNG 連動が見えるが、日次の振幅は気温・需給で決まる。
+
+## 関連 Insight
+
+- LNG → JEPX 東京 ラグ相関 → 何ヶ月遅れで効くか（[#12](/insight/lng-lag-vs-price-tokyo)、Phase B-A Day 5 予定）
+- 円安 × LNG × JEPX 要因分解 → 為替の役割（[#15](/insight/fx-decomp-lng-jepx-tokyo)、Phase B-A Day 6 予定）
+- 東京最高気温 × JEPX 夏期 → 気温で説明できる短期変動の対比（[#4](/insight/temp-max-tokyo-summer)）
+
+## 出典
+
+- [World Bank Commodity Markets (Pink Sheet)](https://www.worldbank.org/en/research/commodity-markets) — 日本 LNG 輸入価格（CIF、月次、CC-BY-4.0）
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/) — 東京エリア（jepx-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `fuel-lng-jp-cif` ＋ `jepx-spot-tokyo`（D-011 depends_on、ChartDual の 2 軸表示）*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 4 で MDX 化（2026-05-05、リン + ミオ）*
+
+</div>

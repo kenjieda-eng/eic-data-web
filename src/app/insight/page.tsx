@@ -95,6 +95,14 @@ const INSIGHTS: {
     sources: ["JEPX スポット市場", "気象庁 日次気温"],
     updated: "2026-05-05",
   },
+  {
+    slug: "lng-vs-price-tokyo",
+    title: "LNG × JEPX 東京：気温では説明できない価格",
+    lede: "ドル建て LNG (CIF) × 円建て JEPX 東京の月次相関、ChartDual 2 軸時系列",
+    tags: ["電力", "燃料", "東京", "LNG"],
+    sources: ["World Bank Pink Sheet", "JEPX スポット市場"],
+    updated: "2026-05-05",
+  },
 ];
 
 export default function InsightIndexPage() {
