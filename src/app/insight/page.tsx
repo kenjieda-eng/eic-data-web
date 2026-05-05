@@ -151,6 +151,30 @@ const INSIGHTS: {
     sources: ["JEPX スポット市場", "気象庁 日次降水量"],
     updated: "2026-05-05",
   },
+  {
+    slug: "precip-kyushu-vs-price",
+    title: "福岡降水量 × 九州 JEPX：豪雨年の太陽光出力低下と需要抑制",
+    lede: "太陽光大量導入下での降水量、太陽光低下と冷房需要抑制の両方向効果が同時発生",
+    tags: ["電力", "気象", "九州", "太陽光", "降水量"],
+    sources: ["JEPX スポット市場", "気象庁 日次降水量"],
+    updated: "2026-05-06",
+  },
+  {
+    slug: "solar-vs-sunshine-tokyo",
+    title: "太陽光発電量 × 東京日照時間：発電ポテンシャルの可視化",
+    lede: "全国太陽光発電量 × 東京日照時間の月次相関 +0.70-0.85、再エネのポテンシャル指標",
+    tags: ["電力", "気象", "東京", "太陽光", "再エネ"],
+    sources: ["METI 電力調査統計", "気象庁 日照時間"],
+    updated: "2026-05-06",
+  },
+  {
+    slug: "nuclear-vs-jepx-kansai",
+    title: "原子力発電量 × JEPX 関西：再稼働 7 基のベースロード復活",
+    lede: "高浜・大飯・美浜 7 基稼働で月次相関 -0.40〜-0.60、本州最安水準を維持",
+    tags: ["電力", "原発", "関西", "ベースロード"],
+    sources: ["METI 電力調査統計", "JEPX スポット市場"],
+    updated: "2026-05-06",
+  },
 ];
 
 export default function InsightIndexPage() {
