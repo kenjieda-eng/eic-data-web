@@ -70,6 +70,58 @@ export async function fetchRateSpread(
   };
 }
 
+export interface DecompPoint {
+  date: string;
+  aEffect: number;
+  bEffect: number;
+  interaction: number;
+  total: number;
+}
+
+/**
+ * 加法 3 要因分解: Δ(A × B) = ΔA · B₀ + A₀ · ΔB + ΔA · ΔB
+ *   - aEffect: A 要因の寄与 = ΔA · B₀
+ *   - bEffect: B 要因の寄与 = A₀ · ΔB
+ *   - interaction: 相乗効果 = ΔA · ΔB
+ *   - total: 上記 3 つの和（≡ aValue·bValue − a₀·b₀、加法分解の恒等式）
+ *
+ * 入力は日次 / 月次どちらでも可（内部で aggregateMonthly + alignMonthly）。
+ * baseYM は YYYY-MM、aligned 共通月集合の中に存在しないと throw。
+ */
+export function decompose3Factor(
+  a: SeriesPoint[],
+  b: SeriesPoint[],
+  baseYM: string,
+): DecompPoint[] {
+  const aMonthly = aggregateMonthly(a);
+  const bMonthly = aggregateMonthly(b);
+  const aligned = alignMonthly(aMonthly, bMonthly);
+
+  const base = aligned.find((p) => p.date.startsWith(baseYM));
+  if (!base) {
+    throw new Error(
+      `decompose3Factor: baseYM ${baseYM} not found in aligned series intersection`,
+    );
+  }
+  const a0 = base.aValue;
+  const b0 = base.bValue;
+
+  return aligned.map(({ date, aValue, bValue }) => {
+    const dA = aValue - a0;
+    const dB = bValue - b0;
+    const aEffect = dA * b0;
+    const bEffect = a0 * dB;
+    const interaction = dA * dB;
+    return {
+      date,
+      aEffect,
+      bEffect,
+      interaction,
+      total: aEffect + bEffect + interaction,
+    };
+  });
+}
+
 export interface PearsonOptions {
   /** 直近 N 月だけで計算する。`alignMonthly` 後の末尾 N 件を採用。 */
   windowMonths?: number;

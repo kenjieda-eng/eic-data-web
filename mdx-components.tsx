@@ -2,12 +2,14 @@ import type { MDXComponents } from "mdx/types";
 import ChartLine from "@/components/ChartLine";
 import ChartDual from "@/components/ChartDual";
 import ChartLagBars from "@/components/ChartLagBars";
+import ChartDecomp from "@/components/ChartDecomp";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     ChartLine,
     ChartDual,
     ChartLagBars,
+    ChartDecomp,
 
     h1: ({ children }) => (
       <h1 className="mt-8 text-3xl font-bold text-ink">{children}</h1>
