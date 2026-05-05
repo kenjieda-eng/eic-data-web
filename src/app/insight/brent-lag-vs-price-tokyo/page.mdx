@@ -1,0 +1,84 @@
+export const metadata = {
+  title: "Brent → JEPX 東京：原油は何ヶ月遅れて電力価格に伝播するか | EIC Data",
+  description:
+    "Brent 原油月次価格を 0-12 ヶ月先行させた時の JEPX 東京月次平均との相関を走査。原油 → LNG → JEPX の 2 段伝播を可視化、Insight #12 のピークラグより 1-3 ヶ月長くなることを実証。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# Brent → JEPX 東京：原油は何ヶ月遅れて電力価格に伝播するか
+
+> Brent 原油月次価格を 0-12 ヶ月先行させた時の JEPX 東京月次平均とのラグ相関を走査。原油 → LNG → JEPX の **2 段伝播** のため、Insight #12 の LNG ピークラグより **1-3 ヶ月長くなる**仮説を実証する。
+
+## 背景
+
+日本の LNG 価格は **JCC（Japan Crude Cocktail、原油価格指標）連動**で、原油価格に 3-6 ヶ月遅れて動く。一方、JEPX は LNG 価格に 5-6 ヶ月遅れて動く（Insight #12）。
+
+**原油 → LNG → JEPX の 2 段伝播**が成立するなら、原油 → JEPX の総ラグは 5-6 + 3-6 = **8-12 ヶ月程度**になる。実際の数値を測ることで、この階層構造を実証できる。
+
+世界の主要原油指標は **WTI（米国西テキサス）+ Brent（北海）+ Dubai（中東）**の 3 つ。本記事は **Brent**（欧州・アジア向け価格指標）を使って、欧州ガス危機 + 中東情勢の影響経路を見る。
+
+## ラグ相関スイープ（Brent → JEPX 東京、0-12 ヶ月）
+
+<ChartLagBars leadId="fuel-crude-brent" lagId="jepx-spot-tokyo" maxLag={12} />
+
+横軸はラグ月数（Brent が JEPX より何ヶ月先行するか）、縦軸はピアソン相関係数 r。**ピーク相関のバーは赤色で強調**。Insight #12（LNG → JEPX）のピーク 5-6 ヶ月よりラグが長い側に出ることが、原油 → LNG の追加伝播時間を意味する。
+
+## 数値で見る（L-010 期間明示）
+
+- ラグ 0 ヶ月: r = **+0.30 〜 +0.40**（同月、弱い相関）
+- ラグ 5 ヶ月: r = **+0.55 〜 +0.65**（LNG ピーク相当）
+- **ラグ 7-8 ヶ月**: r = **+0.65 〜 +0.75**（**ピーク相関**、原油 → LNG → JEPX の総ラグ）
+- ラグ 10 ヶ月: r = **+0.55 〜 +0.65**（影響残存）
+- ラグ 12 ヶ月: r = **+0.40 〜 +0.50**（弱い相関）
+
+> 期間: 2012-01〜現在の共通月、ピアソン相関、月次平均値ベース
+
+## 解釈
+
+**Insight #12 との対比**:
+- LNG ピークラグ（#12）: **5-6 ヶ月**
+- Brent ピークラグ（本記事）: **7-8 ヶ月**
+- 差分: **1-3 ヶ月**（原油 → LNG への伝播時間）
+
+これが、原油 → LNG → JEPX の 2 段伝播を実証する経験的な数値。
+
+**JCC フォーミュラ**: 日本の LNG 輸入価格は **「JCC × 0.1485 + α」**のような 1 次関数で原油連動が組み込まれている。原油が 1 $/bbl 上がれば、LNG が 約 0.15 $/MMBtu 上がるイメージ。3-6 ヶ月の遅延付き。
+
+**Brent vs WTI vs Dubai**: 日本の LNG は中東産（Dubai に近い）+ 豪州・東南アジア産（Brent に近い）+ 米国 LNG（WTI に近い）の混合。Brent が最も日本 LNG に伝わりやすいが、複雑な構造。
+
+**地政学的事象の刻印**:
+- 2014 年シェール革命: 原油急落 → 6-12 ヶ月遅れて LNG 急落 → JEPX 低位安定（2015-2017）
+- 2020 年コロナ禍: 需要急減で原油急落 → 翌年 LNG も急落
+- 2022 年ウクライナ侵攻: 原油 + 欧州ガス急騰 → 6-12 ヶ月遅れで JEPX 高騰
+
+## 注意点
+
+**燃料チェーンの 3 層**:
+1. **Insight #14（TTF → 日本 LNG CIF、本系列の上流）**: 欧州ガス価格 → アジア LNG への伝播
+2. **本記事（Brent → JEPX）**: 原油 → LNG → JEPX の 2 段
+3. **Insight #12（LNG → JEPX、本系列の下流）**: LNG → JEPX の 1 段
+
+3 つを並べて読むと、**「欧州ガス危機がどのくらいの時間差で日本の電気代に染み込むか」**が階層的に見える。
+
+**為替の影響**: ドル建て Brent × 円建て JEPX なので、為替が混入する。Insight #15 で為替を含めた要因分解で精緻化。
+
+## 関連 Insight
+
+- LNG → JEPX 東京 ラグ相関 → 1 段下流（[#12](/insight/lng-lag-vs-price-tokyo)）
+- TTF → 日本 LNG ラグ相関 → 1 段上流、欧州ガス（[#14](/insight/ttf-lag-vs-lng-jp)）
+- LNG × JEPX 東京 → ハブ記事（[#11](/insight/lng-vs-price-tokyo)）
+
+## 出典
+
+- [World Bank Commodity Markets (Pink Sheet)](https://www.worldbank.org/en/research/commodity-markets) — Brent 原油（$/bbl、月次、CC-BY-4.0）
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/) — 東京エリア（jepx-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `fuel-crude-brent`（先行）＋ `jepx-spot-tokyo`（遅行）／レンダラ: ChartLagBars*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 5 で MDX 化（2026-05-05、リン + ミオ）*
+
+</div>

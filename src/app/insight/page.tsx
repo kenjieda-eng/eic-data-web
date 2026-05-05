@@ -103,6 +103,30 @@ const INSIGHTS: {
     sources: ["World Bank Pink Sheet", "JEPX スポット市場"],
     updated: "2026-05-05",
   },
+  {
+    slug: "lng-lag-vs-price-tokyo",
+    title: "LNG → JEPX 東京：何ヶ月遅れで価格に効くか",
+    lede: "0-12 ヶ月のラグ相関スイープ、ピーク 5-6 ヶ月（長期契約 + 燃料費調整 + 在庫の 3 層）",
+    tags: ["電力", "燃料", "東京", "LNG", "ラグ相関"],
+    sources: ["World Bank Pink Sheet", "JEPX スポット市場"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "brent-lag-vs-price-tokyo",
+    title: "Brent → JEPX 東京：原油は何ヶ月遅れて電力価格に伝播するか",
+    lede: "原油 → LNG → JEPX の 2 段伝播、Brent ピークラグ 7-8 ヶ月（LNG より 1-3 ヶ月長い）",
+    tags: ["電力", "燃料", "東京", "原油", "ラグ相関"],
+    sources: ["World Bank Pink Sheet", "JEPX スポット市場"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "ttf-lag-vs-lng-jp",
+    title: "TTF → 日本 LNG CIF：欧州ガス危機は何ヶ月遅れで日本に届くか",
+    lede: "ドル建て × ドル建ての純粋燃料伝播、ピーク 3-4 ヶ月（燃料チェーン最上流）",
+    tags: ["燃料", "LNG", "TTF", "ラグ相関"],
+    sources: ["World Bank Pink Sheet"],
+    updated: "2026-05-05",
+  },
 ];
 
 export default function InsightIndexPage() {

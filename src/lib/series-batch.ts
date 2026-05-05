@@ -42,6 +42,33 @@ export function aggregateMonthly(points: SeriesPoint[]): SeriesPoint[] {
 }
 
 /**
+ * 月次系列を `lagMonths` ヶ月先にシフトして返す。
+ * 入力の date は `YYYY-MM` または `YYYY-MM-DD`（aggregateMonthly の出力 `YYYY-MM-15` を想定）。
+ * lagMonths = 0 で入力配列をそのまま返す（参照同一性を保つ）。
+ */
+export function shiftMonths(
+  series: SeriesPoint[],
+  lagMonths: number,
+): SeriesPoint[] {
+  if (lagMonths === 0) return series;
+  return series.map((p) => ({
+    date: addMonthsToYmd(p.date, lagMonths),
+    value: p.value,
+  }));
+}
+
+function addMonthsToYmd(date: string, n: number): string {
+  const parts = date.split("-");
+  const y = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10);
+  const d = parts[2] ?? "15";
+  const total = y * 12 + (m - 1) + n;
+  const newY = Math.floor(total / 12);
+  const newM = ((total % 12) + 12) % 12 + 1;
+  return `${newY}-${String(newM).padStart(2, "0")}-${d.padStart(2, "0")}`;
+}
+
+/**
  * 2 系列の月次データを共通月のみで揃える。月次でない場合は事前に aggregateMonthly を通すこと。
  */
 export function alignMonthly(
