@@ -127,6 +127,30 @@ const INSIGHTS: {
     sources: ["World Bank Pink Sheet"],
     updated: "2026-05-05",
   },
+  {
+    slug: "fx-decomp-lng-jepx-tokyo",
+    title: "円安 × LNG × JEPX：2022-2023 価格上振れの要因分解",
+    lede: "加法 3 要因分解（LNG 要因 + 円安要因 + 相乗効果）、基準月 2020-12 で電気代高騰の正体",
+    tags: ["燃料", "為替", "LNG", "東京", "要因分解"],
+    sources: ["World Bank Pink Sheet", "日本銀行"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "jgb-vs-yen-lng",
+    title: "JGB × LNG：金利と燃料の同時動",
+    lede: "10 年物日本国債利回り × LNG の 2 軸時系列、エネルギーと金融の引用インフラ中心軸",
+    tags: ["金融", "燃料", "LNG", "JGB"],
+    sources: ["World Bank Pink Sheet", "財務省 国債金利"],
+    updated: "2026-05-05",
+  },
+  {
+    slug: "precip-hokuriku-vs-price",
+    title: "金沢降水量 × 北陸 JEPX：水力ベースロードと豪雪のサイクル",
+    lede: "降水量 → ダム水位 → 春の水力出力増 → ベースロード安定の連鎖",
+    tags: ["電力", "気象", "北陸", "水力", "降水量"],
+    sources: ["JEPX スポット市場", "気象庁 日次降水量"],
+    updated: "2026-05-05",
+  },
 ];
 
 export default function InsightIndexPage() {
