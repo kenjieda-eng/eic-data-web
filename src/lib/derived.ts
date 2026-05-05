@@ -70,15 +70,35 @@ export async function fetchRateSpread(
   };
 }
 
+export interface PearsonOptions {
+  /** 直近 N 月だけで計算する。`alignMonthly` 後の末尾 N 件を採用。 */
+  windowMonths?: number;
+  /** "YYYY-MM" 以降の月のみで計算する（windowMonths より先に適用）。 */
+  sinceYM?: string;
+}
+
 /**
  * 月次ピアソン相関。共通月で揃えた上で計算。
  * 3 点未満や分散ゼロの場合は null を返す（数値的に安定）。
+ *
+ * options を渡すと sinceYM → windowMonths の順でフィルタしてから相関を取る。
+ * options 省略時は従来通り全期間で計算（後方互換）。
  */
 export function pearsonCorrelation(
   a: SeriesPoint[],
   b: SeriesPoint[],
+  options?: PearsonOptions,
 ): number | null {
-  const aligned = alignMonthly(a, b);
+  let aligned = alignMonthly(a, b);
+
+  if (options?.sinceYM) {
+    const cutoff = options.sinceYM;
+    aligned = aligned.filter((p) => p.date.slice(0, 7) >= cutoff);
+  }
+  if (options?.windowMonths !== undefined && options.windowMonths > 0) {
+    aligned = aligned.slice(-options.windowMonths);
+  }
+
   if (aligned.length < 3) return null;
 
   const n = aligned.length;
