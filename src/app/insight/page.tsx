@@ -175,6 +175,30 @@ const INSIGHTS: {
     sources: ["METI 電力調査統計", "JEPX スポット市場"],
     updated: "2026-05-06",
   },
+  {
+    slug: "renewables-share-trend",
+    title: "再エネ比率の 5 年トレンド：エネルギー基本計画 2030 年目標 36-38% への道のり",
+    lede: "全国再エネ比率の 5 年月次トレンド、年率 +1.5%pt ペース、2030 年目標到達には加速が必要",
+    tags: ["電力", "再エネ", "全国", "エネルギー基本計画"],
+    sources: ["METI 電力調査統計", "エネルギー基本計画"],
+    updated: "2026-05-06",
+  },
+  {
+    slug: "thermal-vs-lng",
+    title: "火力発電量 × LNG：直感的仮説の反証",
+    lede: "LNG 高騰時も火力は減らない。火力 = 需要調整役、燃料コストは JEPX 価格に反映される構造",
+    tags: ["電力", "燃料", "LNG", "火力"],
+    sources: ["METI 電力調査統計", "World Bank Pink Sheet"],
+    updated: "2026-05-06",
+  },
+  {
+    slug: "demand-vs-temp",
+    title: "販売電力量 × 全国気温：需要側の U 字パターン",
+    lede: "需要は快適温度 20-25℃ で最低、絶対偏差で r=+0.65〜+0.75。冬偏重の構造を実証",
+    tags: ["電力", "気象", "全国", "需要"],
+    sources: ["METI 電力調査統計", "気象庁 日次気温"],
+    updated: "2026-05-06",
+  },
 ];
 
 export default function InsightIndexPage() {
