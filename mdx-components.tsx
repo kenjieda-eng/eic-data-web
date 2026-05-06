@@ -3,6 +3,7 @@ import ChartLine from "@/components/ChartLine";
 import ChartDual from "@/components/ChartDual";
 import ChartLagBars from "@/components/ChartLagBars";
 import ChartDecomp from "@/components/ChartDecomp";
+import ChartHeatmap from "@/components/ChartHeatmap";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -10,6 +11,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ChartDual,
     ChartLagBars,
     ChartDecomp,
+    ChartHeatmap,
 
     h1: ({ children }) => (
       <h1 className="mt-8 text-3xl font-bold text-ink">{children}</h1>
