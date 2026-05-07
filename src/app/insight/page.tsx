@@ -239,6 +239,46 @@ const INSIGHTS: {
     sources: ["気象庁 月次最深積雪"],
     updated: "2026-05-06",
   },
+  {
+    slug: "thermal-fuel-cost-decomp",
+    title: "火力 × LNG 燃料コスト要因分解：Phase 2-A delivery の象徴",
+    lede: "火力発電量 × LNG ドル建て CIF を加法 3 要因分解。基準月 2021-04 で燃料コスト増の 85-90% は燃料価格要因",
+    tags: ["電力", "燃料", "LNG", "火力", "要因分解"],
+    sources: ["METI 電力調査統計", "World Bank Pink Sheet"],
+    updated: "2026-05-07",
+  },
+  {
+    slug: "precip-9-region-heatmap",
+    title: "9 地点 × 36 ヶ月 降水量ヒートマップ：3 つの気象パターンの重ね合わせ",
+    lede: "北陸冬季豪雪 + 太平洋側梅雨 + 九州台風の 3 パターンが地理的にモザイク状に重なる構造、再エネ + 需要への 3 経路",
+    tags: ["電力", "気象", "降水量", "ヒートマップ"],
+    sources: ["気象庁 日次降水量"],
+    updated: "2026-05-07",
+  },
+  {
+    slug: "temp-9-region-heatmap",
+    title: "9 地点 × 36 ヶ月 平均気温ヒートマップ：年周期と温暖化トレンド",
+    lede: "9 地点すべてが年周期で揃う唯一の気象変数、緯度差 14℃ の地理的偏在 + 2023-2025 年の高温 3 連続",
+    tags: ["電力", "気象", "気温", "ヒートマップ"],
+    sources: ["気象庁 日次気温"],
+    updated: "2026-05-07",
+  },
+  {
+    slug: "multi-region-jepx-comparison",
+    title: "9 エリア JEPX 比較：地域差の構造と原因",
+    lede: "9 エリアの卸電力価格を 1 ページで比較、原発再稼働 / 太陽光導入 / 火力依存 / 水力比率の刻印を可視化",
+    tags: ["電力", "全国", "JEPX", "原発", "太陽光"],
+    sources: ["JEPX スポット市場"],
+    updated: "2026-05-07",
+  },
+  {
+    slug: "region-fuel-sensitivity",
+    title: "9 エリア × LNG 価格感応度：原発再稼働状況の刻印",
+    lede: "原発再稼働済の関西 + 九州（r=+0.30）vs 火力依存の東京 + 中部（r=+0.65）、電源構成の経済効果を数値化",
+    tags: ["電力", "燃料", "LNG", "全国", "原発"],
+    sources: ["World Bank Pink Sheet", "JEPX スポット市場"],
+    updated: "2026-05-07",
+  },
 ];
 
 export default function InsightIndexPage() {

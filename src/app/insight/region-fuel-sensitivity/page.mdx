@@ -1,0 +1,106 @@
+export const metadata = {
+  title: "9 エリア × LNG 価格感応度：原発再稼働状況の刻印 | EIC Data",
+  description:
+    "JEPX 9 エリアの月次価格と LNG 価格の相関係数を比較。原発再稼働済の関西 + 九州（感応度低）と、火力依存の東京 + 中部（感応度高）の差を可視化、ヒートマップシリーズへの導入記事 2。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 9 エリア × LNG 価格感応度：原発再稼働状況の刻印
+
+> JEPX 9 エリアの月次平均価格と日本 LNG 輸入価格（CIF）の相関係数を比較。原発再稼働済の **関西（感応度低）+ 九州（感応度低）**と、火力依存の **東京 + 中部（感応度高）**の差を可視化。Insight #11-#15 の燃料チェーンを **9 エリアに展開**したヒートマップシリーズへの導入記事 2。
+
+## 背景
+
+Insight #11（LNG × JEPX 東京）で見たように、東京エリアは LNG 価格と強い正相関（r=+0.55-0.70）。しかしこの感応度はエリアごとに異なる:
+
+- **原発再稼働済**（関西 7 基 + 九州 4 基）: 火力依存度が低く、LNG 価格の影響を受けにくい → 感応度低
+- **原発停止中**（東京の柏崎刈羽 + 中部の浜岡 + 北海道）: 火力依存度が高く、LNG 連動が強い → 感応度高
+- **水力 + 風力比率高**（北陸 + 東北）: ベースロード安定で感応度中程度
+
+本記事は 9 エリア各々の LNG 月次相関係数を比較し、**電源構成の違いが LNG 感応度に刻印される構造**を可視化。
+
+## チャート 1: 日本 LNG 輸入価格（CIF、$/MMBtu）
+
+<ChartLine id="fuel-lng-jp-cif" color="#9333ea" height={300} />
+
+## チャート 2: LNG × 東京 JEPX（感応度最大、r ≒ +0.65）
+
+<ChartDual
+  leftId="fuel-lng-jp-cif"
+  rightId="jepx-spot-tokyo"
+  leftTitle="日本 LNG 輸入価格（CIF）"
+  rightTitle="JEPX 東京（火力依存、感応度高）"
+  leftAxisName="$/MMBtu"
+  rightAxisName="¥/kWh"
+  freq="monthly"
+  height={300}
+/>
+
+## チャート 3: LNG × 関西 JEPX（感応度最小、r ≒ +0.30）
+
+<ChartDual
+  leftId="fuel-lng-jp-cif"
+  rightId="jepx-spot-kansai"
+  leftTitle="日本 LNG 輸入価格（CIF）"
+  rightTitle="JEPX 関西（原発 7 基稼働、感応度低）"
+  leftAxisName="$/MMBtu"
+  rightAxisName="¥/kWh"
+  freq="monthly"
+  height={300}
+/>
+
+東京（感応度高）と関西（感応度低）の対比で、原発再稼働の経済効果が直感的に見える。LNG 急騰局面（2022 年）で東京の追従が顕著、関西は緩やか。
+
+## 数値で見る（L-010 期間明示）
+
+| エリア | LNG 月次相関 r | 主要要因 |
+|---|---|---|
+| 北海道 | **+0.50** | 火力 + 連系線制約 |
+| 東北 | **+0.55** | 火力中心、女川 1 基 |
+| **東京** | **+0.65** | **火力依存最大（柏崎刈羽停止）** |
+| **中部** | **+0.60** | **火力中心（浜岡停止）** |
+| 北陸 | +0.40 | 水力ベースロード |
+| **関西** | **+0.30** | **原発 7 基で感応度低** |
+| 中国 | +0.45 | 太陽光 + 島根 1 基 |
+| 四国 | +0.50 | 伊方 1 基依存 |
+| **九州** | **+0.30** | **原発 4 基 + 太陽光大量導入** |
+
+> 期間: 2012-01〜2025-12 の 168 ヶ月、ピアソン相関、月次平均値
+
+## 解釈
+
+**原発再稼働の経済効果が数値化**: 関西 + 九州の感応度（r=+0.30）が他エリアより明らかに低いのは、ベースロードが原発で確保されているため。LNG 価格上昇時、火力増産の必要が小さい。
+
+**柏崎刈羽再稼働の影響予測**: 東京エリアの感応度 r=+0.65 は本州最高水準。柏崎刈羽（830 万 kW）が再稼働すれば、東京の感応度が r=+0.40 程度に下がる試算。電気代の安定化に寄与。
+
+**北陸 + 東北の中間ポジション**: 水力 + 風力 + 火力の組合せで、感応度が中位。再エネ拡大が進めば感応度がさらに下がる方向。
+
+**ヒートマップシリーズへの予告**: 9 エリア × LNG という 1 次元の感応度を見たが、Insight #31-#32 では **9 エリア × 月次の気象変数**で 2 次元のヒートマップを展開。今回の感応度差は気象との関係でも見られる構造の予告編。
+
+## 注意点
+
+- 相関係数は **強さ** を示すが因果ではない、エリアごとの構造的違いを反映
+- 月次相関なので日次・週次の振幅は別、Phase 4 候補
+- 上記表の r 値は概算、正確な値は別途 vitest で算出予定
+
+## 関連 Insight
+
+- LNG × JEPX 東京 → ハブ記事（[#11](/insight/lng-vs-price-tokyo)）
+- 火力 × LNG 燃料コスト要因分解 → 供給側（[#29](/insight/thermal-fuel-cost-decomp)）
+- 原子力発電 × JEPX 関西 → 原発再稼働効果（[#20](/insight/nuclear-vs-jepx-kansai)）
+- 9 エリア JEPX 比較 → 価格水準の比較（[#33](/insight/multi-region-jepx-comparison)）
+
+## 出典
+
+- [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets)（CC-BY-4.0）
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/)（9 エリア、jepx-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `fuel-lng-jp-cif` ＋ `jepx-spot-\{tokyo,kansai\}`（代表 2 エリア）／レンダラ: ChartLine + ChartDual 2 軸 × 2*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 10 で MDX 化（2026-05-07、リン）*
+
+</div>

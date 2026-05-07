@@ -1,0 +1,103 @@
+export const metadata = {
+  title: "火力 × LNG 燃料コスト要因分解：Phase 2-A delivery の象徴 | EIC Data",
+  description:
+    "火力発電量 Q（METI 月次、GWh）× LNG ドル建て CIF P（$/MMBtu）を「燃料コスト総額の代理指標」として加法 3 要因分解で見る。Phase 2-A METI 12 系列 + Phase 0 燃料パイプラインが揃って初めて書ける記事。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 火力 × LNG 燃料コスト要因分解：Phase 2-A delivery の象徴
+
+> 火力発電量 Q（METI 月次、GWh）× LNG ドル建て CIF P（$/MMBtu）を「**燃料コスト総額の代理指標**」として、加法 3 要因分解で見る。Phase 2-A METI 12 系列 + Phase 0 燃料パイプラインが揃って初めて書ける、**Phase 2-A delivery の象徴**となる 1 本。
+
+## 背景
+
+電力会社の **燃料費総額**は概ね「**火力発電量 × 燃料単価**」で決まる。火力発電量 Q は需要に応じて変動、燃料単価 P は LNG 国際市況で変動。両者が同時に動くと、燃料費総額は **3 要因に分解可能**:
+
+```
+Δ(Q × P) = ΔQ · P₀ + Q₀ · ΔP + ΔQ · ΔP
+          ↑ 火力出力要因  ↑ 燃料価格要因  ↑ 相乗効果
+```
+
+基準月: **2021-04**（FY2021 開始月、再エネ大量導入後 + ウクライナ侵攻前の比較的安定期）。
+
+Insight #15（円安 × LNG × JEPX 要因分解、需要側）と本記事（火力 × LNG、供給側）は **対の構造**で、需要側 + 供給側の両方から燃料コストを見られる。
+
+## チャート 1: 全国火力発電量（GWh、月次）
+
+<ChartLine id="meti-gen-thermal" color="#ea580c" height={300} />
+
+## チャート 2: 日本 LNG 輸入価格（CIF、$/MMBtu）
+
+<ChartLine id="fuel-lng-jp-cif" color="#9333ea" height={300} />
+
+## チャート 3: 火力 × LNG の 3 要因積み上げ（基準月 2021-04）
+
+<ChartDecomp
+  factorAId="meti-gen-thermal"
+  factorBId="fuel-lng-jp-cif"
+  baseYM="2021-04"
+  labelA="火力出力要因（ΔQ · P₀）"
+  labelB="燃料価格要因（Q₀ · ΔP）"
+  labelInteraction="相乗効果（ΔQ · ΔP）"
+  unit="GWh × $/MMBtu"
+/>
+
+縦軸は基準月（2021-04）からの Q × P の変動量、3 要因（火力出力 = 青、燃料価格 = オレンジ、相乗 = 灰）の積み上げエリア。基準月の縦線（赤点線）から右側で各要因の寄与が読み取れる。
+
+恒等式: `aEffect + bEffect + interaction === total = aValue·bValue − a₀·b₀`（vitest 3 ケース PASS で保証）。
+
+## 数値で見る（L-010 期間明示）
+
+基準月: **2021-04**（火力 ≈ 50,000 GWh、LNG ≈ 7 $/MMBtu、Q × P ≈ 350,000 GWh·$/MMBtu）
+
+ピーク月: **2022-08 前後**（火力 ≈ 56,000 GWh、LNG ≈ 30 $/MMBtu、Q × P ≈ 1,680,000 GWh·$/MMBtu）
+
+ピーク時の 3 要因（基準月比、概算）:
+- **火力出力要因（ΔQ · P₀）**: +12% 増の出力 × 基準価格 ≈ +42,000 GWh·$/MMBtu（小）
+- **燃料価格要因（Q₀ · ΔP）**: 基準出力 × 4.3 倍の価格上昇 ≈ +1,150,000 GWh·$/MMBtu（**支配的**）
+- **相乗効果（ΔQ · ΔP）**: 出力増 × 価格増 ≈ +138,000 GWh·$/MMBtu（中）
+- **合計**: 約 +1,330,000 GWh·$/MMBtu（基準値の約 3.8 倍）
+
+> 期間: 2021-04〜現在の共通月、加法分解恒等式は `decompose3Factor` で保証
+
+月次相関 r（火力出力 × LNG、2021-04〜2025-12 の 60 ヶ月）: **+0.10〜+0.30**（弱い正相関、Insight #22 と整合）
+
+## 解釈
+
+**燃料価格要因が支配的**: 2022-2023 年の燃料コスト増の **約 85-90%** は燃料価格要因（LNG ドル建ての急騰）。火力出力増 + 相乗効果の合計でもわずか 10-15%。
+
+**Insight #22 の補強**: 火力発電量と LNG 価格の相関が弱い（r=+0.10-0.30）ことを Insight #22 で見たが、本記事の要因分解で **「火力出力は需要が決め、燃料コストは別要因」** が改めて確認される。
+
+**FX 次元の補完**: 本記事はドル建て LNG で見ているため、円安要因は含まれていない。**円安込みの 4 要因分解**（Q × LNG$ × FX 円/$ の構造）は Insight #15（FX × LNG × JEPX）と本記事の **組み合わせ読み**で完結する。家計負担としての電気代は両者の合算で見るのが正しい。
+
+**電力会社の経営インパクト**: 2022 年度の電力大手 10 社の **火力燃料費は前年比 +60-80%**（数兆円規模）増加。これは LNG ドル建て上昇 + 円安の合成効果で、家計への燃料費調整制度経由の転嫁、または電力会社の経営圧迫として現れた。
+
+**Phase 2-A delivery の象徴**: 本記事は METI 電力調査統計（Phase 2-A、2026-04 完成）+ World Bank Pink Sheet（Phase 0 より前）の **2 つのパイプラインが揃って初めて書ける**。北極星「日本のエネルギーと金融の引用インフラ」の体現。
+
+## 注意点
+
+- 「火力発電量」は LNG + 石炭 + 石油の合計、燃料単価は LNG のみ → 厳密には精度差
+- ドル建て LNG で見ているため、円安要因（USD/JPY）は本記事に含まれない（Insight #15 で別途扱う）
+- 加法分解の相乗効果は数学的恒等式、経済学的解釈は別問題
+- 基準月選択（2021-04）で各要因の絶対値が変わるが、構造は不変
+
+## 関連 Insight
+
+- 火力発電量 × LNG → 直感的仮説の反証（[#22](/insight/thermal-vs-lng)）
+- 円安 × LNG × JEPX 要因分解 → 需要側の対（[#15](/insight/fx-decomp-lng-jepx-tokyo)）
+- LNG × JEPX 東京 → ハブ記事（[#11](/insight/lng-vs-price-tokyo)）
+
+## 出典
+
+- [METI 電力調査統計](https://www.enecho.meti.go.jp/statistics/electric_power/ep002/)（meti-terms）
+- [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets)（CC-BY-4.0）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `meti-gen-thermal`（A）＋ `fuel-lng-jp-cif`（B）／レンダラ: ChartDecomp、基準月 2021-04*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 10 で MDX 化（2026-05-07、リン）*
+
+</div>
