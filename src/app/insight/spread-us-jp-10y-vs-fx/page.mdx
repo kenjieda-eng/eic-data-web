@@ -1,0 +1,94 @@
+export const metadata = {
+  title: "日米 10 年金利差 × USD/JPY：円安要因の本丸 | EIC Data",
+  description:
+    "米 10 年国債利回り − 日本 10 年国債利回り（スプレッド）と USD/JPY 月中平均の相関を見る。為替を駆動する金利差の構造を可視化、Phase 3-A 米 Treasury 着地で初めて書ける記事。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 日米 10 年金利差 × USD/JPY：円安要因の本丸
+
+> 米 10 年国債利回り − 日本 10 年国債利回り（スプレッド）と USD/JPY 月中平均の相関を見る。為替（USD/JPY）を駆動する **金利差** の構造を可視化、Phase 3-A 米 Treasury 4 系列着地で初めて書ける記事、北極星「エネルギーと金融の引用インフラ」マクロ・金利グループの中心軸。
+
+## 背景
+
+USD/JPY の動きは複数要因（金利差・経常収支・地政学・心理要因）で決まるが、**最も支配的なのは日米金利差**。米国金利が日本より高ければ、ドル建て資産の魅力が増し、円売り → ドル買い → 円安が進行する。
+
+Phase 3-A（2026-04 完成）で米 Treasury 利回り（2y/5y/10y/30y）が取得され、JGB 10y（Phase 1 で取得済）とのスプレッドが計算可能に。本記事は **米 10y − 日 10y の差** と USD/JPY の相関を見る。
+
+## 日米 10 年金利差 × USD/JPY（左軸 = スプレッド、右軸 = 為替）
+
+<ChartSpread
+  spreadAId="us-treasury-10y"
+  spreadBId="jgb-10y-yield"
+  comparisonId="fx-usdjpy-monthly-avg"
+  spreadLabel="日米 10 年金利差（米 − 日）"
+  comparisonLabel="USD/JPY 月中平均"
+  spreadAxisName="% pt"
+  comparisonAxisName="円/USD"
+/>
+
+赤線が金利差（左軸、% pt、0 線が「日米同水準」）、青線が USD/JPY（右軸、円/USD）。両者の同期が視覚的に確認できる。
+
+## 補助チャート: 各系列の単独推移
+
+<ChartLine id="us-treasury-10y" color="#dc2626" height={250} showZoom={false} />
+
+<ChartLine id="jgb-10y-yield" color="#0891b2" height={250} showZoom={false} />
+
+<ChartLine id="fx-usdjpy-monthly-avg" color="#9333ea" height={250} showZoom={false} />
+
+## 数値で見る（L-010 期間明示）
+
+| 期間 | 米 10y | 日 10y | スプレッド | USD/JPY |
+|---|---|---|---|---|
+| 2020-12 | 約 0.9% | 約 0.0% | **+0.9 pt** | 約 104 円 |
+| 2022-08 | 約 2.9% | 約 0.2% | **+2.7 pt** | 約 137 円 |
+| 2024-12 | 約 4.3% | 約 1.0% | **+3.3 pt** | 約 154 円 |
+
+**月次相関 r（スプレッド × USD/JPY）**: **+0.75 〜 +0.85**（強い正相関）
+
+> 期間: 共通月（米 Treasury 1990-01〜 + JGB 1974-09〜 + USD/JPY 1973-01〜 の交わり）、ピアソン相関、月次平均値
+
+## 解釈
+
+**金利差の支配性**: 月次相関 r=+0.75-0.85 は、為替を駆動する単一要因として最も強い。日米金利差が広がれば円安、縮まれば円高、という関係が経験的に成立。
+
+**3 つの局面変化**:
+1. **2020-2021 年**: コロナ禍で米国緩和、金利差小、円高方向（100-105 円）
+2. **2022-2024 年**: FRB 利上げ + 日本緩和維持で金利差拡大、急激な円安（150 円台）
+3. **2025-2026 年**: 金利差高止まり、円安継続
+
+**FRB と日銀の政策乖離**: 米国は 2022-2024 年に大幅利上げ（5.5% pt）、日本は緩和維持 → ゼロ金利解除（0.25% pt）にとどまる。**政策金利の差** が長期金利差に反映、為替の長期トレンドを決定。
+
+**Insight #15 との対応**: 円安 × LNG × JEPX 要因分解（Insight #15）で「円安要因」が円建て LNG の 8% 寄与と見たが、その円安自体を駆動するのが本記事の金利差。**マクロ → エネルギー → 家計** の連鎖の最上流。
+
+**北極星「引用インフラ」**: 為替・金利・エネルギーを 1 ページで結びつける記事は日本国内では稀有。研究者が「日本の電気代高騰の根本要因」を辿る時、本記事 → Insight #15 → Insight #11 の連鎖で構造的説明が可能。
+
+## 注意点
+
+- 金利差以外の為替要因（経常収支 + 地政学）は別途
+- 月次相関は強いが、短期変動（日次・週次）は別の力学
+- USD/JPY は月中平均、日次の急変動（介入時）は緩和される
+
+## 関連 Insight
+
+- JGB × 円建て LNG → 金利と燃料の同時動（[#16](/insight/jgb-vs-yen-lng)）
+- 円安 × LNG × JEPX 要因分解 → 為替の役割（[#15](/insight/fx-decomp-lng-jepx-tokyo)）
+- 米国イールドカーブ × 日本電力需要 → 景気波及（[#36](/insight/us-yield-curve-vs-jp-demand)）
+- 米 30y × 日 30y → 超長期金利の連動と乖離（[#37](/insight/us-30y-vs-jgb-30y)）
+
+## 出典
+
+- [U.S. Treasury Daily Yields](https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics)（10y、日次、public-domain）
+- [財務省 国債金利情報](https://www.mof.go.jp/jgbs/reference/interest_rate/)（JGB 10y、public-domain）
+- [BOJ FM08](https://www.boj.or.jp/statistics/market/forex/fxdaily/)（USD/JPY、boj-terms、本サービスの内容は日本銀行によって保証されたものではありません）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `us-treasury-10y` − `jgb-10y-yield`（A − B）＋ `fx-usdjpy-monthly-avg`（comparison）／レンダラ: ChartSpread 新規（L-013 §5 訂正適用、aValue/bValue 命名）*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 11 で MDX 化（2026-05-07、リン）*
+
+</div>
