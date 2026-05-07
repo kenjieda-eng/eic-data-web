@@ -1,0 +1,118 @@
+export const metadata = {
+  title: "9 エリア JEPX 比較：地域差の構造と原因 | EIC Data",
+  description:
+    "JEPX 9 エリアの月次平均価格を 1 ページで比較。原発再稼働 / 太陽光導入 / 火力依存 / 水力比率の違いが地域別の価格水準と振幅にどう反映されるかを可視化、ヒートマップシリーズの導入記事。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 9 エリア JEPX 比較：地域差の構造と原因
+
+> JEPX 9 エリア（北海道 + 東北 + 東京 + 中部 + 北陸 + 関西 + 中国 + 四国 + 九州）の日次価格を 1 ページで比較。電源構成の違い（原発 / 太陽光 / 火力 / 水力）が地域別の価格水準と振幅にどう反映されるかを可視化。Insight #31-#34 のヒートマップシリーズの **導入記事**。
+
+## 背景
+
+日本の電力市場は **9 つの地域エリア**に分かれており、エリアごとに JEPX 価格が形成される。連系線（北本 + 東地域 + 中部関西 + 関西中国 + 中国九州 + 四国本州）で電力が融通されるが、容量制約があり、エリア間で価格差が生じる。
+
+地域別の価格水準と振幅は、**電源構成の違い**を反映:
+
+- **関西** (原発 7 基) + **九州** (原発 4 基): 価格本州最安
+- **中部** (浜岡停止) + **東京** (柏崎刈羽停止): 火力依存で本州最高
+- **北陸** (水力ベース) + **東北** (火力 + 風力): 中位
+- **北海道** (火力 + 風力 + 連系線制約): 寒波時は最高
+- **四国** (伊方 1 基依存): 振幅が大きい
+
+## 9 エリア JEPX スポット価格
+
+### 北海道
+
+<ChartLine id="jepx-spot-hokkaido" color="#0ea5e9" height={250} showZoom={false} />
+
+### 東北
+
+<ChartLine id="jepx-spot-tohoku" color="#0284c7" height={250} showZoom={false} />
+
+### 東京
+
+<ChartLine id="jepx-spot-tokyo" color="#047857" height={250} showZoom={false} />
+
+### 中部
+
+<ChartLine id="jepx-spot-chubu" color="#059669" height={250} showZoom={false} />
+
+### 北陸
+
+<ChartLine id="jepx-spot-hokuriku" color="#0d9488" height={250} showZoom={false} />
+
+### 関西
+
+<ChartLine id="jepx-spot-kansai" color="#ea580c" height={250} showZoom={false} />
+
+### 中国
+
+<ChartLine id="jepx-spot-chugoku" color="#d97706" height={250} showZoom={false} />
+
+### 四国
+
+<ChartLine id="jepx-spot-shikoku" color="#9333ea" height={250} showZoom={false} />
+
+### 九州
+
+<ChartLine id="jepx-spot-kyushu" color="#dc2626" height={250} showZoom={false} />
+
+> 9 並列の縦走比較。色は地理的近接性でグルーピング（北日本 = 寒色 / 西日本 = 暖色 / 四国 = 紫）。
+
+## 数値で見る（L-010 期間明示）
+
+| エリア | 平均価格 | 振幅特性 | 主要電源 |
+|---|---|---|---|
+| 北海道 | 約 12 ¥/kWh | 寒波時に最高 | 火力 + 風力 + 北本連系線 |
+| 東北 | 約 11 ¥/kWh | 燃料連動強 | 火力 + 風力 + 女川 1 基 |
+| 東京 | 約 12 ¥/kWh | 中振幅 | 火力 + 揚水（柏崎刈羽停止）|
+| 中部 | 約 11 ¥/kWh | 中振幅 | 火力 + 水力（浜岡停止）|
+| 北陸 | 約 9 ¥/kWh | 安定 | 水力 + 火力 |
+| **関西** | **約 9 ¥/kWh** | **安定** | **原発 7 基 + 揚水** |
+| 中国 | 約 10 ¥/kWh | 中振幅 | 太陽光 + 島根 1 基 + 火力 |
+| 四国 | 約 11 ¥/kWh | 大振幅 | 伊方 1 基 + 火力 |
+| **九州** | **約 9 ¥/kWh** | **小振幅** | **太陽光 + 原発 4 基 + 火力** |
+
+> 期間: 2012-01〜2025-12 の月次平均
+
+## 解釈
+
+**3 つのグループ**:
+1. **低価格安定型**（関西 + 九州 + 北陸）: 原発再稼働 + 水力 + 太陽光大量導入で安定
+2. **中位中振幅型**（東京 + 中部 + 中国 + 東北）: 火力中心で燃料連動強
+3. **高振幅型**（北海道 + 四国）: 連系線制約 + 単一原発依存で局面的に高騰
+
+**連系線の意義**: 関西 → 中国 → 九州、東京 → 中部 → 関西 で電力が融通されるが、容量制約で完全均一化されない。連系線増強（北本 90→150 万 kW など）が進めば価格差が縮小する見込み。
+
+**ヒートマップシリーズへの予告**: 本記事で見た「9 エリア × 月次価格」の構造は、Insight #31-#32 の「**9 地点 × 月次気象**」と並べて読むと、**価格と気象の地理的対応**が見えてくる。
+
+**価格水準と振幅の独立性**: 関西と九州は同じ平均価格（9 ¥/kWh）だが、九州はさらに小振幅（太陽光大量導入の昼間反転効果）。原発再稼働がベースロードを支え、太陽光が日中ピークを抑える、**原発 + 太陽光の組合せ効果**。
+
+## 注意点
+
+- JEPX エリア（電力会社管内）と 9 地点気象（気象庁管区）は完全に一致しない（北陸が 3 県、四国が 4 県など）
+- 卸価格と小売価格は別、家庭電気料金は燃料費調整制度経由で遅延反映
+- 9 並列 ChartLine は Lighthouse Performance への影響あり、各 height=250 + showZoom=false で軽量化
+
+## 関連 Insight
+
+- 気温 × 電力価格 9 エリア（[#1-#10](/insight)）
+- 9 地点 × 平均気温ヒートマップ（[#32](/insight/temp-9-region-heatmap)）
+- 9 地点 × 降水量ヒートマップ（[#31](/insight/precip-9-region-heatmap)）
+- 原子力発電 × 関西 JEPX（[#20](/insight/nuclear-vs-jepx-kansai)）
+
+## 出典
+
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/)（9 エリア、jepx-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `jepx-spot-\{hokkaido,tohoku,tokyo,chubu,hokuriku,kansai,chugoku,shikoku,kyushu\}`（9 エリア並列）／レンダラ: ChartLine 9 並列、height=250 + showZoom=false で軽量化*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 10 で MDX 化（2026-05-07、リン）*
+
+</div>
