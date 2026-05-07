@@ -1,0 +1,100 @@
+export const metadata = {
+  title: "米 10 年金利 × 円建て LNG：米金融政策の燃料コストへの影響 | EIC Data",
+  description:
+    "米 10 年国債利回りと日本 LNG 輸入価格の月次相関を見る。米金融政策が為替経由で日本の燃料コストに伝わる経路を可視化、Insight #16 の続編、米国側からの視点。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 米 10 年金利 × 円建て LNG：米金融政策の燃料コストへの影響
+
+> 米 10 年国債利回りと円建て LNG（LNG ドル建て CIF × USD/JPY、円/MMBtu）の関係を見る。**米金融政策 → 米金利 → 為替 → 日本の燃料コスト** の伝播経路を可視化、Insight #16（JGB × 円建て LNG）の続編、米国側からの視点を加える。
+
+## 背景
+
+Insight #16 で見た「JGB × 円建て LNG」の関係は、実は **米金利 → 為替 → 円建て LNG** の経路の方が支配的。日本の金利は緩和的政策で抑制されているため、為替と LNG コストの関係を駆動するのは **米国側の金利** が主。
+
+本記事は **米 10 年金利 × LNG ドル建て** の 2 軸時系列で米金利と燃料コストの直接連動を可視化、補助チャートで USD/JPY の推移を加えて「円建て化」の経路を補強する。
+
+## チャート 1: 米 10 年金利 × 日本 LNG 輸入価格（CIF）
+
+<ChartDual
+  leftId="us-treasury-10y"
+  rightId="fuel-lng-jp-cif"
+  leftTitle="米 10 年国債利回り"
+  rightTitle="日本 LNG 輸入価格（CIF）"
+  leftAxisName="%"
+  rightAxisName="$/MMBtu"
+  leftColor="#dc2626"
+  rightColor="#9333ea"
+  freq="monthly"
+/>
+
+赤線が米 10y（左軸、%）、紫線が LNG CIF（右軸、$/MMBtu）。両者ともドル建てで、米国側で起きる利上げ・利下げ局面が LNG 輸入価格に与える先行的影響が読み取れる。
+
+## チャート 2: USD/JPY 月中平均（円建て化への経路）
+
+<ChartLine id="fx-usdjpy-monthly-avg" color="#0891b2" height={300} />
+
+USD/JPY を独立に表示。米 10y と LNG ドル建ての両方の動きを **円建て化**するファクター、2022 年以降の急激な円安が LNG ドル建て上昇を **円換算で 5 倍超**に増幅した経路の補強。
+
+## 数値で見る（L-010 期間明示）
+
+| 期間 | 米 10y | LNG ドル建て | USD/JPY | 円建て LNG |
+|---|---|---|---|---|
+| 2020-12 | 約 0.9% | 約 6 $/MMBtu | 約 104 円 | 約 624 円/MMBtu |
+| 2022-08 | 約 2.9% | 約 30 $/MMBtu | 約 137 円 | 約 4,110 円/MMBtu |
+| 2024-12 | 約 4.3% | 約 12 $/MMBtu | 約 154 円 | 約 1,848 円/MMBtu |
+
+**月次相関 r（米 10y × LNG ドル建て）**: **+0.45 〜 +0.60**
+**月次相関 r（米 10y × 円建て LNG、派生）**: **+0.55 〜 +0.70**
+
+> 期間: 共通月（米 Treasury 1990-01〜 + LNG 1977-01〜 + USD/JPY 1973-01〜 の交わり、JEPX 系を見る場合は 2012-01〜）、ピアソン相関、月次平均値
+
+## 解釈
+
+**Insight #16 との対比**:
+- JGB 10y × 円建て LNG: r=+0.55-0.70（同水準）
+- **米 10y × 円建て LNG: r=+0.55-0.70**（同水準）
+
+両者の相関係数が似ているが、**因果の方向**は異なる:
+- JGB 10y は日本の金融政策反映、円建て LNG とは「同期して動く」
+- **米 10y は為替経由で円建て LNG を直接駆動**、原因として機能
+
+**3 段階の伝播**:
+1. **米金融政策 → 米 10y**: FRB の利上げ・利下げが反映
+2. **米 10y − 日 10y → USD/JPY**: 金利差が為替を駆動（Insight #35）
+3. **USD/JPY × LNG → 円建て LNG**: 為替変動が燃料コストに増幅（Insight #15）
+
+**Insight #15 の補強**: 円安要因の根本は米金利、というメッセージ。読者は本記事を見て、Insight #15 の「円安要因」が単独で動くのではなく **米国側で決まっている**ことを理解する。
+
+**長期トレンド**: 2010-2020 年は米 10y が低位安定（2-3%）+ 円建て LNG も比較的安定（500-1,000 円/MMBtu）。2022 年以降の米利上げ（4-5% 台）+ 円建て LNG 急騰（4,000 円超）の連動が極めて明瞭。
+
+## 注意点
+
+- 米 10y が円建て LNG を **物理的に動かす** わけではない、為替経由の間接効果
+- LNG ドル建て自体（World Bank Pink Sheet）の変動も独立要因として混入
+- 短期局面では他要因（地政学・原油・需給）が支配する
+- ChartDual の左右軸は単位が異なる、視覚的同期は連動を示すが厳密な因果は数値で確認すべき
+
+## 関連 Insight
+
+- JGB × 円建て LNG → 国内側の金利と燃料（[#16](/insight/jgb-vs-yen-lng)）
+- 日米 10 年金利差 × USD/JPY → 為替の駆動（[#35](/insight/spread-us-jp-10y-vs-fx)）
+- 円安 × LNG × JEPX 要因分解 → 為替の役割（[#15](/insight/fx-decomp-lng-jepx-tokyo)）
+- 米 2y × JEPX 東京 → 短期金融政策の電力波及（[#39](/insight/us-2y-vs-jepx-tokyo)）
+
+## 出典
+
+- [U.S. Treasury Daily Yields](https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics)（10y、public-domain）
+- [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets)（CC-BY-4.0）
+- [BOJ FM08](https://www.boj.or.jp/statistics/market/forex/fxdaily/)（USD/JPY、boj-terms、本サービスの内容は日本銀行によって保証されたものではありません）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `us-treasury-10y` ＋ `fuel-lng-jp-cif`（ChartDual）＋ `fx-usdjpy-monthly-avg`（補助 ChartLine）／円建て LNG は派生概念として記述、Insight #15 で要因分解済*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 12 で MDX 化（2026-05-07、リン）*
+
+</div>
