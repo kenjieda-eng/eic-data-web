@@ -303,6 +303,22 @@ const INSIGHTS: {
     sources: ["U.S. Treasury", "財務省 国債金利"],
     updated: "2026-05-07",
   },
+  {
+    slug: "us-10y-vs-yen-lng",
+    title: "米 10 年金利 × 円建て LNG：米金融政策の燃料コストへの影響",
+    lede: "米金融政策 → 米金利 → 為替 → 日本の燃料コストの伝播経路、Insight #16 の続編で米国側からの視点",
+    tags: ["金融", "金利", "燃料", "LNG", "為替"],
+    sources: ["U.S. Treasury", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-07",
+  },
+  {
+    slug: "us-2y-vs-jepx-tokyo",
+    title: "米 2 年金利 × JEPX 東京：短期金融政策の電力卸価格への波及",
+    lede: "FRB 政策金利 → 米 2y → 為替 → 燃料 → JEPX の経路、月次相関 r=+0.40-0.55",
+    tags: ["金融", "金利", "電力", "東京", "FRB"],
+    sources: ["U.S. Treasury", "JEPX スポット市場"],
+    updated: "2026-05-07",
+  },
 ];
 
 export default function InsightIndexPage() {

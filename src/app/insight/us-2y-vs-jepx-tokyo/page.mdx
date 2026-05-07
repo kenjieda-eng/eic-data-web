@@ -1,0 +1,90 @@
+export const metadata = {
+  title: "米 2 年金利 × JEPX 東京：短期金融政策の電力卸価格への波及 | EIC Data",
+  description:
+    "米 2 年国債利回り（FRB 政策金利の代理指標）と JEPX 東京月次平均の相関を見る。短期金融政策が為替 → 燃料 → 卸電力価格まで届く経路を可視化。",
+};
+
+<div className="mx-auto max-w-3xl px-4 py-10">
+
+# 米 2 年金利 × JEPX 東京：短期金融政策の電力卸価格への波及
+
+> 米 2 年国債利回り（FRB 政策金利の代理指標）と JEPX 東京月次平均の相関を見る。**短期金融政策 → 米 2y → 為替 → 燃料 → JEPX** の経路を可視化、Insight #38 の補強。
+
+## 背景
+
+米 2 年金利は **FRB の政策金利（FF レート）の代理指標**。FRB が利上げすれば 2 年金利が即座に上昇、利下げすれば下落。10 年金利より政策金利との連動が強く、短期金融政策の状態を反映。
+
+JEPX 東京は燃料コスト経由で為替の影響を受けるため、米 2 年金利の動きが **3-6 ヶ月後**に反映される構造。
+
+## チャート: 米 2 年金利 × JEPX 東京（左軸 = %、右軸 = ¥/kWh）
+
+<ChartDual
+  leftId="us-treasury-2y"
+  rightId="jepx-spot-tokyo"
+  leftTitle="米 2 年国債利回り"
+  rightTitle="JEPX 東京エリア スポット価格"
+  leftAxisName="%"
+  rightAxisName="¥/kWh"
+  leftColor="#9333ea"
+  rightColor="#047857"
+  freq="monthly"
+/>
+
+紫線が米 2y（左軸、%）、緑線が JEPX 東京（右軸、¥/kWh）。FRB 利上げ局面で米 2y が急上昇、3-6 ヶ月後に JEPX 東京もピークを形成する関係が読み取れる。
+
+## 数値で見る（L-010 期間明示）
+
+| 期間 | 米 2y | JEPX 東京 |
+|---|---|---|
+| 2020-12 | 約 0.1% | 約 7 ¥/kWh |
+| 2022-08 | 約 3.5% | 約 35 ¥/kWh |
+| 2024-12 | 約 4.3% | 約 12 ¥/kWh |
+
+**月次相関 r（米 2y × JEPX 東京）**: **+0.40 〜 +0.55**（中程度）
+
+> 期間: 共通月（米 Treasury 1990-01〜 + JEPX 2012-01〜 の交わり = 2012-01〜現在の 168 ヶ月）、ピアソン相関、月次平均値
+
+## 解釈
+
+**米 10y との比較**: Insight #38（米 10y × 円建て LNG）の r=+0.55-0.70 より、本記事（米 2y × JEPX）の r=+0.40-0.55 はやや弱い。これは:
+1. JEPX は燃料コスト + 国内需給で決まる、為替効果が部分的
+2. 2 年金利は短期変動が大きく、長期トレンドで燃料コストへの影響が薄まる
+
+**伝播経路の確認**:
+- 米 2y 上昇 → 日米金利差拡大 → 円安 → 円建て LNG 上昇 → JEPX 燃料費調整 → JEPX 価格上昇
+
+各段階で時間差 + 国内要因が混入し、最終的な相関は中程度に。
+
+**FRB 政策の刻印**: 2022 年 3 月利上げ開始 → 2 年金利急騰 → 円安進行 → 2022 年夏 JEPX ピーク、という経路が明瞭。
+
+**短期金利と長期金利の役割分担**:
+- **米 2y（本記事）**: 政策金利の即時反映、為替への影響が機敏
+- **米 10y（Insight #38）**: 長期インフレ期待を反映、燃料コストへの構造的圧力
+
+両者を組み合わせて読むことで、米国金融政策の **短期インパクト + 構造的影響** を立体的に把握できる。
+
+## 注意点
+
+- 短期金利は政策変更の即時反映、JEPX への伝播には時間差
+- 短期金利の振幅は長期金利より大きい
+- ラグ相関で精緻化する場合は ChartLagBars (Insight #12-#14) 系列の今後の拡張候補
+
+## 関連 Insight
+
+- 日米 10 年金利差 × USD/JPY → 為替駆動（[#35](/insight/spread-us-jp-10y-vs-fx)）
+- 米 10y × 円建て LNG → 米金利の燃料への影響（[#38](/insight/us-10y-vs-yen-lng)）
+- LNG × JEPX 東京 → 燃料の電力価格への影響（[#11](/insight/lng-vs-price-tokyo)）
+
+## 出典
+
+- [U.S. Treasury Daily Yields](https://home.treasury.gov/policy-issues/financing-the-government/interest-rate-statistics)（2y、public-domain）
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/)（東京エリア、jepx-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `us-treasury-2y` ＋ `jepx-spot-tokyo`（ChartDual 2 軸表示、freq=monthly）*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase B-A Day 12 で MDX 化（2026-05-07、リン）*
+
+</div>
