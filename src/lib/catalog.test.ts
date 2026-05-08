@@ -5,13 +5,20 @@ import {
   domainOf,
   enrichIndicators,
   filterByDomain,
+  filterByFrequency,
   filterByStatus,
+  getDependentIndicators,
+  getDependsOn,
+  getIndicatorById,
   isSpdxLicense,
   recentlyUpdated,
+  searchIndicators,
   slaStatusOf,
   summarizeByDomain,
+  summarizeByFrequency,
   summarizeByLicense,
   summarizeStatus,
+  type Catalog,
   type Indicator,
 } from "./catalog";
 
@@ -172,5 +179,88 @@ describe("Phase B-B Day 1: catalog 集計ヘルパ", () => {
     expect(cross.licenses).toContain("CC-BY-4.0");
     expect(cross.matrix["fuel"]["CC-BY-4.0"]).toBe(1);
     expect(cross.matrix["weather"]["jma-terms"]).toBe(2);
+  });
+});
+
+describe("Phase B-B Day 2: catalog ページ向けヘルパ", () => {
+  const day2Fixture: Indicator[] = [
+    ...fixture,
+    {
+      id: "fx-decomp-jepx-tokyo",
+      name: "為替分解 JEPX 東京",
+      domain: "power",
+      frequency: "daily",
+      unit: "—",
+      source_name: "derived",
+      source_url: "",
+      license: "CC-BY-4.0",
+      observation_cutoff: "2026-05-10",
+      updated_at: "2026-05-11T05:00:00+09:00",
+      depends_on: ["jepx-tokyo", "boj-jgb-10y"],
+    },
+    {
+      id: "thermal-fuel-cost-ratio",
+      name: "火力燃料コスト比",
+      domain: "fuel",
+      frequency: "monthly",
+      unit: "—",
+      source_name: "derived",
+      source_url: "",
+      license: "CC-BY-4.0",
+      observation_cutoff: "2026-04-01",
+      updated_at: "2026-05-09T10:00:00+09:00",
+      depends_on: "fuel-coal-au",
+    },
+  ];
+  const catalog: Catalog = {
+    version: 1,
+    schema: "D-011",
+    generated_at: "2026-05-08T09:00:00+09:00",
+    indicator_count: day2Fixture.length,
+    indicators: day2Fixture,
+  };
+
+  test("searchIndicators: id + name 部分一致 (大小無視)", () => {
+    expect(searchIndicators(day2Fixture, "JEPX").map((r) => r.id)).toEqual([
+      "jepx-tokyo",
+      "fx-decomp-jepx-tokyo",
+    ]);
+    expect(searchIndicators(day2Fixture, "石炭")).toHaveLength(1);
+    expect(searchIndicators(day2Fixture, "")).toHaveLength(day2Fixture.length);
+    expect(searchIndicators(day2Fixture, null)).toHaveLength(day2Fixture.length);
+  });
+
+  test("getIndicatorById: 存在で indicator、欠落で undefined", () => {
+    expect(getIndicatorById(catalog, "jepx-tokyo")?.name).toBe("JEPX 東京");
+    expect(getIndicatorById(catalog, "no-such-id")).toBeUndefined();
+  });
+
+  test("getDependsOn: 文字列 / 配列 / null を統一して文字列配列にする", () => {
+    expect(
+      getDependsOn(getIndicatorById(catalog, "fx-decomp-jepx-tokyo")!),
+    ).toEqual(["jepx-tokyo", "boj-jgb-10y"]);
+    expect(
+      getDependsOn(getIndicatorById(catalog, "thermal-fuel-cost-ratio")!),
+    ).toEqual(["fuel-coal-au"]);
+    expect(getDependsOn(getIndicatorById(catalog, "fuel-coal-au")!)).toEqual([]);
+  });
+
+  test("getDependentIndicators: 逆引きで参照元を列挙", () => {
+    expect(
+      getDependentIndicators(catalog, "jepx-tokyo").map((i) => i.id),
+    ).toEqual(["fx-decomp-jepx-tokyo"]);
+    expect(
+      getDependentIndicators(catalog, "fuel-coal-au").map((i) => i.id),
+    ).toEqual(["thermal-fuel-cost-ratio"]);
+    expect(getDependentIndicators(catalog, "no-such-id")).toEqual([]);
+  });
+
+  test("summarizeByFrequency / filterByFrequency: 頻度の集計と絞り込み", () => {
+    const summary = summarizeByFrequency(day2Fixture);
+    expect(summary.find((s) => s.frequency === "daily")?.count).toBe(5);
+    expect(summary.find((s) => s.frequency === "monthly")?.count).toBe(2);
+    expect(summary.find((s) => s.frequency === "annual")?.count).toBe(1);
+    expect(filterByFrequency(day2Fixture, "monthly")).toHaveLength(2);
+    expect(filterByFrequency(day2Fixture, null)).toHaveLength(day2Fixture.length);
   });
 });
