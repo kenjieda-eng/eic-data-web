@@ -198,6 +198,69 @@ export function recentlyUpdated(
     .sort((a, b) => (b.updated_at || "").localeCompare(a.updated_at || ""));
 }
 
+// =============================================================================
+// Phase B-B Day 2: catalog ページ向け検索 / 個別取得 / 依存関係逆引き
+// =============================================================================
+
+export function searchIndicators<T extends Pick<Indicator, "id" | "name">>(
+  rows: T[],
+  query: string | null | undefined,
+): T[] {
+  if (!query) return rows;
+  const q = query.trim().toLowerCase();
+  if (!q) return rows;
+  return rows.filter(
+    (r) =>
+      (r.id || "").toLowerCase().includes(q) ||
+      (r.name || "").toLowerCase().includes(q),
+  );
+}
+
+export function getIndicatorById(
+  catalog: Catalog,
+  id: string,
+): Indicator | undefined {
+  return catalog.indicators.find((i) => i.id === id);
+}
+
+function dependsOnList(value: Indicator["depends_on"]): string[] {
+  if (!value) return [];
+  if (Array.isArray(value)) return value;
+  return [value];
+}
+
+export function getDependsOn(indicator: Indicator): string[] {
+  return dependsOnList(indicator.depends_on);
+}
+
+export function getDependentIndicators(
+  catalog: Catalog,
+  id: string,
+): Indicator[] {
+  return catalog.indicators.filter((i) => dependsOnList(i.depends_on).includes(id));
+}
+
+export function summarizeByFrequency(
+  rows: Pick<Indicator, "frequency">[],
+): { frequency: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const r of rows) {
+    const key = r.frequency || "unknown";
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([frequency, count]) => ({ frequency, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+export function filterByFrequency<T extends { frequency: string }>(
+  rows: T[],
+  frequency: string | null | undefined,
+): T[] {
+  if (!frequency) return rows;
+  return rows.filter((r) => r.frequency === frequency);
+}
+
 export function crossDomainLicense(
   rows: Pick<Indicator, "domain" | "license">[],
 ): {
