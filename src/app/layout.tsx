@@ -20,7 +20,7 @@ const notoSansJp = Noto_Sans_JP({
 const NAV_ITEMS = [
   { href: "/", label: "TOP" },
   { href: "/insight", label: "インサイト" },
-  { href: "/insight-map", label: "マップ" },
+  { href: "/insight/map", label: "マップ" },
   { href: "/catalog", label: "カタログ" },
   { href: "/data-quality", label: "データ品質" },
   { href: "/methodology", label: "方法論" },
