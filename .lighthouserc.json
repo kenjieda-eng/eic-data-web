@@ -4,7 +4,6 @@
       "startServerCommand": "pnpm start",
       "url": [
         "http://localhost:3000/",
-        "http://localhost:3000/test-chart",
         "http://localhost:3000/insight/temp-vs-price",
         "http://localhost:3000/data-quality",
         "http://localhost:3000/catalog",
