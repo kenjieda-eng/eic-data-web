@@ -26,7 +26,7 @@ export default function RelatedInsights({ insights }: RelatedInsightsProps) {
         {insights.map((i) => (
           <li key={i.slug} className="p-4 hover:bg-slate-50 transition-colors">
             <Link
-              href={`/insight#${i.slug}`}
+              href={`/insight/${i.slug}`}
               className="text-[13px] font-semibold text-emerald-700 hover:text-emerald-800 underline"
             >
               {i.title}
