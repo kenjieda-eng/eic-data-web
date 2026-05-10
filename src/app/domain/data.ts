@@ -13,6 +13,11 @@ export interface DomainPageMeta {
   description: string;
   insightKeywords: string[];
   subcategories: DomainSubcategory[];
+  /**
+   * catalog 不在のドメイン (Phase C 以降に系列追加予定)。
+   * true の場合、ページに「Phase C 追加予定」の案内バナーを表示。
+   */
+  metaPage?: boolean;
 }
 
 export const DOMAINS_DAY6: DomainPageMeta[] = [
@@ -108,8 +113,69 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
   },
 ];
 
+export const DOMAINS_DAY7: DomainPageMeta[] = [
+  ...DOMAINS_DAY6,
+  {
+    id: "finance",
+    name: "金融",
+    emoji: "💰",
+    description:
+      "エネルギーと金融の引用インフラ中心軸。USD/JPY 月次 4 系列（月中平均 / 月末値 / 月内高値・安値、BOJ FM08）と JGB 10y・30y 新発金利（財務省）、米国国債 2y/5y/10y/30y（U.S. Treasury Daily Yields）を組み合わせ、日米金利差・イールドカーブ・超長期スプレッド・円安要因分解など Insight #16-#17 + #35-#39 の主役を担う。Phase 3-B 第 2 弾（5/11 完走）の米マクロ 3 系列は別ドメイン (macro) に分離、Insight #40-#42 で連結予定。",
+    insightKeywords: [
+      "金融",
+      "為替",
+      "USD/JPY",
+      "ドル円",
+      "円安",
+      "金利",
+      "JGB",
+      "国債",
+      "イールド",
+      "スプレッド",
+      "FRB",
+    ],
+    subcategories: [
+      {
+        name: "USD/JPY 為替（月次 4 系列）",
+        description: "BOJ FM08 月中平均 / 月末値 / 月内高値・安値",
+        matcher: (id) => id.startsWith("fx-usdjpy-"),
+      },
+      {
+        name: "JGB（日本国債新発金利）",
+        description: "財務省 10 年 / 30 年新発金利、日次",
+        matcher: (id) => id.startsWith("jgb-"),
+      },
+      {
+        name: "U.S. Treasury（米国国債）",
+        description: "U.S. Treasury Daily Yields 2y / 5y / 10y / 30y、日次",
+        matcher: (id) => id.startsWith("us-treasury-"),
+      },
+    ],
+  },
+  {
+    id: "economy",
+    name: "経済",
+    emoji: "📊",
+    description:
+      "GDP・CPI・鉱工業生産・貿易などのマクロ経済指標を扱う編集軸ドメイン。catalog には Phase C 以降で順次追加予定（β 段階では未掲載）。Phase 3-B 第 2 弾（5/11 完走）で米 CPI / Fed Funds Rate / 米鉱工業生産の 3 系列が `macro` ドメインに着地済、Insight #40-#42 で景気サイクル × エネルギーの連結を進める。日本側マクロ（日銀短観・GDP 統計）は Phase C の D-013 メタデータ整備後に追加。",
+    insightKeywords: ["経済", "景気", "マクロ", "GDP", "CPI", "鉱工業"],
+    subcategories: [],
+    metaPage: true,
+  },
+  {
+    id: "policy",
+    name: "制度",
+    emoji: "📜",
+    description:
+      "FIT/FIP（再エネ買取制度）、GX-ETS（排出量取引）、容量市場、系統運用ルール、原子力規制委員会の審査進捗など、エネルギー市場の構造を決める「制度」を扱う編集軸ドメイン。catalog には Phase C 以降で順次追加予定（β 段階では Insight 内の引用に留まる）。電源構成・燃料転換・再エネ導入ペースの長期トレンドを読み解く際の前提条件として、各 Insight から本ドメインを参照する設計。",
+    insightKeywords: ["制度", "FIT", "FIP", "GX", "ETS", "容量市場", "系統", "規制"],
+    subcategories: [],
+    metaPage: true,
+  },
+];
+
 export function getDomainById(id: string): DomainPageMeta | undefined {
-  return DOMAINS_DAY6.find((d) => d.id === id);
+  return DOMAINS_DAY7.find((d) => d.id === id);
 }
 
 export function findRelatedInsightsForDomain(

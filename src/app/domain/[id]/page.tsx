@@ -12,7 +12,7 @@ import DomainIndicatorTable from "../components/DomainIndicatorTable";
 import DomainInsights from "../components/DomainInsights";
 import DomainQualitySummary from "../components/DomainQualitySummary";
 import {
-  DOMAINS_DAY6,
+  DOMAINS_DAY7,
   findRelatedInsightsForDomain,
   getDomainById,
 } from "../data";
@@ -22,7 +22,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return DOMAINS_DAY6.map((d) => ({ id: d.id }));
+  return DOMAINS_DAY7.map((d) => ({ id: d.id }));
 }
 
 export const dynamicParams = false;
@@ -55,17 +55,31 @@ export default async function DomainPage({ params }: PageProps) {
     <Container className="py-10">
       <DomainHeader meta={meta} indicatorCount={rows.length} />
 
-      <DomainQualitySummary rows={rows} />
+      {meta.metaPage && (
+        <section className="mb-6 rounded-md border border-amber-200 bg-amber-50 p-4 text-[13px] leading-relaxed text-amber-900">
+          <p className="font-semibold">
+            {meta.emoji} {meta.name} ドメインは編集軸のメタページです（β 段階で
+            catalog 系列は未掲載）
+          </p>
+          <p className="mt-1 text-amber-800">
+            Phase C 以降で系列を順次追加予定。当面は関連 Insight からの参照軸として機能します。
+          </p>
+        </section>
+      )}
 
-      <section className="mt-8">
-        <h2 className="mb-3 text-[14px] font-semibold text-ink">
-          編集指標カタログ
-          <span className="ml-2 text-[11px] text-faint tabular-nums">
-            {rows.length} 系列
-          </span>
-        </h2>
-        <DomainIndicatorTable meta={meta} rows={rows} />
-      </section>
+      {!meta.metaPage && <DomainQualitySummary rows={rows} />}
+
+      {!meta.metaPage && (
+        <section className="mt-8">
+          <h2 className="mb-3 text-[14px] font-semibold text-ink">
+            編集指標カタログ
+            <span className="ml-2 text-[11px] text-faint tabular-nums">
+              {rows.length} 系列
+            </span>
+          </h2>
+          <DomainIndicatorTable meta={meta} rows={rows} />
+        </section>
+      )}
 
       <section className="mt-8">
         <h2 className="mb-3 text-[14px] font-semibold text-ink">
