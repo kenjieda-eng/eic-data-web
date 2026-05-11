@@ -40,6 +40,61 @@ export async function generateMetadata({
 
 export const dynamicParams = false;
 
+const SITE_URL = "https://data.eic-jp.org";
+
+function buildDatasetJsonLd(indicator: NonNullable<ReturnType<typeof getIndicatorById>>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: `${indicator.name} (${indicator.id})`,
+    description:
+      indicator.notes ||
+      `${indicator.name}: ${indicator.frequency} の ${indicator.unit} 系列。出典 ${indicator.source_name}、ライセンス ${indicator.license}。`,
+    url: `${SITE_URL}/catalog/${indicator.id}`,
+    identifier: indicator.id,
+    keywords: [indicator.domain, indicator.frequency, indicator.unit]
+      .filter(Boolean)
+      .join(", "),
+    license: indicator.license_url || indicator.license,
+    creator: {
+      "@type": "Organization",
+      name: indicator.source_name,
+      url: indicator.source_url,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "一般社団法人エネルギー情報センター",
+      url: "https://eic-jp.org/",
+    },
+    distribution: [
+      {
+        "@type": "DataDownload",
+        encodingFormat: "application/json",
+        contentUrl: `${SITE_URL}/api/indicator/${indicator.id}`,
+      },
+      {
+        "@type": "DataDownload",
+        encodingFormat: "application/zip",
+        contentUrl: `${SITE_URL}/download/all`,
+      },
+    ],
+    variableMeasured: {
+      "@type": "PropertyValue",
+      name: indicator.name,
+      unitText: indicator.unit,
+    },
+    temporalCoverage: indicator.backfill_start
+      ? `${indicator.backfill_start}/${indicator.observation_cutoff}`
+      : indicator.observation_cutoff,
+    spatialCoverage:
+      indicator.domain === "macro" || indicator.domain === "fuel"
+        ? "国際"
+        : "日本",
+    isAccessibleForFree: true,
+    inLanguage: "ja",
+  };
+}
+
 export default async function IndicatorPage({ params }: PageProps) {
   const { id } = await params;
   const catalog = await fetchCatalog();
@@ -53,9 +108,14 @@ export default async function IndicatorPage({ params }: PageProps) {
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
   const dependents = getDependentIndicators(catalog, indicator.id);
   const dom = domainOf(indicator.domain);
+  const datasetJsonLd = buildDatasetJsonLd(indicator);
 
   return (
     <Container className="py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetJsonLd) }}
+      />
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">

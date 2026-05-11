@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Inter, Noto_Sans_JP } from "next/font/google";
+import Script from "next/script";
 import MobileNav from "@/components/MobileNav";
 import { fetchCatalog } from "@/lib/catalog";
 import "./globals.css";
+
+const SITE_URL = "https://data.eic-jp.org";
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const GSC_VERIFICATION = "fO91QoZppqZzi-hvqHuPm5m_Cjdb5Lh4gmpAnynN_8c";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,9 +62,33 @@ export async function generateMetadata(): Promise<Metadata> {
       "data-catalog-schema": catalog.schema,
       "data-catalog-generated-at": catalog.generated_at,
       "data-indicator-count": String(catalog.indicator_count),
+      "google-site-verification": GSC_VERIFICATION,
     },
   };
 }
+
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "EIC Data",
+  url: SITE_URL,
+  inLanguage: "ja",
+  description:
+    "一般社団法人エネルギー情報センターが運営する、エネルギー・金融・マクロ経済の引用可能データ基盤。",
+  publisher: {
+    "@type": "Organization",
+    name: "一般社団法人エネルギー情報センター",
+    url: "https://eic-jp.org/",
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
 
 export const revalidate = 86400;
 
@@ -73,6 +103,37 @@ export default async function RootLayout({
       className={`${inter.variable} ${notoSansJp.variable}`}
     >
       <body className="bg-slate-50 text-slate-800 antialiased font-sans">
+        {/* WebSite JSON-LD (構造化データ、サイト全体) */}
+        <Script
+          id="schema-website"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }}
+        />
+        {/* Google Analytics 4 (gtag.js) — production + GA_MEASUREMENT_ID 設定時のみ発火 */}
+        {IS_PRODUCTION && GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="gtag-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}', {
+  anonymize_ip: true,
+  send_page_view: true
+});
+`,
+              }}
+            />
+          </>
+        )}
         <header className="relative border-b border-slate-200 bg-white">
           <div className="mx-auto max-w-3xl md:max-w-5xl lg:max-w-7xl xl:max-w-[1320px] px-4 py-4 flex items-center justify-between gap-4">
             <Link
@@ -129,6 +190,13 @@ export default async function RootLayout({
               >
                 eic-data-pipeline
               </a>
+              <span aria-hidden>／</span>
+              <Link
+                href="/privacy"
+                className="underline hover:text-emerald-700"
+              >
+                プライバシーポリシー
+              </Link>
             </p>
           </div>
         </footer>
