@@ -65,7 +65,7 @@ export default async function DataQualityPage({
   }));
 
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           ホーム ／ データ品質

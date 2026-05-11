@@ -41,7 +41,7 @@ export default async function CatalogPage({
   );
 
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           ホーム ／ 編集指標カタログ
