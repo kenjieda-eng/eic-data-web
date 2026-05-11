@@ -12,7 +12,7 @@ import DomainIndicatorTable from "../components/DomainIndicatorTable";
 import DomainInsights from "../components/DomainInsights";
 import DomainQualitySummary from "../components/DomainQualitySummary";
 import {
-  DOMAINS_DAY7,
+  DOMAINS_DAY8,
   findRelatedInsightsForDomain,
   getDomainById,
 } from "../data";
@@ -22,7 +22,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return DOMAINS_DAY7.map((d) => ({ id: d.id }));
+  return DOMAINS_DAY8.map((d) => ({ id: d.id }));
 }
 
 export const dynamicParams = false;

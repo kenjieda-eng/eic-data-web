@@ -113,8 +113,7 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
   },
 ];
 
-export const DOMAINS_DAY7: DomainPageMeta[] = [
-  ...DOMAINS_DAY6,
+const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
   {
     id: "finance",
     name: "金融",
@@ -174,8 +173,51 @@ export const DOMAINS_DAY7: DomainPageMeta[] = [
   },
 ];
 
+export const DOMAINS_DAY7: DomainPageMeta[] = [
+  ...DOMAINS_DAY6,
+  ...DOMAINS_DAY7_ADDITIONS,
+];
+
+const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
+  {
+    id: "esg",
+    name: "ESG / サステナ",
+    emoji: "🌱",
+    description:
+      "CO2 排出量（部門別）/ Scope1-2-3 / 非化石証書 / J-クレジット / TCFD・SBTi・RE100 加盟企業数を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。電源構成・燃料転換・再エネ導入の長期トレンドを「排出原単位」と「企業の脱炭素行動」の両面から読み解くための参照軸として機能し、各 Insight から引用される。",
+    insightKeywords: ["ESG", "CO2", "排出", "Scope", "TCFD", "SBTi", "RE100", "非化石", "脱炭素", "サステナ"],
+    subcategories: [],
+    metaPage: true,
+  },
+  {
+    id: "technology",
+    name: "技術",
+    emoji: "🔋",
+    description:
+      "蓄電池容量 / EV 普及率 / 太陽光 LCOE / 水素・アンモニア混焼 / ヒートポンプ普及率など、エネルギー転換を駆動する「技術指標」を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。コスト低下曲線と導入加速の交点を読み解くための参照軸として機能し、Insight 群の長期シナリオ前提を支える。",
+    insightKeywords: ["技術", "蓄電池", "EV", "水素", "アンモニア", "LCOE", "ヒートポンプ", "燃料電池"],
+    subcategories: [],
+    metaPage: true,
+  },
+  {
+    id: "international",
+    name: "国際",
+    emoji: "🌐",
+    description:
+      "EU ETS（EUA 価格） / 米欧電力卸（PJM・APX・EPEX） / 韓国・豪州電力市場 / EIA 原油在庫週報 / IEA エネルギー見通しなど海外エネルギー市場を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。Insight #20 系の EU ETS 連動や、輸入 LNG 価格の海外側参照軸、グローバル金利・原油との連動分析の前提として機能する。",
+    insightKeywords: ["国際", "EUA", "EU ETS", "海外電力", "PJM", "EPEX", "EIA", "IEA", "海外"],
+    subcategories: [],
+    metaPage: true,
+  },
+];
+
+export const DOMAINS_DAY8: DomainPageMeta[] = [
+  ...DOMAINS_DAY7,
+  ...DOMAINS_DAY8_ADDITIONS,
+];
+
 export function getDomainById(id: string): DomainPageMeta | undefined {
-  return DOMAINS_DAY7.find((d) => d.id === id);
+  return DOMAINS_DAY8.find((d) => d.id === id);
 }
 
 export function findRelatedInsightsForDomain(
