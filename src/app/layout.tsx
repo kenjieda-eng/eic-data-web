@@ -20,6 +20,7 @@ const notoSansJp = Noto_Sans_JP({
 
 const NAV_ITEMS = [
   { href: "/", label: "TOP" },
+  { href: "/today", label: "朝刊" },
   { href: "/insight", label: "インサイト" },
   { href: "/insight/map", label: "マップ" },
   { href: "/catalog", label: "カタログ" },
