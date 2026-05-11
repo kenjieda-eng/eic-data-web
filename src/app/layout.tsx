@@ -197,6 +197,20 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
               >
                 プライバシーポリシー
               </Link>
+              <span aria-hidden>／</span>
+              <Link
+                href="/terms"
+                className="underline hover:text-emerald-700"
+              >
+                利用規約
+              </Link>
+              <span aria-hidden>／</span>
+              <Link
+                href="/citation-policy"
+                className="underline hover:text-emerald-700"
+              >
+                引用規約
+              </Link>
             </p>
           </div>
         </footer>
