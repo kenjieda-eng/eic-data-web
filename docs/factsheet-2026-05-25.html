@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<title>EIC Data ファクトシート — 2026-05-25 GA 配信版</title>
+<style>
+  /* A4 1 ページ印刷想定: 210mm × 297mm、余白 12mm。Chrome の「PDF として保存」で
+     docs/factsheet-2026-05-25.pdf を生成する。
+     - 余白: 「最小」または カスタム 12mm
+     - 倍率: 100%
+     - 用紙: A4
+     - 背景: ON */
+  @page { size: A4; margin: 12mm; }
+  :root {
+    --ink: #1e293b;
+    --subink: #334155;
+    --faint: #64748b;
+    --line: #cbd5e1;
+    --accent: #047857;
+    --accent-bg: #ecfdf5;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; color: var(--ink); }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    background: white;
+  }
+  header.sheet {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 8pt;
+    margin-bottom: 10pt;
+  }
+  header.sheet .brand {
+    display: flex;
+    align-items: center;
+    gap: 8pt;
+  }
+  header.sheet .logo {
+    width: 28pt;
+    height: 28pt;
+    border-radius: 6pt;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 18pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  header.sheet .title { font-size: 16pt; font-weight: 700; color: var(--accent); }
+  header.sheet .subtitle { font-size: 9pt; color: var(--faint); margin-top: 2pt; }
+  header.sheet .meta { text-align: right; font-size: 8pt; color: var(--faint); line-height: 1.5; }
+  h1.tagline {
+    font-size: 14pt;
+    font-weight: 700;
+    margin: 0 0 10pt 0;
+    color: var(--ink);
+    letter-spacing: -0.3pt;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6pt 10pt;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 4pt;
+    padding: 6pt 8pt;
+    background: white;
+    page-break-inside: avoid;
+  }
+  .card .n {
+    font-size: 8pt;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.5pt;
+  }
+  .card h2 {
+    font-size: 10pt;
+    margin: 1pt 0 3pt 0;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .card p {
+    margin: 0;
+    color: var(--subink);
+    font-size: 9pt;
+    line-height: 1.4;
+  }
+  .card .kpi {
+    display: inline-block;
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 6pt;
+  }
+  footer.sheet {
+    margin-top: 10pt;
+    padding-top: 6pt;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: var(--faint);
+  }
+  .legend {
+    margin: 8pt 0 6pt 0;
+    padding: 5pt 8pt;
+    background: var(--accent-bg);
+    border-left: 3pt solid var(--accent);
+    font-size: 9pt;
+    color: var(--subink);
+  }
+  .legend strong { color: var(--accent); }
+</style>
+</head>
+<body>
+  <header class="sheet">
+    <div class="brand">
+      <div class="logo">E</div>
+      <div>
+        <div class="title">EIC Data — Fact Sheet</div>
+        <div class="subtitle">日本のエネルギーと金融の引用インフラ</div>
+      </div>
+    </div>
+    <div class="meta">
+      公開日 (GA): 2026-05-25 (月) 10:00 JST<br />
+      発行: 一般社団法人エネルギー情報センター<br />
+      Email: kenji.eda@gmail.com<br />
+      Web: data.eic-jp.org
+    </div>
+  </header>
+
+  <h1 class="tagline">研究者・ジャーナリスト・実務者が「2 クリックで一次出典に辿れる」基準点</h1>
+
+  <div class="legend">
+    <strong>サマリー:</strong> 米 FRED や Our World in Data がカバーしない「日本のエネルギー × 金融の交差点」に特化した、無料・無広告・収益化なしの公益データ基盤。全 105 系列 + 41 本の独自 Insight を CC BY 4.0 で開放、3 形式の引用フォーマットで機械可読。
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="n">01 ／ INSIGHT</div>
+      <h2>独自 Insight <span class="kpi">41</span>本</h2>
+      <p>6 軸 (マクロ 9 + 気象×電力 10 + 燃料 6 + 電源構成 7 + 気候×地理 5 + 需給 4)。各記事に CitationButton 配置、BibTeX/Chicago/APA 形式で引用可能。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">02 ／ CATALOG</div>
+      <h2>catalog <span class="kpi">105</span>系列</h2>
+      <p>4 ドメイン (電力 22 + 気象 63 + 燃料 7 + 金融 13) を横断、各系列に source_url・license・observation_cutoff・as-of を一意付与。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">03 ／ MORNING</div>
+      <h2>朝刊サマリー /today</h2>
+      <p>毎平日朝 <strong>7:00 JST</strong> に 5 系列を横断する自動更新解説を配信。過去 5 日分のアーカイブ閲覧可、編集者バッジ + トレンドアラート搭載。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">04 ／ API</div>
+      <h2>Indicator API + 一括 DL</h2>
+      <p>CORS 有効の REST API。<strong>CSV 一括 DL 約 2.25 MB / 105 系列</strong>。外部 BI ツール・研究スクリプトから直接読み込み可能。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">05 ／ CITE</div>
+      <h2>引用フォーマット <span class="kpi">3</span>形式</h2>
+      <p>BibTeX / Chicago 17 / APA 7 をワンクリック生成。各 Insight・catalog ページに CitationButton 常設、学術論文・記事執筆に即流用可能。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">06 ／ SPRINT</div>
+      <h2>構築期間 <span class="kpi">21</span>日</h2>
+      <p>2026-05-05 (火) β公開 → 2026-05-25 (月) GA。当初 55 日想定 → 35 日短縮。機能完成日 5/12 (火) は当初 6/14 から 33 日前倒し。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">07 ／ COST</div>
+      <h2>月額運用費 <span class="kpi">17,400</span>円</h2>
+      <p>β期 4,400 円 / GA 後 17,400 円。広告・課金・有料プラン・データ販売の予定なし、EIC 法人で全額負担する公益事業。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">08 ／ PERF</div>
+      <h2>Lighthouse <span class="kpi">95–98</span></h2>
+      <p>Performance / Accessibility / Best Practices / SEO すべて 90 以上、Performance は 17 日連続で 95–98 維持。FCP &lt; 2s / LCP &lt; 2.5s。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">09 ／ LICENSE</div>
+      <h2>CC BY 4.0 / 9 ドメイン</h2>
+      <p>全 105 系列 + 41 Insight を CC BY 4.0 で開放。9 ドメイン網羅 + 用語集 23 項目 + 方法論 10 セクション。引用元として研究・報道に流用可能。</p>
+    </div>
+
+    <div class="card">
+      <div class="n">10 ／ OPERATOR</div>
+      <h2>運営: 一般社団法人 エネルギー情報センター</h2>
+      <p>代表理事 江田健次。EIC 本体 (eic-jp.org) + 新電力ネット (pps-net.org) と並ぶ第 3 プロダクト。問い合わせ: kenji.eda@gmail.com。</p>
+    </div>
+  </div>
+
+  <footer class="sheet">
+    <div>© 2026 一般社団法人エネルギー情報センター ／ CC BY 4.0</div>
+    <div>ファクトシート版次: 2026-05-12 (Phase C Day 5 集約)</div>
+  </footer>
+</body>
+</html>
