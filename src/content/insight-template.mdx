@@ -1,0 +1,130 @@
+{/*
+  EIC Data — Insight MDX テンプレート (Phase C Day 1 で確立)
+  --------------------------------------------------------------
+  使い方:
+    1. このファイルをコピーして src/app/insight/<slug>/page.mdx に配置
+    2. frontmatter の値を新 Insight 用に書き換え
+    3. ## 導入 / ## データ / ## 解釈 / ## 注意点 / ## 出典 の 5 章を埋める
+    4. src/lib/insights.ts の INSIGHTS 配列にエントリ追加 (slug / title / lede / tags / sources / updated)
+    5. INSIGHT_GROUPS (src/lib/grouping.ts) の該当グループに slug 追加
+    6. pnpm test で frontmatter バリデータ + grouping テスト PASS を確認
+    7. pnpm build で SSG ページ生成を確認
+    8. PR squash merge
+
+  詳細は docs/insight-authoring-guide.md を参照。
+  注: 本テンプレートは route 化されない src/content/ 配下に置くため、ビルドに影響しない。
+*/}
+
+export const metadata = {
+  title: "テンプレ：[40 字以内のタイトル] | EIC Data",
+  description:
+    "1-2 文の概要 (160 字以内、OGP / Twitter Card 用)。読者の問いと結論をそれぞれ 1 文で要約する。",
+};
+
+{/*
+  frontmatter (insight-validator.ts で検証される論理 frontmatter)
+  実体は src/lib/insights.ts の INSIGHTS 配列 + 本ファイルの metadata + 構成 MDX に分散保持される。
+  Phase C 以降の自動生成スクリプトでは下記コメントブロックを yaml 風に走査する想定。
+
+  ---
+  slug: template-slug                    # ファイル名 (kebab-case、ASCII)
+  title: テンプレ：[40 字以内]              # ページ + OGP 表示、最大 40 文字
+  description: [160 字以内]                 # OGP / meta description、最大 160 文字
+  publishedAt: 2026-05-12                  # ISO 8601 YYYY-MM-DD
+  author: マコト                            # 編集軸別 (リン / マコト / ハル / ユウ)
+  domain: finance                          # power | weather | fuel | finance | esg | technology | international | economy | policy
+  tags: [金融, 為替, USD/JPY]              # 3-5 個、日本語、既存タグとの整合性
+  indicators: [us-cpi-yoy, fx-usdjpy-monthly-avg]  # catalog ID 配列、2-5 個
+  renderer: ChartDual                      # ChartLine | ChartDual | ChartLagBars | ChartDecomp | ChartHeatmap | ChartSpread
+  relatedInsights: [spread-us-jp-10y-vs-fx, us-2y-vs-jepx-tokyo]  # 2-4 個、既存 41 本から
+  ---
+*/}
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# テンプレ：[40 字以内のタイトル]
+
+> リードコピー：読者の問いを 1 文で提示し、結論を予告する 1 文を続ける。100-160 字、ここがそのまま OGP / SNS 共有の説明文になる。
+
+## 導入
+
+200-400 字。読者の関心 → 既存知識との接続 → 本 Insight が示すこと、の 3 段論法。「なぜこの 2 系列を並べるのか」を最初の段落で必ず説明する。北極星「日本のエネルギーと金融の引用インフラ」の語彙圏に揃える (例: 一次出典 / as-of / 引用形式)。
+
+## データ
+
+チャート 1-2 個。レンダラの使い分け早見表は `docs/insight-authoring-guide.md` §3 を参照。
+
+<ChartLine id="catalog-id-here" title="タイトル (単位明示、月次/日次/年次明示)" />
+
+数値の裏付け表を併記すると引用元として機能しやすい:
+
+| 期間 | 系列 A | 系列 B | 局面 |
+|---|---|---|---|
+| 2020-12 | 値 | 値 | コロナ後 |
+| 2022-06 | 値 | 値 | ピーク |
+| 2024-12 | 値 | 値 | 現在 |
+
+**月次相関 r (期間明示、L-010 準拠)**: **+0.55 〜 +0.70** (ラグ N ヶ月で最大化)
+
+## 解釈
+
+400-800 字。3 段構成:
+
+### 因果の構造
+
+データから読み取れる「**何が何を動かしているのか**」を 1 段落で明示。連鎖が長い場合は段階を箇条書きに分解する。
+
+### 業界文脈
+
+エネルギー業界 / 金融市場の専門家視点で「**なぜそれが起こったのか**」を解説。歴史的局面 (リーマン / コロナ / ウクライナ / 円安) との接続。
+
+### 編集軸 (energy / finance / macro / weather / climate / supply-demand)
+
+本 Insight がどの編集軸に属し、関連 Insight 群とどう連鎖するかを示す (本記事の上流 = どの Insight、下流 = どの Insight)。
+
+## 注意点
+
+200-400 字。3 つの定型観点:
+
+- **相関 ≠ 因果**: 観測された r 値は因果を保証しない。混入する他要因を 2-3 個明示。
+- **データソースの癖**: 出典固有の制約 (例: 月中平均 vs 月末値、季節調整の有無、改定の頻度)。
+- **観測ウィンドウ**: 短期 / 長期で結論が変わる可能性、ラグ相関のピーク位置に依存性がある場合は明示。
+
+## 関連 Insight
+
+- **Insight #XX タイトル** ([/insight/slug](/insight/slug)) — どう連鎖するか 1 文で説明
+- **Insight #XX タイトル** ([/insight/slug](/insight/slug)) — 同上
+- **Insight #XX タイトル** ([/insight/slug](/insight/slug)) — 同上
+
+## 出典
+
+- [一次ソース名](https://example.com/data) (発行元、ライセンス、最終確認日)
+- [一次ソース名](https://example.com/data) (発行元、ライセンス、最終確認日)
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+### 引用フォーマット 3 形式 (Phase C スコープ 3 で自動生成予定)
+
+**BibTeX**:
+```bibtex
+@misc{eic-data-template-slug,
+  author = {一般社団法人エネルギー情報センター},
+  title = {[テンプレタイトル]},
+  year = {2026},
+  url = {https://data.eic-jp.org/insight/template-slug},
+  note = {Accessed: 2026-XX-XX}
+}
+```
+
+**Chicago 17**:
+> 一般社団法人エネルギー情報センター. "[テンプレタイトル]." EIC Data. 2026-05-12. https://data.eic-jp.org/insight/template-slug (Accessed 2026-XX-XX).
+
+**APA 7**:
+> 一般社団法人エネルギー情報センター. (2026, 5月 12). [テンプレタイトル]. EIC Data. https://data.eic-jp.org/insight/template-slug
+
+---
+
+*構成系列: `catalog-id-1` ＋ `catalog-id-2`*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Phase X Day Y で MDX 化 (2026-XX-XX、執筆者名)*
+
+</div>

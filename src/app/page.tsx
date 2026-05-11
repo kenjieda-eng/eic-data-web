@@ -33,11 +33,18 @@ export default async function HomePage() {
     <Container size="wide" className="py-10">
       <section className="mb-10">
         <p className="text-sm font-medium text-emerald-700">TODAY&apos;S VOICE</p>
-        <p className="mt-2 text-lg leading-relaxed text-subink">
-          日本のエネルギーと金融の引用インフラ。
-          <strong className="text-ink">{catalog.indicator_count}</strong>{" "}
-          系列が毎朝自動更新。一次出典・as-of・引用形式すべて備えた、
-          研究者・ジャーナリスト・実務者の「2 クリックで元データに辿れる」基準点。
+        <h1 className="mt-2 text-3xl md:text-4xl xl:text-5xl font-bold text-ink leading-tight tracking-tight">
+          日本のエネルギーと金融を、
+          <br className="hidden md:inline" />
+          引用可能な公共情報に。
+        </h1>
+        <p className="mt-4 text-base md:text-lg leading-relaxed text-subink max-w-3xl">
+          <strong className="text-ink tabular-nums">
+            {catalog.indicator_count}
+          </strong>{" "}
+          系列のエネルギー・金融指標と{" "}
+          <strong className="text-ink tabular-nums">41</strong>{" "}
+          本の独自 Insight を毎朝自動更新。一次出典・as-of・引用形式すべて備えた、研究者・ジャーナリスト・実務者の「2 クリックで元データに辿れる」基準点。
         </p>
         <p className="mt-3 text-xs text-faint">
           catalog 生成: {catalog.generated_at} ／ schema: {catalog.schema}
