@@ -17,3 +17,14 @@ html,
 body {
   font-family: var(--font-sans);
 }
+
+/* Phase B-C P 案: body 18px + leading-relaxed (1.625) を全画面共通の新標準に。
+ * モバイル (< 768px) は 16px のまま維持し読みやすさを確保 (v2 議事録 観点 6)。
+ * 個別の Tailwind text-[Npx] 指定は引き続きそれを優先 (アクセント・注記等の意図的な小フォント維持)。
+ */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+    line-height: 1.625;
+  }
+}

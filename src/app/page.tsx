@@ -30,7 +30,7 @@ export default async function HomePage() {
   const catalog = await fetchCatalog();
 
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <section className="mb-10">
         <p className="text-sm font-medium text-emerald-700">TODAY&apos;S VOICE</p>
         <p className="mt-2 text-lg leading-relaxed text-subink">

@@ -52,7 +52,7 @@ export default async function DomainPage({ params }: PageProps) {
   const related = findRelatedInsightsForDomain(meta);
 
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <DomainHeader meta={meta} indicatorCount={rows.length} />
 
       {meta.metaPage && (

@@ -38,7 +38,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   const related = findRelatedInsights(term);
 
   return (
-    <Container className="py-10">
+    <Container size="compact" className="py-10">
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">

@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function InsightIndexPage() {
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <div className="flex items-baseline justify-between gap-4 flex-wrap">
         <h1 className="text-2xl font-bold text-ink">インサイト</h1>
         <Link

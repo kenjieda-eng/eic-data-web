@@ -35,7 +35,7 @@ export default async function InsightMapPage({
   const { groups, unclassified } = groupInsights(filtered);
 
   return (
-    <Container className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
