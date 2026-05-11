@@ -19,9 +19,31 @@ export interface SeriesMeta {
   domain: string;
 }
 
-function idToDirectory(id: string): string {
+/**
+ * indicator id → eic-data-pipeline の processed CSV 配下ディレクトリ名
+ *
+ * デフォルトは id の先頭セグメント (例: "fuel-lng-jp-cif" → "fuel") だが、
+ * 以下の例外がある (catalog の domain ≠ pipeline ディレクトリ名):
+ *   - us-treasury-*       → finance
+ *   - meti-*              → enecho-power
+ *   - us-cpi-yoy / us-fed-funds-rate / us-industrial-production → macro
+ *     (Phase 3-B 第 2 弾 5/10 着地、`us-` 始まりだが macro/ 配置)
+ *
+ * Phase C Day 3 hotfix (2026-05-12): 米マクロ 3 系列が "us/" にフォールバックし
+ * 404 を返していた問題を修正、L-013 累計 39 件目。
+ *
+ * download/all/route.ts などの外部からも参照する想定で export。
+ */
+const US_MACRO_IDS = new Set([
+  "us-cpi-yoy",
+  "us-fed-funds-rate",
+  "us-industrial-production",
+]);
+
+export function idToDirectory(id: string): string {
   if (id.startsWith("us-treasury-")) return "finance";
   if (id.startsWith("meti-")) return "enecho-power";
+  if (US_MACRO_IDS.has(id)) return "macro";
   const idx = id.indexOf("-");
   if (idx <= 0) {
     throw new Error(`Cannot derive directory for indicator id: ${id}`);
