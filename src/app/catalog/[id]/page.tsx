@@ -10,6 +10,7 @@ import {
   getIndicatorById,
   slaStatusOf,
 } from "@/lib/catalog";
+import CitationButton from "@/components/CitationButton";
 import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
 import DependsOnPanel from "../components/DependsOnPanel";
 
@@ -91,6 +92,19 @@ export default async function IndicatorPage({ params }: PageProps) {
           dependsOn={dependsOn}
           dependsOnIds={dependsOnIds}
           dependents={dependents}
+        />
+      </div>
+
+      <div className="mt-6">
+        <CitationButton
+          citation={{
+            slug: indicator.id,
+            title: indicator.name || indicator.id,
+            kind: "indicator",
+            sourceName: indicator.source_name,
+            sourceUrl: indicator.source_url,
+            license: indicator.license,
+          }}
         />
       </div>
 
