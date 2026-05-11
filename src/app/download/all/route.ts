@@ -19,20 +19,13 @@
 
 import JSZip from "jszip";
 import { fetchCatalog, type Indicator } from "@/lib/catalog";
+import { idToDirectory } from "@/lib/series";
 
 export const revalidate = 86400;
 export const dynamic = "force-static";
 
 const SERIES_BASE =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/processed";
-
-function idToDirectory(id: string): string {
-  if (id.startsWith("us-treasury-")) return "finance";
-  if (id.startsWith("meti-")) return "enecho-power";
-  const idx = id.indexOf("-");
-  if (idx <= 0) return "misc";
-  return id.slice(0, idx);
-}
 
 function escapeCsv(value: string): string {
   if (value.includes(",") || value.includes('"') || value.includes("\n")) {
