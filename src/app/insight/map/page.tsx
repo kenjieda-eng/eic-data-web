@@ -7,11 +7,12 @@ import GroupedInsightGrid from "./components/GroupedInsightGrid";
 import InsightSearchBox from "./components/InsightSearchBox";
 import SelfCheckPanel from "./components/SelfCheckPanel";
 
-export const metadata: Metadata = {
-  title: "インサイトマップ — EIC Data",
-  description:
-    "EIC Data の 38 本のインサイトを 6 つの編集軸で俯瞰。気象 × 電力の核から、燃料・金融、電源構成、気候 × 地理ヒートマップ、需要・水文、マクロ・金利まで、編集の全体像が 1 画面で見える。",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "インサイトマップ — EIC Data",
+    description: `EIC Data の ${INSIGHTS.length} 本のインサイトを 6 つの編集軸で俯瞰。気象 × 電力の核から、燃料・金融、電源構成、気候 × 地理ヒートマップ、需要・水文、マクロ・金利まで、編集の全体像が 1 画面で見える。`,
+  };
+}
 
 function pickQuery(
   raw: Record<string, string | string[] | undefined>,

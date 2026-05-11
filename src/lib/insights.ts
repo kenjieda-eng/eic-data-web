@@ -312,6 +312,30 @@ export const INSIGHTS: Insight[] = [
     sources: ["U.S. Treasury", "JEPX スポット市場"],
     updated: "2026-05-07",
   },
+  {
+    slug: "us-cpi-vs-fx",
+    title: "米 CPI × USD/JPY：インフレと為替の長い因果",
+    lede: "米 CPI 前年比と USD/JPY 月中平均の 15 年相関、米インフレ → FRB 政策 → 米金利 → 為替の連鎖を可視化。月次相関 r=+0.55-0.70 (ラグ 3-6 ヶ月)",
+    tags: ["金融", "為替", "USD/JPY", "マクロ", "CPI", "インフレ"],
+    sources: ["FRED CPIAUCSL", "BOJ FM08"],
+    updated: "2026-05-11",
+  },
+  {
+    slug: "fed-funds-vs-jepx-tokyo",
+    title: "Fed FF rate × JEPX 東京：米政策金利と日本電力卸価格の遠い因果",
+    lede: "米 Fed Funds Rate と JEPX 東京の月次相関、米政策金利 → 為替 → 燃料 → JEPX の 4 段階連鎖。月次相関 r=+0.30-0.50 (ラグ 6-12 ヶ月)",
+    tags: ["金融", "金利", "電力", "東京", "FRB", "マクロ"],
+    sources: ["FRED FEDFUNDS", "JEPX スポット市場"],
+    updated: "2026-05-11",
+  },
+  {
+    slug: "us-industrial-vs-jp-demand",
+    title: "米鉱工業生産 × 日本電力販売量：景気の海を越えた伝播",
+    lede: "米景気 → 世界製造業 → 日本製造業 → 日本電力需要、リーマン + コロナ両ショック時に明瞭。ラグ 3-6 ヶ月で r=+0.45-0.60",
+    tags: ["電力", "需要", "マクロ", "鉱工業生産", "景気サイクル", "ラグ相関"],
+    sources: ["FRED INDPRO", "METI 電力調査統計"],
+    updated: "2026-05-11",
+  },
 ];
 
 export function searchInsights(

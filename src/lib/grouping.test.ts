@@ -8,7 +8,7 @@ import type { Insight } from "./insights";
 import { INSIGHTS } from "./insights";
 
 describe("Phase B-B Day 3: grouping ロジック", () => {
-  test("groupInsights: 38 本を 6 軸 + 未分類に分類、合計が一致", () => {
+  test("groupInsights: 41 本を 6 軸 + 未分類に分類、合計が一致", () => {
     const { groups, unclassified } = groupInsights(INSIGHTS);
     expect(groups).toHaveLength(6);
     const totalInGroups = groups.reduce((s, g) => s + g.insights.length, 0);
@@ -79,5 +79,31 @@ describe("Phase B-B Day 3: grouping ロジック", () => {
     const slugs = unclassified.map((i) => i.slug);
     expect(slugs).toContain("multi-region-jepx-comparison");
     expect(slugs).toContain("region-fuel-sensitivity");
+  });
+});
+
+describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成", () => {
+  test("INSIGHTS が 41 件に到達 (Phase B-A 完走)", () => {
+    expect(INSIGHTS).toHaveLength(41);
+  });
+
+  test("Day 13 で追加した 3 slug (us-cpi-vs-fx / fed-funds-vs-jepx-tokyo / us-industrial-vs-jp-demand) が INSIGHTS に存在", () => {
+    const slugs = new Set(INSIGHTS.map((i) => i.slug));
+    expect(slugs.has("us-cpi-vs-fx")).toBe(true);
+    expect(slugs.has("fed-funds-vs-jepx-tokyo")).toBe(true);
+    expect(slugs.has("us-industrial-vs-jp-demand")).toBe(true);
+  });
+
+  test("Day 13 で追加した 3 slug は macro グループに分類される (unclassified に落ちない)", () => {
+    const { groups, unclassified } = groupInsights(INSIGHTS);
+    const macro = groups.find((g) => g.group.id === "macro")!;
+    const macroSlugs = macro.insights.map((i) => i.slug);
+    expect(macroSlugs).toContain("us-cpi-vs-fx");
+    expect(macroSlugs).toContain("fed-funds-vs-jepx-tokyo");
+    expect(macroSlugs).toContain("us-industrial-vs-jp-demand");
+    const unclassifiedSlugs = unclassified.map((i) => i.slug);
+    expect(unclassifiedSlugs).not.toContain("us-cpi-vs-fx");
+    expect(unclassifiedSlugs).not.toContain("fed-funds-vs-jepx-tokyo");
+    expect(unclassifiedSlugs).not.toContain("us-industrial-vs-jp-demand");
   });
 });
