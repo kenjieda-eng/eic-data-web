@@ -5,6 +5,7 @@ import ChartLagBars from "@/components/ChartLagBars";
 import ChartDecomp from "@/components/ChartDecomp";
 import ChartHeatmap from "@/components/ChartHeatmap";
 import ChartSpread from "@/components/ChartSpread";
+import InsightNav from "@/components/InsightNav";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -14,6 +15,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ChartDecomp,
     ChartHeatmap,
     ChartSpread,
+    InsightNav,
 
     // Phase B-C P 案: 見出し階層強化 + 本文 18px (議事録 v2 観点 3 + 8)
     h1: ({ children }) => (

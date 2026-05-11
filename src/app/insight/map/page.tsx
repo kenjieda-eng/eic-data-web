@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import Container from "@/components/Container";
-import { groupInsights, validateInsights } from "@/lib/grouping";
+import { INSIGHT_GROUPS, groupInsights, validateInsights } from "@/lib/grouping";
 import { INSIGHTS, searchInsights } from "@/lib/insights";
+import AxisFilterChips from "./AxisFilterChips";
 import GroupedInsightGrid from "./components/GroupedInsightGrid";
 import InsightSearchBox from "./components/InsightSearchBox";
 import SelfCheckPanel from "./components/SelfCheckPanel";
@@ -14,13 +16,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function pickQuery(
+function pickString(
   raw: Record<string, string | string[] | undefined>,
+  key: string,
 ): string {
-  const v = raw.q;
+  const v = raw[key];
   if (Array.isArray(v)) return v[0] ?? "";
   return v ?? "";
 }
+
+const VALID_AXIS_IDS = new Set([...INSIGHT_GROUPS.map((g) => g.id), "unclassified"]);
 
 export default async function InsightMapPage({
   searchParams,
@@ -28,11 +33,30 @@ export default async function InsightMapPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const raw = await searchParams;
-  const query = pickQuery(raw);
+  const query = pickString(raw, "q");
+  const axisRaw = pickString(raw, "axis");
+  const axis = VALID_AXIS_IDS.has(axisRaw) ? axisRaw : "";
 
   const validation = validateInsights(INSIGHTS);
-  const filtered = searchInsights(INSIGHTS, query);
-  const { groups, unclassified } = groupInsights(filtered);
+  const searched = searchInsights(INSIGHTS, query);
+  const grouped = groupInsights(searched);
+  const axisCounts = grouped.groups.map((g) => ({
+    id: g.group.id,
+    icon: g.group.icon,
+    title: g.group.title,
+    count: g.insights.length,
+  }));
+  const unclassifiedCount = grouped.unclassified.length;
+
+  // axis フィルタを適用 (UI 表示用のみ、件数集計は axis 適用前の searched 数で表示)
+  const visibleGroups =
+    axis && axis !== "unclassified"
+      ? grouped.groups.filter((g) => g.group.id === axis)
+      : grouped.groups;
+  const visibleUnclassified =
+    !axis || axis === "unclassified" ? grouped.unclassified : [];
+  const groups = visibleGroups;
+  const unclassified = visibleUnclassified;
 
   return (
     <Container size="wide" className="py-10">
@@ -54,6 +78,16 @@ export default async function InsightMapPage({
       </header>
 
       <InsightSearchBox query={query} />
+
+      <Suspense
+        fallback={<div className="mt-4 text-sm text-subink">軸フィルタ準備中...</div>}
+      >
+        <AxisFilterChips
+          axes={axisCounts}
+          unclassifiedCount={unclassifiedCount}
+          currentAxis={axis || null}
+        />
+      </Suspense>
 
       <SelfCheckPanel result={validation} totalInsights={INSIGHTS.length} />
 
