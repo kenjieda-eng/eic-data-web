@@ -3,6 +3,7 @@ import { INSIGHTS } from "../../lib/insights";
 import {
   DOMAINS_DAY6,
   DOMAINS_DAY7,
+  DOMAINS_DAY8,
   findRelatedInsightsForDomain,
   getDomainById,
   groupIndicatorsBySubcategory,
@@ -76,6 +77,68 @@ describe("DOMAINS_DAY7", () => {
   });
 });
 
+describe("DOMAINS_DAY8", () => {
+  test("contains 9 domains (Day 7 末 6 件 + Day 8 追加 3 件)", () => {
+    expect(DOMAINS_DAY8).toHaveLength(9);
+    expect(DOMAINS_DAY8.map((d) => d.id)).toEqual([
+      "power",
+      "weather",
+      "fuel",
+      "finance",
+      "economy",
+      "policy",
+      "esg",
+      "technology",
+      "international",
+    ]);
+  });
+
+  test("DOMAINS_DAY7 is fully contained in DOMAINS_DAY8", () => {
+    const day8Ids = new Set(DOMAINS_DAY8.map((d) => d.id));
+    for (const d of DOMAINS_DAY7) {
+      expect(day8Ids.has(d.id)).toBe(true);
+    }
+  });
+
+  test("each Day 8 addition has description >= 150 chars and >= 1 insightKeyword", () => {
+    const additions = DOMAINS_DAY8.filter(
+      (d) => !DOMAINS_DAY7.some((p) => p.id === d.id),
+    );
+    expect(additions).toHaveLength(3);
+    for (const d of additions) {
+      expect(d.description.length).toBeGreaterThanOrEqual(150);
+      expect(d.insightKeywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  test("Day 8 additions are all flagged as metaPage (catalog 不在)", () => {
+    expect(getDomainById("esg")?.metaPage).toBe(true);
+    expect(getDomainById("technology")?.metaPage).toBe(true);
+    expect(getDomainById("international")?.metaPage).toBe(true);
+    expect(getDomainById("esg")?.subcategories).toHaveLength(0);
+    expect(getDomainById("technology")?.subcategories).toHaveLength(0);
+    expect(getDomainById("international")?.subcategories).toHaveLength(0);
+  });
+
+  test("Phase B-B 完走で 9 ドメイン全揃い: catalog 系列を持つ 4 件 + メタ 5 件", () => {
+    const withCatalog = DOMAINS_DAY8.filter((d) => !d.metaPage);
+    const metaOnly = DOMAINS_DAY8.filter((d) => d.metaPage);
+    expect(withCatalog.map((d) => d.id).sort()).toEqual([
+      "finance",
+      "fuel",
+      "power",
+      "weather",
+    ]);
+    expect(metaOnly.map((d) => d.id).sort()).toEqual([
+      "economy",
+      "esg",
+      "international",
+      "policy",
+      "technology",
+    ]);
+  });
+});
+
 describe("getDomainById", () => {
   test("returns the domain when id matches", () => {
     expect(getDomainById("power")?.name).toBe("電力");
@@ -83,12 +146,15 @@ describe("getDomainById", () => {
     expect(getDomainById("finance")?.name).toBe("金融");
     expect(getDomainById("economy")?.name).toBe("経済");
     expect(getDomainById("policy")?.name).toBe("制度");
+    expect(getDomainById("esg")?.name).toBe("ESG / サステナ");
+    expect(getDomainById("technology")?.name).toBe("技術");
+    expect(getDomainById("international")?.name).toBe("国際");
   });
 
-  test("returns undefined for unknown id (Day 8 で追加予定の残ドメイン)", () => {
-    expect(getDomainById("esg")).toBeUndefined();
-    expect(getDomainById("tech")).toBeUndefined();
-    expect(getDomainById("geo")).toBeUndefined();
+  test("returns undefined for unknown id (12 候補のうち未着手の 3 ドメイン)", () => {
+    expect(getDomainById("geopolitics")).toBeUndefined();
+    expect(getDomainById("population")).toBeUndefined();
+    expect(getDomainById("ir")).toBeUndefined();
   });
 });
 

@@ -14,11 +14,13 @@ import CatalogFilterChips from "./components/CatalogFilterChips";
 import CatalogTable from "./components/CatalogTable";
 import { parseFilters } from "./filters";
 
-export const metadata: Metadata = {
-  title: "編集指標カタログ — EIC Data",
-  description:
-    "編集部が一次出典を確認した全 102 系列の D-011 メタデータカタログ。ID / 名称で検索、ドメイン × 頻度で絞り込み、各系列の詳細ページに 19 項目フル表示。",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const catalog = await fetchCatalog();
+  return {
+    title: "編集指標カタログ — EIC Data",
+    description: `編集部が一次出典を確認した全 ${catalog.indicator_count} 系列の D-011 メタデータカタログ。ID / 名称で検索、ドメイン × 頻度で絞り込み、各系列の詳細ページに 19 項目フル表示。`,
+  };
+}
 
 export default async function CatalogPage({
   searchParams,
