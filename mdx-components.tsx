@@ -7,6 +7,7 @@ import ChartHeatmap from "@/components/ChartHeatmap";
 import ChartSpread from "@/components/ChartSpread";
 import InsightCitation from "@/components/InsightCitation";
 import InsightNav from "@/components/InsightNav";
+import InsightStructuredData from "@/components/InsightStructuredData";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -18,6 +19,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ChartSpread,
     InsightNav,
     InsightCitation,
+    InsightStructuredData,
 
     // Phase B-C P 案: 見出し階層強化 + 本文 18px (議事録 v2 観点 3 + 8)
     h1: ({ children }) => (
