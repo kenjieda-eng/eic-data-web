@@ -41,3 +41,9 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# claude code local config
+/.claude/
+
+# integration test artifacts (一時的な実行結果、コミット不要)
+/scripts/integration-test-urls-result.json
