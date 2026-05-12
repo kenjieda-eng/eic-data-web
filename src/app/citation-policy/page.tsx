@@ -139,6 +139,14 @@ export default function CitationPolicyPage() {
           </li>
         </ol>
         <p className="text-base md:text-lg leading-relaxed text-subink">
+          ページを開かずに任意の系列 / Insight / サイト全体を引用したい場合は{" "}
+          <Link
+            href="/cite"
+            className="text-emerald-700 underline hover:text-emerald-900"
+          >
+            引用ジェネレータ (/cite)
+          </Link>{" "}
+          を使うと、3 形式の即時コピー + <code>.bib</code> ファイル直接ダウンロードができます。
           実装の詳細は{" "}
           <Link
             href="/methodology"

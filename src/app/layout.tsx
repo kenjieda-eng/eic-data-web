@@ -32,6 +32,7 @@ const NAV_ITEMS = [
   { href: "/insight", label: "インサイト" },
   { href: "/insight/map", label: "マップ" },
   { href: "/catalog", label: "カタログ" },
+  { href: "/cite", label: "引用" },
   { href: "/data-quality", label: "データ品質" },
   { href: "/methodology", label: "方法論" },
   { href: "/glossary", label: "用語集" },

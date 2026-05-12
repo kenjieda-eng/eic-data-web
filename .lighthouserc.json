@@ -7,7 +7,7 @@
         "http://localhost:3000/insight/map",
         "http://localhost:3000/data-quality",
         "http://localhost:3000/catalog",
-        "http://localhost:3000/glossary"
+        "http://localhost:3000/cite"
       ],
       "numberOfRuns": 3,
       "settings": {
