@@ -53,7 +53,7 @@ export default function CatalogFilterChips({
               key={domain}
               href={toggleHref(filters, "domain", domain)}
               className={active ? CHIP_ACTIVE : CHIP}
-              aria-pressed={active}
+              aria-current={active ? "true" : undefined}
             >
               <span aria-hidden>{dom.emoji}</span>
               <span>{dom.ja}</span>
@@ -73,7 +73,7 @@ export default function CatalogFilterChips({
               key={frequency}
               href={toggleHref(filters, "frequency", frequency)}
               className={active ? CHIP_ACTIVE : CHIP}
-              aria-pressed={active}
+              aria-current={active ? "true" : undefined}
             >
               <span>{FREQUENCY_LABELS[frequency] ?? frequency}</span>
               <span className="tabular-nums text-faint">{count}</span>

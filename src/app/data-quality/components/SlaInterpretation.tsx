@@ -16,9 +16,9 @@ export default function SlaInterpretation({
       aria-label="SLA 警告/違反の解釈"
       className="bg-amber-50 border border-amber-200 rounded-md p-4 mb-6"
     >
-      <h3 className="text-[14px] font-semibold text-ink mb-2">
+      <h2 className="text-[14px] font-semibold text-ink mb-2">
         ⚠️ SLA 警告／違反の正しい読み方
-      </h3>
+      </h2>
       <p className="text-[12px] text-subink leading-relaxed mb-3">
         現在{" "}
         <strong style={{ color: "#d97706" }}>{warningCount} 件の警告</strong> +{" "}

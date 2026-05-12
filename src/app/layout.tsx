@@ -20,7 +20,9 @@ const inter = Inter({
 const notoSansJp = Noto_Sans_JP({
   subsets: ["latin"],
   variable: "--font-noto-jp",
-  display: "swap",
+  // optional: font-display: optional で FOUT 由来の CLS を排除。
+  // 読み込みが遅い場合は OS 標準和文フォント (Hiragino / Yu Gothic / Meiryo) を使用。
+  display: "optional",
   weight: ["400", "500", "700"],
 });
 
