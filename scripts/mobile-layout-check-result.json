@@ -1,6 +1,6 @@
 {
   "base": "https://data.eic-jp.org",
-  "runAt": "2026-05-12T05:14:54.467Z",
+  "runAt": "2026-05-12T05:27:12.039Z",
   "totalRuns": 36,
   "issueCount": 0,
   "issues": [],
@@ -159,7 +159,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 2,
-      "htmlSize": 354625
+      "htmlSize": 354541
     },
     {
       "page": "/catalog",
@@ -171,7 +171,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 2,
-      "htmlSize": 354625
+      "htmlSize": 354541
     },
     {
       "page": "/catalog",
@@ -183,7 +183,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 2,
-      "htmlSize": 354625
+      "htmlSize": 354541
     },
     {
       "page": "/data-quality",
@@ -195,7 +195,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 4,
-      "htmlSize": 411852
+      "htmlSize": 411756
     },
     {
       "page": "/data-quality",
@@ -207,7 +207,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 4,
-      "htmlSize": 411852
+      "htmlSize": 411756
     },
     {
       "page": "/data-quality",
@@ -219,7 +219,7 @@
       "maxFixedWidth": 0,
       "maxContainerCap": 1320,
       "overflowXAutoCount": 4,
-      "htmlSize": 411852
+      "htmlSize": 411756
     },
     {
       "page": "/methodology",
