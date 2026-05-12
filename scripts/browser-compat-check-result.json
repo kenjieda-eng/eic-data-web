@@ -1,0 +1,152 @@
+{
+  "base": "https://data.eic-jp.org",
+  "runAt": "2026-05-12T05:37:46.305Z",
+  "pagesScanned": 9,
+  "htmlBodies": 9,
+  "cssBodies": 3,
+  "features": {
+    "css:has()": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 105,
+        "Edge": 105,
+        "Safari": 15.4,
+        "Firefox": 121
+      },
+      "note": "Firefox は 121 (2023-12) で正式サポート"
+    },
+    "css:aspect-ratio": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 88,
+        "Edge": 88,
+        "Safari": 15,
+        "Firefox": 89
+      },
+      "note": "全モダンブラウザ広範サポート (2021)"
+    },
+    "css:gap (flexbox)": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 8,
+      "total": 8,
+      "minVersions": {
+        "Chrome": 84,
+        "Edge": 84,
+        "Safari": 14.1,
+        "Firefox": 63
+      },
+      "note": "Safari 14.1+ で flex gap 対応"
+    },
+    "css:focus-visible": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 4,
+      "total": 4,
+      "minVersions": {
+        "Chrome": 86,
+        "Edge": 86,
+        "Safari": 15.4,
+        "Firefox": 85
+      },
+      "note": "全モダンブラウザ広範サポート"
+    },
+    "css:backdrop-filter": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 76,
+        "Edge": 79,
+        "Safari": 9,
+        "Firefox": 103
+      },
+      "note": "Firefox は 103 (2022-07) からデフォルト有効"
+    },
+    "css:container-queries": {
+      "type": "CSS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 105,
+        "Edge": 105,
+        "Safari": 16,
+        "Firefox": 110
+      },
+      "note": "Firefox は 110 (2023-02) でデフォルト有効"
+    },
+    "js:Array.prototype.at": {
+      "type": "JS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 92,
+        "Edge": 92,
+        "Safari": 15.4,
+        "Firefox": 90
+      },
+      "note": "ES2022、Safari 15.4+ 必須"
+    },
+    "js:Object.hasOwn": {
+      "type": "JS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 93,
+        "Edge": 93,
+        "Safari": 15.4,
+        "Firefox": 92
+      },
+      "note": "ES2022、Safari 15.4+ 必須"
+    },
+    "js:structuredClone": {
+      "type": "JS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 98,
+        "Edge": 98,
+        "Safari": 15.4,
+        "Firefox": 94
+      },
+      "note": "Safari 15.4+ 必須"
+    },
+    "js:Array.prototype.flatMap": {
+      "type": "JS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 69,
+        "Edge": 79,
+        "Safari": 12,
+        "Firefox": 62
+      },
+      "note": "ES2019、全モダンブラウザ広範サポート"
+    },
+    "js:String.prototype.replaceAll": {
+      "type": "JS",
+      "usedInHtml": 0,
+      "usedInCss": 0,
+      "total": 0,
+      "minVersions": {
+        "Chrome": 85,
+        "Edge": 85,
+        "Safari": 13.1,
+        "Firefox": 77
+      },
+      "note": "ES2021、全モダンブラウザ広範サポート"
+    }
+  }
+}

@@ -33,9 +33,13 @@ export default function SearchClient({ index }: { index: SearchIndex }) {
     TAB_ORDER.includes(initialCategory) ? initialCategory : "all",
   );
 
+  const trimmedQuery = query.trim();
   const fullResult = useMemo(
-    () => searchEntries(index, { query, category: null }),
-    [index, query],
+    () =>
+      trimmedQuery
+        ? searchEntries(index, { query: trimmedQuery, category: null })
+        : { entries: [], counts: index.totals, truncated: false },
+    [index, trimmedQuery],
   );
 
   const visibleEntries = useMemo(() => {

@@ -5,6 +5,13 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'Lighthouse CI config path (例: .lighthouserc.day3.json)'
+        required: false
+        default: './.lighthouserc.json'
+        type: string
 
 jobs:
   lighthouse:
@@ -34,7 +41,7 @@ jobs:
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
         with:
-          configPath: ./.lighthouserc.json
+          configPath: ${{ inputs.config || './.lighthouserc.json' }}
           uploadArtifacts: true
           temporaryPublicStorage: true
         env:
