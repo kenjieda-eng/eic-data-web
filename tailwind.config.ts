@@ -7,7 +7,7 @@ export default {
       colors: {
         ink: "#1e293b",
         subink: "#475569",
-        faint: "#94a3b8",
+        faint: "#64748b",
         paper: "#f8fafc",
         accent: {
           DEFAULT: "#10b981",

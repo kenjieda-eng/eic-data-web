@@ -31,9 +31,9 @@ export default function RecentlyUpdated({ rows, days }: RecentlyUpdatedProps) {
 
   return (
     <section className="mt-6 bg-white border border-slate-200 rounded-md p-5">
-      <h3 className="text-[14px] font-semibold text-ink mb-3">
+      <h2 className="text-[14px] font-semibold text-ink mb-3">
         📡 最近 {days} 日に更新された系列
-      </h3>
+      </h2>
       <p className="text-[12px] text-subink mb-3">
         過去 {days} 日以内に <strong>{rows.length} 系列</strong>{" "}
         が更新されています（メタデータ <code>updated_at</code> ベース）。

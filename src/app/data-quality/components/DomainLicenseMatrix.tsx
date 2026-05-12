@@ -13,9 +13,9 @@ export default function DomainLicenseMatrix({
 }: DomainLicenseMatrixProps) {
   return (
     <section className="mt-6 bg-white border border-slate-200 rounded-md p-5">
-      <h3 className="text-[14px] font-semibold text-ink mb-3">
+      <h2 className="text-[14px] font-semibold text-ink mb-3">
         ドメイン × ライセンス 内訳
-      </h3>
+      </h2>
       <div className="overflow-x-auto">
         <table className="w-full text-[12px] text-left">
           <thead className="bg-slate-50 border-b border-slate-200">

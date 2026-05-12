@@ -43,7 +43,7 @@ export default function FilterChips({
               key={domain}
               href={toggleHref(filters, "domain", domain)}
               className={active ? CHIP_ACTIVE : CHIP}
-              aria-pressed={active}
+              aria-current={active ? "true" : undefined}
             >
               <span aria-hidden>{dom.emoji}</span>
               <span>{dom.ja}</span>
@@ -63,7 +63,7 @@ export default function FilterChips({
               key={s}
               href={toggleHref(filters, "status", s)}
               className={active ? CHIP_ACTIVE : CHIP}
-              aria-pressed={active}
+              aria-current={active ? "true" : undefined}
             >
               <span>{STATUS_LABELS[s]}</span>
               <span className="tabular-nums text-faint">{statusCounts[s]}</span>

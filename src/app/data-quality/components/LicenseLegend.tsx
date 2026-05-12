@@ -1,9 +1,9 @@
 export default function LicenseLegend() {
   return (
     <section className="mt-6 bg-slate-50 border border-slate-200 rounded-md p-5 text-[13px] text-subink leading-relaxed">
-      <h3 className="text-[14px] font-semibold text-ink mb-3">
+      <h2 className="text-[14px] font-semibold text-ink mb-3">
         ライセンス識別子について
-      </h3>
+      </h2>
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <div className="text-[12px] font-semibold text-emerald-700 mb-1">

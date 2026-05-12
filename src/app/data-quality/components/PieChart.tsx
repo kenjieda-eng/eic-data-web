@@ -74,7 +74,7 @@ export default function PieChart({
 
   return (
     <div className="bg-white border border-slate-200 rounded-md p-5">
-      <h3 className="text-[14px] font-semibold text-ink mb-2">{title}</h3>
+      <h2 className="text-[14px] font-semibold text-ink mb-2">{title}</h2>
       <p className="text-[11px] text-faint mb-3">{description}</p>
       {total === 0 ? (
         <p className="text-[12px] text-faint">データなし</p>
