@@ -248,7 +248,7 @@ export default function TermsPage() {
         </h2>
         <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-base md:text-lg leading-relaxed text-ink">
-            一般社団法人エネルギー情報センター ／ 代表理事 江田健次
+            一般社団法人エネルギー情報センター ／ 代表理事 江田健二
           </p>
           <p className="mt-1 text-base md:text-lg leading-relaxed text-subink">
             メール:{" "}

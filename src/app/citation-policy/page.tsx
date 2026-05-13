@@ -172,7 +172,7 @@ export default function CitationPolicyPage() {
             (略称「EIC」も使用可、初出は正式名称を併記推奨)
           </li>
           <li>
-            <strong>代表者名</strong>: 「代表理事 江田健次 (えだ・けんじ)」
+            <strong>代表者名</strong>: 「代表理事 江田健二 (えだ・けんじ)」
           </li>
           <li>
             <strong>サイト URL</strong>: <code>https://data.eic-jp.org/</code>
@@ -230,7 +230,7 @@ export default function CitationPolicyPage() {
             引用形式・取材・ロゴ使用・派生物公開に関する問い合わせ:
           </p>
           <p className="mt-1 text-base md:text-lg leading-relaxed text-subink">
-            一般社団法人エネルギー情報センター ／ 代表理事 江田健次
+            一般社団法人エネルギー情報センター ／ 代表理事 江田健二
           </p>
           <p className="mt-1 text-base md:text-lg leading-relaxed text-subink">
             メール:{" "}

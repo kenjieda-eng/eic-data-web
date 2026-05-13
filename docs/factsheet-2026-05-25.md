@@ -28,7 +28,7 @@
 7. **07 COST — 月額運用費 17,400 円** ／ β期 4,400 円 / GA 後 17,400 円、広告・課金・有料プラン・データ販売なし、EIC 法人で全額負担
 8. **08 PERF — Lighthouse 95-98** ／ Performance / Accessibility / Best Practices / SEO すべて 90 以上、Performance は 17 日連続 95-98 維持
 9. **09 LICENSE — CC BY 4.0 / 9 ドメイン** ／ 全 105 系列 + 41 Insight を CC BY 4.0、用語集 23 項目 + 方法論 10 セクション
-10. **10 OPERATOR — 運営: 一般社団法人 エネルギー情報センター** ／ 代表理事 江田健次、kenji.eda@gmail.com、EIC 本体 + 新電力ネットと並ぶ第 3 プロダクト
+10. **10 OPERATOR — 運営: 一般社団法人 エネルギー情報センター** ／ 代表理事 江田健二、kenji.eda@gmail.com、EIC 本体 + 新電力ネットと並ぶ第 3 プロダクト
 
 ---
 
