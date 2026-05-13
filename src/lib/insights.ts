@@ -336,6 +336,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["FRED INDPRO", "METI 電力調査統計"],
     updated: "2026-05-11",
   },
+  {
+    slug: "fuel-cost-decomp",
+    title: "燃料コスト分解パネル: 世界市場 → 円建て → 燃料調達 → JEPX 卸価格",
+    lede: "LNG / Brent / 石炭 → USD/JPY 換算 → 燃料調達 → JEPX 東京の 4 層伝播を 1 ページに統合。加法 3 要因分解で各層の寄与を可視化、Insight #13 の発展版",
+    tags: ["燃料", "為替", "電力", "LNG", "東京", "要因分解", "ChartDecomp"],
+    sources: ["World Bank Pink Sheet", "日本銀行", "JEPX スポット市場"],
+    updated: "2026-05-13",
+  },
 ];
 
 export function searchInsights(

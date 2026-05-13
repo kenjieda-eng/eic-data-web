@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 41 本全 slug がマップに含まれる", () => {
+  test("INSIGHT_RENDERER_MAP: 42 本全 slug がマップに含まれる (Week 1 Day 3 で #42 fuel-cost-decomp 追加)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(41);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(41);
+    expect(INSIGHTS.length).toBe(42);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(42);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -83,7 +83,7 @@ describe("Phase C Day 1: insight-facets", () => {
   test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(41);
+    expect(all?.count).toBe(42);
     const finance = facets.domains.find((d) => d.value === "finance");
     expect(finance?.count).toBe(8);
   });
