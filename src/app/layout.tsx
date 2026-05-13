@@ -31,6 +31,7 @@ const NAV_ITEMS = [
   { href: "/today", label: "朝刊" },
   { href: "/insight", label: "インサイト" },
   { href: "/insight/map", label: "Insight マップ" },
+  { href: "/insight/network", label: "Insight ネットワーク" },
   { href: "/map", label: "9 エリア地図" },
   { href: "/catalog", label: "カタログ" },
   { href: "/cite", label: "引用" },

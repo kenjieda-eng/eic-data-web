@@ -76,12 +76,20 @@ export default async function InsightIndexPage({
         <h1 className="text-3xl md:text-4xl font-bold text-ink leading-tight">
           インサイト
         </h1>
-        <Link
-          href="/insight/map"
-          className="text-[13px] text-emerald-700 underline hover:text-emerald-800"
-        >
-          6 軸マップで俯瞰 →
-        </Link>
+        <div className="flex items-center gap-4 text-[13px]">
+          <Link
+            href="/insight/map"
+            className="text-emerald-700 underline hover:text-emerald-800"
+          >
+            6 軸マップで俯瞰 →
+          </Link>
+          <Link
+            href="/insight/network"
+            className="text-emerald-700 underline hover:text-emerald-800"
+          >
+            ネットワークで俯瞰 →
+          </Link>
+        </div>
       </div>
       <p className="mt-2 text-base md:text-lg text-subink leading-relaxed">
         データが語るストーリー。EIC Data
