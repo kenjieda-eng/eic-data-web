@@ -37,9 +37,17 @@ export default async function GlossaryPage({
           </Link>
           {" ／ 用語集"}
         </p>
-        <h1 className="mt-2 text-2xl font-semibold text-ink">
-          用語集 ／ {GLOSSARY_TERMS.length} 件
-        </h1>
+        <div className="mt-2 flex items-baseline justify-between gap-4 flex-wrap">
+          <h1 className="text-2xl font-semibold text-ink">
+            用語集 ／ {GLOSSARY_TERMS.length} 件
+          </h1>
+          <Link
+            href="/glossary/graph"
+            className="text-[13px] text-emerald-700 underline hover:text-emerald-800"
+          >
+            ノードグラフで俯瞰 →
+          </Link>
+        </div>
         <p className="mt-2 text-sm text-subink leading-relaxed">
           EIC Data 掲載指標で使われる主な用語{" "}
           <strong className="text-ink tabular-nums">
