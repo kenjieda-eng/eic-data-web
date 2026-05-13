@@ -49,9 +49,18 @@ export default async function TodayPage() {
       <MorningSummary summary={summary} />
 
       <section className="mt-10 rounded-md border border-slate-200 bg-slate-50 p-5">
-        <h2 className="text-base font-semibold text-ink">アーカイブ</h2>
+        <div className="flex items-baseline justify-between gap-4 flex-wrap">
+          <h2 className="text-base font-semibold text-ink">アーカイブ</h2>
+          <Link
+            href="/today/archive"
+            className="text-[13px] text-emerald-700 underline hover:text-emerald-800"
+          >
+            検索 + 月次ナビで俯瞰 →
+          </Link>
+        </div>
         <p className="mt-1 text-sm text-subink">
           過去の朝刊は <code>/today/&lt;date&gt;</code> で個別 URL を持ちます。
+          キーワード + 期間検索は <code>/today/archive</code> へ。
         </p>
         <ul className="mt-3 flex flex-wrap gap-2">
           {allDates.map((d) => (
