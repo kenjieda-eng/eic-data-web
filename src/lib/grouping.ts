@@ -41,6 +41,7 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "brent-lag-vs-price-tokyo",
       "ttf-lag-vs-lng-jp",
       "fx-decomp-lng-jepx-tokyo",
+      "fuel-cost-decomp",
     ],
   },
   {

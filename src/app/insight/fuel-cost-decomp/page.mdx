@@ -1,0 +1,145 @@
+export const metadata = {
+  title: "燃料コスト分解パネル: 世界市場 → 円建て → 燃料調達 → JEPX 卸価格の 4 層伝播 | EIC Data",
+  description:
+    "LNG / Brent / Dubai / WTI / 石炭 → USD/JPY 換算 → 国内燃料調達 → JEPX 東京の 4 層伝播を 1 ページに統合。Insight #13 (FX 要因分解) の発展版、加法 3 要因分解で各層の寄与を可視化。",
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 燃料コスト分解パネル: 世界市場 → 円建て → 燃料調達 → JEPX 卸価格
+
+> **Insight #13 (FX 要因分解) の発展版**。LNG / 原油 / 石炭の世界市場価格 → 円建て換算 → 国内燃料調達 → JEPX 東京の **4 層伝播**を 1 ページに統合し、加法 3 要因分解で各層の寄与を可視化。北極星「日本のエネルギーと金融の引用インフラ」の燃料 × 為替 × 電力統合の象徴的 Insight。
+
+## 4 層構造
+
+```
+[Layer 1] 世界市場            LNG-CIF / Brent / Dubai / WTI / 石炭 (au) $/MMBtu, $/bbl
+   ↓ × USD/JPY (月平均)
+[Layer 2] 円建て換算          円建て LNG / 円建て原油 / 円建て石炭 (円/MMBtu, 円/bbl)
+   ↓ 国内卸への伝播 (5-8 ヶ月ラグ)
+[Layer 3] 燃料調達 → JEPX 東京  JEPX 月次平均 (円/kWh)
+   ↓ 加法 3 要因分解 (Δ(L×F) = ΔL·F₀ + L₀·ΔF + ΔL·ΔF)
+[Layer 4] LNG 要因 / 円安要因 / 相乗効果  円/MMBtu (基準月 2020-12)
+```
+
+各層の寄与を**同じページの上から下に**並べることで、「電気代高騰の真因は LNG か、為替か、相乗効果か」を 1 画面で判断できる構造を実現。
+
+## KPI 4 枚
+
+<div className="not-prose mt-4 grid gap-3 md:grid-cols-4">
+  <div className="rounded-md border border-slate-200 bg-white p-4">
+    <div className="text-[11px] uppercase tracking-wider text-faint">ピーク燃料 (LNG-CIF)</div>
+    <div className="mt-1 text-2xl font-bold text-ink tabular-nums">≈ 30</div>
+    <div className="text-[11px] text-faint">$/MMBtu (2022-08 前後、基準月比 5 倍)</div>
+  </div>
+  <div className="rounded-md border border-slate-200 bg-white p-4">
+    <div className="text-[11px] uppercase tracking-wider text-faint">ピーク為替 (USD/JPY)</div>
+    <div className="mt-1 text-2xl font-bold text-ink tabular-nums">≈ 151</div>
+    <div className="text-[11px] text-faint">円/$ (2022-10、基準月比 +45%)</div>
+  </div>
+  <div className="rounded-md border border-slate-200 bg-white p-4">
+    <div className="text-[11px] uppercase tracking-wider text-faint">円建て LNG × JEPX r</div>
+    <div className="mt-1 text-2xl font-bold text-ink tabular-nums">+0.75</div>
+    <div className="text-[11px] text-faint">月次ピーク (ラグ 5-6 ヶ月、Insight #12 と整合)</div>
+  </div>
+  <div className="rounded-md border border-slate-200 bg-white p-4">
+    <div className="text-[11px] uppercase tracking-wider text-faint">直近 12 ヶ月平均 JEPX</div>
+    <div className="mt-1 text-2xl font-bold text-ink tabular-nums">≈ 14</div>
+    <div className="text-[11px] text-faint">円/kWh (東京、2025-05〜2026-04、月次平均)</div>
+  </div>
+</div>
+
+## Layer 1: 世界市場 (ドル建て燃料)
+
+世界の燃料市場は **LNG (アジア向け CIF)**, **原油 3 指標 (Brent / Dubai / WTI)**, **石炭 (Newcastle, au)** の 6 系列で表現される。アジア向け LNG-CIF はピーク 30 $/MMBtu (2022-08 前後)、Brent は 120 $/bbl 級まで上昇した。
+
+<ChartLine id="fuel-lng-jp-cif" unit="$/MMBtu" />
+
+LNG-CIF (日本到着価格、World Bank Pink Sheet)。2020-12 ≈ 6 $/MMBtu、2022-08 ≈ 30 $/MMBtu、2025-04 ≈ 11-13 $/MMBtu。Brent / Dubai / WTI の補完表示は Insight [#14 Brent-lag](/insight/brent-lag-vs-price-tokyo) ／ [#15 TTF-lag](/insight/ttf-lag-vs-lng-jp) を参照。
+
+## Layer 2: 円建て換算 (USD/JPY 月平均で乗算)
+
+円建て燃料 = ドル建て燃料 × USD/JPY 月中平均。為替が掛け算で効くため、ドル建てが横ばいでも円安だけで円建てが上昇する構造。
+
+<ChartDual
+  leftId="fuel-lng-jp-cif"
+  rightId="fx-usdjpy-monthly-avg"
+  leftUnit="$/MMBtu"
+  rightUnit="円/$"
+/>
+
+左軸: LNG-CIF (ドル建て)、右軸: USD/JPY 月中平均。2 軸時系列で「ドル建て LNG が下がっても円安で円建ては下がりにくい」局面 (2024-) を可視化。
+
+## Layer 3: 燃料調達 → JEPX 東京 (ラグ相関)
+
+燃料が JEPX に伝播する時間構造。Insight #12 (LNG → JEPX) のピーク 5-6 ヶ月、Insight #14 (Brent → JEPX) の 7-8 ヶ月と階層的に並ぶ。
+
+<ChartLagBars leadId="fuel-lng-jp-cif" lagId="jepx-spot-tokyo" maxLag={12} />
+
+ピーク相関 (赤バー) はラグ 5-6 ヶ月、r ≈ +0.65 〜 +0.75。燃料費調整制度 (Δt = 3-5 ヶ月) + 長期契約 + 在庫の 3 層が重なった結果。
+
+## Layer 4: 加法 3 要因分解 (LNG 要因 / 円安要因 / 相乗効果)
+
+`Δ(L × F) = ΔL · F₀ + L₀ · ΔF + ΔL · ΔF` の加法分解で、円建て LNG の変動を「LNG 価格要因」「円安要因」「相乗効果」に分けて寄与を可視化。基準月 **2020-12** (ウクライナ侵攻前)。
+
+<ChartDecomp
+  factorAId="fuel-lng-jp-cif"
+  factorBId="fx-usdjpy-monthly-avg"
+  baseYM="2020-12"
+  labelA="LNG 価格要因 (ΔL · F₀)"
+  labelB="円安要因 (L₀ · ΔF)"
+  labelInteraction="相乗効果 (ΔL · ΔF)"
+  unit="円/MMBtu"
+/>
+
+ピーク (2022-08 前後) で LNG 要因 ≈ +2,500 円/MMBtu、円安要因 ≈ +200 円/MMBtu、相乗効果 ≈ +800 円/MMBtu、合計 **+3,500 円/MMBtu**。Insight #13 と同じ恒等式で保証 (vitest 3 ケース PASS)。
+
+## 解釈: 4 層を縦に読む
+
+**Layer 1 → Layer 2 (為替の掛け算)**: ドル建て LNG が 5 倍に上がり、USD/JPY が +45% 円安に動いた結果、円建て LNG は **7-8 倍**になった。為替が掛け算で効く構造の経済的重み。
+
+**Layer 2 → Layer 3 (5-6 ヶ月の伝播ラグ)**: 円建て燃料の動きは、燃料費調整制度 + 長期契約 + 在庫経由で 5-6 ヶ月遅れて JEPX に反映される。家計の電気料金にはさらに 2-3 ヶ月遅延が乗る。
+
+**Layer 3 → Layer 4 (LNG 主因 + 円安従因の構造)**: 加法分解で 2022-2023 年高騰の主因は **LNG 価格上昇 (約 70%)**、円安単独要因 (約 6%)、相乗効果 (約 24%) と分解できる。「円安主因」という言説は事実の半分しか捉えていない。
+
+**政策含意**: 燃料輸入コスト抑制には **両方への対処**が必要 — 国内資源開発・再エネ・原発再稼働 (LNG 単独要因) + 為替リスクヘッジ・長期契約 (為替要因)。北極星「エネルギーと金融の引用インフラ」は、この階層的構造を 1 ページで再構成できる**引用可能な単一画面**。
+
+## 注意点
+
+**ラグの混在**: Layer 1-2 は同月、Layer 3-4 はラグ込み。実際の家計負担はさらに燃料費調整制度経由で 2-3 ヶ月遅延。本記事は「**燃料コスト分解**」を 4 層で見ているが、家計まで含めた **5 層構造**は Phase B-A 以降の改善候補。
+
+**3 指標の差**: Brent / Dubai / WTI は本記事では LNG-CIF を代表値として 1 系列のみ表示。3 指標比較は Insight #14 を参照。
+
+**石炭の扱い**: 石炭 (au) は本パネルでは省略したが、火力発電のもう 1 つの主燃料。Insight #21 (火力 × LNG) で別途扱う。
+
+**加法 vs 対数分解**: Δ(L × F) の加法分解は数学的恒等式だが、相乗効果を独立成分として扱うかは経済学的解釈の問題。対数分解 (Δln(L · F) = ΔlnL + ΔlnF) なら相乗効果を分離する必要なし。本記事は加法分解採用、対数分解切替は Phase B-A 以降の改善候補。
+
+## 関連 Insight
+
+- [#11 LNG × JEPX 東京](/insight/lng-vs-price-tokyo) — Layer 2 ハブ
+- [#12 LNG → JEPX ラグ相関](/insight/lng-lag-vs-price-tokyo) — Layer 3
+- [#13 FX 要因分解](/insight/fx-decomp-lng-jepx-tokyo) — Layer 4 原型
+- [#14 Brent → JEPX ラグ相関](/insight/brent-lag-vs-price-tokyo) — Layer 1 (原油 3 指標)
+- [#15 TTF → 日本 LNG ラグ相関](/insight/ttf-lag-vs-lng-jp) — Layer 1 (欧州ガス)
+- [#16 JGB × 円建て LNG](/insight/jgb-vs-yen-lng) — Layer 2 派生 (金利との同時動)
+- [#21 火力 × LNG](/insight/thermal-vs-lng) — 火力発電量の燃料コスト経由相関
+- [#37 米 10y × 円建て LNG](/insight/us-10y-vs-yen-lng) — Layer 2 マクロ拡張 (米金融政策)
+
+## 出典
+
+- [World Bank Commodity Markets (Pink Sheet)](https://www.worldbank.org/en/research/commodity-markets) — LNG-CIF 日本 / Brent / Dubai / WTI / 石炭 (au) 月次 (CC-BY-4.0)
+- [日本銀行 FM08](https://www.boj.or.jp/statistics/market/forex/fxdaily/) — USD/JPY 月中平均 (boj-terms、本サービスの内容は日本銀行によって保証されたものではありません)
+- [JEPX スポット市場価格](https://www.jepx.jp/electricpower/market-data/spot/) — 東京エリア (jepx-terms)
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `fuel-lng-jp-cif` + `fx-usdjpy-monthly-avg` + `jepx-spot-tokyo` ／ レンダラ: ChartLine + ChartDual + ChartLagBars + ChartDecomp の 4 層統合、基準月 2020-12*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Week 1 Day 3 で MDX 化 (2026-05-13、マコト + タク、Insight #13 の発展版)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
