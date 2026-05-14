@@ -25,9 +25,9 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("GLOSSARY_RELATIONS は 30 件以上 (要件: 30-40 件)", () => {
-    expect(GLOSSARY_RELATIONS.length).toBeGreaterThanOrEqual(30);
-    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(60);
+  test("GLOSSARY_RELATIONS は 70 件以上 (要件: Day 4 拡張で 70-100 件)", () => {
+    expect(GLOSSARY_RELATIONS.length).toBeGreaterThanOrEqual(70);
+    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(100);
   });
 
   test("GLOSSARY_RELATIONS は重複なし (順序問わず)", () => {
@@ -39,12 +39,12 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("buildGlossaryGraph: nodes は 23 件、各 degree が正しく集計", () => {
+  test("buildGlossaryGraph: nodes は 35 件、各 degree が正しく集計", () => {
     const g = buildGlossaryGraph();
-    expect(g.nodes).toHaveLength(23);
-    // 手動チェック: jepx-spot は 6 本のエッジ (baseload/capacity/imbalance/fuel-adj/peak-demand/curtailment)
+    expect(g.nodes).toHaveLength(35);
+    // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) = 8 本
     const jepx = g.nodes.find((n) => n.slug === "jepx-spot");
-    expect(jepx?.degree).toBe(6);
+    expect(jepx?.degree).toBe(8);
     // 全 degree の合計 = エッジ数 × 2
     const totalDegree = g.nodes.reduce((sum, n) => sum + n.degree, 0);
     expect(totalDegree).toBe(g.edges.length * 2);
@@ -75,6 +75,7 @@ describe("/glossary/graph: glossary-relations", () => {
     expect(labels.has("基本")).toBe(true);
     expect(labels.has("金融・マクロ")).toBe(true);
     expect(labels.has("制度")).toBe(true);
+    expect(labels.has("経済")).toBe(true);
   });
 
   test("nodeRadius: degree 0 = 最小 8px、最大 degree = 20px", () => {
@@ -92,15 +93,16 @@ describe("/glossary/graph: glossary-relations", () => {
     expect(edgeWidth(2)).toBe(3); // clamp
   });
 
-  test("GLOSSARY_CATEGORY_COLORS: 5 カテゴリ全てに色定義", () => {
+  test("GLOSSARY_CATEGORY_COLORS: 6 カテゴリ全てに色定義", () => {
     expect(GLOSSARY_CATEGORY_COLORS.basic).toMatch(/^#[0-9a-f]{6}$/i);
     expect(GLOSSARY_CATEGORY_COLORS.regulation).toMatch(/^#[0-9a-f]{6}$/i);
     expect(GLOSSARY_CATEGORY_COLORS.power).toMatch(/^#[0-9a-f]{6}$/i);
     expect(GLOSSARY_CATEGORY_COLORS.fuel).toMatch(/^#[0-9a-f]{6}$/i);
     expect(GLOSSARY_CATEGORY_COLORS.finance).toMatch(/^#[0-9a-f]{6}$/i);
+    expect(GLOSSARY_CATEGORY_COLORS.economy).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
-  test("全 23 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
+  test("全 35 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
     const g = buildGlossaryGraph();
     const isolated = g.nodes.filter((n) => n.degree === 0);
     expect(isolated).toHaveLength(0);

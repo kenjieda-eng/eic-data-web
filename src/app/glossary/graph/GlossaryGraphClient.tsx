@@ -26,6 +26,7 @@ const CATEGORY_ORDER = [
   "power",
   "fuel",
   "finance",
+  "economy",
 ] as const;
 
 const CATEGORY_LABEL_JA: Record<(typeof CATEGORY_ORDER)[number], string> = {
@@ -34,6 +35,7 @@ const CATEGORY_LABEL_JA: Record<(typeof CATEGORY_ORDER)[number], string> = {
   power: "電力",
   fuel: "燃料",
   finance: "金融・マクロ",
+  economy: "経済",
 };
 
 export default function GlossaryGraphClient({
@@ -212,7 +214,7 @@ export default function GlossaryGraphClient({
           width="100%"
           height={HEIGHT}
           role="img"
-          aria-label="用語集 23 項目の関連性ノードグラフ"
+          aria-label="用語集 35 項目の関連性ノードグラフ"
           style={{ background: "#fafafa" }}
         />
       </div>

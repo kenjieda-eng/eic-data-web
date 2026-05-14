@@ -25,6 +25,18 @@ const KEYWORD_OVERRIDES: Record<string, string[]> = {
   "fed-funds-rate": ["FRB", "FF", "政策金利", "米 2y"],
   "treasury-bill": ["T-Bill", "Treasury", "米国財務省"],
   inversion: ["逆イールド", "金利逆転"],
+  "nonfarm-payrolls": ["雇用統計", "NFP", "PAYEMS", "雇用者数"],
+  "unemployment-rate": ["失業率", "UNRATE"],
+  "core-cpi": ["コア CPI", "コアCPI", "コア", "CPI"],
+  "headline-cpi": ["ヘッドライン CPI", "総合 CPI", "CPI"],
+  "tankan-di": ["短観", "業況判断", "DI", "Tankan"],
+  "food-cpi": ["食品 CPI", "食品", "CPIUFDSL"],
+  "energy-cpi": ["エネルギー CPI", "エネルギー", "CPIENGSL"],
+  "industrial-production": ["鉱工業生産", "INDPRO", "生産指数"],
+  "business-sentiment": ["景況感", "業況", "設備投資"],
+  "energy-inflation": ["エネルギーインフレ", "燃料インフレ", "物価"],
+  "fuel-pass-through": ["燃料費調整", "パススルー", "電気料金", "ガス料金"],
+  "demand-elasticity": ["弾力性", "需要応答", "電力需要"],
 };
 
 function termKeywords(term: GlossaryTerm): string[] {

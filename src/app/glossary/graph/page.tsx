@@ -11,7 +11,7 @@ import GlossaryGraphClient from "./GlossaryGraphClient";
 export const metadata: Metadata = {
   title: "用語集ノードグラフ — EIC Data",
   description:
-    "用語集 23 項目の関連性を D3.js force-directed graph で可視化。基本・制度・電力・燃料・金融マクロの 5 カテゴリ × 40+ 件の関連性をドラッグ可能なノードグラフで俯瞰。",
+    "用語集 35 項目の関連性を D3.js force-directed graph で可視化。基本・制度・電力・燃料・金融マクロ・経済の 6 カテゴリ × 79 件の関連性をドラッグ可能なノードグラフで俯瞰。",
 };
 
 export default function GlossaryGraphPage() {
@@ -47,7 +47,7 @@ export default function GlossaryGraphPage() {
         </p>
         <p className="mt-2 text-sm md:text-base text-subink leading-relaxed">
           ノードをドラッグして配置を整え、ホイールでズーム、クリックでサイドパネルに詳細表示。
-          北極星「日本のエネルギーと金融の引用インフラ」の編集軸を、5 カテゴリ ×
+          北極星「日本のエネルギーと金融の引用インフラ」の編集軸を、6 カテゴリ ×
           関連性ネットワークとして 1 ページに展開しています。
         </p>
       </header>
