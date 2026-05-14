@@ -3,7 +3,8 @@ export type GlossaryCategory =
   | "regulation"
   | "fuel"
   | "power"
-  | "finance";
+  | "finance"
+  | "economy";
 
 export interface GlossaryTerm {
   slug: string;
@@ -18,6 +19,7 @@ export const GLOSSARY_CATEGORIES: Record<GlossaryCategory, string> = {
   fuel: "燃料",
   power: "電力",
   finance: "金融・マクロ",
+  economy: "経済",
 };
 
 export const GLOSSARY_TERMS: GlossaryTerm[] = [
@@ -179,6 +181,90 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "通常は長期金利 > 短期金利となるイールドカーブが、短期金利 > 長期金利に逆転する現象。FRB の急激な利上げ局面で発生し、過去 50 年で景気後退の先行指標として高い的中率を持つ。2022-2023 年の米国で深い逆イールドが発生。Insight #36 で日本電力需要への波及を見る。",
     category: "finance",
   },
+  {
+    slug: "nonfarm-payrolls",
+    name: "米雇用統計（非農業部門雇用者数）",
+    description:
+      "米労働省が毎月第 1 金曜日（21:30 JST）に公表する、農業以外の事業所で働く雇用者数の前月比増減。米国 GDP の約 70% を占める個人消費を駆動する所得の代理指標で、為替・米金利・株式が同時に動く市場最注目指標。EIC Data は FRED PAYEMS 系列で月次取得。FRB の二大マンデート（雇用最大化）を直接表現するため、FF レート政策見通しと表裏一体。Insight #43 で日本のエネルギー価格への波及を扱う予定。",
+    category: "finance",
+  },
+  {
+    slug: "unemployment-rate",
+    name: "米失業率",
+    description:
+      "米労働省が雇用統計と同時公表する、労働力人口に占める失業者の比率。FRB の二大マンデートのうち雇用最大化の主要指標で、完全雇用近傍とされる 4% を分水嶺に金融政策スタンスが切り替わる。EIC Data は FRED UNRATE 系列で月次取得。インフレ目標 2% と並ぶ FRB の意思決定軸として、米雇用統計（NFP）とセットで読まれ、フィリップス曲線を介してコア CPI 動向の見通しにも影響する。",
+    category: "finance",
+  },
+  {
+    slug: "core-cpi",
+    name: "コア CPI（食品・エネルギー除く）",
+    description:
+      "Consumer Price Index Less Food & Energy。価格変動の大きい食品とエネルギーを除外した消費者物価指数で、基調的なインフレトレンドを見極めるために FRB が重視する。米コア CPI は 12 ヶ月前比 %（YoY）で公表され、2% 安定が政策目標。EIC Data は FRED CPILFESL 由来の us-cpi-yoy 系列で月次取得済。ヘッドライン CPI と乖離するときが政策判断の分かれ目になる。",
+    category: "finance",
+  },
+  {
+    slug: "headline-cpi",
+    name: "ヘッドライン CPI（総合）",
+    description:
+      "Consumer Price Index for All Items。エネルギー・食品を含む全品目の消費者物価指数で、見出しに使われる「インフレ率」の本体。消費者が日々体感する物価そのものを表すため、選挙・賃金交渉・年金スライドの基準となる。米国は CPI-U（都市部）が主流で、12 ヶ月前比 %（YoY）形式で月次公表。エネルギー価格の急騰局面ではコア CPI と乖離が拡大し、政策ジレンマを生む。",
+    category: "finance",
+  },
+  {
+    slug: "tankan-di",
+    name: "日銀短観 DI（業況判断指数）",
+    description:
+      "日本銀行が四半期（4 月初・7 月初・10 月初・12 月中旬）に公表する企業向けアンケート調査の代表指標。「業況が良い」と回答した企業比率から「悪い」を引いた値（%pt）で、+ は景気拡大、- は後退局面を示す。大企業製造業・大企業非製造業・中小企業製造業・中小企業非製造業の 4 区分が市場注目度の中心。最古系列は中小企業製造業の 1967Q3 で、59 年分の日本マクロ史を網羅。EIC Data は BOJ stat-search db=CO から 4 系列取得済（tankan-large-mfg-di ほか）。",
+    category: "finance",
+  },
+  {
+    slug: "food-cpi",
+    name: "食品 CPI",
+    description:
+      "消費者物価指数のうち食品サブインデックス。エネルギー価格上昇が肥料・物流・包装材経由で食品価格に波及する代表チャネルで、エネルギーショックの第 2 波として 2-3 四半期遅れで上昇する傾向がある。米国は FRED CPIUFDSL を、EIC Data は us-cpi-food-yoy として月次取得済。家計支出に占める比率が大きいため、低所得層の体感インフレと相関が強い。コア CPI（食品・エネルギー除く）との対比で、基調インフレと一次産品ショックを切り分けて読む。",
+    category: "economy",
+  },
+  {
+    slug: "energy-cpi",
+    name: "エネルギー CPI",
+    description:
+      "消費者物価指数のうちガソリン・電気・ガス・暖房油などエネルギー関連品目のサブインデックス。原油・LNG など国際燃料市場の変動が、日本では燃料費調整制度を経て 3-5 ヶ月遅れで電気・ガス料金に反映される。米国は FRED CPIENGSL を、EIC Data は us-cpi-energy-yoy として月次取得済。ヘッドライン CPI とコア CPI の差分の主因で、エネルギーインフレが頭打ちになるとヘッドラインも素早く反落する非対称な動きが特徴。",
+    category: "economy",
+  },
+  {
+    slug: "industrial-production",
+    name: "鉱工業生産指数",
+    description:
+      "製造業・鉱業・電気ガス業の生産活動を統合した指数。電力需要のもっとも有力な先行指標で、稼働率の変化が約 1-2 ヶ月遅れで産業用電力消費に反映される。米国は FRED INDPRO（Industrial Production Index）が代表で、EIC Data は us-industrial-production 系列で月次取得済。景気循環の山谷を捉える古典的マクロ指標として、リセッション判定にも使われる。",
+    category: "economy",
+  },
+  {
+    slug: "business-sentiment",
+    name: "景況感",
+    description:
+      "企業経営者が現在および先行きの事業環境をどう捉えているかを表す総合指標。日銀短観 DI 大企業製造業がベンチマークとして引用されることが多く、設備投資意欲・雇用判断・在庫水準など複数のサブ指標と連動する。GDP 統計より 1-2 四半期早く景気の転換点を示すため「設備投資の先行指標」として政策判断・市場参加者の双方に重視される。米国では ISM 製造業 PMI、欧州では IFO 指数が同役割を果たし、為替と株式に直接波及する。",
+    category: "economy",
+  },
+  {
+    slug: "energy-inflation",
+    name: "エネルギーインフレ",
+    description:
+      "原油・天然ガス・石炭など一次エネルギー価格の上昇が、輸送費・原材料費・電気料金を経由して消費者物価全般に波及する現象。日本は 2022-2024 年に円安と LNG 価格高騰の同時打撃を受け、ヘッドライン CPI の主因がエネルギーになる局面が長く続いた。コア CPI からは除外される一方、家計の体感インフレと購買力に直結するため政治マターになりやすい。Insight #11/#12/#14 で構造を扱う。",
+    category: "economy",
+  },
+  {
+    slug: "fuel-pass-through",
+    name: "燃料費調整（パススルー）",
+    description:
+      "LNG・石炭・原油の輸入価格を、3-5 ヶ月遅れで電気料金に転嫁する制度・メカニズムの総称。日本では 1996 年導入の燃料費調整制度（fuel-adj）が代表だが、ガス料金・産業用契約にも同様の連動条項が存在。輸入価格変動が需要家負担に届くまでのラグが、卸電力価格（JEPX）と小売料金の体感乖離を生む。Insight #11/#12/#14/#29 はこの波及構造を異なる時間軸で可視化する。為替（USD/JPY）と CIF 価格の同時動きが小売料金に重なって反映される点が、円安局面の体感インフレの主因。",
+    category: "regulation",
+  },
+  {
+    slug: "demand-elasticity",
+    name: "需要弾力性（電力）",
+    description:
+      "電力料金が 1% 上昇したときに需要が何 % 減少するかを示す係数。長期（10 年スパン、設備更新・断熱投資反映）では 0.3-0.5、短期（1 年以内、行動変容主体）では 0.1 程度が日本の典型値とされる。燃料費調整による料金上昇局面で需要削減が小さいことは、エネルギーコストが家計・企業に重い負担として残る理由になる。再エネ普及・電化進展により値は時代とともに変動するほか、所得水準・気候・産業構成によっても国・地域で大きな差が出る。",
+    category: "economy",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
@@ -209,6 +295,7 @@ export function groupTermsByCategory(
     "power",
     "fuel",
     "finance",
+    "economy",
   ];
   return order
     .map((category) => ({

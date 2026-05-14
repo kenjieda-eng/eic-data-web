@@ -1,5 +1,5 @@
 /**
- * 用語集 23 項目の関連性データ (/glossary/graph 用)
+ * 用語集 35 項目の関連性データ (/glossary/graph 用)
  *
  * 各 from / to は src/app/glossary/data.ts の slug を参照。
  * weight は 0.0-1.0、グラフのエッジ太さに使用。
@@ -74,6 +74,55 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "fed-funds-rate", to: "fuel-shock", weight: 0.4 },
   { from: "yield-curve", to: "peak-demand", weight: 0.4 },
   { from: "scope123", to: "baseload", weight: 0.5 },
+
+  // ===== Day 4 拡張 (+36 エッジ) =====
+  // 米雇用統計クラスタ (NFP / UR / FFR / IP)
+  { from: "nonfarm-payrolls", to: "unemployment-rate", weight: 0.95 },
+  { from: "nonfarm-payrolls", to: "fed-funds-rate", weight: 0.85 },
+  { from: "unemployment-rate", to: "fed-funds-rate", weight: 0.85 },
+  { from: "nonfarm-payrolls", to: "industrial-production", weight: 0.7 },
+  { from: "unemployment-rate", to: "industrial-production", weight: 0.6 },
+
+  // CPI 内部関係 (core / headline / food / energy)
+  { from: "core-cpi", to: "headline-cpi", weight: 0.95 },
+  { from: "headline-cpi", to: "food-cpi", weight: 0.8 },
+  { from: "headline-cpi", to: "energy-cpi", weight: 0.8 },
+  { from: "core-cpi", to: "food-cpi", weight: 0.6 },
+  { from: "core-cpi", to: "energy-cpi", weight: 0.6 },
+  { from: "fed-funds-rate", to: "headline-cpi", weight: 0.8 },
+  { from: "fed-funds-rate", to: "core-cpi", weight: 0.85 },
+  { from: "unemployment-rate", to: "core-cpi", weight: 0.5 },
+
+  // 日銀短観 / 景況感 / 鉱工業生産 連鎖
+  { from: "tankan-di", to: "business-sentiment", weight: 0.95 },
+  { from: "tankan-di", to: "industrial-production", weight: 0.75 },
+  { from: "tankan-di", to: "peak-demand", weight: 0.5 },
+  { from: "business-sentiment", to: "industrial-production", weight: 0.75 },
+  { from: "industrial-production", to: "peak-demand", weight: 0.7 },
+
+  // エネルギー × 経済 (energy-inflation / fuel-pass-through)
+  { from: "energy-inflation", to: "energy-cpi", weight: 0.95 },
+  { from: "energy-inflation", to: "headline-cpi", weight: 0.8 },
+  { from: "energy-inflation", to: "fuel-shock", weight: 0.85 },
+  { from: "energy-inflation", to: "fuel-pass-through", weight: 0.7 },
+  { from: "fuel-pass-through", to: "fuel-adj", weight: 0.9 },
+  { from: "fuel-pass-through", to: "fuel-shock", weight: 0.75 },
+  { from: "fuel-pass-through", to: "cif-price", weight: 0.7 },
+  { from: "fuel-pass-through", to: "jepx-spot", weight: 0.6 },
+  { from: "energy-cpi", to: "fuel-adj", weight: 0.7 },
+  { from: "food-cpi", to: "energy-inflation", weight: 0.5 },
+
+  // 需要弾力性 (demand-elasticity)
+  { from: "demand-elasticity", to: "peak-demand", weight: 0.7 },
+  { from: "demand-elasticity", to: "fuel-adj", weight: 0.6 },
+  { from: "demand-elasticity", to: "business-sentiment", weight: 0.4 },
+
+  // 横断ブリッジ (Day 4 追加分)
+  { from: "fed-funds-rate", to: "energy-inflation", weight: 0.5 },
+  { from: "inversion", to: "industrial-production", weight: 0.6 },
+  { from: "spread", to: "industrial-production", weight: 0.4 },
+  { from: "nonfarm-payrolls", to: "headline-cpi", weight: 0.5 },
+  { from: "industrial-production", to: "jepx-spot", weight: 0.5 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
@@ -82,6 +131,7 @@ export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
   power: "#10b981", // emerald-500
   fuel: "#f97316", // orange-500
   finance: "#eab308", // yellow-500
+  economy: "#ec4899", // pink-500
 };
 
 export interface GlossaryNode {
