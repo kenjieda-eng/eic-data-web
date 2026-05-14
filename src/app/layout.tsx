@@ -29,6 +29,7 @@ const notoSansJp = Noto_Sans_JP({
 const NAV_ITEMS = [
   { href: "/", label: "TOP" },
   { href: "/today", label: "朝刊" },
+  { href: "/watch", label: "マーケット" },
   { href: "/insight", label: "インサイト" },
   { href: "/insight/map", label: "Insight マップ" },
   { href: "/insight/network", label: "Insight ネットワーク" },
