@@ -9,11 +9,11 @@ import {
 import { INSIGHTS, type Insight } from "./insights";
 
 describe("/insight/network: insight-graph", () => {
-  test("buildInsightGraph: nodes は 43 件 (INSIGHTS と同数)、孤立ノードなし", () => {
+  test("buildInsightGraph: nodes は 46 件 (INSIGHTS と同数)、孤立ノードなし", () => {
     const g = buildInsightGraph();
     expect(g.nodes).toHaveLength(INSIGHTS.length);
-    expect(g.nodes.length).toBeGreaterThanOrEqual(43);
-    // 全 43 本が少なくとも 1 エッジを持つ (孤立ゼロ)
+    expect(g.nodes.length).toBeGreaterThanOrEqual(46);
+    // 全 46 本が少なくとも 1 エッジを持つ (孤立ゼロ)
     const isolated = g.nodes.filter((n) => n.degree === 0);
     expect(isolated).toHaveLength(0);
   });
@@ -209,7 +209,7 @@ describe("/insight/network: insight-graph", () => {
     for (const n of g.nodes) {
       expect(validDomains.has(n.domain)).toBe(true);
     }
-    // 43 本中、主要 4 domain のいずれかが大半
+    // 46 本中、主要 4 domain のいずれかが大半
     const majorCount = g.nodes.filter((n) =>
       ["power", "weather", "fuel", "finance"].includes(n.domain),
     ).length;

@@ -82,9 +82,9 @@ describe("Phase B-B Day 3: grouping ロジック", () => {
   });
 });
 
-describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 タスク 3 で #43 us-employment-vs-fx-vs-jepx 追加", () => {
-  test("INSIGHTS が 43 件に到達 (Day 4 タスク 3 で us-employment-vs-fx-vs-jepx 追加)", () => {
-    expect(INSIGHTS).toHaveLength(43);
+describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 で #43-#46 を 4 本追加", () => {
+  test("INSIGHTS が 46 件に到達 (Day 4 午後タスク 4-6 で #44-#46 を 3 本連続追加)", () => {
+    expect(INSIGHTS).toHaveLength(46);
   });
 
   test("Day 13 で追加した 3 slug (us-cpi-vs-fx / fed-funds-vs-jepx-tokyo / us-industrial-vs-jp-demand) が INSIGHTS に存在", () => {

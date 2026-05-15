@@ -352,6 +352,30 @@ export const INSIGHTS: Insight[] = [
     sources: ["FRED PAYEMS", "FRED UNRATE", "BOJ FM08", "JEPX スポット市場"],
     updated: "2026-05-15",
   },
+  {
+    slug: "us-unemployment-vs-jp-demand",
+    title: "米失業率 × 日本電力需要：景気波及の長いトンネル",
+    lede: "米失業率と日本電力販売量のラグ相関を 0-12 ヶ月で走査。リーマンショック余波で 9 ヶ月遅れ、コロナ同時ショックで同月連動。月次相関 r=-0.45〜-0.65 (ラグ 6-9 ヶ月)",
+    tags: ["金融", "マクロ", "電力", "需要", "失業率", "ラグ相関", "景気サイクル"],
+    sources: ["FRED UNRATE", "METI 電力調査統計"],
+    updated: "2026-05-15",
+  },
+  {
+    slug: "us-food-cpi-vs-yen-lng",
+    title: "米食料 CPI × 円建て LNG：穀物とエネルギーが同じ風で動く理由",
+    lede: "米食料 CPI 前年比と円建て LNG 価格を並べる。ウクライナ戦争後の穀物 + エネルギー同時急騰、ドル建て輸入物価 + 円安効果の二重ショック構造を解読。月次相関 r=+0.74 (2018-2025)",
+    tags: ["金融", "燃料", "為替", "LNG", "経済", "食料", "CPI", "ウクライナ戦争"],
+    sources: ["FRED CPIUFDSL", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-15",
+  },
+  {
+    slug: "tankan-vs-industrial-vs-demand",
+    title: "日銀短観 × 鉱工業生産 × 電力需要：景況感が電気に届くまでの 3 軸",
+    lede: "日銀短観 大企業製造業 DI と鉱工業生産 + 日本電力需要の 3 軸対比。景況感 → 実体経済 → 電力市場の伝播を 30 年データで可視化。月次相関 r=+0.55〜+0.65 (ラグ 6 ヶ月)",
+    tags: ["金融", "マクロ", "電力", "需要", "日銀短観", "DI", "鉱工業生産", "景況感"],
+    sources: ["日本銀行 短観", "FRED INDPRO", "METI 電力調査統計"],
+    updated: "2026-05-15",
+  },
 ];
 
 export function searchInsights(
