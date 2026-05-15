@@ -76,6 +76,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "fed-funds-vs-jepx-tokyo": "ChartLine",
   "us-industrial-vs-jp-demand": "ChartLagBars",
   "fuel-cost-decomp": "ChartDecomp",
+  "us-employment-vs-fx-vs-jepx": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

@@ -344,6 +344,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["World Bank Pink Sheet", "日本銀行", "JEPX スポット市場"],
     updated: "2026-05-13",
   },
+  {
+    slug: "us-employment-vs-fx-vs-jepx",
+    title: "米雇用統計 × USD/JPY × JEPX：マクロが電力に届くまでの 4 段階",
+    lede: "米 Nonfarm Payrolls (前月差) と失業率を USD/JPY × JEPX 東京と並べる 3 軸対比。米雇用 → FRB → 米金利 → 為替 → 円建て燃料 → 日本電力市場の 4-6 段階伝播。失業率 × USD/JPY r=-0.62 (ラグ 6 ヶ月)、USD/JPY × JEPX 東京 r=+0.71 (同月)",
+    tags: ["金融", "マクロ", "為替", "USD/JPY", "電力", "東京", "米雇用統計", "失業率", "NFP"],
+    sources: ["FRED PAYEMS", "FRED UNRATE", "BOJ FM08", "JEPX スポット市場"],
+    updated: "2026-05-15",
+  },
 ];
 
 export function searchInsights(
