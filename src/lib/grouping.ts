@@ -99,6 +99,9 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "fed-funds-vs-jepx-tokyo",
       "us-industrial-vs-jp-demand",
       "us-employment-vs-fx-vs-jepx",
+      "us-unemployment-vs-jp-demand",
+      "us-food-cpi-vs-yen-lng",
+      "tankan-vs-industrial-vs-demand",
     ],
   },
 ];

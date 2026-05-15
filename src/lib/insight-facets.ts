@@ -77,6 +77,9 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "us-industrial-vs-jp-demand": "ChartLagBars",
   "fuel-cost-decomp": "ChartDecomp",
   "us-employment-vs-fx-vs-jepx": "ChartLine",
+  "us-unemployment-vs-jp-demand": "ChartLagBars",
+  "us-food-cpi-vs-yen-lng": "ChartLine",
+  "tankan-vs-industrial-vs-demand": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
