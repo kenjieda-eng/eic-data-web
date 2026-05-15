@@ -376,6 +376,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["日本銀行 短観", "FRED INDPRO", "METI 電力調査統計"],
     updated: "2026-05-15",
   },
+  {
+    slug: "geothermal-vs-volcanic-temp",
+    title: "地熱発電 × 火山地帯気温偏差：日本固有のベースロード電源とその気象独立性",
+    lede: "地熱発電量と東北気温 (火山地帯代理) の月次相関を検証。地熱は設備利用率 70-80% で気象相関 r ≈ 0、太陽光 (+0.85) ・風力 (+0.65〜+0.75) との対照で再エネ多様化の価値を構造的に説明",
+    tags: ["電力", "再エネ", "地熱", "ベースロード", "気象独立性", "東北"],
+    sources: ["METI 電力調査統計", "気象庁 日次気温"],
+    updated: "2026-05-15",
+  },
 ];
 
 export function searchInsights(
