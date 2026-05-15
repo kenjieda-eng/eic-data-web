@@ -57,6 +57,7 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "thermal-fuel-cost-decomp",
       "wind-vs-wind-hokkaido",
       "wind-vs-wind-hokuriku",
+      "geothermal-vs-volcanic-temp",
     ],
   },
   {
