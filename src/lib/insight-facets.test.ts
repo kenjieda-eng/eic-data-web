@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 54 本全 slug がマップに含まれる (Day 5 午後第 2 弾タスク 1-3 で #52-#54 を 3 本追加)", () => {
+  test("INSIGHT_RENDERER_MAP: 56 本全 slug がマップに含まれる (Day 5 午後第 3 弾タスク 1-2 で #55-#56 を 2 本追加)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(54);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(54);
+    expect(INSIGHTS.length).toBe(56);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(56);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -39,25 +39,26 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(getInsightRenderer("spread-us-jp-10y-vs-fx")).toBe("ChartSpread");
   });
 
-  test("filterInsights: tag=「金融」で 14 件 (Day 5 朝タスク 1-3 で #48 eu-ets + #50 ecb-rate を 2 本追加して +2)", () => {
+  test("filterInsights: tag=「金融」で 15 件 (Day 5 午後第 3 弾で #55 fx-resilience-by-region 追加して +1)", () => {
     const filtered = filterInsights(INSIGHTS, { tag: "金融" });
-    expect(filtered.length).toBe(14);
+    expect(filtered.length).toBe(15);
     const slugs = filtered.map((i) => i.slug);
     expect(slugs).toContain("jgb-vs-yen-lng");
     expect(slugs).toContain("us-cpi-vs-fx");
     expect(slugs).toContain("fed-funds-vs-jepx-tokyo");
   });
 
-  test("filterInsights: domain=finance で 14 件 (金融タグ含む = finance domain 導出)", () => {
+  test("filterInsights: domain=finance で 15 件 (金融タグ含む = finance domain 導出)", () => {
     const filtered = filterInsights(INSIGHTS, { domain: "finance" });
-    expect(filtered.length).toBe(14);
+    expect(filtered.length).toBe(15);
   });
 
-  test("filterInsights: renderer=ChartHeatmap で 9 地点ヒートマップ 5 本", () => {
+  test("filterInsights: renderer=ChartHeatmap で 9 地点ヒートマップ 5 本 + Day 5 午後第 3 弾の #55 fx-resilience-by-region で 6 本", () => {
     const filtered = filterInsights(INSIGHTS, { renderer: "ChartHeatmap" });
-    expect(filtered.length).toBe(5);
+    expect(filtered.length).toBe(6);
     const slugs = filtered.map((i) => i.slug).sort();
     expect(slugs).toEqual([
+      "fx-resilience-by-region",
       "precip-9-region-heatmap",
       "snow-9-region-heatmap",
       "solar-sunshine-9-region-heatmap",
@@ -83,9 +84,9 @@ describe("Phase C Day 1: insight-facets", () => {
   test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(54);
+    expect(all?.count).toBe(56);
     const finance = facets.domains.find((d) => d.value === "finance");
-    expect(finance?.count).toBe(14);
+    expect(finance?.count).toBe(15);
   });
 
   test("getInsightNeighbors: 中間 slug は prev + next 両方存在、両端は片側 null", () => {

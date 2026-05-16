@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { getInsightNeighbors } from "@/lib/insight-facets";
+import NewsletterSubscribeBox from "./NewsletterSubscribeBox";
 
 /**
  * 前後 Insight ナビ (Phase C Day 1 で確立)
@@ -18,9 +19,10 @@ export default function InsightNav() {
     .replace(/\/$/, "");
   if (!slug) return null;
   const { prev, next } = getInsightNeighbors(slug);
-  if (!prev && !next) return null;
 
   return (
+    <>
+    {(prev || next) && (
     <nav
       aria-label="前後 Insight ナビゲーション"
       className="mt-12 grid grid-cols-1 gap-3 border-t border-slate-200 pt-6 md:grid-cols-2"
@@ -56,5 +58,13 @@ export default function InsightNav() {
         <div />
       )}
     </nav>
+    )}
+    <NewsletterSubscribeBox
+      utmSource="insight-footer"
+      utmCampaign={`insight-${slug}`}
+      heading="続報を週次で受け取る"
+      subtext="EIC Data の Insight 新着 + JEPX 特異日 + 用語集新項目を、毎週土曜朝にお届けします。"
+    />
+    </>
   );
 }

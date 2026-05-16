@@ -1,7 +1,9 @@
 import Link from "next/link";
 import ChartLine from "@/components/ChartLine";
 import Container from "@/components/Container";
+import NewsletterSubscribeBox from "@/components/NewsletterSubscribeBox";
 import { fetchCatalog } from "@/lib/catalog";
+import { INSIGHTS } from "@/lib/insights";
 
 const KEY_INDICATORS: { id: string; color: string }[] = [
   { id: "jepx-spot-tokyo", color: "#047857" },
@@ -43,7 +45,7 @@ export default async function HomePage() {
             {catalog.indicator_count}
           </strong>{" "}
           系列のエネルギー・金融指標と{" "}
-          <strong className="text-ink tabular-nums">41</strong>{" "}
+          <strong className="text-ink tabular-nums">{INSIGHTS.length}</strong>{" "}
           本の独自 Insight を毎朝自動更新。一次出典・as-of・引用形式すべて備えた、研究者・ジャーナリスト・実務者の「2 クリックで元データに辿れる」基準点。
         </p>
         <p className="mt-3 text-xs text-faint">
@@ -88,6 +90,12 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      <NewsletterSubscribeBox
+        utmSource="top-hero"
+        heading="EIC Data 週次ニュースレター"
+        subtext="毎週土曜朝、Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。"
+      />
     </Container>
   );
 }

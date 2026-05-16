@@ -88,6 +88,8 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "iron-ore-vs-thermal-power": "ChartDual",
   "hokkaido-heating-vs-snow": "ChartLine",
   "okinawa-island-power-structure": "ChartLine",
+  "fx-resilience-by-region": "ChartHeatmap",
+  "global-lng-price-comparison": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

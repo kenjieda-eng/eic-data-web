@@ -1,0 +1,179 @@
+export const metadata = {
+  title: "国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造 | EIC Data",
+  description: "アジア LNG スポット (JKM)、欧州 LNG (TTF、fuel-ng-europe-ttf)、米国天然ガス (Henry Hub、fuel-ng-henryhub)、日本 LNG CIF (fuel-lng-jp-cif) の 4 地域価格を 15 年比較。輸送コスト + 長期契約 + 地政学による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。",
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造
+
+> アジア LNG スポット (JKM)、欧州 LNG (TTF、`fuel-ng-europe-ttf`)、米国天然ガス (Henry Hub、`fuel-ng-henryhub`)、日本 LNG CIF (`fuel-lng-jp-cif`) の **4 地域価格を 15 年比較**。**輸送コスト + 長期契約 + 地政学**による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。
+
+## 背景
+
+天然ガス・LNG は**地理的に分断された市場**:
+
+| 市場 | 主要指標 | 取引拠点 | 規模 |
+|---|---|---|---|
+| 米国 | **Henry Hub** | ルイジアナ州 | 世界最大の生産国、シェール革命後 |
+| 欧州 | **TTF** (オランダ) | ロッテルダム / アムステルダム | 欧州ガス需要の代表値 |
+| アジア | **JKM** (Japan/Korea Marker) | 日本・韓国・台湾向け | アジア向け LNG スポット |
+| 日本 | **CIF** (Cost Insurance Freight) | 日本到着価格 | 長期契約 + スポット混合 |
+
+これら 4 市場は**輸送コスト + 長期契約 + 地政学**で価格差が生まれる:
+
+- **米国 (Henry Hub)**: 米国内ガス生産、最も安価
+- **欧州 (TTF)**: 米国 LNG 輸入 + ロシア管経パイプライン (2022 年まで)、ウクライナ戦争後にロシア依存ゼロへ
+- **アジア (JKM)**: 米国・カタール・豪州からの LNG 輸送、最も高価
+- **日本 (CIF)**: JKM + 長期契約価格、JKM より安定
+
+## 4 市場の歴史的価格 ($/MMBtu)
+
+| 期間 | Henry Hub | TTF | JKM | 日本 CIF | 価格差 (JKM - HH) |
+|---|---|---|---|---|---|
+| 2014-12 | $3.4 | $9.5 | $13 | $14 | +$9.6 |
+| 2016-01 | $2.3 | $5.8 | $7 | $11 | +$4.7 |
+| 2019-08 | $2.3 | $3.5 | $4.5 | $8 | +$2.2 |
+| 2020-04 | $1.7 (コロナ底) | $2.0 | $2.5 | $7 | +$0.8 (歴史的低差) |
+| 2021-12 | $5.5 | $32 (高騰開始) | $40 | $13 | +$34.5 (TTF 突出) |
+| **2022-08** | **$8.0** | **$95** ⚠️ | **$70** | **$24.5** ⚠️ | **+$62** (歴史的最大) |
+| 2023-12 | $2.5 | $13 | $16 | $14 | +$13.5 |
+| 2024-12 | $3.0 | $13 | $14 | $11 | +$11 |
+
+## チャート 1: Henry Hub (米国天然ガス、$/MMBtu、月次)
+
+<ChartLine id="fuel-ng-henryhub" title="Henry Hub (米国天然ガス、$/MMBtu、月次、1990-)" />
+
+## チャート 2: TTF (欧州天然ガス、$/MMBtu、月次)
+
+<ChartLine id="fuel-ng-europe-ttf" title="TTF (欧州天然ガス、$/MMBtu、月次、1992-)" />
+
+## チャート 3: 日本 LNG CIF ($/MMBtu、月次)
+
+<ChartLine id="fuel-lng-jp-cif" title="LNG 日本 CIF ($/MMBtu、月次、1977-)" />
+
+JKM は catalog 未収録 (Phase D 第 1 期候補)、本記事は Henry Hub + TTF + 日本 CIF の 3 軸対比で代替。
+
+## 4 市場の地理的価格差構造
+
+### 米国 → 日本の輸送コスト
+
+米国湾岸 → 日本までの LNG 輸送:
+- **液化コスト**: $2-3/MMBtu
+- **海上輸送 (Sabine Pass → 日本、約 9,000 海里)**: $2-3/MMBtu
+- **再ガス化**: $0.5-1/MMBtu
+- **合計**: **$4.5-7/MMBtu**
+
+つまり、Henry Hub + $5 = 米国 LNG 日本到着価格の下限。これより日本 CIF が安いと米国 LNG が輸出されない (経済性で逆転)。
+
+### TTF の急騰メカニズム (2021-2023)
+
+2021 年秋以降 TTF が急騰 → 2022 年 8 月 $95/MMBtu (ピーク):
+
+1. **ロシア → 欧州管経パイプライン削減** (Nord Stream 等)
+2. **欧州が緊急的に LNG 輸入急増**
+3. **アジア LNG 需要も同時に増 (中国 + 韓国 + 日本)**
+4. **米国 LNG 輸出設備フル稼働でも需要に追いつかず**
+5. **TTF + JKM が同時に急騰、欧州が高値で買い競争**
+
+この期間、欧州は日本の倍以上の価格で LNG を買い付けた = 日本 CIF の上昇は欧州 + アジア競争の余波。
+
+### 日本 CIF の安定性 (長期契約効果)
+
+日本 LNG 輸入の約 70% は**長期契約 (10-25 年)** で、価格は**原油リンク式** (主に Brent 連動の 14% 程度)。スポット (JKM) は 30% のみ。
+
+このため、JKM が $70 に急騰 (2022 年 8 月) しても、日本 CIF は $24.5 で抑えられた = 長期契約の防御効果。
+
+ただし、長期契約も**原油価格上昇 (Brent $120)** に連動するため、本質的なヘッジにはならない。Brent → CIF の連鎖は Insight #13 (Brent-lag) で詳述。
+
+## 価格差構造 (静的表)
+
+| 期間 | TTF - Henry Hub | 日本 CIF - Henry Hub | 構造的意味 |
+|---|---|---|---|
+| 2014-2019 | +$2-7 | +$5-11 | 平常時、輸送コスト反映 |
+| 2020-04 | +$0.3 | +$5.3 | コロナ需要崩壊、欧州米国価格収束 |
+| 2021-12 | +$26.5 | +$7.5 | TTF 急騰、日本長期契約防御 |
+| 2022-08 | **+$87** ⚠️ | +$16.5 | 欧州 LNG 危機、日本相対的に安価 |
+| 2024-12 | +$10 | +$8 | 安定期回帰 |
+
+## 解釈 (マコト + ハル + 国際エネルギー知見)
+
+### ウクライナ戦争による 4 市場の構造変化
+
+2022 年以前と以後で 4 市場の関係性が変化:
+
+**2022 年以前**:
+- Henry Hub: 米国内独立、$2-5 で安定
+- TTF: 欧州ガス需要 + ロシア依存、$5-10
+- JKM: アジア需要、Henry Hub + 輸送コスト
+- 日本 CIF: JKM + 長期契約、JKM より安定
+
+**2022 年以後**:
+- Henry Hub: 米国 LNG 輸出設備の制約で **上昇しやすい構造**へ
+- TTF: ロシア依存ゼロ + LNG 輸入急増で**ボラ大、Henry Hub に依存**
+- JKM: 欧州価格との競争で**高止まり**
+- 日本 CIF: 長期契約防御が機能、ただし新規契約価格は上昇
+
+結果として **米国 + 欧州 + アジアの 3 市場が密接に連動**するようになり、日本 CIF も影響を受けやすい構造に変化。
+
+### 日本のエネルギー戦略への示唆
+
+日本 LNG 輸入の構造的特性:
+- **長期契約 70%** = 短期ボラに強い
+- **多様化** = 米国 + カタール + 豪州 + マレーシア + ロシア (削減傾向) + その他
+- **戦略備蓄なし** = 緊急時の対応力弱
+
+ウクライナ戦争後の日本のエネルギー戦略:
+- **長期契約の更新タイミング** が重要 (10-20 年単位)
+- **再生可能エネルギー + 原発再稼働** でガス依存度低下を狙う
+- **戦略備蓄構築** の議論 (現状ゼロ、欧州は 90 日分)
+
+本記事はこれらの戦略議論の**データ的基盤**を提供する。
+
+### Phase D での拡張候補
+
+- **JKM スポット価格** を catalog 追加 (Platts 月次データ、サブスクリプション要)
+- **長期契約 vs スポットの按分**を可視化 (経産省統計)
+- **戦略備蓄シミュレーション**の Insight (90 日分構築コスト + ベネフィット)
+
+## 注意点
+
+### JKM データの catalog 不在
+
+⚠️ JKM (Japan/Korea Marker) は Platts (S&P Global) の有料データ。catalog 未収録、本記事は Henry Hub + TTF + 日本 CIF の 3 軸対比で代替。Phase D 第 1 期で JKM 公開分の探索 (一部公的レポートで月次値が入手可能)。
+
+### 長期契約価格の不透明性
+
+日本 LNG 長期契約の価格は契約ごとに異なり、公開データに限界あり。本記事の「日本 CIF」は財務省貿易統計の月次集計値 (実際の輸入価格平均)。
+
+### 為替変動の独立効果
+
+本記事は USD ベースで議論。円建てへの換算は USD/JPY で別途必要 (Insight #13 円安要因分解参照)。
+
+## 関連 Insight
+
+- **Insight #11 LNG × JEPX 東京** ([/insight/lng-vs-price-tokyo](/insight/lng-vs-price-tokyo)) — 日本 LNG × 電力価格
+- **Insight #12 LNG-lag × JEPX 東京** ([/insight/lng-lag-vs-price-tokyo](/insight/lng-lag-vs-price-tokyo)) — LNG ラグ伝播
+- **Insight #13 Brent-lag × JEPX 東京** ([/insight/brent-lag-vs-price-tokyo](/insight/brent-lag-vs-price-tokyo)) — 原油 → 電力
+- **Insight #15 TTF → 日本 LNG CIF ラグ相関** ([/insight/ttf-lag-vs-lng-jp](/insight/ttf-lag-vs-lng-jp)) — 欧州 → 日本伝播
+- **Insight #48 EU ETS × 円建て LNG** ([/insight/eu-ets-vs-yen-lng](/insight/eu-ets-vs-yen-lng)) — 欧州炭素 + LNG
+- **Insight #55 円安耐性 × エリア別電力料金** ([/insight/fx-resilience-by-region](/insight/fx-resilience-by-region)) — 国際 LNG が日本各エリアに与える影響、本記事の国内側
+
+## 出典
+
+- [FRED MHHNGSP](https://fred.stlouisfed.org/series/MHHNGSP) (Henry Hub Natural Gas Spot Price、CC0-1.0)
+- [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets) (TTF + Japan LNG CIF、CC BY 4.0)
+- [Platts JKM Assessment](https://www.spglobal.com/) (JKM、商用利用は別途、参考)
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda21-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `fuel-ng-henryhub` ＋ `fuel-ng-europe-ttf` ＋ `fuel-lng-jp-cif`*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Insight 量産期 Day 5 午後第 3 弾タスク 2 で MDX 化（2026-05-16、リン + マコト + ハル + アオ + ナギ + ユウ）、リン 5/14 朝先回り起草、L-033 で原稿の "Insight #14 Brent-lag" 参照を実 #13 に補正、4 地域 LNG 市場の地理的価格差構造を可視化*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
