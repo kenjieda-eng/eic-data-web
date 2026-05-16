@@ -11,6 +11,7 @@
 import {
   buildSubscription,
   isValidEmail,
+  resolveFromHeader,
   sanitizeUtm,
   sendConfirmEmail,
   type SubscribeResult,
@@ -69,6 +70,14 @@ export async function POST(request: Request) {
   }
 
   const send = await sendConfirmEmail(subscription);
+
+  if (!send.sent) {
+    // 本番運用時の問題切り分け用: from header と reason を必ず log に残す。
+    // Vercel Functions logs で grep [newsletter] すれば 1 行で原因が分かる。
+    console.warn(
+      `[newsletter] confirm email send failed: reason="${send.reason}" from="${resolveFromHeader(process.env)}" to="${subscription.email}"`,
+    );
+  }
 
   return Response.json(
     {
