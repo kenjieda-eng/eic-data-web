@@ -440,7 +440,27 @@ export const INSIGHTS: Insight[] = [
     sources: ["沖縄電力", "OCCTO", "METI 電力調査統計"],
     updated: "2026-05-16",
   },
+  {
+    slug: "fx-resilience-by-region",
+    title: "円安耐性 × エリア別電力料金：9 エリアの「為替ショック吸収力」格差",
+    lede: "JEPX 9 エリア (北海道〜九州) の卸価格と円建て LNG (fuel-lng-jp-cif × fx-usdjpy-monthly-avg) のラグなし相関を 9 系列分析。各エリアの電源構成 (火力依存 + 原発 + 再エネ) で為替ショック吸収力が異なる構造を可視化、九州 r=+0.55 〜 北海道 r=+0.88 の 0.33 格差",
+    tags: ["電力", "金融", "JEPX", "為替", "円安", "エリア比較", "電源構成"],
+    sources: ["JEPX スポット市場", "World Bank Pink Sheet", "BOJ FM08", "METI 電力調査統計"],
+    updated: "2026-05-16",
+  },
+  {
+    slug: "global-lng-price-comparison",
+    title: "国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造",
+    lede: "アジア LNG (JKM)、欧州 (TTF)、米国 (Henry Hub)、日本 CIF の 4 地域価格を 15 年比較。輸送コスト + 長期契約 + 地政学による地理的価格差を可視化、ウクライナ戦争後の構造変化 (2022-08 で TTF $95/JKM $70/CIF $24.5 の歴史的最大格差) を読み解く",
+    tags: ["燃料", "国際", "LNG", "JKM", "TTF", "Henry Hub", "地理的価格差"],
+    sources: ["FRED MHHNGSP", "World Bank Pink Sheet", "Platts JKM"],
+    updated: "2026-05-16",
+  },
 ];
+
+export function getInsightBySlug(slug: string): Insight | undefined {
+  return INSIGHTS.find((i) => i.slug === slug);
+}
 
 export function searchInsights(
   insights: Insight[],
