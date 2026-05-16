@@ -1,20 +1,18 @@
 /**
- * POST /api/newsletter — Tier 2 ニュースレター購読登録
+ * POST /api/newsletter — Double opt-in 開始 (確認メール送信)
  *
- * Phase C Day 5 午後タスク 3 (2026-05-16) で実装。
- * - email 形式バリデーション (400)
- * - UTM パラメータ (source/medium/campaign) を任意で受信
- * - Resend API キー (RESEND_API_KEY) があれば welcome メール送信、
- *   なければ購読データのみ返却 (emailSent: false)
- *
- * CORS: Access-Control-Allow-Origin: * (公開 API)
+ * Day 5 午後第 5 弾 (2026-05-16) で午後 1 の scaffold から拡張:
+ * - email + UTM 受信、バリデーション
+ * - RESEND_API_KEY あり → 確認メール送信 (Resend 経由)
+ * - RESEND_API_KEY なし → scaffold モード (scaffold:true で graceful)
+ * - 実際の Contact 追加は GET /api/newsletter/confirm?token=... で実行 (Double opt-in)
  */
 
 import {
   buildSubscription,
   isValidEmail,
   sanitizeUtm,
-  sendWelcomeEmail,
+  sendConfirmEmail,
   type SubscribeResult,
 } from "@/lib/newsletter";
 
@@ -55,13 +53,29 @@ export async function POST(request: Request) {
     utm: sanitizeUtm(obj.utm),
   });
 
-  const send = await sendWelcomeEmail(subscription);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return Response.json(
+      {
+        ok: true,
+        data: subscription,
+        emailSent: false,
+        scaffold: true,
+        confirmRequired: false,
+        error: "RESEND_API_KEY not set (scaffold mode)",
+      } satisfies SubscribeResult,
+      { status: 200, headers: CORS_HEADERS },
+    );
+  }
+
+  const send = await sendConfirmEmail(subscription);
 
   return Response.json(
     {
       ok: true,
       data: subscription,
       emailSent: send.sent,
+      confirmRequired: send.sent,
       error: send.sent ? undefined : send.reason,
     } satisfies SubscribeResult,
     { status: 200, headers: CORS_HEADERS },

@@ -1,0 +1,52 @@
+name: Newsletter Weekly Broadcast
+
+# Day 5 午後第 5 弾 (2026-05-16) で scaffold 作成。
+# 現状: workflow_dispatch のみ (手動 trigger)、cron は Phase D で有効化予定。
+# 想定: 毎週金曜 23:00 UTC = 土曜 8:00 JST に配信。
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true なら Resend Broadcasts API を実行せずプレビューのみ'
+        required: false
+        type: boolean
+        default: true
+  # schedule:
+  #   - cron: '0 23 * * 5'  # 毎週金曜 23:00 UTC = 土曜 8:00 JST
+
+jobs:
+  broadcast:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate weekly newsletter content
+        run: node scripts/generate-newsletter.mjs
+
+      - name: Send via Resend Broadcasts API
+        if: inputs.dry_run == false
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+        run: node scripts/send-newsletter.mjs
+
+      - name: Dry run preview
+        if: inputs.dry_run == true
+        run: cat dist/newsletter-preview.html || echo "(preview not generated)"

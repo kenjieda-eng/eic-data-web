@@ -14,7 +14,7 @@ export interface NewsletterFormProps {
 type Status =
   | { kind: "idle" }
   | { kind: "submitting" }
-  | { kind: "success"; emailSent: boolean }
+  | { kind: "success"; emailSent: boolean; confirmRequired: boolean; scaffold: boolean }
   | { kind: "error"; message: string };
 
 export default function NewsletterForm({
@@ -38,12 +38,23 @@ export default function NewsletterForm({
           utm: { source: utmSource, medium: utmMedium, campaign: utmCampaign },
         }),
       });
-      const data = (await res.json()) as { ok: boolean; emailSent?: boolean; error?: string };
+      const data = (await res.json()) as {
+        ok: boolean;
+        emailSent?: boolean;
+        confirmRequired?: boolean;
+        scaffold?: boolean;
+        error?: string;
+      };
       if (!res.ok || !data.ok) {
         setStatus({ kind: "error", message: data.error ?? "登録に失敗しました" });
         return;
       }
-      setStatus({ kind: "success", emailSent: data.emailSent ?? false });
+      setStatus({
+        kind: "success",
+        emailSent: data.emailSent ?? false,
+        confirmRequired: data.confirmRequired ?? false,
+        scaffold: data.scaffold ?? false,
+      });
       setEmail("");
     } catch (err) {
       setStatus({
@@ -85,8 +96,11 @@ export default function NewsletterForm({
       </div>
       {status.kind === "success" && (
         <p className="mt-2 text-sm text-emerald-700" role="status">
-          ✓ 登録完了
-          {status.emailSent ? "（確認メール送信済）" : "（確認メールは後日配信）"}
+          {status.confirmRequired
+            ? "✓ 確認メールを送信しました。メール内のリンクをクリックして購読を確定してください (7 日以内)。"
+            : status.scaffold
+            ? "✓ 受け付けました（scaffold モード: RESEND_API_KEY 未設定のため確認メール未送信）"
+            : "✓ 受け付けました（確認メールは後日配信）"}
         </p>
       )}
       {status.kind === "error" && (
