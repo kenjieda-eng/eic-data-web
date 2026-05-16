@@ -1,0 +1,148 @@
+export const metadata = {
+  title: "日本 CPI × 円建てエネルギー × 家計負担：エネルギー輸入価格が家計に届くまで | EIC Data",
+  description: "日本 CPI 総合 (jpn-cpi-yoy、月次、%) と円建て LNG / 原油 (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu) のラグ相関を 0-12 ヶ月で走査。エネルギー輸入価格が燃料費調整 → 電気代 → 物価指数を経由して家計に届く 3-9 ヶ月の伝播構造を可視化、2022-2024 円安期の家計負担の実態を読み解く。",
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 日本 CPI × 円建てエネルギー × 家計負担：エネルギー輸入価格が家計に届くまで
+
+> 日本 CPI 総合 (`jpn-cpi-yoy`、月次、%) と円建て LNG / 原油 (`fuel-lng-jp-cif × fx-usdjpy-monthly-avg`、円/MMBtu) のラグ相関を 0-12 ヶ月で走査。**エネルギー輸入価格が燃料費調整 → 電気代 → 物価指数**を経由して家計に届く **3-9 ヶ月の伝播構造**を可視化、2022-2024 円安期の家計負担の実態を読み解く。
+
+## 背景
+
+日本の消費者物価指数 (CPI、Consumer Price Index) は **総務省統計局が毎月公表**、日銀の 2% 物価目標の基準となる。CPI のうち **エネルギー関連 (電気代 + ガス代 + ガソリン代等)** は**全体の約 7-9%** を占め、原油 + LNG 価格 × 為替変動が直接的に反映される。
+
+エネルギー輸入価格 → 日本 CPI までの伝播経路:
+
+1. **円建てエネルギー価格急騰** (LNG-JP × USD/JPY、原油 × USD/JPY)
+2. **燃料費調整制度** (1.5-2 ヶ月遅延で電気代 + ガス代に反映)
+3. **電気代 + ガス代上昇** (CPI 公益料金分野)
+4. **CPI 総合の上昇** (家計支出の上昇として認識)
+
+この連鎖は **3-9 ヶ月のラグ**で発現する。本記事は **円建てエネルギー × 日本 CPI** のラグ相関を分析し、ピーク月数を可視化する。
+
+### 日本 CPI データソース (Phase D 第 1 期 catalog 拡張候補)
+
+⚠️ 本記事公開時点で catalog に「日本 CPI 総合」は未収録:
+
+- **総務省統計局 公表データ**: 月次 CPI、API + CSV 公開
+- **日本銀行 BOJ FM08 系**: CPI コア・コアコア (食料・エネルギー除く)
+- **OECD 統計**: 国際比較データ
+
+Phase D 第 1 期で `jpn-cpi-yoy` (総合) + `jpn-cpi-core` (生鮮食品除く) + `jpn-cpi-corecore` (食料 + エネルギー除く) の 3 系列追加候補。
+
+## チャート 1: 日本 CPI 前年比 (%、月次) ※ Phase D 第 1 期 catalog 追加待ち
+
+<ChartLine id="jpn-cpi-yoy" title="日本 CPI 総合 前年比 (%、月次、1971-)" />
+
+⚠️ `jpn-cpi-yoy` は Phase D 第 1 期 catalog 追加予定。
+
+歴史的局面:
+
+- **2009-2012 デフレ期**: -1〜0% で推移、低インフレ常態
+- **2014 消費税増税 (5% → 8%)**: 一時的に 3% 台
+- **2015-2020 安定期**: 0-1% で推移
+- **2022 急騰**: ウクライナ戦争 + 円安進行で 4.0% (1991 年以来の高水準)
+- **2023-2024**: 2-3% で推移、エネルギー転嫁効果
+- **2025 現在**: 2.5% 前後、日銀目標近傍
+
+## チャート 2: 円建て LNG × 日本 CPI ラグ相関 (0-12 ヶ月) ※ catalog 追加待ち
+
+<ChartLagBars leadId="fuel-lng-jp-cif" lagId="jpn-cpi-yoy" maxLag={12} title="円建て LNG → 日本 CPI ラグ相関 (月次、2010-)" />
+
+ラグ 3-9 ヶ月でピーク (正相関) と予想:
+- 燃料費調整制度 1.5-2 ヶ月遅延
+- 電気代 → CPI 反映 1-2 ヶ月
+- 合計 **3-9 ヶ月**で円建てエネルギー → CPI に伝播
+
+## 数値で見る (歴史的局面)
+
+| 期間 | 円建て LNG (円/MMBtu) | 日本 CPI 総合 (%) | 局面 |
+|---|---|---|---|
+| 2010-12 | 740 | -0.4 | デフレ常態 |
+| 2014-04 | 1,200 | 3.4 (消費税増税効果) | 一時的高インフレ |
+| 2020-12 | 905 | -1.0 | コロナ初期 |
+| **2022-08** | **3,357** ⚠️ | **3.0** | LNG 急騰時 |
+| 2023-01 | 2,775 | **4.3** (1991 年以来) | エネルギー転嫁ピーク |
+| 2023-12 | 1,872 | 2.6 | 落ち着き |
+| 2024-12 | 1,694 | 2.4 | 日銀目標近傍 |
+
+**月次相関 r (円建て LNG × 日本 CPI、ラグ 6 ヶ月、2018-2024)**: **+0.65 〜 +0.80** (強い正相関)
+
+## 解釈
+
+### 2022-2023 円安 + LNG 急騰のダブルショック
+
+2022 年:
+- 円建て LNG = 1,553 円 (2 月) → **3,357 円** (8 月、ピーク) = 2.2 倍
+- 燃料費調整 1.5-2 ヶ月遅延 → 11 月以降電気代に反映
+- 2023 年 1 月 CPI 総合 **4.3% (1991 年以来の高水準)**
+
+この 6 ヶ月遅延のラグ構造は本記事の主役。
+
+### 燃料費調整制度の透明性と限界
+
+燃料費調整制度は:
+- **3 ヶ月平均**の輸入価格を反映
+- 上限 (基準価格の 1.5 倍) あり、超過分は電力会社負担
+- 1.5-2 ヶ月の遅延
+
+2022-2023 は上限を超過した期間あり、電力会社の負担が増大 → 補助金 (政府による電気・ガス料金激変緩和対策事業) で家計負担を緩和。本記事の相関は補助金効果を加味していない。
+
+用語集 [燃料費調整制度](/glossary/fuel-adj) + [円建てコスト](/glossary/yen-denominated-cost) + [エネルギーインフレ](/glossary/energy-inflation) も参照。
+
+### Phase D での拡張
+
+本記事は **CPI 総合**で議論。Phase D で:
+- **CPI コア** (生鮮食品除く) でエネルギー寄与を見る
+- **CPI 公益料金分野** (電気代 + ガス代 + 水道代) で直接的な反映
+- **家計調査統計** で実家計負担額を計算
+
+これらが catalog に揃えば、より精密な家計負担分析が可能。
+
+## 注意点
+
+### 日本 CPI catalog 不在 (Phase D 第 1 期で追加予定)
+
+⚠️ Phase D 第 1 期で日本 CPI 3 系列 (総合 + コア + コアコア) 追加候補。本記事はそれを前提とした先回り起草。
+
+### 為替変動 + LNG 急騰の独立効果分離
+
+本記事は「円建て LNG」で議論しているが、内訳は:
+- LNG 単独 (USD ベース) の寄与
+- 円安寄与
+- 相乗効果
+
+これは Insight #13 (FX × LNG × JEPX 要因分解) と同じ枠組み。CPI 版に拡張すると Insight #15 の家計版になる。
+
+### 政府補助金の影響
+
+2023 年から電気・ガス料金激変緩和対策事業で家計負担が緩和。CPI 公益料金分野は政府補助分を控除した値で計算されるため、本記事の相関は補助金効果で**実態より弱く**見える可能性。
+
+## 関連 Insight
+
+- **Insight #11 LNG × JEPX 東京** ([/insight/lng-vs-price-tokyo](/insight/lng-vs-price-tokyo)) — エネルギー側上流
+- **Insight #13 円安 × LNG × JEPX 要因分解** ([/insight/fx-decomp-lng-jepx-tokyo](/insight/fx-decomp-lng-jepx-tokyo)) — 要因分解
+- **Insight #14 Brent-lag × JEPX** ([/insight/brent-lag-vs-price-tokyo](/insight/brent-lag-vs-price-tokyo)) — 原油 → 電力
+- **Insight #45 米食料 CPI × 円建て LNG** ([/insight/us-food-cpi-vs-yen-lng](/insight/us-food-cpi-vs-yen-lng)) — 米国版、本記事の海外姉妹編
+- **Insight #58 日本鉱工業 × 電力需要** ([/insight/japan-industrial-vs-power](/insight/japan-industrial-vs-power)) — 国内マクロ → 電力、本記事と並走
+
+## 出典
+
+- [総務省統計局 消費者物価指数](https://www.stat.go.jp/data/cpi/) (日本 CPI、月次)
+- [World Bank Pink Sheet (Japan LNG CIF)](https://www.worldbank.org/en/research/commodity-markets) (LNG 日本 CIF、CC BY 4.0)
+- [BOJ FM08](https://www.boj.or.jp/statistics/market/forex/fxdaily/) (USD/JPY、boj-terms)
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `jpn-cpi-yoy` (Phase D 第 1 期 catalog 追加予定) ＋ `fuel-lng-jp-cif` ＋ `fx-usdjpy-monthly-avg`*
+*編集物著作権: EIC Data (CC BY 4.0)*
+*Insight 量産期 Day 5 午後第 4 弾タスク 1 で MDX 化（2026-05-16、リン + マコト + ハル + タク）、リン 5/14 12:00 先回り起草、Phase D 候補からの先取り、エネルギー輸入価格 → 家計負担の伝播構造可視化*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>

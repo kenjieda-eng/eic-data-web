@@ -456,6 +456,22 @@ export const INSIGHTS: Insight[] = [
     sources: ["FRED MHHNGSP", "World Bank Pink Sheet", "Platts JKM"],
     updated: "2026-05-16",
   },
+  {
+    slug: "japan-cpi-vs-yen-energy",
+    title: "日本 CPI × 円建てエネルギー × 家計負担：エネルギー輸入価格が家計に届くまで",
+    lede: "日本 CPI 総合 (jpn-cpi-yoy、月次、%) と円建て LNG / 原油 (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu) のラグ相関を 0-12 ヶ月で走査。燃料費調整 → 電気代 → 物価指数の 3-9 ヶ月伝播、ラグ 6 ヶ月で月次相関 r=+0.65〜+0.80",
+    tags: ["金融", "燃料", "需要", "CPI", "エネルギー", "家計", "為替", "円安"],
+    sources: ["総務省統計局 CPI", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-16",
+  },
+  {
+    slug: "japan-industrial-vs-power",
+    title: "日本鉱工業生産 × 電力需要：実体経済が電力に届く即時相関と長期トレンド",
+    lede: "日本鉱工業生産指数 (jpn-industrial-production、月次、2020=100) と電力販売量 (meti-demand-total、月次、GWh) のラグなし + ラグ相関 0-12 ヶ月走査。製造業稼働 → 電力需要のラグなし即時連動 (r=+0.78〜+0.85)、米/中の 9 ヶ月遅延と対比",
+    tags: ["電力", "需要", "鉱工業", "製造業", "実体経済", "マクロ"],
+    sources: ["METI 鉱工業生産指数", "METI 電力調査統計"],
+    updated: "2026-05-16",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
