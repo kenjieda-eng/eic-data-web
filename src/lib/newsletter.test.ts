@@ -6,6 +6,7 @@ import {
   buildWelcomeEmail,
   generateToken,
   isValidEmail,
+  resolveFromHeader,
   sanitizeUtm,
   sendConfirmEmail,
   sendWelcomeEmail,
@@ -175,5 +176,32 @@ describe("sendConfirmEmail", () => {
     const res = await sendConfirmEmail(sub, {});
     expect(res.sent).toBe(false);
     expect(res.reason).toMatch(/RESEND_API_KEY/);
+  });
+});
+
+describe("resolveFromHeader (Day 5 夜)", () => {
+  test("env なし → デフォルト EIC Data <newsletter@data.eic-jp.org>", () => {
+    expect(resolveFromHeader({})).toBe("EIC Data <newsletter@data.eic-jp.org>");
+  });
+
+  test("RESEND_FROM が email のみ → name と組み立て", () => {
+    expect(resolveFromHeader({ RESEND_FROM: "hello@data.eic-jp.org" })).toBe(
+      "EIC Data <hello@data.eic-jp.org>",
+    );
+  });
+
+  test("RESEND_FROM が 'Name <email>' 形式 → そのまま (後方互換)", () => {
+    expect(
+      resolveFromHeader({ RESEND_FROM: "Editor <editor@data.eic-jp.org>" }),
+    ).toBe("Editor <editor@data.eic-jp.org>");
+  });
+
+  test("RESEND_FROM_NAME で表示名を上書き", () => {
+    expect(
+      resolveFromHeader({
+        RESEND_FROM: "news@data.eic-jp.org",
+        RESEND_FROM_NAME: "EIC ニュース",
+      }),
+    ).toBe("EIC ニュース <news@data.eic-jp.org>");
   });
 });

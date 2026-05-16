@@ -19,8 +19,29 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 const RESEND_API_URL = "https://api.resend.com";
-const RESEND_FROM_DEFAULT = "EIC Data <onboarding@resend.dev>";
+const FROM_EMAIL_DEFAULT = "newsletter@data.eic-jp.org";
+const FROM_NAME_DEFAULT = "EIC Data";
 const DEFAULT_AUDIENCE_NAME = "EIC Data Weekly Newsletter";
+
+/**
+ * 送信元 "Name <email>" を組み立て。
+ * - RESEND_FROM が "Name <email>" 形式ならそのまま (後方互換)
+ * - RESEND_FROM が email のみなら RESEND_FROM_NAME と組み立て
+ * - 何も設定なし → "EIC Data <newsletter@data.eic-jp.org>" (Domain 検証済)
+ *
+ * Day 5 夜 (2026-05-16) で onboarding@resend.dev から自社 Domain に切替。
+ */
+export function resolveFromHeader(
+  env: Record<string, string | undefined> = process.env,
+): string {
+  const explicit = env.RESEND_FROM?.trim();
+  if (explicit && explicit.includes("<") && explicit.includes(">")) {
+    return explicit;
+  }
+  const email = explicit && explicit.length > 0 ? explicit : FROM_EMAIL_DEFAULT;
+  const name = env.RESEND_FROM_NAME?.trim() ?? FROM_NAME_DEFAULT;
+  return `${name} <${email}>`;
+}
 const DEFAULT_BASE_URL = "https://data.eic-jp.org";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const TOKEN_DEMO_SECRET = "eic-newsletter-demo-secret-do-not-use";
@@ -326,7 +347,7 @@ export async function sendConfirmEmail(
 ): Promise<{ sent: boolean; reason?: string }> {
   const apiKey = env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: "RESEND_API_KEY not set" };
-  const from = env.RESEND_FROM ?? RESEND_FROM_DEFAULT;
+  const from = resolveFromHeader(env);
   const links = buildConfirmEmailLinks(data.email, env);
   const { subject, html, text } = buildConfirmEmail(data.email, links);
   try {
@@ -375,7 +396,7 @@ export async function sendWelcomeEmail(
 ): Promise<{ sent: boolean; reason?: string }> {
   const apiKey = env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: "RESEND_API_KEY not set" };
-  const from = env.RESEND_FROM ?? RESEND_FROM_DEFAULT;
+  const from = resolveFromHeader(env);
   const { subject, html, text } = buildWelcomeEmail(data);
   try {
     const res = await fetch(`${RESEND_API_URL}/emails`, {
