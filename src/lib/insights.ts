@@ -408,6 +408,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["ECB SDW", "BOJ FM08", "FRED FEDFUNDS"],
     updated: "2026-05-16",
   },
+  {
+    slug: "china-pmi-vs-jp-demand",
+    title: "中国 PMI × 日本電力需要：世界第 2 位経済の景気が日本工業電力に届く 6-12 ヶ月のトンネル",
+    lede: "中国 Caixin PMI 製造業指数 (月次) と日本電力販売量 (meti-demand-total、月次、GWh) のラグ相関 0-12 ヶ月走査。中国景気減速 → 日本輸出減 → 日本製造業稼働低下 → 電力需要減を 6-9 ヶ月ラグで定量化、月次相関 r=+0.50〜+0.65、リーマン/コロナ/ゼロコロナ/再開期の 4 局面で構造検証",
+    tags: ["電力", "需要", "国際", "中国", "PMI", "マクロ", "製造業"],
+    sources: ["Caixin/S&P Global PMI", "METI 電力調査統計"],
+    updated: "2026-05-16",
+  },
 ];
 
 export function searchInsights(

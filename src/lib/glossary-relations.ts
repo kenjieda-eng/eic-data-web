@@ -123,6 +123,33 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "spread", to: "industrial-production", weight: 0.4 },
   { from: "nonfarm-payrolls", to: "headline-cpi", weight: 0.5 },
   { from: "industrial-production", to: "jepx-spot", weight: 0.5 },
+
+  // ===== Day 5 午後タスク 2 拡張 (+20 エッジ、79 → 99) =====
+  // 国際クラスタ (新カテゴリ international 4 項目 + 既存接続、+10 エッジ)
+  { from: "eu-ets", to: "yen-denominated-cost", weight: 0.85 },
+  { from: "yen-denominated-cost", to: "jepx-spot", weight: 0.7 },
+  { from: "china-pmi", to: "lng-jkm", weight: 0.7 },
+  { from: "lng-jkm", to: "yen-denominated-cost", weight: 0.8 },
+  { from: "ecb-deposit-rate", to: "fed-funds-rate", weight: 0.7 },
+  { from: "ecb-deposit-rate", to: "fed-funds-rate-jp-spillover", weight: 0.6 },
+  { from: "fed-funds-rate-jp-spillover", to: "fed-funds-rate", weight: 0.95 },
+  { from: "fed-funds-rate-jp-spillover", to: "yen-denominated-cost", weight: 0.8 },
+  { from: "international-spillover", to: "yen-denominated-cost", weight: 0.85 },
+  { from: "international-spillover", to: "fed-funds-rate-jp-spillover", weight: 0.85 },
+
+  // 電力クラスタ拡張 (連系線/太陽光余剰/カーテイルメント、+5 エッジ)
+  { from: "transmission-line-constraint", to: "grid-constraint", weight: 0.9 },
+  { from: "transmission-line-constraint", to: "solar-surplus", weight: 0.85 },
+  { from: "solar-surplus", to: "solar-curtailment", weight: 0.9 },
+  { from: "solar-surplus", to: "curtailment", weight: 0.85 },
+  { from: "transmission-line-constraint", to: "jepx-spot", weight: 0.7 },
+
+  // 経済 × エネルギークラスタ拡張 (carbon-pricing/yen-denominated-cost、+5 エッジ)
+  { from: "carbon-pricing", to: "energy-inflation", weight: 0.7 },
+  { from: "carbon-pricing", to: "eu-ets", weight: 0.9 },
+  { from: "carbon-pricing", to: "fuel-pass-through", weight: 0.6 },
+  { from: "yen-denominated-cost", to: "fuel-pass-through", weight: 0.85 },
+  { from: "yen-denominated-cost", to: "energy-inflation", weight: 0.7 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
@@ -132,6 +159,7 @@ export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
   fuel: "#f97316", // orange-500
   finance: "#eab308", // yellow-500
   economy: "#ec4899", // pink-500
+  international: "#06b6d4", // cyan-500 (リン案 sky-500 は basic と被るため cyan-500 に変更)
 };
 
 export interface GlossaryNode {

@@ -7,8 +7,8 @@ import {
 } from "./data";
 
 describe("GLOSSARY_TERMS", () => {
-  test("contains 35 terms", () => {
-    expect(GLOSSARY_TERMS).toHaveLength(35);
+  test("contains 45 terms", () => {
+    expect(GLOSSARY_TERMS).toHaveLength(45);
   });
 
   test("every term has slug, name, description, category", () => {
@@ -16,7 +16,7 @@ describe("GLOSSARY_TERMS", () => {
       expect(t.slug).toMatch(/^[a-z0-9-]+$/);
       expect(t.name.length).toBeGreaterThan(0);
       expect(t.description.length).toBeGreaterThan(0);
-      expect(t.category).toMatch(/^(basic|regulation|fuel|power|finance|economy)$/);
+      expect(t.category).toMatch(/^(basic|regulation|fuel|power|finance|economy|international)$/);
     }
   });
 

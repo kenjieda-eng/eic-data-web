@@ -4,7 +4,8 @@ export type GlossaryCategory =
   | "fuel"
   | "power"
   | "finance"
-  | "economy";
+  | "economy"
+  | "international";
 
 export interface GlossaryTerm {
   slug: string;
@@ -20,6 +21,7 @@ export const GLOSSARY_CATEGORIES: Record<GlossaryCategory, string> = {
   power: "電力",
   finance: "金融・マクロ",
   economy: "経済",
+  international: "国際",
 };
 
 export const GLOSSARY_TERMS: GlossaryTerm[] = [
@@ -265,6 +267,85 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "電力料金が 1% 上昇したときに需要が何 % 減少するかを示す係数。長期（10 年スパン、設備更新・断熱投資反映）では 0.3-0.5、短期（1 年以内、行動変容主体）では 0.1 程度が日本の典型値とされる。燃料費調整による料金上昇局面で需要削減が小さいことは、エネルギーコストが家計・企業に重い負担として残る理由になる。再エネ普及・電化進展により値は時代とともに変動するほか、所得水準・気候・産業構成によっても国・地域で大きな差が出る。",
     category: "economy",
   },
+
+  // ===== Day 5 午後タスク 2 拡張 (+10 項目、35 → 45) =====
+  // 新カテゴリ "international" (4 項目)
+  {
+    slug: "eu-ets",
+    name: "EU ETS（欧州排出量取引制度）",
+    description:
+      "European Union Emissions Trading System。世界最大の炭素市場、2005 年運用開始。EU 域内の発電所・産業施設の CO2 排出量に対し、排出枠（EU Allowance = EUA）の市場取引を強制する制度。価格（EUR/tCO2）は 2021 年以降の引き締めで急騰、第 4 フェーズ（2021-）でピーク €90 を記録。日本の電力市場には、欧州エネルギー転換 → アジア LNG 需給逼迫 → 円建て LNG 上昇の伝播経路で影響。Insight #48 で詳細解説。",
+    category: "international",
+  },
+  {
+    slug: "china-pmi",
+    name: "中国 PMI（Caixin 製造業指数）",
+    description:
+      "Caixin Purchasing Managers' Index。中国製造業の景況感を 50 を中立水準として表す指数。50 超は拡大、50 未満は縮小。NBS（国家統計局、大企業中心）と Caixin（中小企業中心、市場感度高）の 2 系統があり、EIC Data では Caixin PMI を採用。中国経済の景気変動 → アジア LNG 需給 → 日本電力市場の伝播経路で重要な先行指標。Insight #49 + #51 で詳細解説。",
+    category: "international",
+  },
+  {
+    slug: "ecb-deposit-rate",
+    name: "ECB 預金ファシリティ金利",
+    description:
+      "European Central Bank Deposit Facility Rate。欧州中央銀行（ECB）の主要政策金利の 1 つ、銀行が ECB に預ける際の金利。マイナス金利政策（2014-2022 年 7 月）から 2022 年 7 月の引き締め開始で +4.0%（2023 年 9 月ピーク）まで急上昇。USD/EUR + USD/JPY の三角関係に強く影響、円安進行の間接要因。Insight #50 で詳細解説。",
+    category: "international",
+  },
+  {
+    slug: "international-spillover",
+    name: "国際金融スピルオーバー",
+    description:
+      "International Financial Spillover。ある国の金融政策・市場動向が他国の金融市場 + 商品市場に波及する現象。日本のエネルギー市場では、米国 FRB の利上げ → 円安 → 円建て LNG 上昇 → JEPX 卸価格 → 電気料金、という 5-6 段階の伝播経路を経て電気代に影響。EIC Data の国際金融指標（米 Treasury 4 系列 + USD/JPY + ECB + 中国 PMI）はこのスピルオーバーを定量化する基盤。Insight #43 + #48 + #50 で詳細解説。",
+    category: "international",
+  },
+
+  // 電力カテゴリ拡張 (3 項目)
+  {
+    slug: "transmission-line-constraint",
+    name: "連系線制約",
+    description:
+      "Transmission Line Constraint。電力エリア間を結ぶ連系線の容量上限による電力融通の制限。日本では北本連系線（北海道-本州）、阿南紀北直流連系線（四国-関西）、本四連系線（四国-中国）等が制約発生地点。太陽光大量導入エリア（九州・四国）で晴天日中に連系線が満杯になり、域内で電力余剰 → JEPX 価格暴落（場合により 1 円未満）。2026-05-15 四国 0.49 ¥/kWh は典型例。系統制約（grid-constraint）の連系線版。",
+    category: "power",
+  },
+  {
+    slug: "solar-curtailment",
+    name: "太陽光カーテイルメント（出力抑制）",
+    description:
+      "Solar Curtailment。電力需給バランス調整のため、再エネ事業者（主に太陽光）に対し発電出力の一時停止を要請する制度。九州 + 四国エリアで春・GW・秋の晴天日中に頻発、域内需要 < 太陽光出力で連系線制約とともに発動。蓄電池導入経済性に直結する重要指標（カーテイルメントを回避するための充放電タイミング最適化）。出力制御（curtailment）の太陽光特化版。",
+    category: "power",
+  },
+  {
+    slug: "solar-surplus",
+    name: "太陽光余剰",
+    description:
+      "Solar Surplus。太陽光発電の出力が域内電力需要を上回る状況。発生条件: ① 晴天（日射量大）② 軽負荷（休日・GW・工場稼働低下）③ 太陽光導入比率高（九州・四国・中国）。結果: JEPX 価格暴落（< 1 ¥/kWh）、カーテイルメント発動、連系線制約。2026-05-15 四国 0.49 ¥/kWh の主因。Phase B-A Day 3 / Phase B-B Day 7 で関連 Insight 多数。",
+    category: "power",
+  },
+
+  // 金融カテゴリ拡張 (2 項目)
+  {
+    slug: "yen-denominated-cost",
+    name: "円建てコスト",
+    description:
+      "Yen-Denominated Cost。USD 建ての国際商品（LNG / 原油 / 石炭 等）を JPY 建てに換算したコスト。`fuel-lng-jp-cif × fx-usdjpy-monthly-avg` で計算。為替変動（円安）+ 国際商品価格上昇の二重打撃で 2022-2024 年に急騰、日本電力業界の主要コストドライバー。bess-net.jp の AM IRR シミュレーターでも割引率連動として活用。",
+    category: "finance",
+  },
+  {
+    slug: "fed-funds-rate-jp-spillover",
+    name: "FRB FF レート 日本スピルオーバー",
+    description:
+      "FRB Fed Funds Rate Spillover to Japan。米国連邦準備制度（FRB）の政策金利（Fed Funds Rate）が日本の金融・エネルギー市場に波及する経路。米利上げ → 日米金利差拡大 → 円安進行 → 円建て燃料コスト上昇 → JEPX 価格上昇 → 電気料金。2022-2024 年の FRB 急激利上げ（0.25% → 5.50%）が円安 154 円・JEPX 23 ¥/kWh の主要因。Insight #41 + #43 で詳細解説。",
+    category: "finance",
+  },
+
+  // 経済カテゴリ拡張 (1 項目)
+  {
+    slug: "carbon-pricing",
+    name: "カーボンプライシング",
+    description:
+      "Carbon Pricing。CO2 排出に価格付けする政策手段の総称。3 形態: ① 炭素税（税として政府が徴収）② 排出量取引（市場で排出枠を取引、EU ETS が代表）③ クレジット取引（削減量を売買、自主参加）。日本では 2026 年 GX-ETS 導入 + 2028 年 炭素賦課金開始予定。電力業界では発電コストへの上乗せ → JEPX 価格上昇圧力。Phase D 期（6 月以降）で関連系列追加検討候補。",
+    category: "economy",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
@@ -296,6 +377,7 @@ export function groupTermsByCategory(
     "fuel",
     "finance",
     "economy",
+    "international",
   ];
   return order
     .map((category) => ({
