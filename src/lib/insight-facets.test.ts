@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 47 本全 slug がマップに含まれる (Day 4 午後タスク 7 で #47 geothermal-vs-volcanic-temp 追加)", () => {
+  test("INSIGHT_RENDERER_MAP: 50 本全 slug がマップに含まれる (Day 5 朝タスク 1-3 で #48-#50 国際拡張 3 本追加)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(47);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(47);
+    expect(INSIGHTS.length).toBe(50);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(50);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -39,18 +39,18 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(getInsightRenderer("spread-us-jp-10y-vs-fx")).toBe("ChartSpread");
   });
 
-  test("filterInsights: tag=「金融」で 12 件 (Day 4 午後タスク 4-6 で #44-#46 を 3 本連続追加して +3)", () => {
+  test("filterInsights: tag=「金融」で 14 件 (Day 5 朝タスク 1-3 で #48 eu-ets + #50 ecb-rate を 2 本追加して +2)", () => {
     const filtered = filterInsights(INSIGHTS, { tag: "金融" });
-    expect(filtered.length).toBe(12);
+    expect(filtered.length).toBe(14);
     const slugs = filtered.map((i) => i.slug);
     expect(slugs).toContain("jgb-vs-yen-lng");
     expect(slugs).toContain("us-cpi-vs-fx");
     expect(slugs).toContain("fed-funds-vs-jepx-tokyo");
   });
 
-  test("filterInsights: domain=finance で 12 件 (金融タグ含む = finance domain 導出)", () => {
+  test("filterInsights: domain=finance で 14 件 (金融タグ含む = finance domain 導出)", () => {
     const filtered = filterInsights(INSIGHTS, { domain: "finance" });
-    expect(filtered.length).toBe(12);
+    expect(filtered.length).toBe(14);
   });
 
   test("filterInsights: renderer=ChartHeatmap で 9 地点ヒートマップ 5 本", () => {
@@ -83,9 +83,9 @@ describe("Phase C Day 1: insight-facets", () => {
   test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(47);
+    expect(all?.count).toBe(50);
     const finance = facets.domains.find((d) => d.value === "finance");
-    expect(finance?.count).toBe(12);
+    expect(finance?.count).toBe(14);
   });
 
   test("getInsightNeighbors: 中間 slug は prev + next 両方存在、両端は片側 null", () => {

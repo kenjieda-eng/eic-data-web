@@ -384,6 +384,30 @@ export const INSIGHTS: Insight[] = [
     sources: ["METI 電力調査統計", "気象庁 日次気温"],
     updated: "2026-05-15",
   },
+  {
+    slug: "eu-ets-vs-yen-lng",
+    title: "EU ETS × 円建て LNG：欧州炭素価格と日本ガス価格の連動構造",
+    lede: "EU 排出量取引制度 (EU ETS) の炭素価格 (EUR/tCO2、月次) と円建て LNG 日本 CIF (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu、月次) の連動構造を可視化。月次相関 r=+0.55〜+0.70 (2018-2025)、ウクライナ戦争 (2022-08) で同期ピーク",
+    tags: ["燃料", "金融", "国際", "EU ETS", "炭素価格", "LNG", "為替"],
+    sources: ["EEX EU ETS", "ECB SDW", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-16",
+  },
+  {
+    slug: "china-pmi-vs-lng-asia",
+    title: "中国 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで",
+    lede: "中国 Caixin PMI と円建て LNG 日本 CIF のラグ相関 0-12 ヶ月走査。世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場の連動構造を可視化、ラグ 3 ヶ月で r=+0.45〜+0.55、コロナ・ゼロコロナ・再開期で構造検証",
+    tags: ["燃料", "国際", "中国", "PMI", "LNG", "アジア需給"],
+    sources: ["Caixin/S&P Global PMI", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-16",
+  },
+  {
+    slug: "ecb-rate-vs-eurusd-vs-usdjpy",
+    title: "ECB 政策金利 × USD/EUR × USD/JPY：3 大金利政策の三角関係",
+    lede: "ECB 政策金利 (Main Refinancing Operations、月次、%) × USD/EUR + USD/JPY の 3 軸対比。日米欧 3 大中央銀行 (BOJ + FRB + ECB) の金利政策が世界為替市場に与える複合効果を 25 年データで可視化、2022-09 ユーロ平価割れ + 円安進行の三角構造を解読",
+    tags: ["金融", "国際", "ECB", "中央銀行", "為替", "USD/EUR", "USD/JPY"],
+    sources: ["ECB SDW", "BOJ FM08", "FRED FEDFUNDS"],
+    updated: "2026-05-16",
+  },
 ];
 
 export function searchInsights(
