@@ -90,6 +90,8 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "okinawa-island-power-structure": "ChartLine",
   "fx-resilience-by-region": "ChartHeatmap",
   "global-lng-price-comparison": "ChartLine",
+  "japan-cpi-vs-yen-energy": "ChartLagBars",
+  "japan-industrial-vs-power": "ChartLagBars",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
