@@ -171,6 +171,25 @@ export default function PrivacyPage() {
 
       <section className="prose-section space-y-3">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
+          6.5 透明性ダッシュボード
+        </h2>
+        <p className="text-base md:text-lg leading-relaxed text-subink">
+          当法人が本サイトで集計している利用統計の月次値は{" "}
+          <Link
+            href="/usage-stats"
+            className="text-emerald-700 underline hover:text-emerald-900"
+          >
+            /usage-stats
+          </Link>{" "}
+          で全件公開しています。集計対象は <code>API リクエスト数</code> /{" "}
+          <code>CSV ダウンロード数</code> / <code>引用コピー数</code> の 3 種のみで、
+          個人特定情報 (IP / メール / User-Agent) は含みません。
+          JSON 形式は <code>/api/usage-stats</code> でも取得できます。
+        </p>
+      </section>
+
+      <section className="prose-section space-y-3">
+        <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           7. EU 訪問者 (GDPR 整合)
         </h2>
         <p className="text-base md:text-lg leading-relaxed text-subink">

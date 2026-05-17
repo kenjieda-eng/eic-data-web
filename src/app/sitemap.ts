@@ -29,6 +29,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/citation-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
+    { url: `${SITE_URL}/usage-stats`, lastModified: now, changeFrequency: "daily", priority: 0.4 },
   ];
 
   const insightPages: MetadataRoute.Sitemap = INSIGHTS.map((i) => ({
