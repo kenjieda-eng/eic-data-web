@@ -11,6 +11,7 @@ import {
   slaStatusOf,
 } from "@/lib/catalog";
 import CitationButton from "@/components/CitationButton";
+import EmbedCodeCopy from "@/components/EmbedCodeCopy";
 import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
 import DependsOnPanel from "../components/DependsOnPanel";
 
@@ -32,9 +33,24 @@ export async function generateMetadata({
   if (!indicator) {
     return { title: "系列が見つかりません — EIC Data" };
   }
+  const title = `${indicator.name} (${indicator.id}) — EIC Data`;
+  const description = `D-011 メタデータ: ${indicator.name}。出典 ${indicator.source_name}、頻度 ${indicator.frequency}、ライセンス ${indicator.license}。`;
+  const ogUrl = `/api/og/catalog/${indicator.id}`;
   return {
-    title: `${indicator.name} (${indicator.id}) — EIC Data`,
-    description: `D-011 メタデータ: ${indicator.name}。出典 ${indicator.source_name}、頻度 ${indicator.frequency}、ライセンス ${indicator.license}。`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      images: [{ url: ogUrl, width: 1200, height: 630, alt: indicator.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogUrl],
+    },
   };
 }
 
@@ -155,7 +171,7 @@ export default async function IndicatorPage({ params }: PageProps) {
         />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 space-y-4">
         <CitationButton
           citation={{
             slug: indicator.id,
@@ -166,6 +182,7 @@ export default async function IndicatorPage({ params }: PageProps) {
             license: indicator.license,
           }}
         />
+        <EmbedCodeCopy indicatorId={indicator.id} />
       </div>
 
       <div className="mt-6 flex gap-3 text-[12px]">

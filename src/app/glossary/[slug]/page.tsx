@@ -24,9 +24,43 @@ export async function generateMetadata({
   if (!term) {
     return { title: "用語が見つかりません — EIC Data" };
   }
+  const title = `${term.name} — EIC Data 用語集`;
+  const description = term.description.slice(0, 120);
+  const ogUrl = `/api/og/glossary/${term.slug}`;
   return {
-    title: `${term.name} — EIC Data 用語集`,
-    description: term.description.slice(0, 120),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      images: [{ url: ogUrl, width: 1200, height: 630, alt: term.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogUrl],
+    },
+  };
+}
+
+const SITE_URL = "https://data.eic-jp.org";
+
+function buildDefinedTermJsonLd(term: NonNullable<ReturnType<typeof getTermBySlug>>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    name: term.name,
+    description: term.description,
+    inDefinedTermSet: {
+      "@type": "DefinedTermSet",
+      name: "EIC Data 用語集",
+      url: `${SITE_URL}/glossary`,
+    },
+    termCode: term.slug,
+    url: `${SITE_URL}/glossary/${term.slug}`,
+    inLanguage: "ja",
   };
 }
 
@@ -36,9 +70,14 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   if (!term) notFound();
 
   const related = findRelatedInsights(term);
+  const definedTermJsonLd = buildDefinedTermJsonLd(term);
 
   return (
     <Container size="compact" className="py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermJsonLd) }}
+      />
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">

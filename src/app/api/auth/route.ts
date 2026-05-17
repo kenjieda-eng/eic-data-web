@@ -15,6 +15,12 @@
  */
 
 import { issueToken, validateToken } from "@/lib/api-auth";
+import {
+  RATE_LIMITS,
+  clientIpFrom,
+  rateLimit,
+  withRateLimitHeaders,
+} from "@/lib/rate-limit";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -28,13 +34,23 @@ export async function OPTIONS() {
 }
 
 export async function POST(request: Request) {
+  // Token 発行はメール検証コストが高い + brute-force 抑止のため newsletter と同じ厳しめ枠
+  const ip = clientIpFrom(request.headers);
+  const rl = await rateLimit(ip, RATE_LIMITS.newsletter);
+  if (!rl.ok) {
+    return Response.json(
+      { ok: false, error: `Too Many Requests (retry in ${rl.retryAfter}s)` },
+      { status: 429, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
   } catch {
     return Response.json(
       { ok: false, error: "Invalid JSON body" },
-      { status: 400, headers: CORS_HEADERS },
+      { status: 400, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
   const obj = (body ?? {}) as Record<string, unknown>;
@@ -45,7 +61,7 @@ export async function POST(request: Request) {
   const result = issueToken({ email, agreedToTerms: agreed, scope });
   return Response.json(result, {
     status: result.ok ? 200 : 400,
-    headers: CORS_HEADERS,
+    headers: withRateLimitHeaders(CORS_HEADERS, rl),
   });
 }
 

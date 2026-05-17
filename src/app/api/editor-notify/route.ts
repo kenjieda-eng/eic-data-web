@@ -12,6 +12,12 @@ import {
   sendEditorNotification,
   type EditorNotifyResult,
 } from "@/lib/editor-notification";
+import {
+  RATE_LIMITS,
+  clientIpFrom,
+  rateLimit,
+  withRateLimitHeaders,
+} from "@/lib/rate-limit";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -25,6 +31,20 @@ export async function OPTIONS() {
 }
 
 export async function POST(request: Request) {
+  const ip = clientIpFrom(request.headers);
+  const rl = await rateLimit(ip, RATE_LIMITS.editorNotify);
+  if (!rl.ok) {
+    return Response.json(
+      {
+        ok: false,
+        notified: false,
+        recipients: [],
+        error: `Too Many Requests (retry in ${rl.retryAfter}s)`,
+      } satisfies EditorNotifyResult,
+      { status: 429, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -36,7 +56,7 @@ export async function POST(request: Request) {
         recipients: [],
         error: "Invalid JSON body",
       } satisfies EditorNotifyResult,
-      { status: 400, headers: CORS_HEADERS },
+      { status: 400, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 
@@ -50,7 +70,7 @@ export async function POST(request: Request) {
         recipients: [],
         error: "slug is required",
       } satisfies EditorNotifyResult,
-      { status: 400, headers: CORS_HEADERS },
+      { status: 400, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 
@@ -63,7 +83,7 @@ export async function POST(request: Request) {
         recipients: [],
         error: `Insight slug not found: ${slug}`,
       } satisfies EditorNotifyResult,
-      { status: 404, headers: CORS_HEADERS },
+      { status: 404, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 
@@ -78,6 +98,6 @@ export async function POST(request: Request) {
       insight,
       error: result.sent ? undefined : result.reason,
     } satisfies EditorNotifyResult,
-    { status: 200, headers: CORS_HEADERS },
+    { status: 200, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
   );
 }

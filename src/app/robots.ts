@@ -7,7 +7,10 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
+        // N9 (2026-05-17): /api/og/* は SEO 上必要 (Open Graph image を取得しに来る
+        // Googlebot/Slackbot がブロックされないよう個別 allow)、それ以外の /api/* は
+        // 引き続き crawl 対象外。
+        allow: ["/", "/api/og/"],
         disallow: ["/api/"],
       },
     ],

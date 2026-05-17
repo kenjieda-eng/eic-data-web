@@ -45,6 +45,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // N8 (2026-05-17): /embed/<id> も sitemap に登録し、業界フロントが
+  // 直接埋め込み URL を発見できるようにする。priority は低め (主目的は iframe 経由)。
+  const embedPages: MetadataRoute.Sitemap = catalog.indicators.map((ind) => ({
+    url: `${SITE_URL}/embed/${ind.id}`,
+    lastModified: ind.updated_at ? new Date(ind.updated_at) : now,
+    changeFrequency: "daily",
+    priority: 0.3,
+  }));
+
   const domainPages: MetadataRoute.Sitemap = DOMAINS_DAY8.map((d) => ({
     url: `${SITE_URL}/domain/${d.id}`,
     lastModified: now,
@@ -70,6 +79,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...fixed,
     ...insightPages,
     ...catalogPages,
+    ...embedPages,
     ...domainPages,
     ...glossaryPages,
     ...todayPages,
