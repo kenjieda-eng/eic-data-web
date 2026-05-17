@@ -92,6 +92,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "global-lng-price-comparison": "ChartLine",
   "japan-cpi-vs-yen-energy": "ChartLagBars",
   "japan-industrial-vs-power": "ChartLagBars",
+  "fuel-chain-overview": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
