@@ -346,6 +346,43 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "Carbon Pricing。CO2 排出に価格付けする政策手段の総称。3 形態: ① 炭素税（税として政府が徴収）② 排出量取引（市場で排出枠を取引、EU ETS が代表）③ クレジット取引（削減量を売買、自主参加）。日本では 2026 年 GX-ETS 導入 + 2028 年 炭素賦課金開始予定。電力業界では発電コストへの上乗せ → JEPX 価格上昇圧力。Phase D 期（6 月以降）で関連系列追加検討候補。",
     category: "economy",
   },
+
+  // ===== Day 6 PM (2026-05-17) international 拡張 +5 項目: 45 → 50 =====
+  {
+    slug: "fed-dot-plot",
+    name: "FRB ドットプロット",
+    description:
+      "Fed Dot Plot。FRB（FOMC）が年 4 回（3/6/9/12 月）公表する Summary of Economic Projections（SEP）に含まれる、各 FOMC メンバーが妥当と考える将来の Fed Funds Rate を点で散布した図。市場は中央値（median dot）を「FRB の利上げ／利下げ意図のシグナル」として注視。日本の電力・燃料市場には FFR → 日米金利差 → 為替 → 円建て燃料コスト経由で波及。Insight 関連: us-2y-vs-jepx-tokyo, fed-funds-vs-jepx-tokyo。",
+    category: "international",
+  },
+  {
+    slug: "core-pce",
+    name: "米コア PCE",
+    description:
+      "Core PCE Price Index。米商務省 BEA が月次公表する個人消費支出物価指数から食品・エネルギーを除いたもの。FRB が CPI ではなく PCE を「最重視するインフレ指標」と公式声明で位置付けており、コア PCE 前年同月比 2% が長期目標。これを上回れば利上げ／利下げ停止圧力 → ドル高 → 円安 → 日本のエネルギー輸入コスト上昇。BLS の CPI とは指数構成・対象期間・帰属家賃の扱いが異なる。Insight 関連: us-cpi-vs-fx, us-food-cpi-vs-yen-lng。",
+    category: "international",
+  },
+  {
+    slug: "yield-curve-inversion",
+    name: "イールドカーブ逆転",
+    description:
+      "Yield Curve Inversion。長短金利逆転（典型的には US 10Y < US 2Y）。歴史的に景気後退の先行指標として最も信頼性が高いシグナルの一つで、過去 50 年で 8 回中 7 回後に景気後退が発生（誤シグナル 1 回）。逆転 → 銀行の収益悪化 → 貸出鈍化 → 投資縮小の経路。日本のエネルギー需要にも 6-18 か月遅れで波及し、JEPX 需要側を冷ます方向に作用。Insight 関連: us-yield-curve-vs-jp-demand, spread-us-jp-10y-vs-fx。用語集 [[inversion]] とは個別概念、本項目は経済シグナルとしての文脈。",
+    category: "international",
+  },
+  {
+    slug: "cbam",
+    name: "国境炭素調整 (CBAM)",
+    description:
+      "Carbon Border Adjustment Mechanism。EU が 2026 年本格施行する炭素関税。EU 域内に輸入される鉄鋼・アルミ・セメント・肥料・電力・水素・鉱物のうち、域外で排出された CO2 量に対し EU ETS 価格との差額を「CBAM 証書」として徴収。日本企業の EU 輸出（自動車部品 / 機械 / 化学）に直接コスト発生、間接的に日本の電力業界へも GX-ETS 価格上昇圧力。[[eua]] [[gx-ets]] と連動。Insight 関連: eu-ets-vs-yen-lng。",
+    category: "international",
+  },
+  {
+    slug: "lng-spot-vs-contract",
+    name: "LNG スポット vs 長期契約",
+    description:
+      "LNG Spot vs Long-Term Contract。日本の LNG 調達は ① JKM 連動スポット ② Brent 連動長期契約（HH 連動 / oil-indexed）の 2 系統。スポット比率は 2010 年 ~10% → 2024 年 ~30% へ拡大、価格変動性も上昇。長期契約は 15-20 年・take-or-pay 条項あり、価格は安定するが volume の柔軟性が低い。電力会社は両者をハイブリッド調達し fuel-adj 申請に反映。[[lng-jkm]] [[fuel-shock]] [[cif-price]] と密接。Insight 関連: global-lng-price-comparison, lng-vs-price-tokyo。",
+    category: "international",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {

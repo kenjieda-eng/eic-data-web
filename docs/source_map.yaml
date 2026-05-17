@@ -1,0 +1,57 @@
+# source_map.yaml — eic-data-pipeline と本 web repo の取得元・ライセンス対応表
+#
+# Phase C Day 6 (2026-05-17) で N10 EDINET スキャフォルディング初版として新設。
+# 本ファイルは scripts/fetch_*.py / .mjs の取得元情報の正本 (single source of truth)
+# としての位置づけで、catalog (data/catalog/indicators.json) の license / source_url
+# と整合させて管理する。
+#
+# Phase D 第 1 期 (5/20 以降) で edinet 以外の既存出典 (jma / jepx / boj / fred 等)
+# も逐次追記し、最終的に catalog 全 113 系列の出典をここで集中管理する設計。
+
+schema_version: 1
+generated_at: "2026-05-17"
+
+sources:
+  edinet:
+    label: "EDINET (金融庁 電子開示システム) API v2"
+    site_url: "https://disclosure2.edinet-fsa.go.jp/"
+    api_base: "https://disclosure.edinet-fsa.go.jp/api/v2"
+    license: "edinet-terms"
+    license_url: "https://disclosure2.edinet-fsa.go.jp/weee0010.aspx"
+    license_notice: |
+      EDINET API 利用規約に従う。
+      - 取得頻度は 5 req/sec 以下
+      - サブスクリプションキーは個人/法人で別途取得
+      - 取得データの再配布は非営利かつ出典明示が必要
+    auth:
+      env_var: "EDINET_SUBSCRIPTION_KEY"
+      env_var_expires_at: "EDINET_SUBSCRIPTION_KEY_EXPIRES_AT"
+      required: true
+    fetch:
+      script: "scripts/fetch_edinet.py"
+      script_status: "scaffolding"  # Phase D Q1 で "live" に昇格予定
+      rate_limit_rps: 5
+      retry_max: 3
+      retry_backoff_sec: 2
+    freshness:
+      freshness_sla_days: 7
+      reason: "EDINET 開示後 1 週間以内に取得 → eic-data-pipeline へ流すのが望ましい"
+    coverage:
+      doc_types:
+        - "120"  # 有価証券報告書
+        - "130"  # 訂正有価証券報告書
+        - "140"  # 四半期報告書
+        - "150"  # 訂正四半期報告書
+        - "160"  # 半期報告書
+        - "170"  # 訂正半期報告書
+      planned_indicators:
+        # 本日 (Day 6) はスキャフォルディングのみ、indicator の catalog 登録は Phase D Q1。
+        # ここに記載するのは "将来 ingest 予定" のラベルだけ。
+        - "edinet-financial-statements"   # 主要 IR 数値
+        - "edinet-segment-revenue"        # セグメント別売上
+        - "edinet-capex"                  # 設備投資
+        - "edinet-energy-disclosure"      # エネルギー関連定性開示
+    notes: |
+      - eic-data-pipeline 側で data/raw/edinet/<doc_id>/metadata.json として保管
+      - 個別企業の facts は public な数値のみ抽出、個人情報は格納しない
+      - 引用時は出典「EDINET (金融庁)」+ doc_id + filed_date を必須記載

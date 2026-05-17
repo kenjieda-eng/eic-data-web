@@ -23,6 +23,7 @@ import {
   rateLimit,
   withRateLimitHeaders,
 } from "@/lib/rate-limit";
+import { bumpUsage } from "@/lib/usage-stats";
 
 export const revalidate = 86400; // 24 時間
 
@@ -65,6 +66,7 @@ export async function GET(request: Request, { params }: RouteParams) {
     );
   }
 
+  bumpUsage("apiReq");
   try {
     const catalog = await fetchCatalog();
     const indicator = catalog.indicators.find((i) => i.id === id);

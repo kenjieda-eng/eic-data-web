@@ -15,6 +15,7 @@ import {
   rateLimit,
   withRateLimitHeaders,
 } from "@/lib/rate-limit";
+import { bumpUsage } from "@/lib/usage-stats";
 
 export const revalidate = 3600; // 1 時間
 
@@ -39,6 +40,7 @@ export async function GET(request: Request) {
     );
   }
 
+  bumpUsage("apiReq");
   try {
     const catalog = await fetchCatalog();
     return Response.json(catalog, {

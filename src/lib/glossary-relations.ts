@@ -150,6 +150,23 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "carbon-pricing", to: "fuel-pass-through", weight: 0.6 },
   { from: "yen-denominated-cost", to: "fuel-pass-through", weight: 0.85 },
   { from: "yen-denominated-cost", to: "energy-inflation", weight: 0.7 },
+
+  // ===== Day 6 PM (2026-05-17) international +5 項目に伴う +10 エッジ (99 → 109) =====
+  // fed-dot-plot (FRB 政策ガイダンス) クラスタ
+  { from: "fed-dot-plot", to: "fed-funds-rate", weight: 0.95 },
+  { from: "fed-dot-plot", to: "fed-funds-rate-jp-spillover", weight: 0.75 },
+  // core-pce (FRB 最重視インフレ指標) クラスタ
+  { from: "core-pce", to: "fed-funds-rate", weight: 0.9 },
+  { from: "core-pce", to: "core-cpi", weight: 0.85 },
+  // yield-curve-inversion (景気後退シグナル、既存 inversion とは別文脈)
+  { from: "yield-curve-inversion", to: "yield-curve", weight: 0.95 },
+  { from: "yield-curve-inversion", to: "industrial-production", weight: 0.6 },
+  // cbam (EU 国境炭素調整、EU ETS と密接)
+  { from: "cbam", to: "eu-ets", weight: 0.95 },
+  { from: "cbam", to: "carbon-pricing", weight: 0.85 },
+  // lng-spot-vs-contract (日本 LNG 調達構造)
+  { from: "lng-spot-vs-contract", to: "lng-jkm", weight: 0.95 },
+  { from: "lng-spot-vs-contract", to: "fuel-shock", weight: 0.7 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
