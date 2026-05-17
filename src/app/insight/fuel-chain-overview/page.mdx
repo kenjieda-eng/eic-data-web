@@ -1,0 +1,85 @@
+export const metadata = {
+  title: "燃料チェーン俯瞰：欧州 TTF → 日本 LNG → JEPX の伝播経路 | EIC Data",
+  description: "Insight #11-#15 を 1 ページに統合。欧州ガス危機（TTF）から日本の電気代（JEPX）まで、燃料チェーン 3 層 + 為替要因分解の全体像を俯瞰、北極星「エネルギーと金融の引用インフラ」の象徴記事。",
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 燃料チェーン俯瞰：欧州 TTF → 日本 LNG → JEPX の伝播経路
+
+<blockquote className="border-l-4 border-emerald-600 bg-emerald-50 p-4 my-6">
+  Insight #11-#15 を **1 ページに統合**。欧州ガス危機（TTF）から日本の電気代（JEPX）まで、燃料チェーン 3 層 + 為替要因分解の全体像を俯瞰。**北極星「日本のエネルギーと金融の引用インフラ」の象徴記事**として、研究者が引用する基準点。
+</blockquote>
+
+## 背景
+
+2022 年ウクライナ侵攻 + 欧州ガス危機 → 円安 → 日本の電気代高騰、という連鎖は **時間差を伴う 4 段階**で発生した。本記事はこの全体像を 1 ページで提示する。
+
+| 段階 | 上流 → 下流 | 時間差 | 担当 Insight |
+|---|---|---|---|
+| 1 | TTF（欧州ガス）→ 日本 LNG CIF | **3-4 ヶ月** | [#14](/insight/ttf-lag-vs-lng-jp) |
+| 2 | LNG ドル建て × 為替 → 円建て LNG | 同月（同期）| [#15](/insight/fx-decomp-lng-jepx-tokyo) |
+| 3 | 円建て LNG → JEPX 東京 | **5-6 ヶ月** | [#11](/insight/lng-vs-price-tokyo) + [#12](/insight/lng-lag-vs-price-tokyo) |
+| 4 | JEPX → 家庭電気料金（燃料費調整制度）| **2-3 ヶ月** | （Phase 4 候補）|
+
+総時間差: **10-15 ヶ月** で、欧州ガス危機が日本の家計に届く。
+
+## チャート 1-4: 燃料チェーンの 4 段階
+
+<ChartLine id="fuel-ng-europe-ttf" title="① 欧州 TTF（$/MMBtu、月次）" />
+
+<ChartLine id="fuel-lng-jp-cif" title="② 日本 LNG 輸入価格 CIF（$/MMBtu、月次）" />
+
+<ChartLine id="fx-usdjpy-monthly-avg" title="③ USD/JPY 月中平均（円/ドル、月次）" />
+
+<ChartLine id="jepx-spot-tokyo" title="④ JEPX 東京（¥/kWh、月次）" />
+
+> Phase B-A Day 6 で `<ChartDual>` を使って 4 段階を 1 chart で重ね描きする案も。
+
+## 数値で見る（5/20 Phase B-A Day 9 に正確な値を埋める）
+
+2022 年 ウクライナ侵攻ピーク以降の各段階:
+
+| 段階 | 2020-12（基準月）| 2022-08（ピーク）| 増加倍率 |
+|---|---|---|---|
+| TTF | 約 7 $/MMBtu | 約 70 $/MMBtu | **× 10** |
+| 日本 LNG CIF | 約 6 $/MMBtu | 約 30 $/MMBtu | × 5 |
+| USD/JPY | 約 104 円 | 約 137 円 | × 1.32 |
+| 円建て LNG | 約 624 円/MMBtu | 約 4,110 円/MMBtu | × 6.6 |
+| JEPX 東京 | 約 7 ¥/kWh | 約 35 ¥/kWh | × 5 |
+
+## 解釈（マコト・ハル編集知見）
+
+**3 つの主要メッセージ**:
+
+**(1) 燃料チェーンは時間差が大きい**: 欧州 TTF が動いてから日本の電気代に反映されるまで 10-15 ヶ月。日本の家計が「2022 年夏に電気代上昇」と感じた時点で、欧州ではすでに価格が落ち着き始めていた。
+
+**(2) 為替が増幅装置**: TTF が 10 倍に急騰したが、日本 LNG（ドル建て）は 5 倍止まり。しかし円安で **円建て LNG は 6.6 倍**まで増幅。為替が燃料コストの増幅装置として機能。
+
+**(3) JEPX は LNG を反映するが完全比例ではない**: 円建て LNG が 6.6 倍でも、JEPX は 5 倍。これは火力以外の電源（原発 + 太陽光 + 水力）がベースロードとして価格上昇を緩和したため。
+
+**北極星「引用インフラ」としての価値**: 本記事は **TTF + 日本 LNG + 為替 + JEPX の 4 系列を 1 ページで揃える**ことで、ジャーナリスト・研究者・政策担当者が「ウクライナ侵攻が日本の電気代に届いた経路」を具体的に引用できる構造を提供。FRED が金融指標を、Ember がエネルギー指標を提供するが、両者を交差させて時系列で並べるのが EIC Data の独自性。
+
+## 注意点
+
+- 全ての時間差はあくまで **典型的な月数** で、燃料急騰局面ではラグが短縮（即時反映）する傾向
+- 燃料費調整制度経由の家計伝播（4 段階目）は別 Insight で扱う
+- 各段階のデータソース・ライセンスは個別記事を参照
+
+## 関連 Insight
+
+- TTF → 日本 LNG ラグ相関（[#14](/insight/ttf-lag-vs-lng-jp)）
+- LNG × JEPX 東京（[#11](/insight/lng-vs-price-tokyo)）
+- LNG → JEPX ラグ相関（[#12](/insight/lng-lag-vs-price-tokyo)）
+- Brent → JEPX ラグ相関（[#13](/insight/brent-lag-vs-price-tokyo)）
+- 円安 × LNG × JEPX 要因分解（[#15](/insight/fx-decomp-lng-jepx-tokyo)）
+
+## 出典
+
+- World Bank Pink Sheet（CC-BY-4.0）+ BOJ FM08（boj-terms）+ JEPX（jepx-terms）
+
+---
+
+*更新日: 2026-05-17 (Phase D 前倒し配置) ／ schema: D-011*
+
+</div>

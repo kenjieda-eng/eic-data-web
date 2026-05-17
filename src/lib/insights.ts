@@ -472,6 +472,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["METI 鉱工業生産指数", "METI 電力調査統計"],
     updated: "2026-05-16",
   },
+  {
+    slug: "fuel-chain-overview",
+    title: "燃料チェーン俯瞰：欧州 TTF → 日本 LNG → JEPX の伝播経路",
+    lede: "Insight #11-#15 を 1 ページに統合。欧州ガス危機（TTF）から日本の電気代（JEPX）まで、燃料チェーン 3 層 + 為替要因分解の全体像を俯瞰、北極星「引用インフラ」の象徴記事",
+    tags: ["燃料", "金融", "為替", "電力", "LNG", "TTF", "Brent", "JEPX"],
+    sources: ["World Bank Pink Sheet", "日本銀行 FM08", "JEPX"],
+    updated: "2026-05-17",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
