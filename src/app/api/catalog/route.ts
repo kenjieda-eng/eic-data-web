@@ -9,6 +9,12 @@
  */
 
 import { fetchCatalog } from "@/lib/catalog";
+import {
+  RATE_LIMITS,
+  clientIpFrom,
+  rateLimit,
+  withRateLimitHeaders,
+} from "@/lib/rate-limit";
 
 export const revalidate = 3600; // 1 時間
 
@@ -23,15 +29,27 @@ export async function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS_HEADERS });
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+  const ip = clientIpFrom(request.headers);
+  const rl = await rateLimit(ip, RATE_LIMITS.data);
+  if (!rl.ok) {
+    return Response.json(
+      { error: "Too Many Requests", retryAfter: rl.retryAfter },
+      { status: 429, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
+    );
+  }
+
   try {
     const catalog = await fetchCatalog();
     return Response.json(catalog, {
-      headers: {
-        ...CORS_HEADERS,
-        "Cache-Control":
-          "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
-      },
+      headers: withRateLimitHeaders(
+        {
+          ...CORS_HEADERS,
+          "Cache-Control":
+            "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+        },
+        rl,
+      ),
     });
   } catch (error) {
     return Response.json(
@@ -39,7 +57,7 @@ export async function GET() {
         error: "Failed to fetch catalog",
         message: error instanceof Error ? error.message : String(error),
       },
-      { status: 502, headers: CORS_HEADERS },
+      { status: 502, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 }

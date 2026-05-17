@@ -16,6 +16,12 @@ import {
   sendConfirmEmail,
   type SubscribeResult,
 } from "@/lib/newsletter";
+import {
+  RATE_LIMITS,
+  clientIpFrom,
+  rateLimit,
+  withRateLimitHeaders,
+} from "@/lib/rate-limit";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -29,13 +35,26 @@ export async function OPTIONS() {
 }
 
 export async function POST(request: Request) {
+  const ip = clientIpFrom(request.headers);
+  const rl = await rateLimit(ip, RATE_LIMITS.newsletter);
+  if (!rl.ok) {
+    return Response.json(
+      {
+        ok: false,
+        emailSent: false,
+        error: `Too Many Requests (retry in ${rl.retryAfter}s)`,
+      } satisfies SubscribeResult,
+      { status: 429, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
   } catch {
     return Response.json(
       { ok: false, emailSent: false, error: "Invalid JSON body" } satisfies SubscribeResult,
-      { status: 400, headers: CORS_HEADERS },
+      { status: 400, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 
@@ -45,7 +64,7 @@ export async function POST(request: Request) {
   if (!isValidEmail(email)) {
     return Response.json(
       { ok: false, emailSent: false, error: "Invalid email" } satisfies SubscribeResult,
-      { status: 400, headers: CORS_HEADERS },
+      { status: 400, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 
@@ -65,7 +84,7 @@ export async function POST(request: Request) {
         confirmRequired: false,
         error: "RESEND_API_KEY not set (scaffold mode)",
       } satisfies SubscribeResult,
-      { status: 200, headers: CORS_HEADERS },
+      { status: 200, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
     );
   }
 

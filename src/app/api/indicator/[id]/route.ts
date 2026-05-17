@@ -17,6 +17,12 @@
 
 import { fetchCatalog } from "@/lib/catalog";
 import { fetchSeries } from "@/lib/series";
+import {
+  RATE_LIMITS,
+  clientIpFrom,
+  rateLimit,
+  withRateLimitHeaders,
+} from "@/lib/rate-limit";
 
 export const revalidate = 86400; // 24 時間
 
@@ -49,6 +55,15 @@ export async function GET(request: Request, { params }: RouteParams) {
   const { id: rawId } = await params;
   // .json 末尾は寛容に剥がす (curl /api/indicator/foo.json でも /api/indicator/foo でも同じ動作)
   const id = rawId.replace(/\.json$/, "");
+
+  const ip = clientIpFrom(request.headers);
+  const rl = await rateLimit(ip, RATE_LIMITS.data);
+  if (!rl.ok) {
+    return Response.json(
+      { error: "Too Many Requests", retryAfter: rl.retryAfter },
+      { status: 429, headers: withRateLimitHeaders(CORS_HEADERS, rl) },
+    );
+  }
 
   try {
     const catalog = await fetchCatalog();
@@ -86,11 +101,14 @@ export async function GET(request: Request, { params }: RouteParams) {
         },
       },
       {
-        headers: {
-          ...CORS_HEADERS,
-          "Cache-Control":
-            "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
-        },
+        headers: withRateLimitHeaders(
+          {
+            ...CORS_HEADERS,
+            "Cache-Control":
+              "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+          },
+          rl,
+        ),
       },
     );
   } catch (error) {
