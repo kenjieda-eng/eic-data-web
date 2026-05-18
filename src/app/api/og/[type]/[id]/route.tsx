@@ -23,6 +23,7 @@ import { GLOSSARY_TERMS } from "@/app/glossary/data";
 import { INSIGHTS } from "@/lib/insights";
 import {
   catalogCard,
+  defaultCard,
   glossaryCard,
   insightCard,
   isValidOgType,
@@ -49,6 +50,9 @@ async function buildOgCard(type: string, id: string): Promise<OgCard | null> {
   if (type === "glossary") {
     const term = GLOSSARY_TERMS.find((t) => t.slug === id);
     return term ? glossaryCard(term) : null;
+  }
+  if (type === "default") {
+    return defaultCard(id);
   }
   return null;
 }

@@ -53,8 +53,22 @@ export function glossaryCard(term: { name: string; slug: string; description: st
   };
 }
 
-export const VALID_OG_TYPES = new Set(["catalog", "insight", "glossary"] as const);
-export type OgType = "catalog" | "insight" | "glossary";
+/**
+ * default タイプ: TOP / メタページ (data-quality, methodology, search 等) 用の汎用カード。
+ * id は path-slug (例: "home", "data-quality", "methodology")。
+ * 2026-05-18: OGP 自動生成完全版で追加、全 ~302 ページ自動配置のため。
+ */
+export function defaultCard(id: string): OgCard {
+  return {
+    badge: "EIC Data",
+    title: "日本のエネルギーと金融の引用インフラ",
+    body: "エネルギー・金融・マクロ経済の引用可能データ基盤。catalog 122 系列 + Insight 60 本 + 用語集 50 項目。",
+    meta: id === "home" ? "data.eic-jp.org" : `data.eic-jp.org/${id}`,
+  };
+}
+
+export const VALID_OG_TYPES = new Set(["catalog", "insight", "glossary", "default"] as const);
+export type OgType = "catalog" | "insight" | "glossary" | "default";
 
 export function isValidOgType(type: string): type is OgType {
   return VALID_OG_TYPES.has(type as OgType);
