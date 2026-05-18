@@ -83,8 +83,8 @@ describe("Phase B-B Day 3: grouping ロジック", () => {
 });
 
 describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 で #43-#47 を 5 本追加 + Day 5 朝で #48-#50 + Day 5 午後で #51 + Day 5 午後第 2 弾で #52-#54 + Day 5 午後第 3 弾で #55-#56 + Day 5 午後第 4 弾で #57-#58 (日本 CPI/鉱工業) 追加", () => {
-  test("INSIGHTS が 59 件に到達 (5/17 夜で #59 fuel-chain-overview を追加)", () => {
-    expect(INSIGHTS).toHaveLength(59);
+  test("INSIGHTS が 60 件に到達 (5/18 朝で #60 fed-funds-vs-fx を追加 = 機能完全形 60/60 達成、北極星到達日)", () => {
+    expect(INSIGHTS).toHaveLength(60);
   });
 
   test("Day 13 で追加した 3 slug (us-cpi-vs-fx / fed-funds-vs-jepx-tokyo / us-industrial-vs-jp-demand) が INSIGHTS に存在", () => {
