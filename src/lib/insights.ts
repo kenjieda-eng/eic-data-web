@@ -480,6 +480,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["World Bank Pink Sheet", "日本銀行 FM08", "JEPX"],
     updated: "2026-05-17",
   },
+  {
+    slug: "fed-funds-vs-fx",
+    title: "FF レート × USD/JPY：FRB 政策金利と為替の直結",
+    lede: "米 FF レート (FRED FEDFUNDS) と USD/JPY 月中平均の相関を見る。FRB の利上げ・利下げが為替に即時反映される構造を可視化、Insight #35 (日米金利差) との対比で説明力の差を実証",
+    tags: ["金融", "為替", "金利", "米国", "FRB", "FF レート"],
+    sources: ["FRED FEDFUNDS", "日本銀行 FM08"],
+    updated: "2026-05-18",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

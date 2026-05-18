@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 59 本全 slug がマップに含まれる (5/17 夜で #59 fuel-chain-overview を追加)", () => {
+  test("INSIGHT_RENDERER_MAP: 60 本全 slug がマップに含まれる (5/18 朝で #60 fed-funds-vs-fx を追加 = 機能完全形 60/60 達成)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(59);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(59);
+    expect(INSIGHTS.length).toBe(60);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(60);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -39,18 +39,19 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(getInsightRenderer("spread-us-jp-10y-vs-fx")).toBe("ChartSpread");
   });
 
-  test("filterInsights: tag=「金融」で 17 件 (5/17 夜 #59 fuel-chain-overview 追加で +1)", () => {
+  test("filterInsights: tag=「金融」で 18 件 (5/18 朝 #60 fed-funds-vs-fx 追加で +1)", () => {
     const filtered = filterInsights(INSIGHTS, { tag: "金融" });
-    expect(filtered.length).toBe(17);
+    expect(filtered.length).toBe(18);
     const slugs = filtered.map((i) => i.slug);
     expect(slugs).toContain("jgb-vs-yen-lng");
     expect(slugs).toContain("us-cpi-vs-fx");
     expect(slugs).toContain("fed-funds-vs-jepx-tokyo");
+    expect(slugs).toContain("fed-funds-vs-fx");
   });
 
-  test("filterInsights: domain=finance で 17 件 (金融タグ含む = finance domain 導出)", () => {
+  test("filterInsights: domain=finance で 18 件 (金融タグ含む = finance domain 導出)", () => {
     const filtered = filterInsights(INSIGHTS, { domain: "finance" });
-    expect(filtered.length).toBe(17);
+    expect(filtered.length).toBe(18);
   });
 
   test("filterInsights: renderer=ChartHeatmap で 9 地点ヒートマップ 5 本 + Day 5 午後第 3 弾の #55 fx-resilience-by-region で 6 本", () => {
@@ -84,9 +85,9 @@ describe("Phase C Day 1: insight-facets", () => {
   test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(59);
+    expect(all?.count).toBe(60);
     const finance = facets.domains.find((d) => d.value === "finance");
-    expect(finance?.count).toBe(17);
+    expect(finance?.count).toBe(18);
   });
 
   test("getInsightNeighbors: 中間 slug は prev + next 両方存在、両端は片側 null", () => {
