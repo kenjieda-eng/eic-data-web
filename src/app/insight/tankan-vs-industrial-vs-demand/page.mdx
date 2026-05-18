@@ -1,6 +1,13 @@
 export const metadata = {
   title: "日銀短観 × 鉱工業生産 × 電力需要：景況感が電気に届くまでの 3 軸 | EIC Data",
   description: "日銀短観 大企業製造業 DI (tankan-large-mfg-di、四半期) と鉱工業生産 + 日本電力需要 (meti-demand-total) の 3 軸対比。景況感が実体経済を経由して電力市場に届く伝播メカニズムを 30 年データで可視化、リーマン・コロナ・円安期で構造検証。",
+  openGraph: {
+    images: ['/api/og/insight/tankan-vs-industrial-vs-demand'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/tankan-vs-industrial-vs-demand'],
+  },
 };
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">

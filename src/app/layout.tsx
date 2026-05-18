@@ -49,6 +49,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const title = "EIC Data — 日本のエネルギーと金融の引用インフラ";
   const description =
     "一般社団法人エネルギー情報センターが運営する、エネルギー・金融・マクロ経済の引用可能データ基盤。";
+  // 2026-05-18: OGP 自動生成完全版。catalog/glossary/insight 個別ページは generateMetadata で
+  // 各 type の og 画像を override する。Root の default 値は TOP / メタページ (data-quality,
+  // methodology, search 等) の継承元として効く。
+  const ogUrl = "/api/og/default/home";
   return {
     metadataBase: new URL("https://data.eic-jp.org"),
     title,
@@ -59,11 +63,13 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       siteName: "EIC Data",
       locale: "ja_JP",
+      images: [{ url: ogUrl, width: 1200, height: 630, alt: "EIC Data" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
+      images: [ogUrl],
     },
     other: {
       "data-catalog-version": String(catalog.version),

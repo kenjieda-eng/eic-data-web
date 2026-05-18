@@ -1,6 +1,13 @@
 export const metadata = {
   title: "米失業率 × 日本電力需要：景気波及の長いトンネル | EIC Data",
   description: "米国失業率 (月次、%) と日本電力販売量 (meti-demand-total、月次、GWh) のラグ相関を 6-12 ヶ月で走査。米国景気減速 → 日本輸出減 → 製造業稼働低下 → 電力需要減という景気波及の長いトンネルを定量化、リーマンショック・コロナ期間で構造を検証。",
+  openGraph: {
+    images: ['/api/og/insight/us-unemployment-vs-jp-demand'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/us-unemployment-vs-jp-demand'],
+  },
 };
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">

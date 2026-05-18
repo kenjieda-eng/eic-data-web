@@ -1,6 +1,13 @@
 export const metadata = {
   title: "日本 CPI × 円建てエネルギー × 家計負担：エネルギー輸入価格が家計に届くまで | EIC Data",
   description: "日本 CPI 総合 (jpn-cpi-yoy、月次、%) と円建て LNG / 原油 (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu) のラグ相関を 0-12 ヶ月で走査。エネルギー輸入価格が燃料費調整 → 電気代 → 物価指数を経由して家計に届く 3-9 ヶ月の伝播構造を可視化、2022-2024 円安期の家計負担の実態を読み解く。",
+  openGraph: {
+    images: ['/api/og/insight/japan-cpi-vs-yen-energy'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/japan-cpi-vs-yen-energy'],
+  },
 };
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">

@@ -1,6 +1,13 @@
 export const metadata = {
   title: "鉄鉱石 × 火力発電：鉄鋼業を介した「資源価格 → 国内電力需要」の隠れた連動 | EIC Data",
   description: "鉄鉱石価格 (Pink Sheet、月次、$/dmt) と火力発電量 (meti-gen-thermal、月次、GWh) の関係を可視化。世界第 3 位の鉄鋼生産国・日本における鉄鋼業電力需要 (年間 35 TWh、全体の 4%) を介した「資源価格急騰 → 鉄鋼業稼働調整 → 火力発電需要変動」という隠れた連動構造を読み解く。",
+  openGraph: {
+    images: ['/api/og/insight/iron-ore-vs-thermal-power'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/iron-ore-vs-thermal-power'],
+  },
 };
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
