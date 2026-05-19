@@ -21,7 +21,7 @@ export default function SlaInterpretation({
       </h2>
       <p className="text-[12px] text-subink leading-relaxed mb-3">
         現在{" "}
-        <strong style={{ color: "#d97706" }}>{warningCount} 件の警告</strong> +{" "}
+        <strong style={{ color: "#92400e" }}>{warningCount} 件の警告</strong> +{" "}
         <strong style={{ color: "#dc2626" }}>{breachCount} 件の違反</strong>{" "}
         が表示されていますが、これは{" "}
         <b>「データ取得が違法・不正」を意味するものではありません</b>。 全 {total}{" "}

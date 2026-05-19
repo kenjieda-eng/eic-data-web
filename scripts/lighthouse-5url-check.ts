@@ -28,6 +28,14 @@ import { execFileSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { setTimeout as sleep } from "node:timers/promises";
+
+// Day 2 (2026-05-19) で追加: Windows で Chrome cleanup race による EPERM 回避
+// - 各 URL 間に COOLDOWN_MS の待機 (Chrome プロセス終了待ち)
+// - URL ごとに最大 MAX_ATTEMPTS 回まで自動リトライ (一過性エラー吸収)
+// - chrome-launcher が掴む user-data-dir lock を解放するため毎回 tmp dir を切り直す
+const MAX_ATTEMPTS = 3;
+const COOLDOWN_MS = 5_000;
 
 const DEFAULT_BASE = "https://data.eic-jp.org";
 // 本番 URL 5 サンプル: TOP / Insight ハブ / Insight #60 / catalog ハブ / data-quality
@@ -105,23 +113,53 @@ function runLighthouseOnUrl(url: string, outDir: string): Lhr {
   // chrome-launcher は lighthouse パッケージ依存に含まれる
   // --quiet で stdout を抑制、--output=json で structured 結果
   const reportPath = join(outDir, `lhr-${Date.now()}.json`);
-  execFileSync(
-    "npx",
-    [
-      "-y",
-      "lighthouse",
-      url,
-      "--quiet",
-      "--chrome-flags=--headless=new --no-sandbox",
-      "--output=json",
-      `--output-path=${reportPath}`,
-      "--preset=desktop",
-      "--only-categories=performance,accessibility,best-practices,seo",
-    ],
-    { stdio: ["ignore", "ignore", "inherit"], shell: true },
-  );
-  const lhr = JSON.parse(readFileSync(reportPath, "utf-8")) as Lhr;
-  return lhr;
+  // 試行ごとに独立した user-data-dir を割り当てることで、前回実行が掴んだ
+  // SingletonLock を踏まないようにする (Windows で EPERM 多発の主因)
+  const chromeUserDataDir = mkdtempSync(join(tmpdir(), "lh-chrome-profile-"));
+  try {
+    execFileSync(
+      "npx",
+      [
+        "-y",
+        "lighthouse",
+        url,
+        "--quiet",
+        `--chrome-flags=--headless=new --no-sandbox --user-data-dir="${chromeUserDataDir}"`,
+        "--output=json",
+        `--output-path=${reportPath}`,
+        "--preset=desktop",
+        "--only-categories=performance,accessibility,best-practices,seo",
+      ],
+      { stdio: ["ignore", "ignore", "inherit"], shell: true },
+    );
+    const lhr = JSON.parse(readFileSync(reportPath, "utf-8")) as Lhr;
+    return lhr;
+  } finally {
+    // Chrome がまだファイルを掴んでいると EPERM になるので best-effort 削除
+    try {
+      rmSync(chromeUserDataDir, { recursive: true, force: true });
+    } catch {
+      /* ignore — 次回起動でも別の tmp dir を切るので残骸が残っても無害 */
+    }
+  }
+}
+
+async function runWithRetry(url: string, outDir: string): Promise<Lhr> {
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      if (attempt > 1) {
+        console.log(`     ↻ retry ${attempt}/${MAX_ATTEMPTS} after ${COOLDOWN_MS}ms cooldown`);
+        await sleep(COOLDOWN_MS);
+      }
+      return runLighthouseOnUrl(url, outDir);
+    } catch (e) {
+      lastErr = e;
+      const msg = e instanceof Error ? e.message : String(e);
+      console.log(`     ⚠ attempt ${attempt} failed: ${msg.split("\n")[0]}`);
+    }
+  }
+  throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));
 }
 
 interface CheckResult {
@@ -162,11 +200,17 @@ async function main(): Promise<void> {
   const tmp = mkdtempSync(join(tmpdir(), "lhci-5url-"));
   const results: CheckResult[] = [];
   try {
-    for (const path of URL_PATHS) {
+    for (let i = 0; i < URL_PATHS.length; i++) {
+      const path = URL_PATHS[i];
       const url = `${base}${path}`;
+      // 直前の Chrome プロセス終了を待ってから次の URL へ (Windows EPERM 対策)
+      if (i > 0) {
+        console.log(`\n[lighthouse-5url-check] cooldown ${COOLDOWN_MS}ms before next URL`);
+        await sleep(COOLDOWN_MS);
+      }
       console.log(`\n[lighthouse-5url-check] running Lighthouse on ${url}`);
       try {
-        const lhr = runLighthouseOnUrl(url, tmp);
+        const lhr = await runWithRetry(url, tmp);
         const r = evaluateLhr(lhr, thresholds);
         results.push(r);
         const status = r.failures.length === 0 ? "✅" : "❌";
@@ -180,7 +224,7 @@ async function main(): Promise<void> {
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
-        console.log(`  ❌ ${url} — Lighthouse run error: ${msg}`);
+        console.log(`  ❌ ${url} — Lighthouse run error after ${MAX_ATTEMPTS} attempts: ${msg}`);
         results.push({ url, failures: [`run error: ${msg}`], scores: {}, cls: 0 });
       }
     }

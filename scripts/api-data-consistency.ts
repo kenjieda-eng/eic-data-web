@@ -12,7 +12,7 @@
  *     2. /api/indicator/jepx-spot-tokyo       → data.length > 0 + meta.count 整合
  *     3. /api/indicator/us-fed-funds-rate     → data.length > 0 + meta.count 整合
  *     4. /api/indicator/fx-usdjpy-monthly-avg → data.length > 0 + meta.count 整合
- *     5. /api/usage-stats           → HTTP 200 + apiReq/csvDl/citeCopy キー存在
+ *     5. /api/usage-stats           → HTTP 200 + {month, counts:{apiReq,csvDl,citeCopy}, sinceIso, persistent} スキーマ整合
  *     6. /api/og/insight/fed-funds-vs-fx → HTTP 200 + content-type image/png
  *     7. /api/og/catalog/jepx-spot-tokyo → HTTP 200 + content-type image/png
  *
@@ -66,9 +66,10 @@ interface IndicatorApiShape {
 }
 
 interface UsageStatsShape {
-  apiReq?: unknown;
-  csvDl?: unknown;
-  citeCopy?: unknown;
+  month?: unknown;
+  counts?: { apiReq?: unknown; csvDl?: unknown; citeCopy?: unknown };
+  sinceIso?: unknown;
+  persistent?: unknown;
   [k: string]: unknown;
 }
 
@@ -137,14 +138,24 @@ async function main(): Promise<void> {
       },
     },
     {
-      name: "5. GET /api/usage-stats → apiReq/csvDl/citeCopy キー存在",
+      name: "5. GET /api/usage-stats → {month, counts:{apiReq,csvDl,citeCopy}, sinceIso, persistent} スキーマ整合",
       async run() {
         const data = await fetchJson<UsageStatsShape>(`${base}/api/usage-stats`);
-        const keys = ["apiReq", "csvDl", "citeCopy"] as const;
-        const missing = keys.filter((k) => !(k in data));
+        const topMissing = (["month", "counts", "sinceIso", "persistent"] as const).filter(
+          (k) => !(k in data),
+        );
+        const bucketMissing = data.counts
+          ? (["apiReq", "csvDl", "citeCopy"] as const).filter(
+              (k) => !(k in (data.counts as object)),
+            )
+          : (["apiReq", "csvDl", "citeCopy"] as const);
+        const monthValid =
+          typeof data.month === "string" && /^\d{4}-\d{2}$/.test(data.month);
+        const pass =
+          topMissing.length === 0 && bucketMissing.length === 0 && monthValid;
         return {
-          pass: missing.length === 0,
-          detail: `missing=[${missing.join(",")}] keys=[${Object.keys(data).join(",")}]`,
+          pass,
+          detail: `topMissing=[${topMissing.join(",")}] bucketMissing=[${bucketMissing.join(",")}] month=${String(data.month)} persistent=${String(data.persistent)}`,
         };
       },
     },

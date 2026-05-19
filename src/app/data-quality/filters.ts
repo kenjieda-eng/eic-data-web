@@ -14,6 +14,16 @@ export const STATUS_COLORS: Record<SlaStatus, string> = {
   unknown: "#94a3b8",
 };
 
+// WCAG AA (4.5:1) compliant text colors for use ON light-tinted backgrounds.
+// STATUS_COLORS は大きな数値表示 (>=18pt, AA Large 3:1) では十分だが、
+// IndicatorTable のバッジは text-[10px] (small text, AA 4.5:1) なのでもう一段濃い色が必要。
+export const STATUS_TEXT_COLORS: Record<SlaStatus, string> = {
+  healthy: "#166534", // green-800
+  warning: "#92400e", // amber-800
+  breach: "#991b1b", // red-800
+  unknown: "#475569", // slate-600
+};
+
 export interface DataQualityFilters {
   domain: string | null;
   status: SlaStatus | null;
