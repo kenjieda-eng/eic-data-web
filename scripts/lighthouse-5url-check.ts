@@ -118,7 +118,7 @@ function runLighthouseOnUrl(url: string, outDir: string): Lhr {
       "--preset=desktop",
       "--only-categories=performance,accessibility,best-practices,seo",
     ],
-    { stdio: ["ignore", "ignore", "inherit"] },
+    { stdio: ["ignore", "ignore", "inherit"], shell: true },
   );
   const lhr = JSON.parse(readFileSync(reportPath, "utf-8")) as Lhr;
   return lhr;
