@@ -3,7 +3,7 @@ import {
   isSpdxLicense,
   type EnrichedIndicator,
 } from "@/lib/catalog";
-import { STATUS_COLORS, STATUS_LABELS } from "../filters";
+import { STATUS_COLORS, STATUS_LABELS, STATUS_TEXT_COLORS } from "../filters";
 
 interface IndicatorTableProps {
   rows: EnrichedIndicator[];
@@ -46,6 +46,7 @@ export default function IndicatorTable({ rows }: IndicatorTableProps) {
               ? "text-emerald-700 bg-emerald-50"
               : "text-amber-700 bg-amber-50";
             const statusColor = STATUS_COLORS[r.status];
+            const statusTextColor = STATUS_TEXT_COLORS[r.status];
             return (
               <tr
                 key={r.id}
@@ -74,7 +75,7 @@ export default function IndicatorTable({ rows }: IndicatorTableProps) {
                     className="text-[10px] px-2 py-0.5 rounded font-medium tracking-wider"
                     style={{
                       background: `${statusColor}20`,
-                      color: statusColor,
+                      color: statusTextColor,
                     }}
                   >
                     {STATUS_LABELS[r.status]}
