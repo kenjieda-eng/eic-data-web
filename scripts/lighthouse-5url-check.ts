@@ -25,7 +25,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -117,21 +117,33 @@ function runLighthouseOnUrl(url: string, outDir: string): Lhr {
   // SingletonLock を踏まないようにする (Windows で EPERM 多発の主因)
   const chromeUserDataDir = mkdtempSync(join(tmpdir(), "lh-chrome-profile-"));
   try {
-    execFileSync(
-      "npx",
-      [
-        "-y",
-        "lighthouse",
-        url,
-        "--quiet",
-        `--chrome-flags=--headless=new --no-sandbox --user-data-dir="${chromeUserDataDir}"`,
-        "--output=json",
-        `--output-path=${reportPath}`,
-        "--preset=desktop",
-        "--only-categories=performance,accessibility,best-practices,seo",
-      ],
-      { stdio: ["ignore", "ignore", "inherit"], shell: true },
-    );
+    try {
+      execFileSync(
+        "npx",
+        [
+          "-y",
+          "lighthouse",
+          url,
+          "--quiet",
+          `--chrome-flags=--headless=new --no-sandbox --user-data-dir="${chromeUserDataDir}"`,
+          "--output=json",
+          `--output-path=${reportPath}`,
+          "--preset=desktop",
+          "--only-categories=performance,accessibility,best-practices,seo",
+        ],
+        { stdio: ["ignore", "ignore", "inherit"], shell: true },
+      );
+    } catch (execErr) {
+      // Windows + chrome-launcher の既知問題: Launcher.kill() → destroyTmp() で
+      // 自身の lighthouse.<id> tmp dir を rmSync するときに EPERM になることがある。
+      // しかし Lighthouse 監査自体は完了しており、LHR JSON は書き終わっている。
+      // npx 単体 (bash) では exit 0 だが、Node の execFileSync (shell:true on Windows) は
+      // stderr の "Runtime error encountered:" を拾って throw する。
+      // → JSON が読めれば成功扱い、無ければ本当の失敗として再 throw。
+      if (!existsSync(reportPath) || statSync(reportPath).size === 0) {
+        throw execErr;
+      }
+    }
     const lhr = JSON.parse(readFileSync(reportPath, "utf-8")) as Lhr;
     return lhr;
   } finally {
