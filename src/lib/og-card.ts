@@ -62,7 +62,7 @@ export function defaultCard(id: string): OgCard {
   return {
     badge: "EIC Data",
     title: "日本のエネルギーと金融の引用インフラ",
-    body: "エネルギー・金融・マクロ経済の引用可能データ基盤。catalog 122 系列 + Insight 60 本 + 用語集 50 項目。",
+    body: "エネルギー・金融・マクロ経済の引用可能データ基盤。catalog 133 系列 + Insight 61 本 + 用語集 50 項目。",
     meta: id === "home" ? "data.eic-jp.org" : `data.eic-jp.org/${id}`,
   };
 }
