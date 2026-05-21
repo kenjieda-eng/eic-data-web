@@ -442,8 +442,8 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "fx-resilience-by-region",
-    title: "円安耐性 × エリア別電力料金：9 エリアの「為替ショック吸収力」格差",
-    lede: "JEPX 9 エリア (北海道〜九州) の卸価格と円建て LNG (fuel-lng-jp-cif × fx-usdjpy-monthly-avg) のラグなし相関を 9 系列分析。各エリアの電源構成 (火力依存 + 原発 + 再エネ) で為替ショック吸収力が異なる構造を可視化、九州 r=+0.55 〜 北海道 r=+0.88 の 0.33 格差",
+    title: "円安耐性 × エリア別卸電力：9 エリアの「為替ショック連動度」格差",
+    lede: "JEPX 9 エリア (北海道〜九州) の月次卸価格と円建て LNG (fuel-lng-jp-cif × fx-usdjpy-monthly-avg) のラグなし相関を 2012-04〜2025-12 の 165 ヶ月で実測。九州 r=+0.31 〜 中部 r=+0.53 の 0.22 格差、北海道は意外にも耐性 2 位 (r=+0.39、気温・需給駆動)",
     tags: ["電力", "金融", "JEPX", "為替", "円安", "エリア比較", "電源構成"],
     sources: ["JEPX スポット市場", "World Bank Pink Sheet", "BOJ FM08", "METI 電力調査統計"],
     updated: "2026-05-16",
