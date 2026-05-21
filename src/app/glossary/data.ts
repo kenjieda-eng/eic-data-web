@@ -383,6 +383,29 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "LNG Spot vs Long-Term Contract。日本の LNG 調達は ① JKM 連動スポット ② Brent 連動長期契約（HH 連動 / oil-indexed）の 2 系統。スポット比率は 2010 年 ~10% → 2024 年 ~30% へ拡大、価格変動性も上昇。長期契約は 15-20 年・take-or-pay 条項あり、価格は安定するが volume の柔軟性が低い。電力会社は両者をハイブリッド調達し fuel-adj 申請に反映。[[lng-jkm]] [[fuel-shock]] [[cif-price]] と密接。Insight 関連: global-lng-price-comparison, lng-vs-price-tokyo。",
     category: "international",
   },
+
+  // ===== Phase D (2026-05-21) Insight #61 capacity-market-5-year-trends 連動 +3 項目: 50 → 53 =====
+  {
+    slug: "capacity-market",
+    name: "容量市場（詳細）",
+    description:
+      "Capacity Market（詳細版）。実需給の 4 年前に将来の供給力（kW 価値）を OCCTO が事前確保する市場で、年 1 回のメインオークションで約定する。2020 年度初回オークション（2024 年度向け）から本格運用、約定価格は 14,137 円/kW（2024 年度向け）→ 5,242 円/kW（2025 年度向け）→ 6,742 円/kW（2026 年度向け）と推移。発電事業者は容量収入を得て老朽火力の維持・新設投資の予見性を確保、需要家は容量拠出金として小売料金経由で負担。[[capacity]] の制度詳細版、[[occto]] が運営、[[main-auction]] が中核プロセス。Insight #61 で 5 年推移を可視化。",
+    category: "regulation",
+  },
+  {
+    slug: "occto",
+    name: "OCCTO（電力広域的運営推進機関）",
+    description:
+      "Organization for Cross-regional Coordination of Transmission Operators, Japan。2015 年 4 月設立の認可法人で、全国の電力需給・系統運用を広域調整する。主要業務は ① 容量市場の運営（メインオークション・追加オークション）② 需給調整市場の運営（一次〜三次調整力）③ 連系線利用ルール策定 ④ 広域系統長期方針の策定。電力自由化（2016 年）以降の市場運営の中核組織で、[[capacity-market]] [[main-auction]] [[imbalance]] [[grid-constraint]] の制度的基盤を支える。Insight #61 の容量市場データソース。",
+    category: "regulation",
+  },
+  {
+    slug: "main-auction",
+    name: "メインオークション（容量市場）",
+    description:
+      "Main Auction。容量市場で実需給年度の 4 年前に年 1 回開催される、本体オークション。OCCTO が需要曲線（kW 量 × 上限価格）を提示し、発電事業者が供給曲線（kW × 入札価格）を応札、マルチプライス約定で全約定者にエリアプライスが支払われる。2020 年度初回（2024 年度向け）→ 2021 年度（2025 年度向け）→ 2022 年度（2026 年度向け）と毎年実施。約定結果はメインオークションの直後 3-4 ヶ月で公表される。供給力不足時には実需給 1 年前の追加オークションも開催。[[capacity-market]] の中核プロセス、[[occto]] が運営、[[peak-demand]] の長期確保手段。",
+    category: "regulation",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {

@@ -167,6 +167,21 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   // lng-spot-vs-contract (日本 LNG 調達構造)
   { from: "lng-spot-vs-contract", to: "lng-jkm", weight: 0.95 },
   { from: "lng-spot-vs-contract", to: "fuel-shock", weight: 0.7 },
+
+  // ===== Phase D (2026-05-21) Insight #61 連動 +3 用語 (capacity-market / occto / main-auction) に伴う +10 エッジ (109 → 119) =====
+  // capacity-market クラスタ (詳細版容量市場、既存 capacity の詳細展開)
+  { from: "capacity-market", to: "occto", weight: 0.95 },
+  { from: "capacity-market", to: "main-auction", weight: 0.95 },
+  { from: "capacity-market", to: "capacity", weight: 0.95 },
+  { from: "capacity-market", to: "peak-demand", weight: 0.7 },
+  { from: "capacity-market", to: "baseload", weight: 0.6 },
+  // occto クラスタ (容量市場・需給調整市場・系統運用の中核組織)
+  { from: "occto", to: "main-auction", weight: 0.85 },
+  { from: "occto", to: "imbalance", weight: 0.7 },
+  { from: "occto", to: "grid-constraint", weight: 0.6 },
+  { from: "occto", to: "jepx-spot", weight: 0.55 },
+  // main-auction クラスタ (容量市場の中核プロセス)
+  { from: "main-auction", to: "peak-demand", weight: 0.75 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

@@ -25,10 +25,10 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("GLOSSARY_RELATIONS は 70-120 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109)", () => {
+  test("GLOSSARY_RELATIONS は 70-130 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109 + Phase D +10 で 119)", () => {
     expect(GLOSSARY_RELATIONS.length).toBeGreaterThanOrEqual(70);
-    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(120);
-    expect(GLOSSARY_RELATIONS.length).toBe(109);
+    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(130);
+    expect(GLOSSARY_RELATIONS.length).toBe(119);
   });
 
   test("GLOSSARY_RELATIONS は重複なし (順序問わず)", () => {
@@ -40,12 +40,12 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("buildGlossaryGraph: nodes は 50 件、各 degree が正しく集計", () => {
+  test("buildGlossaryGraph: nodes は 53 件、各 degree が正しく集計", () => {
     const g = buildGlossaryGraph();
-    expect(g.nodes).toHaveLength(50);
-    // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) + Day5 午後 2 (yen-denominated-cost / transmission-line-constraint) = 10 本
+    expect(g.nodes).toHaveLength(53);
+    // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) + Day5 午後 2 (yen-denominated-cost / transmission-line-constraint) + Phase D 1 (occto) = 11 本
     const jepx = g.nodes.find((n) => n.slug === "jepx-spot");
-    expect(jepx?.degree).toBe(10);
+    expect(jepx?.degree).toBe(11);
     // 全 degree の合計 = エッジ数 × 2
     const totalDegree = g.nodes.reduce((sum, n) => sum + n.degree, 0);
     expect(totalDegree).toBe(g.edges.length * 2);
@@ -104,7 +104,7 @@ describe("/glossary/graph: glossary-relations", () => {
     expect(GLOSSARY_CATEGORY_COLORS.international).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
-  test("全 50 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
+  test("全 53 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
     const g = buildGlossaryGraph();
     const isolated = g.nodes.filter((n) => n.degree === 0);
     expect(isolated).toHaveLength(0);
