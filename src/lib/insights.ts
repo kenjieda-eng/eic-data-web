@@ -488,6 +488,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["FRED FEDFUNDS", "日本銀行 FM08"],
     updated: "2026-05-18",
   },
+  {
+    slug: "capacity-market-5-year-trends",
+    title: "容量市場メインオークション 6 年推移 — 電源投資シグナルとしての kW 価値",
+    lede: "OCCTO 容量市場メインオークション約定結果 (FY2024-FY2029、6 年分) の全国加重平均価格 14,137 → 3,737 → 6,230 → 8,992 → 12,210 → 13,909 ¥/kW とエリア別分化構造を実 CSV データで可視化。「初回高値 → 暴落 → V 字回復」の制度的ドラマと、太陽光大量導入の九州が高値になる kW 価値の本質を読み解く",
+    tags: ["電力", "容量市場", "電源投資", "OCCTO", "kW 価値", "火力", "再エネ"],
+    sources: ["OCCTO 容量市場メインオークション約定結果", "容量市場ガイドライン (経済産業省)"],
+    updated: "2026-05-21",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
