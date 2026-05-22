@@ -406,6 +406,22 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "Main Auction。容量市場で実需給年度の 4 年前に年 1 回開催される、本体オークション。OCCTO が需要曲線（kW 量 × 上限価格）を提示し、発電事業者が供給曲線（kW × 入札価格）を応札、マルチプライス約定で全約定者にエリアプライスが支払われる。2020 年度初回（2024 年度向け）→ 2021 年度（2025 年度向け）→ 2022 年度（2026 年度向け）と毎年実施。約定結果はメインオークションの直後 3-4 ヶ月で公表される。供給力不足時には実需給 1 年前の追加オークションも開催。[[capacity-market]] の中核プロセス、[[occto]] が運営、[[peak-demand]] の長期確保手段。",
     category: "regulation",
   },
+
+  // ===== Phase D (2026-05-22) Insight #61 連動 容量市場関連 +2 項目: 53 → 55 =====
+  {
+    slug: "capacity-payment",
+    name: "容量拠出金",
+    description:
+      "Capacity Payment。小売電気事業者および一般送配電事業者が、容量市場で確保された供給力（kW 価値）の対価として OCCTO へ支払う負担金。需要曲線で約定した kW 量 × エリアプライスで算定され、最終的に小売電気料金（規制料金・自由料金）に転嫁されて需要家負担となる。2024 年度向け 14,137 円/kW の約定価格を起点に、容量市場のオークション結果が 4 年遅れで小売料金に反映される構造。[[capacity-market]] の対価メカニズム、[[main-auction]] が金額決定、[[fuel-adj]] や [[fuel-pass-through]] と並ぶ小売料金の主要構成要素。Insight #61 で 5 年推移を可視化。",
+    category: "regulation",
+  },
+  {
+    slug: "kw-value",
+    name: "kW 価値",
+    description:
+      "kW Value。「確実に出せる供給力（kW）」そのものに対する価値で、容量市場で取引される対象。実発電量（kWh）に対する価値である「kWh 価値」（JEPX スポット市場で取引）と対の概念として整理され、kW 価値 = ピーク需要対応の長期供給力確保、kWh 価値 = 短期需給バランスでの実電力量、という時間軸の違いで切り分けられる。発電事業者は固定費（建設費・維持費）回収を kW 価値で、変動費（燃料費）回収を kWh 価値で行う二段階収益モデル。[[capacity-market]] [[main-auction]] [[capacity-payment]] と密接、[[peak-demand]] の長期確保がコアミッション、[[jepx-spot]] の kWh 価値と対比して理解。",
+    category: "regulation",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
