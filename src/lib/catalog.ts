@@ -12,6 +12,7 @@ export interface Indicator {
   license: string;
   observation_cutoff: string;
   updated_at: string;
+  csv_path?: string;
   license_url?: string;
   license_notice?: string;
   tz?: string;

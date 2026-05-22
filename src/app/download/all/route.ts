@@ -27,6 +27,9 @@ export const dynamic = "force-static";
 const SERIES_BASE =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/processed";
 
+const RAW_BASE =
+  "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main";
+
 function escapeCsv(value: string): string {
   if (value.includes(",") || value.includes('"') || value.includes("\n")) {
     return `"${value.replace(/"/g, '""')}"`;
@@ -125,10 +128,11 @@ Each indicator's primary source license is noted in catalog.json (\`license\` fi
 Always cite the original primary source in addition to EIC Data.
 `;
 
-async function fetchCsvOrNull(id: string): Promise<string | null> {
+async function fetchCsvOrNull(ind: Indicator): Promise<string | null> {
   try {
-    const dir = idToDirectory(id);
-    const url = `${SERIES_BASE}/${dir}/${id}.csv`;
+    const url = ind.csv_path
+      ? `${RAW_BASE}/${ind.csv_path}`
+      : `${SERIES_BASE}/${idToDirectory(ind.id)}/${ind.id}.csv`;
     const res = await fetch(url, { next: { revalidate: 86400 } });
     if (!res.ok) return null;
     return await res.text();
@@ -151,7 +155,7 @@ export async function GET() {
 
   // 並列フェッチ (105 並列でも raw.githubusercontent.com のレート制限内)
   const fetchTasks = catalog.indicators.map(async (ind) => {
-    const csv = await fetchCsvOrNull(ind.id);
+    const csv = await fetchCsvOrNull(ind);
     if (csv === null) {
       errors.push({ id: ind.id, reason: "fetch failed or not yet available" });
       return;

@@ -3,6 +3,9 @@ import { fetchCatalog, type Indicator } from "./catalog";
 const SERIES_BASE =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/processed";
 
+const RAW_BASE =
+  "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main";
+
 export interface SeriesPoint {
   date: string;
   value: number | null;
@@ -72,8 +75,9 @@ export async function fetchSeries(id: string): Promise<{
   const ind = catalog.indicators.find((i) => i.id === id);
   if (!ind) throw new Error(`Indicator not found in catalog: ${id}`);
 
-  const dir = idToDirectory(id);
-  const url = `${SERIES_BASE}/${dir}/${id}.csv`;
+  const url = ind.csv_path
+    ? `${RAW_BASE}/${ind.csv_path}`
+    : `${SERIES_BASE}/${idToDirectory(id)}/${id}.csv`;
   const res = await fetch(url, { next: { revalidate: 86400 } });
   if (!res.ok) {
     throw new Error(`Failed to fetch series ${id}: ${res.status} ${url}`);
