@@ -182,6 +182,20 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "occto", to: "jepx-spot", weight: 0.55 },
   // main-auction クラスタ (容量市場の中核プロセス)
   { from: "main-auction", to: "peak-demand", weight: 0.75 },
+
+  // ===== Phase D (2026-05-22) Insight #61 連動 容量市場関連 +2 用語 (capacity-payment / kw-value) に伴う +10 エッジ (119 → 129) =====
+  // capacity-payment クラスタ (小売料金転嫁経路、容量市場の対価)
+  { from: "capacity-payment", to: "capacity-market", weight: 0.95 },
+  { from: "capacity-payment", to: "main-auction", weight: 0.85 },
+  { from: "capacity-payment", to: "fuel-adj", weight: 0.8 },
+  { from: "capacity-payment", to: "fuel-pass-through", weight: 0.7 },
+  // kw-value クラスタ (kWh 価値との対概念、容量市場の取引対象)
+  { from: "kw-value", to: "capacity-market", weight: 0.95 },
+  { from: "kw-value", to: "capacity", weight: 0.85 },
+  { from: "kw-value", to: "main-auction", weight: 0.85 },
+  { from: "kw-value", to: "jepx-spot", weight: 0.75 },
+  { from: "kw-value", to: "peak-demand", weight: 0.7 },
+  { from: "kw-value", to: "capacity-payment", weight: 0.8 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
