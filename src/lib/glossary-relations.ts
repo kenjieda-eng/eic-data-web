@@ -196,6 +196,20 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "kw-value", to: "jepx-spot", weight: 0.75 },
   { from: "kw-value", to: "peak-demand", weight: 0.7 },
   { from: "kw-value", to: "capacity-payment", weight: 0.8 },
+
+  // ===== Phase D (2026-05-23) D-018 需給調整市場 +3 用語 (balancing-market / tertiary-2 / freq-control) に伴う +9 エッジ (129 → 138) =====
+  // balancing-market クラスタ (需給調整市場、日本電力 3 大市場の一角。jepx-spot には非接続で degree 12 維持)
+  { from: "balancing-market", to: "occto", weight: 0.9 },
+  { from: "balancing-market", to: "imbalance", weight: 0.85 },
+  { from: "balancing-market", to: "capacity-market", weight: 0.6 },
+  { from: "balancing-market", to: "kw-value", weight: 0.7 },
+  { from: "balancing-market", to: "peak-demand", weight: 0.6 },
+  // tertiary-2 クラスタ (三次調整力②、市場最古参商品。燃料・JEPX 連動を fuel-shock で表現)
+  { from: "tertiary-2", to: "balancing-market", weight: 0.95 },
+  { from: "tertiary-2", to: "fuel-shock", weight: 0.6 },
+  // freq-control クラスタ (周波数制御、調整力の存在意義)
+  { from: "freq-control", to: "balancing-market", weight: 0.85 },
+  { from: "freq-control", to: "imbalance", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
