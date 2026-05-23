@@ -34,6 +34,7 @@ const NAV_ITEMS = [
   { href: "/insight/map", label: "Insight マップ" },
   { href: "/insight/network", label: "Insight ネットワーク" },
   { href: "/map", label: "9 エリア地図" },
+  { href: "/markets", label: "市場" },
   { href: "/catalog", label: "カタログ" },
   { href: "/compare", label: "系列比較" },
   { href: "/playground", label: "データ実験" },

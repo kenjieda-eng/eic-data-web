@@ -422,6 +422,29 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "kW Value。「確実に出せる供給力（kW）」そのものに対する価値で、容量市場で取引される対象。実発電量（kWh）に対する価値である「kWh 価値」（JEPX スポット市場で取引）と対の概念として整理され、kW 価値 = ピーク需要対応の長期供給力確保、kWh 価値 = 短期需給バランスでの実電力量、という時間軸の違いで切り分けられる。発電事業者は固定費（建設費・維持費）回収を kW 価値で、変動費（燃料費）回収を kWh 価値で行う二段階収益モデル。[[capacity-market]] [[main-auction]] [[capacity-payment]] と密接、[[peak-demand]] の長期確保がコアミッション、[[jepx-spot]] の kWh 価値と対比して理解。",
     category: "regulation",
   },
+
+  // ===== Phase D (2026-05-23) D-018 需給調整市場 +3 項目: 55 → 58 =====
+  {
+    slug: "balancing-market",
+    name: "需給調整市場",
+    description:
+      "Balancing Market。一般送配電事業者が周波数制御・需給バランス調整に必要な調整力（ΔkW）を、エリアを跨いで広域かつ公平に調達する全国共通市場。2021 年 4 月に三次調整力②から開設され、2024 年度に一次調整力・二次調整力①②・三次調整力①・複合商品まで全商品が出揃った。約定結果は一般社団法人 電力需給調整力取引所（EPRX）が年次の取りまとめ結果として公表する。JEPX スポット市場（kWh 価値）・容量市場（kW 価値の長期確保）と並ぶ日本電力の 3 大市場の一つで、本市場は「即時の調整力」という時間軸を担う。[[occto]] が広域運用の標準規格を策定、[[imbalance]] の解消手段、[[kw-value]] として取引、[[freq-control]] を実現する原資。",
+    category: "regulation",
+  },
+  {
+    slug: "tertiary-2",
+    name: "三次調整力②",
+    description:
+      "Tertiary Reserve 2。需給調整市場の商品の一つで、再生可能エネルギーの出力予測誤差に対応する、最も応動時間の緩やかな（指令から 45 分以内）調整力。2021 年 4 月の市場開設時に最初に取引が始まった商品で、ゲートクローズが前日のため気象予測精度に左右されやすい。約定単価は燃料価格・JEPX スポット価格と一定の相関（2021〜2023 で相関係数 0.7 前後）を示し、近年は蓄電池・VPP（DR）の高値応札が平均単価を押し上げる場面も見られる。[[balancing-market]] の最古参商品、[[fuel-shock]] と連動、[[freq-control]] の中でも長い時間軸を担当。",
+    category: "regulation",
+  },
+  {
+    slug: "freq-control",
+    name: "周波数制御",
+    description:
+      "Frequency Control。電力系統の周波数（東日本 50Hz / 西日本 60Hz）を、刻一刻と変動する需要と供給の差に応じて基準値付近に保つ制御。発電機のガバナフリー（GF、一次）、負荷周波数制御（LFC、二次）、経済負荷配分（EDC、三次）の階層で実現され、それぞれ需給調整市場の一次・二次・三次調整力として調達される。周波数のずれは需給インバランスの物理的な現れであり、制御に失敗すると周波数低下による発電機の連鎖解列＝大規模停電につながる。[[balancing-market]] が調達原資、[[imbalance]] の物理的指標、調整力の存在意義そのもの。",
+    category: "regulation",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
