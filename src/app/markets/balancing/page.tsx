@@ -440,6 +440,24 @@ export default async function BalancingMarketPage() {
         <ul className="mt-3 list-disc pl-6 text-base text-subink leading-relaxed space-y-1">
           <li>
             <Link
+              href="/insight/balancing-market-5-products-comparison"
+              className="text-emerald-700 underline hover:text-emerald-900"
+            >
+              Insight #62 需給調整市場 商品別 約定価格の構造
+            </Link>{" "}
+            — 本市場ページの編集解説 (6 商品の年間平均落札単価と調達不足率の対比)
+          </li>
+          <li>
+            <Link
+              href="/insight/tertiary-balance-vs-jepx"
+              className="text-emerald-700 underline hover:text-emerald-900"
+            >
+              Insight #63 三次調整力② × JEPX
+            </Link>{" "}
+            — 唯一の 5 年系列と卸価格・燃料の年次連動 (相関 0.80 → 0.37)
+          </li>
+          <li>
+            <Link
               href="/insight/capacity-market-5-year-trends"
               className="text-emerald-700 underline hover:text-emerald-900"
             >

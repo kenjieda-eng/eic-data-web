@@ -5,6 +5,7 @@ import ChartLagBars from "@/components/ChartLagBars";
 import ChartDecomp from "@/components/ChartDecomp";
 import ChartHeatmap from "@/components/ChartHeatmap";
 import ChartSpread from "@/components/ChartSpread";
+import BalancingProductsCompareChart from "@/components/BalancingProductsCompareChart";
 import InsightCitation from "@/components/InsightCitation";
 import InsightNav from "@/components/InsightNav";
 import InsightStructuredData from "@/components/InsightStructuredData";
@@ -18,6 +19,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ChartDecomp,
     ChartHeatmap,
     ChartSpread,
+    BalancingProductsCompareChart,
     InsightNav,
     InsightCitation,
     InsightStructuredData,

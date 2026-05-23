@@ -82,9 +82,9 @@ describe("Phase B-B Day 3: grouping ロジック", () => {
   });
 });
 
-describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 で #43-#47 を 5 本追加 + Day 5 朝で #48-#50 + Day 5 午後で #51 + Day 5 午後第 2 弾で #52-#54 + Day 5 午後第 3 弾で #55-#56 + Day 5 午後第 4 弾で #57-#58 (日本 CPI/鉱工業) 追加 + Phase D 第 1 期 Day 1 で #61 capacity-market-5-year-trends 追加", () => {
-  test("INSIGHTS が 61 件に到達 (5/21 で #61 capacity-market-5-year-trends を追加 = Phase D 第 1 期 Day 1)", () => {
-    expect(INSIGHTS).toHaveLength(61);
+describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 で #43-#47 を 5 本追加 + Day 5 朝で #48-#50 + Day 5 午後で #51 + Day 5 午後第 2 弾で #52-#54 + Day 5 午後第 3 弾で #55-#56 + Day 5 午後第 4 弾で #57-#58 (日本 CPI/鉱工業) 追加 + Phase D 第 1 期 Day 1 で #61 capacity-market-5-year-trends 追加 + D-018 で #62-#63 需給調整市場 2 本 追加", () => {
+  test("INSIGHTS が 63 件に到達 (5/23 で #62 balancing-market-5-products-comparison + #63 tertiary-balance-vs-jepx を追加 = D-018)", () => {
+    expect(INSIGHTS).toHaveLength(63);
   });
 
   test("Day 13 で追加した 3 slug (us-cpi-vs-fx / fed-funds-vs-jepx-tokyo / us-industrial-vs-jp-demand) が INSIGHTS に存在", () => {
