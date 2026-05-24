@@ -20,6 +20,17 @@ const PRODUCT_IDS = [
   "balancing-price-composite",
 ] as const;
 
+// FY2024 から新定義で公表が始まった「年間不足率」(調達不足量 ÷ 募集量)。
+// 2023→2024 で定義が不連続のため、本ページでは FY2024 以降のみを表示する。
+const SHORTAGE_IDS = [
+  "balancing-shortage-primary",
+  "balancing-shortage-secondary-1",
+  "balancing-shortage-secondary-2",
+  "balancing-shortage-tertiary-1",
+  "balancing-shortage-tertiary-2",
+  "balancing-shortage-composite",
+] as const;
+
 // 商品ごとの色 + 表示用短縮ラベル + 応動時間 (設計 §3 の階層図とチャート凡例に共通使用)
 const PRODUCT_META: Record<
   (typeof PRODUCT_IDS)[number],
@@ -80,6 +91,7 @@ interface ProductData {
 
 interface PageData {
   products: ProductData[];
+  shortages: ProductData[];
   observationCutoff: string;
   updatedAt: string;
 }
@@ -94,20 +106,47 @@ async function loadPageData(): Promise<PageData> {
       return { indicator, points };
     }),
   );
+  const shortages = await Promise.all(
+    SHORTAGE_IDS.map(async (id) => {
+      const indicator = getIndicatorById(catalog, id);
+      if (!indicator) throw new Error(`catalog missing series: ${id}`);
+      const { points } = await fetchSeries(id);
+      return { indicator, points };
+    }),
+  );
   const observationCutoff = fetched
     .map((p) => p.indicator.observation_cutoff)
     .sort()
     .at(-1) as string;
-  const updatedAt = fetched
+  const updatedAt = [...fetched, ...shortages]
     .map((p) => p.indicator.updated_at)
     .sort()
     .at(-1) as string;
-  return { products: fetched, observationCutoff, updatedAt };
+  return { products: fetched, shortages, observationCutoff, updatedAt };
 }
 
 function formatPrice(v: number | null): string {
   if (v == null || !Number.isFinite(v)) return "—";
   return v.toLocaleString("ja-JP", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+}
+
+function formatShortage(v: number | null): string {
+  if (v == null || !Number.isFinite(v)) return "—";
+  return `${v.toLocaleString("ja-JP", { maximumFractionDigits: 1, minimumFractionDigits: 1 })}%`;
+}
+
+// 不足率の最大値を 100% として横棒のバー長を算出 (1 値 0〜100 を 0〜100% にそのまま写像)
+function shortageBarWidth(v: number | null): string {
+  if (v == null || !Number.isFinite(v)) return "0%";
+  return `${Math.min(100, Math.max(0, v))}%`;
+}
+
+function shortageProductMeta(shortageId: string) {
+  const productId = shortageId.replace(
+    "balancing-shortage-",
+    "balancing-price-",
+  ) as (typeof PRODUCT_IDS)[number];
+  return PRODUCT_META[productId];
 }
 
 function lastTwoYears(points: SeriesPoint[]): { fy2024: number | null; fy2025: number | null } {
@@ -138,7 +177,7 @@ export default async function BalancingMarketPage() {
     notFound();
   }
 
-  const { products, observationCutoff, updatedAt } = data;
+  const { products, shortages, observationCutoff, updatedAt } = data;
   const chartSeries: BalancingProductSeries[] = products.map((p) => ({
     id: p.indicator.id,
     name: PRODUCT_META[p.indicator.id as (typeof PRODUCT_IDS)[number]].label,
@@ -397,6 +436,99 @@ export default async function BalancingMarketPage() {
         </section>
       )}
 
+      {/* (4.5) 不足率 — 商品別の年間不足率 (FY2024〜、新定義) */}
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold text-ink">
+          商品別 年間不足率 (FY2024〜)
+        </h2>
+        <p className="mt-3 text-base text-subink leading-relaxed">
+          各商品の <strong className="text-ink">年間不足率 = 調達不足量 ÷ 募集量</strong>{" "}
+          (EPRX 公表)。価格が 2.67〜3.30 円/ΔkW・30分 の狭い帯に収まるのに対し、不足率は商品ごとに大きく分かれ、
+          <strong className="text-ink">応動が速い商品ほど集めにくい (不足率が高い)</strong>{" "}
+          という市場設計の性格が現れます。
+          特に一次調整力 (FY2024 = {formatShortage(shortages[0]?.points.find((p) => p.date === "2024-04-01")?.value ?? null)}) は
+          GF 並列が必須 + 週間断面応札ゆえに不足率が突出します。
+        </p>
+
+        <div className="mt-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p className="font-semibold">⚠️ 定義不連続: 不足率は 2023 → 2024 年度で定義が変わっています。</p>
+          <p className="mt-1 leading-relaxed">
+            旧定義 (〜FY2023) は「追加調達後の未達率」、新定義 (FY2024〜) は「調達不足量 ÷ 募集量」。
+            年度を跨ぐ長期比較には使えないため、本セクションでは{" "}
+            <strong className="text-amber-900">FY2024 以降の新定義値のみ</strong> を掲載しています。
+          </p>
+        </div>
+
+        <div className="mt-4 overflow-x-auto">
+          <table className="min-w-full text-sm border border-slate-200 rounded">
+            <thead className="bg-slate-50 text-ink">
+              <tr>
+                <th className="text-left px-3 py-2 border-b border-slate-200">商品</th>
+                <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums w-24">FY2024</th>
+                <th className="text-left px-3 py-2 border-b border-slate-200">FY2024 バー</th>
+                <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums w-32">
+                  FY2025 上期 (暫定)
+                </th>
+                <th className="text-left px-3 py-2 border-b border-slate-200">系列詳細</th>
+              </tr>
+            </thead>
+            <tbody className="text-subink">
+              {shortages.map((s) => {
+                const meta = shortageProductMeta(s.indicator.id);
+                const { fy2024, fy2025 } = lastTwoYears(s.points);
+                return (
+                  <tr key={s.indicator.id}>
+                    <td className="px-3 py-2 border-b border-slate-100">
+                      <span
+                        className="inline-block mr-2 h-2 w-2 rounded-full align-middle"
+                        style={{ backgroundColor: meta.color }}
+                        aria-hidden
+                      />
+                      {meta.label}
+                    </td>
+                    <td className="px-3 py-2 border-b border-slate-100 text-right tabular-nums">
+                      {formatShortage(fy2024)}
+                    </td>
+                    <td className="px-3 py-2 border-b border-slate-100">
+                      <div
+                        className="h-2 rounded bg-slate-100 relative overflow-hidden"
+                        aria-hidden
+                      >
+                        <div
+                          className="h-full rounded"
+                          style={{
+                            width: shortageBarWidth(fy2024),
+                            backgroundColor: meta.color,
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td className="px-3 py-2 border-b border-slate-100 text-right tabular-nums">
+                      {formatShortage(fy2025)}
+                    </td>
+                    <td className="px-3 py-2 border-b border-slate-100">
+                      <Link
+                        href={`/catalog/${s.indicator.id}`}
+                        className="text-emerald-700 underline hover:text-emerald-900"
+                      >
+                        {s.indicator.id}
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="mt-3 text-xs text-faint leading-relaxed">
+          単位: % (調達不足量 ÷ 募集量)。バーは FY2024 値を 0〜100% にそのまま写像 (商品色は上節の階層図と共通)。
+          FY2025 は上期 (4〜9 月) のみの暫定値で、全年度公表後に改訂予定。
+          一次の高不足率は GF 並列義務 + 週間断面応札に起因し、二次② の低不足率 (FY2024 18.5% → FY2025 上期 2.6%) は
+          蓄電池・VPP の参入で急速に解消が進む構造を示唆しています。
+        </p>
+      </section>
+
       {/* (5) catalog 6 系列カード */}
       <section className="mb-10">
         <h2 className="text-2xl font-semibold text-ink">構成系列 (catalog)</h2>
@@ -523,8 +655,8 @@ export default async function BalancingMarketPage() {
             EPRX の年次 PDF 公表 (例年 11〜12 月の年度別暫定値と翌年度の確定値) に合わせて手動転記する。
           </li>
           <li>
-            掲載しない指標: 不足率は 2023→2024 で定義が不連続のため、現時点では本系列に含めません。
-            電源種別別単価 (蓄電池 / VPP) は第 2 弾で検討中。
+            不足率: 2023→2024 で定義が不連続のため、<strong className="text-ink">FY2024 以降の新定義値のみ</strong> を
+            「商品別 年間不足率」セクションで掲載。電源種別別単価 (蓄電池 / VPP) は第 2 弾で検討中。
           </li>
           <li>
             単位: 円/ΔkW・30分。EPRX PDF 上では kW / ΔkW の表記揺れがあるが実体は同一。

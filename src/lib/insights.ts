@@ -512,6 +512,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["電力需給調整力取引所 (EPRX) 取引実績の取りまとめ結果", "JEPX スポット市場"],
     updated: "2026-05-23",
   },
+  {
+    slug: "capacity-market-area-vs-power-mix",
+    title: "容量市場エリア別約定価格の地理構造 — 東日本・九州が高く、西日本 60Hz が安い理由 (FY2028)",
+    lede: "OCCTO 容量市場メインオークション (FY2028 実需給向け) のエリア別価格 14,812 / 13,177 / 10,280 / 8,785 ¥/kW の 4 価格帯構造を、連系線制約 + 電源構成 + 需要パターンで読み解く。「東京は大需要地だから安い」「九州は太陽光が多いから安い」という 2 つの直感を実データで反証",
+    tags: ["電力", "容量市場", "エリア別", "OCCTO", "連系線", "電源構成", "kW 価値", "太陽光", "九州", "東京"],
+    sources: ["OCCTO 容量市場メインオークション約定結果", "資源エネルギー庁 電力調査統計"],
+    updated: "2026-05-24",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
