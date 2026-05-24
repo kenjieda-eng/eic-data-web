@@ -97,6 +97,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "capacity-market-5-year-trends": "ChartLine",
   "balancing-market-5-products-comparison": "ChartLine",
   "tertiary-balance-vs-jepx": "ChartLine",
+  "capacity-market-area-vs-power-mix": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
