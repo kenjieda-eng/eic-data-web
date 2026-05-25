@@ -520,6 +520,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["OCCTO 容量市場メインオークション約定結果", "資源エネルギー庁 電力調査統計"],
     updated: "2026-05-24",
   },
+  {
+    slug: "balancing-source-type-comparison",
+    title: "需給調整市場の電源種別別 落札単価 — 蓄電池・VPP の高値と揚水の基準線（FY2024〜）",
+    lede: "EPRX 年次取りまとめより、需給調整市場の電源種別別 (揚水 / 蓄電池 / VPP) 平均落札単価を商品別に対比。三次調整力② FY2024 で 揚水 0.72 / 蓄電池 109.43 / VPP 46.24 円/ΔkW・30分 という二極構造を可視化。ただし単価は volume-weighted でなく「約定時の単価水準」であり、市場全体の単価でも市場寄与でもない点を明示",
+    tags: ["電力", "需給調整市場", "電源種別", "蓄電池", "VPP", "揚水", "ΔkW"],
+    sources: ["電力需給調整力取引所 (EPRX) 取引実績の取りまとめ結果"],
+    updated: "2026-05-25",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

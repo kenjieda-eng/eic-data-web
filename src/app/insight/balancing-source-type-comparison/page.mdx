@@ -1,0 +1,120 @@
+export const metadata = {
+  title: "需給調整市場の電源種別別 落札単価 — 蓄電池・VPP の高値と揚水の基準線（FY2024〜）| EIC Data",
+  description:
+    "EPRX 年次取りまとめより、需給調整市場の電源種別別 (揚水 / 蓄電池 / VPP) 平均落札単価を商品別に対比。三次調整力② FY2024 で 揚水 0.72 / 蓄電池 109.43 / VPP 46.24 円/ΔkW・30分 という二極構造を可視化。ただし単価は volume-weighted でなく「約定時の単価水準」であり、市場全体の単価でも市場寄与でもない点を明示。",
+  openGraph: {
+    images: ['/api/og/insight/balancing-source-type-comparison'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/balancing-source-type-comparison'],
+  },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 需給調整市場の電源種別別 落札単価 — 蓄電池・VPP の高値と揚水の基準線（FY2024〜）
+
+> EPRX 年次取りまとめより、需給調整市場の電源種別別 (揚水 / 蓄電池 / VPP) 平均落札単価を商品別に対比。三次調整力② FY2024 で 揚水 0.72 / 蓄電池 109.43 / VPP 46.24 円/ΔkW・30分 という二極構造を可視化。ただし単価は volume-weighted でなく「約定時の単価水準」であり、市場全体の単価でも市場寄与でもない点を明示。
+
+## はじめに
+
+需給調整市場では、同じ商品（一次・二次・三次・複合）でも、**応札する電源の種別によって落札単価が大きく異なります**。EPRX は 2024 年度から電源種別別（火力 / 水力 / 揚水 / 蓄電池 / VPP〔DR 等〕）の平均落札単価を公表しており、本記事では **揚水（従来電源）と 蓄電池・VPP** の年平均落札単価（円/ΔkW・30分）を商品別に対比します。粒度は年次です。
+
+## ⚠️ 最初に：この単価は「volume-weighted」ではない
+
+> ⚠️ **本記事の電源種別別単価は「その電源が約定した月の平均単価」で、約定ボリュームで加重されていません**。蓄電池・VPP の高値は**小さなボリューム**に乗っています（EPRX 2024 PDF: 三次② で 50 円/ΔkW・30分 超の落札量 **2.3% が全調達費用の 61%**）。
+>
+> つまり「蓄電池の年平均 109 円」は **市場全体の単価でも、蓄電池の市場寄与でもなく、「蓄電池が約定したときの単価水準」**です。蓄電池・VPP が市場の主役という意味ではありません。**収益試算では「単価 × 落札量（希少性）」で評価**してください。
+
+## 三次調整力② の電源種別別（最も対比が鮮明）
+
+| 電源 | FY2024 | FY2025 上期※ |
+|---|---|---|
+| 揚水（従来電源） | **0.72** | 0.69 |
+| 蓄電池 | **109.43** | 33.52 |
+| VPP（DR 等） | **46.24** | 62.47 |
+| （商品全体平均） | 3.30 | 1.14 |
+
+※ FY2025 は上期（4〜9 月）のみの暫定平均。
+
+揚水は **1 円を切る安定した基準線**、一方で蓄電池・VPP は**上限価格付近の高値**で約定する局面が year 平均にもにじみ出ています（三次② FY2024 の蓄電池は商品平均の約 33 倍）。これが「蓄電池は需給調整市場の希少な高値局面で稼ぐ」という構造です。
+
+### 揚水（基準線、1 円前後）
+
+<ChartLine id="balancing-price-tertiary-2-pumped" />
+
+### 蓄電池（上限価格付近で約定する局面）
+
+<ChartLine id="balancing-price-tertiary-2-battery" />
+
+### VPP（DR 等、蓄電池に次ぐ高値水準）
+
+<ChartLine id="balancing-price-tertiary-2-vpp" />
+
+3 系列を **同じ y 軸スケール**で並べると揚水だけ底に張り付くため、ここでは各系列を個別に表示し、相対水準は上表の数値で読んでください。
+
+## 商品をまたいだ蓄電池 vs 揚水（FY2024）
+
+| 商品 | 揚水 | 蓄電池 |
+|---|---|---|
+| 一次調整力 | 4.17 | 15.99 |
+| 二次調整力① | 3.70 | 7.71 |
+| 二次調整力② | 1.84 | 12.61 |
+| 三次調整力① | 1.90 | 10.60 |
+| 複合商品 | 2.12 | 15.80 |
+| 三次調整力② | 0.72 | 109.43 |
+
+どの商品でも蓄電池は揚水の数倍で約定しており、応動の速さ（一次・二次）と再エネ予測誤差対応（三次②）の両極で蓄電池の価値が際立ちます。VPP（DR 等）は三次②・複合・一次で約定が見られ、三次② で蓄電池に次ぐ高値水準です（FY2024 46.24 / FY2025 上期 62.47）。
+
+### 代表 1: 一次調整力（揚水 4.17 vs 蓄電池 15.99）
+
+<ChartLine id="balancing-price-primary-pumped" />
+
+<ChartLine id="balancing-price-primary-battery" />
+
+### 代表 2: 複合商品（揚水 2.12 vs 蓄電池 15.80）
+
+<ChartLine id="balancing-price-composite-pumped" />
+
+<ChartLine id="balancing-price-composite-battery" />
+
+## bess（蓄電池）ビジネスへの示唆
+
+- 蓄電池は「kWh を時間移動して、調整力（ΔkW）の希少な高値局面に充てる」装置。揚水という従来の調整電源と比べ、応動速度と立地自由度で優位。
+- ただし**収益の核は「高値 × 落札できる希少性」**であり、headline 単価 × 全量ではない。落札量（volume）と稼働率を必ず併せて評価する。
+- VPP（次世代アグリゲーター・低圧リソース）は三次②で蓄電池に迫る高値水準で、参入が広がる領域。
+
+## 注意点と限界
+
+- **年次・手動**（EPRX 年次取りまとめ PDF）。電源種別別の公表は **FY2024 以降**。FY2025 は上期のみ暫定（通年は 2026 年 6 月頃公表見込み）。
+- **火力・水力は本記事では未収録**（第3カットで追加予定）。
+- 単価は **volume-weighted でない**（再掲）。エリア別・コマ別の粒度は当サイトでは扱わない（EPRX results.php は自動取得しない＝D-018）。
+
+## まとめ
+
+需給調整市場の電源種別別単価は、**揚水（1 円前後の基準線）と 蓄電池・VPP（上限価格付近の高値、特に三次②）** という二極構造を示します。ただしこの高値は小ボリュームに乗るため、市場全体の単価ではなく「約定時の単価水準」として読むのが正確です。蓄電池の収益機会は、この**非対称（希少な高値局面で稼ぐ）**にあります。
+
+## 関連 Insight
+
+- [#62 需給調整市場 商品別 約定価格の構造](/insight/balancing-market-5-products-comparison) — 6 商品の年間平均落札単価の俯瞰（本記事は電源種別別への切り口違い）
+- [#63 三次調整力② × JEPX](/insight/tertiary-balance-vs-jepx) — 唯一の 5 年系列、卸価格・燃料との年次連動
+- [#64 容量市場エリア別約定価格の地理構造](/insight/capacity-market-area-vs-power-mix) — 同じく市場系の姉妹編集（kW 価値・エリア別）
+- 市場ハブ: [需給調整市場 (EPRX) 編集ページ](/markets/balancing) — 6 商品の最新値と階層図
+
+## 出典
+
+- [電力需給調整力取引所 (EPRX) 取引実績の取りまとめ結果](https://www.eprx.or.jp/information/summary.php) — 年次取りまとめ PDF より転記・編集 (加工した旨を明記)
+- EPRX 利用規約 §4 (非商用・出典明示で利用可、自動的な大量取得は事前承諾)
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が手動更新
+
+---
+
+*構成系列: `balancing-price-tertiary-2-pumped` + `balancing-price-tertiary-2-battery` + `balancing-price-tertiary-2-vpp` + `balancing-price-primary-pumped` + `balancing-price-primary-battery` + `balancing-price-composite-pumped` + `balancing-price-composite-battery`*
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
