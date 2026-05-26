@@ -1,6 +1,6 @@
 export const metadata = {
   title: "ECB 政策金利 × USD/EUR × USD/JPY：3 大金利政策の三角関係 | EIC Data",
-  description: "ECB 政策金利 (主要リファイナンスオペ、月次、%) × USD/EUR + USD/JPY の 3 軸対比。日米欧の 3 大中央銀行 (BOJ + FRB + ECB) の金利政策が世界為替市場に与える複合効果を 25 年データで可視化、ユーロ圏インフレ + ECB タカ派転換 (2022-) + 円安進行の三角構造を解読。",
+  description: "ECB 主要リファイナンス金利 (MRR、月次、%) × USD/EUR + USD/JPY の 3 軸対比。日米欧の 3 大中央銀行 (BOJ + FRB + ECB) の金利政策が世界為替市場に与える複合効果を、2023 年 5 月以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年データで可視化、ユーロ圏インフレ + ECB タカ派転換の延長 + 円安進行の三角構造を解読。",
   openGraph: {
     images: ['/api/og/insight/ecb-rate-vs-eurusd-vs-usdjpy'],
   },
@@ -14,7 +14,7 @@ export const metadata = {
 
 # ECB 政策金利 × USD/EUR × USD/JPY：3 大金利政策の三角関係
 
-> ECB 政策金利 (`ecb-policy-rate`、月次、%) × USD/EUR + USD/JPY の 3 軸対比。**日米欧の 3 大中央銀行 (BOJ + FRB + ECB)** の金利政策が世界為替市場に与える複合効果を 25 年データで可視化、ユーロ圏インフレ + ECB タカ派転換 (2022-) + 円安進行の三角構造を解読。
+> ECB 主要リファイナンス金利 (MRR、`ecb-rate-mrr`、月次、%) × USD/EUR + USD/JPY の 3 軸対比。**日米欧の 3 大中央銀行 (BOJ + FRB + ECB)** の金利政策が世界為替市場に与える複合効果を、2023 年 5 月以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年データで可視化、ユーロ圏インフレ + ECB タカ派転換の延長 + 円安進行の三角構造を解読。チャートは 3 系列の最短に律速され、共通月は 2023-05〜現在に限られる。
 
 ## 背景
 
@@ -43,40 +43,38 @@ USD/JPY (ドル円) の動き (Insight #35 でも詳述):
 
 本記事は **3 軸 (ECB + USD/EUR + USD/JPY)** を 1 ページで対比し、3 大金利政策の三角関係を可視化。
 
-### ECB 政策金利 + USD/EUR データソース (Phase D 第 1 期 catalog 拡張候補)
+### ECB 政策金利 + EUR/USD のデータソース (Phase 2 国際ドメインで catalog 着地)
 
-⚠️ 本記事公開時点で catalog に「ECB 政策金利」「USD/EUR 月次平均」は未収録。Phase D 第 1 期で以下の 2 系列を追加予定 (`docs/phase-d-catalog-research-2026-05-12.md` 参照):
+PR #7 (eic-data-pipeline、2026-05) で ECB Data Portal 経由の以下系列が catalog に着地し、本ページのチャートが Phase D 候補から実描画に切り替わった:
 
-- **`ecb-policy-rate-mro`** — ECB Statistical Data Warehouse (SDW) 経由、Main Refinancing Operations rate を月次取得 (API 利用可能)
-- **`fx-eurusd-monthly-avg`** — ECB / BOJ FM08 系の月中平均、既存 `fx-usdjpy-monthly-avg` と整合
+- **`ecb-rate-mrr`** — ECB Main Refinancing Operations Rate、月次、% (国際ドメイン、`ecb-terms`)
+- **`fx-eurusd-monthly-avg`** — ECB Euro Reference Exchange Rate の月平均、月次、USD/EUR (国際ドメイン、`ecb-terms`)
 
-## チャート 1: ECB 政策金利 (%、月次、1999-) ※ Phase D 第 1 期 catalog 追加待ち
+いずれも観測開始は ECB Data Portal 配信の都合で **2023-05** から。1999 年からの歴史記述は ECB 公表資料に基づく**文章としての背景**で、チャートは直近約 3 年分のみを描画する。
 
-<ChartLine id="ecb-policy-rate" title="ECB 政策金利 (Main Refinancing Operations、%、月次、1999-)" />
+## チャート 1: ECB MRR (%、月次、2023-05〜)
 
-⚠️ `ecb-policy-rate` 系列は Phase D 第 1 期で追加予定。
+<ChartLine id="ecb-rate-mrr" title="ECB Main Refinancing Operations Rate (%、月次、2023-05〜)" />
 
-歴史的局面:
+直近の動き (2023-05〜):
 
-- **1999-2008 ユーロ導入後**: 2-4% 推移、ECB は安定運営
-- **2008-09 リーマン**: 利下げで 1%、量的緩和開始
-- **2010-2014 欧州債務危機**: 安定 1%、ドラギ「Whatever it takes」発言
-- **2014-2019 マイナス金利**: -0.5% (世界初の中央銀行マイナス金利)
-- **2022 ウクライナ + インフレ急騰**: 7 月から急速利上げ開始 (0% → 4.5%、14 ヶ月で)
-- **2024 現在**: 緩やか利下げ、4.0% 前後で推移
+- **2023-05〜2023-09**: 3.75 → 4.50 (タカ派最終仕上げ、対インフレ引き締め完了)
+- **2023-09〜2024-05**: 4.50 で据え置き (ピーク維持)
+- **2024-06〜2025**: 段階的利下げに転換、徐々に下方シフト
+- **2025-2026**: 政策金利は緩やかに低下、データ最新値は本ページの ChartLine と引用ボタンで確認
 
-## チャート 2: USD/EUR 月中平均 ($/€、月次) ※ Phase D 第 1 期 catalog 追加待ち
+1999-2022 のより長い歴史的経緯（マイナス金利、債務危機、ドラギ「Whatever it takes」、ウクライナ後の急速利上げ）は ECB 公表資料に詳述されている。
 
-<ChartLine id="fx-eurusd-monthly-avg" title="USD/EUR 月中平均 (ドル/ユーロ、月次、1999-)" />
+## チャート 2: EUR/USD 月平均 (USD/€、月次、2023-05〜)
 
-⚠️ `fx-eurusd-monthly-avg` も Phase D 第 1 期で追加予定。
+<ChartLine id="fx-eurusd-monthly-avg" title="EUR/USD 月平均 (USD/EUR、月次、2023-05〜)" />
 
-歴史的局面:
+直近の動き (2023-05〜):
 
-- **1999-2008**: 1.0-1.5 で推移、ユーロ高基調 (~1.6 ピーク 2008 年)
-- **2010-2014 欧州債務危機**: 1.1-1.4 で揺れ
-- **2022 Q3**: **0.96** (平価割れ、20 年ぶり)、ECB 引き締め遅れ + ウクライナ戦争
-- **2024 現在**: 1.05-1.10 で安定回復
+- **2023-05〜2024**: 1.05-1.10 のレンジ、米欧金利差を反映してやや EUR 弱
+- **2025-2026**: ドル安・ユーロ高方向に上振れる場面、最新値は ChartLine と引用ボタンで確認
+
+2022 Q3 の **0.96** ユーロ平価割れは、ECB 利上げ遅れ + 欧州ガス危機が重なった象徴的局面 (catalog データ開始前の歴史記述として ECB 公表資料に詳述)。
 
 ## チャート 3: USD/JPY 月中平均 (円/$、月次)
 
@@ -167,6 +165,7 @@ USD/EUR + USD/JPY は金利差だけで決まらない。地政学 (ウクライ
 - **Insight #43 米雇用統計 × USD/JPY × JEPX** ([/insight/us-employment-vs-fx-vs-jepx](/insight/us-employment-vs-fx-vs-jepx)) — 米雇用 → 為替の前段階
 - **Insight #48 EU ETS × 円建て LNG** ([/insight/eu-ets-vs-yen-lng](/insight/eu-ets-vs-yen-lng)) — 欧州炭素価格と日本エネルギー、本記事と並走する欧州 → 日本軸
 - **Insight #49 中国 PMI × LNG アジア需要** ([/insight/china-pmi-vs-lng-asia](/insight/china-pmi-vs-lng-asia)) — アジア景気と LNG、本記事と並走する国際軸
+- **Insight #66 ECB DFR − Fed FF × EUR/USD** ([/insight/ecb-fed-rate-diff-vs-eurusd](/insight/ecb-fed-rate-diff-vs-eurusd)) — 同じ約 3 年データ窓 + ChartSpread で米欧金利差を圧縮表現した姉妹編 (テーマ重複の整理)
 
 ## 出典
 
@@ -178,9 +177,9 @@ USD/EUR + USD/JPY は金利差だけで決まらない。地政学 (ウクライ
 
 ---
 
-*構成系列: `ecb-policy-rate` ＋ `fx-eurusd-monthly-avg` ＋ `fx-usdjpy-monthly-avg` ＋ (参照) `us-fed-funds-rate`*
+*構成系列: `ecb-rate-mrr` ＋ `fx-eurusd-monthly-avg` ＋ `fx-usdjpy-monthly-avg` ＋ (参照) `us-fed-funds-rate`*
 *編集物著作権: EIC Data (CC BY 4.0)*
-*Insight 量産期 Day 5 朝タスク 3 で MDX 化（2026-05-16、リン + マコト + ハル + アオ）、リン 5/13 15:00 先回り起草、L-033 で原稿の "Insight #50 EU ETS" 参照を実 #48 に補正、Phase D 第 1 期で `ecb-policy-rate` + `fx-eurusd-monthly-avg` catalog 追加待ち*
+*Insight 量産期 Day 5 朝タスク 3 で MDX 化（2026-05-16、リン + マコト + ハル + アオ）、リン 5/13 15:00 先回り起草、L-033 で原稿の "Insight #50 EU ETS" 参照を実 #48 に補正。2026-05-26 で Phase 2 国際ドメイン着地 (PR #7) を受けプレースホルダ id `ecb-policy-rate` を実在の `ecb-rate-mrr` に置換、観測開始 2023-05 に合わせて期間表現を訂正、姉妹編 #66 と双方向リンク*
 
 <InsightStructuredData />
 <InsightCitation />

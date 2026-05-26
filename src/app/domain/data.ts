@@ -204,10 +204,45 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "国際",
     emoji: "🌐",
     description:
-      "EU ETS（EUA 価格） / 米欧電力卸（PJM・APX・EPEX） / 韓国・豪州電力市場 / EIA 原油在庫週報 / IEA エネルギー見通しなど海外エネルギー市場を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。Insight #20 系の EU ETS 連動や、輸入 LNG 価格の海外側参照軸、グローバル金利・原油との連動分析の前提として機能する。",
-    insightKeywords: ["国際", "EUA", "EU ETS", "海外電力", "PJM", "EPEX", "EIA", "IEA", "海外"],
-    subcategories: [],
-    metaPage: true,
+      "ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・月次発電量・月次需要を月次で揃える Phase 2 第 1 期ドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策と結びつける編集の起点として機能する。",
+    insightKeywords: [
+      "国際",
+      "ECB",
+      "Fed",
+      "EUR/USD",
+      "EUR/JPY",
+      "Ember",
+      "海外電力",
+      "中央銀行",
+      "為替",
+    ],
+    subcategories: [
+      {
+        name: "ECB 政策金利（3 系列）",
+        description: "欧州中央銀行 DFR / MLF / MRR、月次",
+        matcher: (id) => id.startsWith("ecb-rate-"),
+      },
+      {
+        name: "EUR 為替（2 系列）",
+        description: "ECB Reference Rate 月平均、EUR/USD・EUR/JPY",
+        matcher: (id) => id.startsWith("fx-eur"),
+      },
+      {
+        name: "Ember 電力部門 CO2 排出強度（5 ヶ国）",
+        description: "日米英独中の電力部門 gCO2/kWh、月次",
+        matcher: (id) => id.startsWith("ember-co2-intensity-"),
+      },
+      {
+        name: "Ember 月次発電量（5 ヶ国）",
+        description: "日米英独中の月次総発電量 TWh",
+        matcher: (id) => id.startsWith("ember-generation-"),
+      },
+      {
+        name: "Ember 月次電力需要（5 ヶ国）",
+        description: "日米英独中の月次電力需要 TWh",
+        matcher: (id) => id.startsWith("ember-demand-"),
+      },
+    ],
   },
 ];
 

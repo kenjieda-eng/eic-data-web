@@ -111,28 +111,30 @@ describe("DOMAINS_DAY8", () => {
     }
   });
 
-  test("Day 8 additions are all flagged as metaPage (catalog 不在)", () => {
+  test("Day 8 のうち esg / technology は metaPage、international は Phase 2 で catalog 着地", () => {
     expect(getDomainById("esg")?.metaPage).toBe(true);
     expect(getDomainById("technology")?.metaPage).toBe(true);
-    expect(getDomainById("international")?.metaPage).toBe(true);
     expect(getDomainById("esg")?.subcategories).toHaveLength(0);
     expect(getDomainById("technology")?.subcategories).toHaveLength(0);
-    expect(getDomainById("international")?.subcategories).toHaveLength(0);
+    expect(getDomainById("international")?.metaPage).toBeFalsy();
+    expect(
+      getDomainById("international")?.subcategories.length,
+    ).toBeGreaterThan(0);
   });
 
-  test("Phase B-B 完走で 9 ドメイン全揃い: catalog 系列を持つ 4 件 + メタ 5 件", () => {
+  test("Phase 2 国際着地で 9 ドメイン: catalog 系列を持つ 5 件 + メタ 4 件", () => {
     const withCatalog = DOMAINS_DAY8.filter((d) => !d.metaPage);
     const metaOnly = DOMAINS_DAY8.filter((d) => d.metaPage);
     expect(withCatalog.map((d) => d.id).sort()).toEqual([
       "finance",
       "fuel",
+      "international",
       "power",
       "weather",
     ]);
     expect(metaOnly.map((d) => d.id).sort()).toEqual([
       "economy",
       "esg",
-      "international",
       "policy",
       "technology",
     ]);
