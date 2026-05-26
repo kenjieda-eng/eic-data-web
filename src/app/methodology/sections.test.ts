@@ -36,9 +36,15 @@ describe("D011_SCHEMA", () => {
 });
 
 describe("license tables", () => {
-  test("SPDX has 4 rows, custom has 5 rows", () => {
+  test("SPDX has 4 rows, custom has 7 rows", () => {
     expect(SPDX_LICENSES).toHaveLength(4);
-    expect(CUSTOM_LICENSES).toHaveLength(5);
+    expect(CUSTOM_LICENSES).toHaveLength(7);
+  });
+
+  test("custom license rows include eprx-terms and occto-terms", () => {
+    const ids = CUSTOM_LICENSES.map((l) => l.id);
+    expect(ids).toContain("eprx-terms");
+    expect(ids).toContain("occto-terms");
   });
 });
 

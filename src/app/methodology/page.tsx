@@ -232,6 +232,28 @@ export default async function MethodologyPage() {
             フィールドがあり、SPDX 標準識別子か EIC Data 独自識別子のいずれかが入る。研究者・ジャーナリスト・実務者が引用・再配布前に判断すべきライセンス読み解きの作法をここに整理する。
           </p>
 
+          <div className="mt-4 rounded border border-amber-300 bg-amber-50 px-4 py-3 text-[13px] leading-relaxed text-ink">
+            <strong>サイト全体表記「CC BY 4.0」の対象範囲（重要）</strong>
+            <p className="mt-2">
+              フッターや本ページ等で表示している「CC BY 4.0」は、EIC Data が自ら制作した
+              <strong>編集物</strong>（解説・Insight 記事・派生指標・メタデータ・サイトデザイン）に対する適用です。
+              <strong>個別データ系列のライセンスは各系列の{" "}
+              <code className="font-mono">license</code> フィールドに従い、一律 CC BY 4.0 ではありません。</strong>
+            </p>
+            <p className="mt-2">
+              特に提供元（市場運営者・公的機関）の独自利用規約が適用される系列
+              （例:{" "}
+              <code className="font-mono">eprx-terms</code> /{" "}
+              <code className="font-mono">occto-terms</code> /{" "}
+              <code className="font-mono">jepx-terms</code> /{" "}
+              <code className="font-mono">jma-terms</code> /{" "}
+              <code className="font-mono">meti-terms</code> /{" "}
+              <code className="font-mono">boj-terms</code> 等）は、
+              CC BY 4.0 ではなく <strong>当該提供元規約に準拠</strong>します。
+              引用・再配布時は SPDX 識別子（CC-BY-4.0 / public-domain 等）かカスタム規約識別子かを系列ごとに必ず確認してください。
+            </p>
+          </div>
+
           <h3 className="mt-5 text-[14px] font-semibold text-slate-900">
             9.1 EIC Data のライセンス哲学
           </h3>
