@@ -384,14 +384,9 @@ export const INSIGHTS: Insight[] = [
     sources: ["METI 電力調査統計", "気象庁 日次気温"],
     updated: "2026-05-15",
   },
-  {
-    slug: "eu-ets-vs-yen-lng",
-    title: "EU ETS × 円建て LNG：欧州炭素価格と日本ガス価格の連動構造",
-    lede: "EU 排出量取引制度 (EU ETS) の炭素価格 (EUR/tCO2、月次) と円建て LNG 日本 CIF (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu、月次) の連動構造を可視化。月次相関 r=+0.55〜+0.70 (2018-2025)、ウクライナ戦争 (2022-08) で同期ピーク",
-    tags: ["燃料", "金融", "国際", "EU ETS", "炭素価格", "LNG", "為替"],
-    sources: ["EEX EU ETS", "ECB SDW", "World Bank Pink Sheet", "BOJ FM08"],
-    updated: "2026-05-16",
-  },
+  // Insight #48 eu-ets-vs-yen-lng は 2026-05-27 に draft 退避 (Phase 2 batch 2 remediation)。
+  // catalog の eu-ets-eua-monthly 未着地のためチャートが描画できず、公開 Insight
+  // 一覧から除外。MDX は src/content/drafts/eu-ets-vs-yen-lng/page.mdx に退避。
   {
     slug: "china-pmi-vs-lng-asia",
     title: "中国 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで",

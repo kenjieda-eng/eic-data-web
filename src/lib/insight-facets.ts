@@ -81,7 +81,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "us-food-cpi-vs-yen-lng": "ChartLine",
   "tankan-vs-industrial-vs-demand": "ChartLine",
   "geothermal-vs-volcanic-temp": "ChartLine",
-  "eu-ets-vs-yen-lng": "ChartLine",
+  // eu-ets-vs-yen-lng は 2026-05-27 draft 退避 (catalog eu-ets-eua-monthly 未着地)
   "china-pmi-vs-lng-asia": "ChartLagBars",
   "ecb-rate-vs-eurusd-vs-usdjpy": "ChartLine",
   "china-pmi-vs-jp-demand": "ChartLagBars",

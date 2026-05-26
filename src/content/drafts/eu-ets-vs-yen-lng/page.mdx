@@ -1,3 +1,16 @@
+{/*
+  Draft 退避記録 (Phase 2 batch 2 web-side remediation、2026-05-27):
+  - 退避経緯: catalog 第 2 弾 (pipeline 204 系列) で `eu-ets-eua-monthly` は未着地。
+    本記事の構成系列 (EU ETS EUA 価格) が catalog に無く、チャートが描画できない
+    ため公開 Insight 一覧から外した。
+  - MDX は物理削除しない。`eu-ets-eua-monthly` (ECB SDW / EEX 経由の月次平均) が
+    catalog に着地次第、本ファイルを `src/app/insight/eu-ets-vs-yen-lng/page.mdx`
+    に戻し、`src/lib/insights.ts` / `src/lib/insight-facets.ts` に再登録、
+    関連 Insight 4 件 (china-pmi-vs-lng-asia / ecb-rate-vs-eurusd-vs-usdjpy /
+    global-lng-price-comparison / glossary cbam) の "Insight #48" 参照リンクを復活する。
+  - 関連 commit: feat/remediation-web の "(1) eu-ets-vs-yen-lng draft 化" 着地。
+*/}
+
 export const metadata = {
   title: "EU ETS × 円建て LNG：欧州炭素価格と日本ガス価格の連動構造 | EIC Data",
   description: "EU 排出量取引制度 (EU ETS) の炭素価格 (EUR/tCO2、月次) と円建て LNG 日本 CIF (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu、月次) の連動構造を可視化。欧州のエネルギー転換政策が、ガス需要シフトと LNG 国際需給を通じて日本電力市場のコストに与える影響を 15 年データで読み解く。",
