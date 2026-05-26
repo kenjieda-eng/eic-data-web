@@ -1,7 +1,7 @@
 export const metadata = {
   title: "ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD | EIC Data",
   description:
-    "ECB 預金ファシリティ金利 (DFR) と米 実効フェデラルファンド金利の差 (ECB − Fed、%) と EUR/USD 月平均レートをスプレッド + 重ね描きで対比。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを 25 年データで確かめる、Phase 2 国際ドメイン第 1 弾。",
+    "ECB 預金ファシリティ金利 (DFR) と米 実効フェデラルファンド金利の差 (ECB − Fed、%) と EUR/USD 月平均レートをスプレッド + 重ね描きで対比。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを、2023 年以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年データで確かめる、Phase 2 国際ドメイン第 1 弾。",
   openGraph: {
     images: ['/api/og/insight/ecb-fed-rate-diff-vs-eurusd'],
   },
@@ -15,7 +15,7 @@ export const metadata = {
 
 # ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD
 
-> 通貨ペアの方向を最も素朴に説明する材料は、二つの中央銀行の**政策金利の差**である。ECB 預金ファシリティ金利 (DFR、`ecb-rate-dfr`、月次、%) − 米 実効フェデラルファンド金利 (`us-fed-funds-rate`、月次、%) のスプレッドと EUR/USD 月平均レート (`fx-eurusd-monthly-avg`、月次、USD/EUR) を重ね描きし、金利平価が EUR/USD の背骨になるかを確かめる。Phase 2 国際ドメイン第 1 弾、catalog 201 系列・国際 20 系列の起点となる Insight。
+> 通貨ペアの方向を最も素朴に説明する材料は、二つの中央銀行の**政策金利の差**である。ECB 預金ファシリティ金利 (DFR、`ecb-rate-dfr`、月次、%) − 米 実効フェデラルファンド金利 (`us-fed-funds-rate`、月次、%) のスプレッドと EUR/USD 月平均レート (`fx-eurusd-monthly-avg`、月次、USD/EUR) を重ね描きし、金利平価が EUR/USD の背骨になるかを確かめる。データ期間は 2023 年 5 月以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年で、共通月は 3 系列の最短に律速される。Phase 2 国際ドメイン第 1 弾、catalog 201 系列・国際 20 系列の起点となる Insight。
 
 ## 背景
 
@@ -62,7 +62,7 @@ ECB の他の金利（MRR、限界貸出ファシリティ MLF）は catalog の
 ## 関連 Insight
 
 - 日米 10 年金利差 × USD/JPY → 為替を駆動する金利差の本丸（[#36](/insight/spread-us-jp-10y-vs-fx)）
-- ECB 政策金利 × USD/EUR × USD/JPY → 3 大金利政策の三角関係（[#50](/insight/ecb-rate-vs-eurusd-vs-usdjpy)）
+- ECB MRR × USD/EUR × USD/JPY → 3 大金利政策の三角関係、3 軸版の姉妹編（[#50](/insight/ecb-rate-vs-eurusd-vs-usdjpy)）
 - FF レート × USD/JPY → FRB 政策金利と為替の直結（[#60](/insight/fed-funds-vs-fx)）
 - 国際ドメイン → ECB / EUR 為替 / Ember 5 ヶ国電力（[/domain/international](/domain/international)）
 

@@ -403,7 +403,7 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "ecb-rate-vs-eurusd-vs-usdjpy",
     title: "ECB 政策金利 × USD/EUR × USD/JPY：3 大金利政策の三角関係",
-    lede: "ECB 政策金利 (Main Refinancing Operations、月次、%) × USD/EUR + USD/JPY の 3 軸対比。日米欧 3 大中央銀行 (BOJ + FRB + ECB) の金利政策が世界為替市場に与える複合効果を 25 年データで可視化、2022-09 ユーロ平価割れ + 円安進行の三角構造を解読",
+    lede: "ECB 主要リファイナンス金利 (MRR、`ecb-rate-mrr`、月次、%) × USD/EUR + USD/JPY の 3 軸対比。日米欧 3 大中央銀行 (BOJ + FRB + ECB) の金利政策が世界為替市場に与える複合効果を、2023 年 5 月以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年データで可視化、円安進行の三角構造と利下げ局面の歩調を解読",
     tags: ["金融", "国際", "ECB", "中央銀行", "為替", "USD/EUR", "USD/JPY"],
     sources: ["ECB SDW", "BOJ FM08", "FRED FEDFUNDS"],
     updated: "2026-05-16",
@@ -531,7 +531,7 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "ecb-fed-rate-diff-vs-eurusd",
     title: "ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD",
-    lede: "ECB 預金ファシリティ金利 (DFR) − 米 実効フェデラルファンド金利 (% pt) のスプレッドと EUR/USD 月平均 (USD/EUR) を ChartSpread で重ね描き。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを 25 年データで確かめる、Phase 2 国際ドメイン第 1 弾",
+    lede: "ECB 預金ファシリティ金利 (DFR) − 米 実効フェデラルファンド金利 (% pt) のスプレッドと EUR/USD 月平均 (USD/EUR) を ChartSpread で重ね描き。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを、2023 年以降（ECB 利上げ完了〜利下げ転換局面）の約 3 年データで確かめる、Phase 2 国際ドメイン第 1 弾",
     tags: ["国際", "金融", "金利", "為替", "ECB", "Fed", "EUR/USD"],
     sources: ["ECB Data Portal (DFR + EUR/USD Reference Rate)", "FRED FEDFUNDS"],
     updated: "2026-05-26",
