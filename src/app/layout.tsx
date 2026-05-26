@@ -178,8 +178,22 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
         <footer className="mt-12 border-t border-slate-200 bg-white">
           <div className="mx-auto max-w-3xl md:max-w-5xl lg:max-w-7xl xl:max-w-[1320px] px-4 py-6 text-xs text-slate-500 space-y-1">
             <p>
-              © 2026 一般社団法人エネルギー情報センター ／ CC BY 4.0 ／ catalog:{" "}
+              © 2026 一般社団法人エネルギー情報センター ／ 編集物 CC BY 4.0 ／ catalog:{" "}
               {catalog.indicator_count} 系列
+            </p>
+            <p>
+              EIC 編集コンテンツ（解説・Insight）は CC BY 4.0。個別データ系列は各{" "}
+              <code className="font-mono">license</code> に従い、提供元規約（
+              <code className="font-mono">eprx-terms</code> /{" "}
+              <code className="font-mono">occto-terms</code> /{" "}
+              <code className="font-mono">jepx-terms</code> 等）の系列は CC BY ではなく当該規約に準拠（
+              <Link
+                href="/methodology#methodology-sec-9"
+                className="underline hover:text-emerald-700"
+              >
+                詳細
+              </Link>
+              ）。
             </p>
             <p>
               schema {catalog.schema} ／ generated {catalog.generated_at}

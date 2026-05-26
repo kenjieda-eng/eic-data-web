@@ -241,6 +241,18 @@ export const CUSTOM_LICENSES: CustomLicenseRow[] = [
     notes: "経済産業省の二次利用規約に従う、出典明示必須、商用利用可",
   },
   {
+    id: "eprx-terms",
+    series: "需給調整市場（5 商品 × 約定価格 等）",
+    notes:
+      "EPRX（需給調整市場運営者）の公表規約に従う、出典明示必須。CC BY 4.0 ではなく当該規約に準拠",
+  },
+  {
+    id: "occto-terms",
+    series: "容量市場メインオークション約定価格（エリア別・全国加重平均）",
+    notes:
+      "電力広域的運営推進機関（OCCTO）公表規約に従う、出典明示必須。CC BY 4.0 ではなく当該規約に準拠",
+  },
+  {
     id: "wb-pink-sheet-terms",
     series: "燃料 7 系列（LNG / NG / 原油 / 石炭）",
     notes: "World Bank Pink Sheet (CC BY 4.0 相当)、原典明示必須、商用利用可",
