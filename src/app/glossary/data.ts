@@ -373,7 +373,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "cbam",
     name: "国境炭素調整 (CBAM)",
     description:
-      "Carbon Border Adjustment Mechanism。EU が 2026 年本格施行する炭素関税。EU 域内に輸入される鉄鋼・アルミ・セメント・肥料・電力・水素・鉱物のうち、域外で排出された CO2 量に対し EU ETS 価格との差額を「CBAM 証書」として徴収。日本企業の EU 輸出（自動車部品 / 機械 / 化学）に直接コスト発生、間接的に日本の電力業界へも GX-ETS 価格上昇圧力。[[eua]] [[gx-ets]] と連動。Insight 関連: eu-ets-vs-yen-lng。",
+      "Carbon Border Adjustment Mechanism。EU が 2026 年本格施行する炭素関税。EU 域内に輸入される鉄鋼・アルミ・セメント・肥料・電力・水素・鉱物のうち、域外で排出された CO2 量に対し EU ETS 価格との差額を「CBAM 証書」として徴収。日本企業の EU 輸出（自動車部品 / 機械 / 化学）に直接コスト発生、間接的に日本の電力業界へも GX-ETS 価格上昇圧力。[[eua]] [[gx-ets]] と連動。",
     category: "international",
   },
   {

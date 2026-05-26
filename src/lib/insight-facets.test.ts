@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 66 本全 slug がマップに含まれる (5/26 で #66 ecb-fed-rate-diff-vs-eurusd を追加 = Phase 2 国際ドメイン第 1 弾)", () => {
+  test("INSIGHT_RENDERER_MAP: 65 本全 slug がマップに含まれる (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng を draft 退避 = 66 → 65)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(66);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(66);
+    expect(INSIGHTS.length).toBe(65);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(65);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -39,9 +39,9 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(getInsightRenderer("spread-us-jp-10y-vs-fx")).toBe("ChartSpread");
   });
 
-  test("filterInsights: tag=「金融」で 19 件 (Phase 2 #66 ecb-fed-rate-diff-vs-eurusd 追加で +1)", () => {
+  test("filterInsights: tag=「金融」で 18 件 (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng draft 退避 = 19 → 18)", () => {
     const filtered = filterInsights(INSIGHTS, { tag: "金融" });
-    expect(filtered.length).toBe(19);
+    expect(filtered.length).toBe(18);
     const slugs = filtered.map((i) => i.slug);
     expect(slugs).toContain("jgb-vs-yen-lng");
     expect(slugs).toContain("us-cpi-vs-fx");
@@ -50,9 +50,9 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(slugs).toContain("ecb-fed-rate-diff-vs-eurusd");
   });
 
-  test("filterInsights: domain=finance で 19 件 (金融タグ含む = finance domain 導出)", () => {
+  test("filterInsights: domain=finance で 18 件 (金融タグ含む = finance domain 導出、batch 2 remediation で 19 → 18)", () => {
     const filtered = filterInsights(INSIGHTS, { domain: "finance" });
-    expect(filtered.length).toBe(19);
+    expect(filtered.length).toBe(18);
   });
 
   test("filterInsights: renderer=ChartHeatmap で 9 地点ヒートマップ 5 本 + Day 5 午後第 3 弾の #55 fx-resilience-by-region で 6 本", () => {
@@ -84,12 +84,12 @@ describe("Phase C Day 1: insight-facets", () => {
     ]);
   });
 
-  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合", () => {
+  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合 (batch 2 remediation で 66 → 65 / finance 19 → 18)", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(66);
+    expect(all?.count).toBe(65);
     const finance = facets.domains.find((d) => d.value === "finance");
-    expect(finance?.count).toBe(19);
+    expect(finance?.count).toBe(18);
   });
 
   test("getInsightNeighbors: 中間 slug は prev + next 両方存在、両端は片側 null", () => {
