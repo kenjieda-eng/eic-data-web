@@ -5,7 +5,7 @@ import Container from "@/components/Container";
 export const metadata: Metadata = {
   title: "引用規約 — EIC Data",
   description:
-    "EIC Data のデータ・Insight 引用に関する公式ガイド。BibTeX / Chicago 17 / APA 7 の 3 形式早見表、データ引用 vs Insight 引用の使い分け、CC BY 4.0 帰属表示要件を明示。",
+    "EIC Data のデータ・Insight 引用に関する公式ガイド。BibTeX / Chicago 17 / APA 7 の 3 形式早見表、データ引用 vs Insight 引用の使い分け、系列ごとのライセンス (SPDX 識別子 / 提供元規約識別子) を確認したうえでの帰属表示要件を明示。",
 };
 
 export default function CitationPolicyPage() {
@@ -23,12 +23,14 @@ export default function CitationPolicyPage() {
         </h1>
         <p className="mt-3 text-base md:text-lg text-subink leading-relaxed">
           EIC Data のデータおよび Insight 記事を、学術論文・報道記事・行政資料・
-          内部レポート等で引用する際の作法を定めます。CC BY 4.0
-          ライセンスの帰属表示義務を満たす最小要件を明示し、3 形式の引用文字列を
-          各ページの CitationButton で即座にコピーできるようにしています。
+          内部レポート等で引用する際の作法を定めます。引用・再配布の前に、
+          対象が EIC の編集物か個別データ系列か、また系列ごとのライセンス
+          (SPDX 識別子か提供元規約識別子か) を確認したうえで帰属義務を満たす
+          ための最小要件を明示し、3 形式の引用文字列を各ページの CitationButton
+          で即座にコピーできるようにしています。
         </p>
         <p className="mt-2 text-xs text-faint">
-          初版: 2026-05-12 ／ 最終改定: 2026-05-12 (Phase C Day 5)
+          初版: 2026-05-12 ／ 最終改定: 2026-05-26 (ライセンス表現の精緻化)
         </p>
       </header>
 
@@ -187,10 +189,64 @@ export default function CitationPolicyPage() {
 
       <section className="prose-section space-y-3">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
-          5. 二次利用時の要求 (CC BY 4.0 帰属表示)
+          5. 二次利用時の帰属表示（系列ごとのライセンス確認）
         </h2>
         <p className="text-base md:text-lg leading-relaxed text-subink">
-          CC BY 4.0 ライセンスの帰属表示義務を満たすには、以下 5 項目を明示してください:
+          EIC Data のライセンスは、
+          <strong className="text-ink">編集物 (Insight 記事・解説・派生指標・
+          メタデータ・サイトデザイン)</strong>と<strong className="text-ink">
+          個別データ系列</strong>で扱いが異なります。
+        </p>
+        <ul className="ml-6 list-disc space-y-1 text-base md:text-lg text-subink leading-relaxed">
+          <li>
+            <strong className="text-ink">編集物</strong>: クリエイティブ・コモンズ
+            表示 4.0 国際 (<code>CC BY 4.0</code>) で提供。
+          </li>
+          <li>
+            <strong className="text-ink">個別データ系列</strong>: 各系列メタデータの{" "}
+            <code className="font-mono">license</code> フィールドに従い、
+            <strong className="text-ink">一律 CC BY 4.0 ではありません</strong>。
+            SPDX 識別子 (<code className="font-mono">CC-BY-4.0</code> /{" "}
+            <code className="font-mono">public-domain</code> 等) と、
+            提供元規約識別子 (<code className="font-mono">eprx-terms</code> /{" "}
+            <code className="font-mono">occto-terms</code> /{" "}
+            <code className="font-mono">jepx-terms</code> /{" "}
+            <code className="font-mono">jma-terms</code> /{" "}
+            <code className="font-mono">meti-terms</code> /{" "}
+            <code className="font-mono">boj-terms</code> 等) の 2 系統があり、
+            後者は CC BY 4.0 ではなく当該提供元規約に準拠します。
+          </li>
+        </ul>
+        <p className="text-base md:text-lg leading-relaxed text-subink">
+          引用・再配布の前に、対象系列の{" "}
+          <code className="font-mono">license</code> /{" "}
+          <code className="font-mono">license_url</code> /{" "}
+          <code className="font-mono">license_notice</code>{" "}
+          を CitationButton または{" "}
+          <Link
+            href="/cite"
+            className="text-emerald-700 underline hover:text-emerald-900"
+          >
+            引用ジェネレータ (/cite)
+          </Link>{" "}
+          で必ず確認してください。識別子の意味と引用作法の全体像は{" "}
+          <Link
+            href="/methodology#methodology-sec-9"
+            className="text-emerald-700 underline hover:text-emerald-900"
+          >
+            方法論 §9 ライセンスの読み解き
+          </Link>{" "}
+          を参照ください。
+
+        </p>
+
+        <h3 className="mt-6 text-xl md:text-2xl font-semibold text-ink">
+          5.1 帰属表示の最小要件
+        </h3>
+        <p className="text-base md:text-lg leading-relaxed text-subink">
+          以下 5 項目を明示してください。<strong className="text-ink">ライセンス表示
+          は当該系列に対応する識別子をそのまま転記</strong>します
+          (CC BY 4.0 と決め打ちしないこと)。
         </p>
         <ul className="ml-6 list-disc space-y-1 text-base md:text-lg text-subink leading-relaxed">
           <li>
@@ -203,21 +259,36 @@ export default function CitationPolicyPage() {
             <strong>accessed_at</strong>: 利用者がアクセスした日付 (YYYY-MM-DD)
           </li>
           <li>
-            <strong>ライセンス表示</strong>: 「CC BY 4.0」
+            <strong>ライセンス表示</strong>: CitationButton 出力に含まれる
+            当該系列のライセンス識別子 (例: <code>CC BY 4.0</code> /{" "}
+            <code className="font-mono">jepx-terms</code> /{" "}
+            <code className="font-mono">occto-terms</code> /{" "}
+            <code className="font-mono">boj-terms</code> 等)。提供元規約識別子の
+            場合は<code className="font-mono">license_notice</code>{" "}
+            (例:「日本銀行によって保証されたものではありません」) も併記
           </li>
           <li>
             <strong>改変の有無</strong>: 派生物を作成した場合は「改変あり」と明記
           </li>
         </ul>
+
         <h3 className="mt-6 text-xl md:text-2xl font-semibold text-ink">
-          5.1 表記例
+          5.2 表記例
         </h3>
+        <p className="text-base md:text-lg leading-relaxed text-subink">
+          系列ごとにライセンス文字列が異なります (CitationButton 出力をそのまま
+          転記してください):
+        </p>
         <pre className="overflow-auto rounded-md bg-slate-100 p-4 text-xs md:text-sm leading-relaxed text-slate-800">
-          {`出典: EIC Data, "JEPX スポット市場 東京エリア", https://data.eic-jp.org/catalog/jepx-spot-tokyo, accessed 2026-05-25, CC BY 4.0`}
+          {`出典: EIC Data, "JEPX スポット市場 東京エリア", https://data.eic-jp.org/catalog/jepx-spot-tokyo, accessed 2026-05-26, license: jepx-terms (再配布可、原典明示必須)`}
+        </pre>
+        <pre className="overflow-auto rounded-md bg-slate-100 p-4 text-xs md:text-sm leading-relaxed text-slate-800">
+          {`出典: EIC Data, "温度 vs スポット価格", https://data.eic-jp.org/insight/temp-vs-price, accessed 2026-05-26, CC BY 4.0`}
         </pre>
         <p className="text-base md:text-lg leading-relaxed text-subink">
           報道・社内資料・スライド等で文字数制約がある場合、最低限「EIC Data /
-          CC BY 4.0 / URL」が含まれていれば帰属義務を満たします。
+          当該ライセンス識別子 / URL」が含まれていれば帰属義務を満たします
+          (個別系列では「CC BY 4.0」ではなく当該系列の識別子を必ず使用)。
         </p>
       </section>
 
