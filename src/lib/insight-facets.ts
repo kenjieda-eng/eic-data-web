@@ -99,6 +99,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "tertiary-balance-vs-jepx": "ChartLine",
   "capacity-market-area-vs-power-mix": "ChartLine",
   "balancing-source-type-comparison": "ChartLine",
+  "ecb-fed-rate-diff-vs-eurusd": "ChartSpread",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

@@ -528,6 +528,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["電力需給調整力取引所 (EPRX) 取引実績の取りまとめ結果"],
     updated: "2026-05-25",
   },
+  {
+    slug: "ecb-fed-rate-diff-vs-eurusd",
+    title: "ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD",
+    lede: "ECB 預金ファシリティ金利 (DFR) − 米 実効フェデラルファンド金利 (% pt) のスプレッドと EUR/USD 月平均 (USD/EUR) を ChartSpread で重ね描き。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを 25 年データで確かめる、Phase 2 国際ドメイン第 1 弾",
+    tags: ["国際", "金融", "金利", "為替", "ECB", "Fed", "EUR/USD"],
+    sources: ["ECB Data Portal (DFR + EUR/USD Reference Rate)", "FRED FEDFUNDS"],
+    updated: "2026-05-26",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

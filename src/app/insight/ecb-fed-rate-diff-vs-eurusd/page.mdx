@@ -1,0 +1,87 @@
+export const metadata = {
+  title: "ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD | EIC Data",
+  description:
+    "ECB 預金ファシリティ金利 (DFR) と米 実効フェデラルファンド金利の差 (ECB − Fed、%) と EUR/USD 月平均レートをスプレッド + 重ね描きで対比。金利平価の発想で「中央銀行のどちらが速く動いたか」が EUR/USD の背骨になるかを 25 年データで確かめる、Phase 2 国際ドメイン第 1 弾。",
+  openGraph: {
+    images: ['/api/og/insight/ecb-fed-rate-diff-vs-eurusd'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/ecb-fed-rate-diff-vs-eurusd'],
+  },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# ECB と Fed、どちらが利上げに速いか — 政策金利差で読む EUR/USD
+
+> 通貨ペアの方向を最も素朴に説明する材料は、二つの中央銀行の**政策金利の差**である。ECB 預金ファシリティ金利 (DFR、`ecb-rate-dfr`、月次、%) − 米 実効フェデラルファンド金利 (`us-fed-funds-rate`、月次、%) のスプレッドと EUR/USD 月平均レート (`fx-eurusd-monthly-avg`、月次、USD/EUR) を重ね描きし、金利平価が EUR/USD の背骨になるかを確かめる。Phase 2 国際ドメイン第 1 弾、catalog 201 系列・国際 20 系列の起点となる Insight。
+
+## 背景
+
+金利平価の発想では、相対的に金利が高い通貨は短期的に資金を引き寄せ、為替はその方向に振れやすい。ユーロと米ドルの関係であれば、**欧州中央銀行（ECB）と米連邦準備制度（Fed）のどちらが速く、どこまで金利を動かしたか**が EUR/USD の背骨になる。
+
+このページは、ECB の預金ファシリティ金利（DFR）と米国の実効フェデラルファンド金利の差（**ECB − Fed**、%）を上段に、EUR/USD の月次平均レートを重ねて描いている。金利差がプラスに開けば（ユーロ優位なら）ユーロ高・ドル安方向、マイナスに開けば（ドル優位なら）ユーロ安・ドル高方向、という関係が見えるかを確かめるのが狙いである。
+
+## ECB DFR − 米 FF 金利（スプレッド、% pt）× EUR/USD（月平均）
+
+<ChartSpread
+  spreadAId="ecb-rate-dfr"
+  spreadBId="us-fed-funds-rate"
+  comparisonId="fx-eurusd-monthly-avg"
+  spreadLabel="ECB DFR − 米 FF 金利"
+  comparisonLabel="EUR/USD 月平均"
+  spreadAxisName="% pt"
+  comparisonAxisName="USD/EUR"
+/>
+
+赤線が政策金利差（左軸、% pt、0 線が「ECB と Fed が同水準」）、青線が EUR/USD（右軸、USD/EUR）。スプレッドが下に大きく開く（米金利優位）局面と、EUR/USD が下に振れる（ユーロ安・ドル高）局面が方向として揃うかを目で追える。
+
+## なぜ「DFR」で見るのか
+
+現在の余剰流動性下では、ECB は主要リファイナンス金利（MRR）よりも**預金ファシリティ金利（DFR）が実効的な政策金利**として短期金利を規定している。Fed 側は政策誘導目標に対応する**実効 FF 金利**を採用した。両者はいずれも「中央銀行が実際にコントロールしている短期金利」であり、横並びで差を取るのに適している。
+
+ECB の他の金利（MRR、限界貸出ファシリティ MLF）は catalog の `ecb-rate-mrr` / `ecb-rate-mlf` として個別ページから参照できる。MRR との差を取り直しても、絶対水準は異なるが**方向と転換点**はほぼ同じ階段を踏む。
+
+## 補助チャート: 各系列の単独推移
+
+<ChartLine id="ecb-rate-dfr" color="#dc2626" height={250} showZoom={false} />
+
+<ChartLine id="us-fed-funds-rate" color="#0891b2" height={250} showZoom={false} />
+
+<ChartLine id="fx-eurusd-monthly-avg" color="#9333ea" height={250} showZoom={false} />
+
+## 読み取りの注意
+
+第一に、**相関は因果ではない**。EUR/USD は金利差だけでなく、景気格差・経常収支・リスクセンチメント・エネルギー価格ショック（とくに 2022 年の欧州ガス危機）など多くの要因で動く。金利差は重要だが唯一の説明変数ではない。
+
+第二に、政策金利は**段階的かつ会合ごと**にしか動かない階段状の系列である。為替は日々連続的に動くため、月次でならしても両者のタイミングは完全には一致しない。「方向が概ね揃うか」を見るページであって、短期の売買シグナルではない。
+
+第三に、ここで描いているのは **EUR/USD** である。日本の読者が関心を持つ **EUR/JPY** は、本来 ECB と日本銀行の金利差が効くペアであり、別の軸で扱う（`fx-eurjpy-monthly-avg` は国際ドメインに収録済み、姉妹編は今後追加）。
+
+## 関連 Insight
+
+- 日米 10 年金利差 × USD/JPY → 為替を駆動する金利差の本丸（[#36](/insight/spread-us-jp-10y-vs-fx)）
+- ECB 政策金利 × USD/EUR × USD/JPY → 3 大金利政策の三角関係（[#50](/insight/ecb-rate-vs-eurusd-vs-usdjpy)）
+- FF レート × USD/JPY → FRB 政策金利と為替の直結（[#60](/insight/fed-funds-vs-fx)）
+- 国際ドメイン → ECB / EUR 為替 / Ember 5 ヶ国電力（[/domain/international](/domain/international)）
+
+## データと出典
+
+ECB の政策金利・EUR/USD 参照レートは ECB Data Portal（`ecb-terms`、出典明記で再利用可）、米 FF 金利は FRED 由来。各系列の正確なライセンスは catalog 個別ページの引用ボタンで確認できる（編集物は CC BY 4.0、個別系列は各 license に従う — [方法論 §9](/methodology#methodology-sec-9)）。
+
+- [ECB Data Portal — Deposit Facility Rate](https://data.ecb.europa.eu/)（DFR、月次、ecb-terms）
+- [FRED FEDFUNDS](https://fred.stlouisfed.org/series/FEDFUNDS)（実効 FF 金利、月次、public-domain）
+- [ECB Data Portal — Euro Reference Exchange Rates](https://data.ecb.europa.eu/)（EUR/USD 月平均、ecb-terms）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `ecb-rate-dfr` − `us-fed-funds-rate`（A − B）＋ `fx-eurusd-monthly-avg`（comparison）／レンダラ: ChartSpread*
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
