@@ -279,9 +279,9 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   },
   {
     slug: "china-pmi",
-    name: "中国 PMI（Caixin 製造業指数）",
+    name: "中国 NBS 製造業 PMI（国家統計局 官製）",
     description:
-      "Caixin Purchasing Managers' Index。中国製造業の景況感を 50 を中立水準として表す指数。50 超は拡大、50 未満は縮小。NBS（国家統計局、大企業中心）と Caixin（中小企業中心、市場感度高）の 2 系統があり、EIC Data では Caixin PMI を採用。中国経済の景気変動 → アジア LNG 需給 → 日本電力市場の伝播経路で重要な先行指標。Insight #49 + #51 で詳細解説。",
+      "中国 国家統計局 (National Bureau of Statistics, NBS) が CFLP と共同で公表する官製 製造業 PMI (Purchasing Managers' Index、購買担当者景気指数)。中国製造業の景況感を 50 を境界として表し、>50 は拡張、<50 は収縮を意味する。NBS（国家統計局、大企業 + 国有企業中心）と Caixin（中小企業中心、S&P Global proprietary）の 2 系統があるが、EIC Data ではライセンス取り扱い可能な NBS 官製 PMI を採用 (L-063)。中国経済の景気変動 → アジア LNG 需給 → 日本電力市場の伝播経路で重要な先行指標。Insight #49 + #51 で詳細解説。",
     category: "international",
   },
   {

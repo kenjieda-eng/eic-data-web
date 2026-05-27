@@ -389,11 +389,11 @@ export const INSIGHTS: Insight[] = [
   // 一覧から除外。MDX は src/content/drafts/eu-ets-vs-yen-lng/page.mdx に退避。
   {
     slug: "china-pmi-vs-lng-asia",
-    title: "中国 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで",
-    lede: "中国 Caixin PMI と円建て LNG 日本 CIF のラグ相関 0-12 ヶ月走査。世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場の連動構造を可視化、ラグ 3 ヶ月で r=+0.45〜+0.55、コロナ・ゼロコロナ・再開期で構造検証",
-    tags: ["燃料", "国際", "中国", "PMI", "LNG", "アジア需給"],
-    sources: ["Caixin/S&P Global PMI", "World Bank Pink Sheet", "BOJ FM08"],
-    updated: "2026-05-16",
+    title: "中国 NBS 製造業 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで",
+    lede: "中国 NBS 官製 製造業 PMI (china-nbs-mfg-pmi) と円建て LNG 日本 CIF を 2 軸 + 短期ラグで定性的に対比。世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場の連動構造を解説。観測期間は 2025-04〜2026-04 の 13 ヶ月で短く、相関の強弱は断定しない (L-051 / L-062)",
+    tags: ["燃料", "国際", "中国", "PMI", "LNG", "アジア需給", "NBS"],
+    sources: ["NBS 中国国家統計局 製造業 PMI", "World Bank Pink Sheet", "BOJ FM08"],
+    updated: "2026-05-27",
   },
   {
     slug: "ecb-rate-vs-eurusd-vs-usdjpy",
@@ -405,11 +405,11 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "china-pmi-vs-jp-demand",
-    title: "中国 PMI × 日本電力需要：世界第 2 位経済の景気が日本工業電力に届く 6-12 ヶ月のトンネル",
-    lede: "中国 Caixin PMI 製造業指数 (月次) と日本電力販売量 (meti-demand-total、月次、GWh) のラグ相関 0-12 ヶ月走査。中国景気減速 → 日本輸出減 → 日本製造業稼働低下 → 電力需要減を 6-9 ヶ月ラグで定量化、月次相関 r=+0.50〜+0.65、リーマン/コロナ/ゼロコロナ/再開期の 4 局面で構造検証",
-    tags: ["電力", "需要", "国際", "中国", "PMI", "マクロ", "製造業"],
-    sources: ["Caixin/S&P Global PMI", "METI 電力調査統計"],
-    updated: "2026-05-16",
+    title: "中国 NBS 製造業 PMI × 日本電力需要：世界第 2 位経済の景気が日本工業電力に届くトンネル",
+    lede: "中国 NBS 官製 製造業 PMI (china-nbs-mfg-pmi、月次、index) と日本電力販売量 (meti-demand-total、月次、GWh) を 2 軸 + 短期ラグで定性的に対比。中国景気減速 → 日本輸出減 → 日本製造業稼働低下 → 電力需要減という長いトンネルの構造を解説。観測期間は 2025-04〜2026-04 の 13 ヶ月で短く、相関の強弱は断定しない (L-051 / L-062)",
+    tags: ["電力", "需要", "国際", "中国", "PMI", "マクロ", "製造業", "NBS"],
+    sources: ["NBS 中国国家統計局 製造業 PMI", "METI 電力調査統計"],
+    updated: "2026-05-27",
   },
   {
     slug: "iron-ore-vs-thermal-power",
