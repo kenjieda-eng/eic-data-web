@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "中国 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで | EIC Data",
-  description: "中国 PMI 製造業指数 (Caixin、月次) と円建て LNG 日本 CIF (fuel-lng-jp-cif × fx-usdjpy-monthly-avg、円/MMBtu、月次) のラグ相関を 0-12 ヶ月で走査。世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場という連動構造を可視化、コロナ・ゼロコロナ・再開期で構造検証。",
+  title: "中国 NBS 製造業 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで | EIC Data",
+  description: "中国 NBS 官製 製造業 PMI (`china-nbs-mfg-pmi`、月次、index) と円建て LNG 日本 CIF (`fuel-lng-jp-cif × fx-usdjpy-monthly-avg`、円/MMBtu、月次) を 2 軸対比 + 短期ラグで定性的に観察。世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場という連動構造を解説。観測期間は 2025-04〜2026-04 の 13 ヶ月で短く、相関の強弱は断定しない。",
   openGraph: {
     images: ['/api/og/insight/china-pmi-vs-lng-asia'],
   },
@@ -12,119 +12,81 @@ export const metadata = {
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
 
-# 中国 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで
+# 中国 NBS 製造業 PMI × LNG アジア需要：世界第 2 位経済の景気が日本電力価格に届くまで
 
-> 中国 PMI 製造業指数 (Caixin、月次) と円建て LNG 日本 CIF (`fuel-lng-jp-cif × fx-usdjpy-monthly-avg`、円/MMBtu、月次) のラグ相関を 0-12 ヶ月で走査。**世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場**という連動構造を可視化、コロナ (2020) ・ゼロコロナ (2022) ・再開期 (2023) で構造検証。
+> 中国 NBS 官製 製造業 PMI (`china-nbs-mfg-pmi`、月次、index) と円建て LNG 日本 CIF (`fuel-lng-jp-cif × fx-usdjpy-monthly-avg`、円/MMBtu、月次) を 2 軸時系列 + 短期ラグで定性的に観察。**世界第 2 位経済の景気変動 → アジア LNG 需給 → 日本電力市場**という連動構造を解説する。⚠️ 本記事の `china-nbs-mfg-pmi` は **2025-04〜2026-04 の 13 ヶ月**のみが観測可能で、サンプルが少ない。相関の強弱は断定せず、定性的な対比に留める (L-051 / L-062)。
 
 ## 背景
 
-**中国 PMI (Purchasing Managers' Index、購買担当者景気指数)** は中国製造業の景況感を 50 を中立水準として表す指数。50 超は拡大、50 未満は縮小を意味する。
+**製造業 PMI (Purchasing Managers' Index、購買担当者景気指数)** は、購買担当者へのアンケートから新規受注 / 生産 / 雇用 / 在庫 / 入荷遅延の 5 項目を合成して算出される景況感指数で、**50 を境界として 50 超が拡張、50 未満が収縮**を意味する。
 
-中国 PMI には 2 系統あり:
-- **国家統計局 (NBS) PMI**: 大企業中心、公式統計
-- **Caixin PMI**: 中小企業中心、市場感度が高い
+中国の製造業 PMI には 2 系統あり、本記事では **中国 国家統計局 (National Bureau of Statistics, NBS) が CFLP と共同で公表する官製 PMI** を採用する。NBS PMI は大企業 + 国有企業を中心にした調査で、インフラ + 不動産 + 重工業の動向を反映する。
 
-本記事では **Caixin PMI** を採用 (市場参加者の注目度が高く、LNG 需要との相関がより強い)。
+> 補足：もう 1 系統の Caixin PMI (S&P Global / Caixin 共同) は中小企業中心の指数で市場感度が高いが、ライセンスが proprietary で公開データ基盤に直接取り込めないため不採用 (L-063)。FRED にも NBS PMI 直系列は存在せず、catalog では NBS 英語版プレスリリースから直接抽出している。
 
-中国 PMI → 日本 LNG 価格までの伝播経路:
+中国 NBS PMI → 日本 LNG 価格までの想定伝播経路:
 
-1. **中国 PMI 上昇** → 製造業稼働増、エネルギー需要増
-2. **中国 LNG 輸入増加** (世界最大 LNG 輸入国の 1 つ)
+1. **中国 NBS PMI 上昇** → 製造業稼働増、エネルギー需要増
+2. **中国 LNG 輸入増加** (世界最大級の LNG 輸入国の 1 つ)
 3. **アジア LNG スポット価格 (JKM) 上昇** → 日本 CIF 価格にも波及
 4. **円建て LNG コスト上昇** (USD/JPY 円安が加算)
 5. **JEPX 卸電力価格に間接波及**
 
-この連鎖は **2-6 ヶ月のラグ**で発現する。中国 LNG 需要は世界 LNG 取引の **約 20%** を占め、日本 LNG 輸入価格の主要決定要因の 1 つ。
+過去のグローバル景気サイクルでは、この連鎖は **2-6 ヶ月のラグ**で発現したとされる。中国 LNG 需要は世界 LNG 取引の **約 20%** を占め、日本 LNG 輸入価格の主要決定要因の 1 つ。本記事は catalog の `china-nbs-mfg-pmi` 系列が 2025-04 以降の 13 ヶ月しかカバーしないため、**ラグ構造の定量検証は後年データ蓄積後に再評価**する。
 
-### 中国 PMI データソース (Phase D 第 1 期 catalog 拡張候補)
+## チャート 1: 中国 NBS 製造業 PMI (index、月次、50 = 拡張/縮小の境界)
 
-⚠️ 本記事公開時点で catalog に「中国 Caixin PMI」は未収録。Phase D 第 1 期で `china-caixin-mfg-pmi` 系列として追加予定。データソース候補:
+<ChartLine id="china-nbs-mfg-pmi" title="中国 NBS 製造業 PMI (月次、50=拡張/縮小の境界)" />
 
-- **Caixin/S&P Global PMI 公表ページ** (一部無料、HTML スクレイピング可能)
-- **TradingEconomics 統計** (商用利用は別途)
-- **FRED CNFRBSAUSM657S** (代理指標として中国製造業データ、CC0-1.0)
+## チャート 2: 時系列 2 軸対比 (中国 NBS PMI + 円建て LNG)
 
-## チャート 1: 中国 Caixin PMI 製造業指数 (pt、月次、50 = 中立) ※ Phase D 第 1 期 catalog 追加待ち
+<ChartDual leftId="china-nbs-mfg-pmi" rightId="fuel-lng-jp-cif" title="中国 NBS 製造業 PMI × LNG 日本 CIF (月次、2025-04〜)" />
 
-<ChartLine id="china-caixin-mfg-pmi" title="中国 Caixin PMI 製造業指数 (月次、50=中立)" />
+PMI の 50 ライン (拡張 / 縮小の境界) を跨ぐ動きと、LNG 日本 CIF の月次推移を 13 ヶ月の範囲で並べる。LNG 価格はウクライナ戦争 + 欧州気候 + 中東地政学など多要因で変動するため、13 ヶ月では中国要因単独の寄与を確定的に分離できない。**月次の上下が連動しているかどうかを目視で確認する用途に留める**。
 
-⚠️ `china-caixin-mfg-pmi` 系列は Phase D 第 1 期で追加予定のため、現時点ではチャート未表示。本文の歴史的局面記述で経過を補完。
-
-歴史的局面:
-
-- **2014-2018**: 50 前後で推移、安定期
-- **2020 Q1 コロナ初動**: 40 台 (戦後最低水準の 1 つ)
-- **2020 Q3 - 2021 Q3**: 中国経済急回復、PMI 50-55
-- **2022 ゼロコロナ政策**: 47-48 (収縮局面、ロックダウン繰り返し)
-- **2023 1-3 月 再開期**: 50-52 (回復過程)
-- **2024-2025**: 50 前後、緩やか拡大
-
-## チャート 2: 中国 Caixin PMI × 円建て LNG ラグ相関 (0-12 ヶ月) ※ catalog 追加待ち
-
-<ChartLagBars leadId="china-caixin-mfg-pmi" lagId="fuel-lng-jp-cif" maxLag={12} title="中国 PMI → 日本 LNG ラグ相関 (月次、2014-)" />
-
-ラグ 2-6 ヶ月でピーク (正相関)。中国製造業の活況 → 製造業向け LNG 需要増 → 2-3 ヶ月後にアジア LNG スポット (JKM) 上昇 → さらに 1-3 ヶ月後に日本 CIF 価格に届く構造。
-
-## チャート 3: 円建て LNG 価格 (円/MMBtu、月次)
+## チャート 3: 円建て LNG 価格 (円/MMBtu、月次、参考)
 
 <ChartLine id="fuel-lng-jp-cif" title="LNG 日本 CIF (US$/MMBtu、月次、World Bank Pink Sheet)" />
 
 参照: Insight #11 (LNG × JEPX 東京) で詳細。
 
-## 数値で見る (歴史的局面比較)
+## チャート 4: 中国 NBS PMI → 円建て LNG 短期ラグ相関 (0-3 ヶ月、参考)
 
-| 期間 | 中国 PMI | USD LNG ($/MMBtu) | USD/JPY | 円建て LNG (円/MMBtu) | 局面 |
-|---|---|---|---|---|---|
-| 2019-12 | 51.5 | $11 | 109 円 | 1,199 円 | 平常期 |
-| 2020-02 | **40.3** ⚠️ | $9.5 | 109 円 | 1,036 円 | コロナ初動、PMI 急落 |
-| 2020-10 | 53.6 | $7.5 | 105 円 | 788 円 | 中国経済急回復 |
-| 2021-09 | 50.0 | $19.5 | 110 円 | 2,145 円 | PMI 中立、LNG 急騰開始 |
-| 2022-04 | 46.0 | $19 | 130 円 | 2,470 円 | ゼロコロナ、PMI 収縮 |
-| **2022-08** | 49.4 | **$24.5** ⚠️ | 137 円 | **3,357 円** ⚠️ | ウクライナ戦争、LNG ピーク |
-| 2023-01 | 49.2 | $15.5 | 130 円 | 2,015 円 | 再開期、LNG 急落 |
-| 2024-12 | 50.5 | $11 | 154 円 | 1,694 円 | 安定期 |
+<ChartLagBars leadId="china-nbs-mfg-pmi" lagId="fuel-lng-jp-cif" maxLag={3} title="中国 NBS PMI → 日本 LNG ラグ相関 (月次、参考値)" />
 
-**月次相関 r (中国 PMI × 円建て LNG、ラグ 3 ヶ月、2014-2024)**: **+0.45 〜 +0.55** (中程度の正相関)
+⚠️ 観測期間が 13 ヶ月と短いため、ラグ 0-3 ヶ月の各バーも **10-13 点**のサンプルで計算される参考値。バーの絶対値は信頼区間が広く、**ピーク位置や符号を断定的に語らない**。後年データ蓄積後に 0-12 ヶ月走査へ拡張し、長期サイクルでの 2-6 ヶ月ラグ仮説を改めて検証する予定。
 
-**月次相関 r (中国 PMI × USD ベース LNG、同期間)**: **+0.40 〜 +0.50** (USD ベースでも相関)
-
-## 解釈 (マコト + ハル編集知見)
+## 構造的伝播パスの見立て (歴史的文脈)
 
 ### 中国 LNG 需要の構造的影響
 
-中国は 2017 年から**世界最大 LNG 輸入国**の地位を競う規模 (日本と並ぶ年間 7,000-8,000 万トン)。中国 PMI の上下は、月次で 50 万-100 万トンの LNG 需要変動を引き起こす。
+中国は 2017 年から**世界最大級の LNG 輸入国**の地位を競う規模 (日本と並ぶ年間 7,000-8,000 万トン)。中国 PMI の上下は、月次で 50 万-100 万トン規模の LNG 需要変動を引き起こすとされ、この変動はアジア LNG スポット価格 (JKM = Japan-Korea Marker) に反映される。
 
-この変動はアジア LNG スポット価格 (JKM = Japan-Korea Marker) に即時的に反映され、**日本の LNG 長期契約価格 + スポット価格**の組み合わせを通じて、円建て LNG コストに波及する。
+JKM は**日本の LNG 長期契約価格 + スポット価格**の組み合わせを通じて、円建て LNG コストに波及する。本記事の連鎖は、過去のサイクルでは 2-6 ヶ月ラグで発現したとされるが、13 ヶ月データではこの全体像は捉えきれない。
 
-### コロナ 3 局面の検証 (2020-2023)
+### 中国 → 日本の連動の非対称性 (構造的見立て)
 
-中国経済の 3 局面で本記事の連鎖を検証:
+歴史的には、中国 PMI の**減速**は LNG 価格に**強く効く** (中国の LNG 需要減でアジア余剰)、しかし**加速**の効果は**遅く弱い** (新規 LNG 契約から実際の輸入まで時間がかかる) という非対称性が指摘されてきた。
 
-1. **2020 Q1 コロナ初動**: 中国 PMI 40.3 (戦後最低クラス) → LNG 需要急減 → アジア LNG $9.5 (低水準) → 円建て LNG 1,036 円 (落ち着き)
-2. **2020 Q4 急回復**: 中国 PMI 53.6 → 製造業 LNG 需要急増 → LNG 急騰開始 → 2021 年 LNG 高騰の伏線
-3. **2022 ゼロコロナ + 2023 再開**: 中国 PMI 46-50 (停滞)、ただし 2022 年は **ウクライナ戦争による欧州 LNG 需要急増**が支配、中国要因が見えにくい
+これは中国 LNG 輸入の**長期契約構造** (約 70% が 10 年超の長期契約) によるもの。短期需要変動はスポット市場に集中し、中国側の景気下振れがアジア LNG スポット余剰として顕在化する。本記事の 13 ヶ月データではこの非対称性も確定的に検証できないが、ラグ相関を読む際の見立てとして記録しておく。
 
-つまり、本記事のラグ相関 r = +0.45-0.55 は、**他要因 (欧州・気候・原発停止)** との混合効果を含む値。中国要因単独では構造的にもっと強い。
+### NBS PMI と業種偏り
 
-### 中国 → 日本の連動の非対称性
-
-興味深いことに、中国 PMI の**減速**は LNG 価格に**強く効く** (中国の LNG 需要減でアジア余剰)、しかし**加速**の効果は**遅く弱い** (新規 LNG 契約から実際の輸入まで時間がかかる)。
-
-これは中国 LNG 輸入の**長期契約構造** (約 70% が 10 年超の長期契約) によるもの。短期需要変動はスポット市場に集中し、中国側の景気下振れがアジア LNG スポット余剰として顕在化する。
+NBS PMI は大企業 + 国有企業中心 = **インフラ + 不動産 + 重工業**を反映するため、エネルギー需要のうち発電 + 重工業用ガスとの対応が想定される。中小企業の輸出向け生産は Caixin PMI 側でより明瞭に出るが、Caixin はライセンス制約で本サイトには取り込まない (L-063)。
 
 ## 注意点
 
-### 中国 PMI データの catalog 不在 (Phase D 第 1 期で追加予定)
+### 観測期間が短い (13 ヶ月)
 
-⚠️ 本記事公開時点で catalog に Caixin PMI は未収録。Phase D 第 1 期で `china-caixin-mfg-pmi` として月次取得 + catalog 追加予定。それまではチャート 1+2 はエラー UI 表示、本文の歴史的記述と数値表で経過を補完する形となる。
+`china-nbs-mfg-pmi` の catalog 収録は **2025-04 以降の 13 ヶ月**のみ。コロナ初動 (2020 Q1)、ゼロコロナ (2022)、再開期 (2023 Q1) 等の構造的ショック局面は含まれず、本記事は**平常期内の短期観察**に限定される。ラグ相関の数値も参考値で、**ピーク位置や強弱を断定的に語らない** (L-051 / L-062)。
 
 ### 多要因混在の制約
 
-LNG 価格は中国 PMI 以外にも、欧州ガス需要 (Insight #15)、原油価格、為替、気候要因など多要因で決まる。本記事は中国 PMI 単独の効果を見ているが、実際は単独で説明できない。
+LNG 価格は中国 PMI 以外にも、欧州ガス需要 (Insight #15)、原油価格、為替、気候要因、地政学など多要因で決まる。本記事は中国 PMI 単独の対比に過ぎず、実際の LNG 価格動向を単独で説明できない。
 
-### Caixin PMI の信頼性議論
+### NBS PMI vs Caixin PMI
 
-中国 PMI の数値には議論があり、特に**国家統計局公式 PMI** と **Caixin PMI** で乖離が見られる時期もある。本記事は Caixin を採用しているが、国家統計局 PMI と並読推奨。
+中国 PMI 数値には市場でも議論があり、**国家統計局公式 PMI (NBS)** と **Caixin PMI** で乖離が見られる時期もある。本記事は NBS を採用しているが、参考として Caixin の動向も外部ソースで確認しておくと見立ての精度が上がる (本サイトには Caixin を組み込まない)。
 
 ## 関連 Insight
 
@@ -135,16 +97,16 @@ LNG 価格は中国 PMI 以外にも、欧州ガス需要 (Insight #15)、原油
 
 ## 出典
 
-- [Caixin China General Manufacturing PMI](https://www.spglobal.com/marketintelligence/en/) (Caixin/S&P Global PMI、商用利用は別途、月次無料公開)
+- [中国 国家統計局 (NBS) Purchasing Managers' Index](https://www.stats.gov.cn/english/) (NBS / CFLP 共同公表、月次、nbs-terms — Source: National Bureau of Statistics of China (NBS) / CFLP. Reuse permitted with citation.)
 - [World Bank Pink Sheet (Japan LNG CIF)](https://www.worldbank.org/en/research/commodity-markets) (LNG 日本 CIF、CC BY 4.0)
 - [BOJ FM08](https://www.boj.or.jp/statistics/market/forex/fxdaily/) (USD/JPY、boj-terms)
-- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda21-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
 
 ---
 
-*構成系列: `china-caixin-mfg-pmi` (Phase D 第 1 期 catalog 追加予定) ＋ `fuel-lng-jp-cif` ＋ `fx-usdjpy-monthly-avg`*
+*構成系列: `china-nbs-mfg-pmi` (NBS 官製、2025-04〜2026-04 の 13 ヶ月) ＋ `fuel-lng-jp-cif` ＋ `fx-usdjpy-monthly-avg`*
 *編集物著作権: EIC Data (CC BY 4.0)*
-*Insight 量産期 Day 5 朝タスク 2 で MDX 化（2026-05-16、リン + マコト + ハル + アオ）、リン 5/13 午後先回り起草、L-033 で原稿の "Insight #50 EU ETS" 参照を実 #48 に補正、Phase D 第 1 期で `china-caixin-mfg-pmi` catalog 追加待ち*
+*Phase 2 batch 2 web 側 remediation (2026-05-27): Caixin PMI (proprietary、L-063) → NBS 官製 PMI に差替え、観測期間 13 ヶ月の制約を明示し相関の強弱を断定しない記述に統一 (L-051 / L-062)*
 
 <InsightStructuredData />
 <InsightCitation />
