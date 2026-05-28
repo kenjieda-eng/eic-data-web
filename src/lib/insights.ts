@@ -531,6 +531,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["ECB Data Portal (DFR + EUR/USD Reference Rate)", "FRED FEDFUNDS"],
     updated: "2026-05-26",
   },
+  {
+    slug: "world-power-co2-intensity",
+    title: "電気の「きれいさ」を主要5か国で比べる — 日本の電力 CO2 強度はどこに立つか",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 205) の電力部門 CO2 強度 (gCO2/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べ、日本がどこに立っているかを確かめる。2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 gCO2/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.5 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾",
+    tags: ["国際", "電力", "CO2", "脱炭素", "電源構成", "Ember"],
+    sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
+    updated: "2026-05-28",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

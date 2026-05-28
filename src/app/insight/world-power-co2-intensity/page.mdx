@@ -1,0 +1,81 @@
+export const metadata = {
+  title: "電気の「きれいさ」を主要5か国で比べる — 日本の電力 CO2 強度はどこに立つか | EIC Data",
+  description:
+    "Ember Monthly Electricity Data (CC-BY-4.0) の電力部門 CO2 強度 (gCO2/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べる。2025-12 で中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 gCO2/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.5 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾。",
+  openGraph: {
+    images: ['/api/og/insight/world-power-co2-intensity'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/world-power-co2-intensity'],
+  },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 電気の「きれいさ」を主要5か国で比べる — 日本の電力 CO2 強度はどこに立つか
+
+> 電気が「どれだけクリーンか」は、発電 1 kWh あたりに出る二酸化炭素の量（**CO2 強度、gCO2/kWh**）で測れる。同じ 1 kWh でも、石炭中心の電力と、風力・原子力中心の電力では、排出量がまるで違う。ここでは Ember Monthly Electricity Data（CC-BY-4.0、catalog 205 系列・国際 22 系列の Ember 5 ヶ国電力部門 CO2 強度）を使い、主要 5 か国（日本・米国・中国・ドイツ・英国）の月次 CO2 強度を 1 ページに並べ、**日本がどこに立っているか**を確かめる。Phase 2 国際ドメイン Ember 第 1 弾。
+
+## 5 か国の電力 CO2 強度（gCO2/kWh、月次）
+
+<ChartLine id="ember-co2-intensity-jp" color="#dc2626" height={260} />
+
+<ChartLine id="ember-co2-intensity-us" color="#0891b2" height={260} />
+
+<ChartLine id="ember-co2-intensity-cn" color="#7c2d12" height={260} />
+
+<ChartLine id="ember-co2-intensity-de" color="#f59e0b" height={260} />
+
+<ChartLine id="ember-co2-intensity-gb" color="#047857" height={260} />
+
+各チャートは独立した y 軸で、出典・as-of 日付・ライセンス（CC-BY-4.0）を figcaption に明示している。5 か国は同じ単位（gCO2/kWh）で揃えているため、上下の振れ幅の絶対値どうしを目視で比較できる。
+
+## 直近スナップショット（2025-12）
+
+| 国 | CO2 強度 (gCO2/kWh) | 位置づけ |
+|---|---|---|
+| 中国 | 約 592 | 最も高い（石炭火力が主力） |
+| **日本** | **約 476** | **2 番目に高い** |
+| 米国 | 約 384 | ガス＋再エネで中位 |
+| ドイツ | 約 357 | 再エネ拡大で低下基調 |
+| 英国 | 約 192 | 最も低い（石炭全廃＋洋上風力） |
+
+日本の電力は、この 5 か国の中で**中国に次いで CO2 強度が高い**。英国と比べると約 2.5 倍の排出強度であり、「電気のきれいさ」では先進国の中で見劣りする位置にある。
+
+## なぜ差がつくのか
+
+CO2 強度は **電源構成**でほぼ決まる。英国は 2010 年代に石炭火力をほぼ全廃し、洋上風力と天然ガス・原子力に置き換えたことで強度を大きく下げた。ドイツは再生可能エネルギーの拡大で低下基調が続く。米国は石炭からガスへのシフトと再エネ増で中位。中国は発電量の急増を石炭が支えており、強度は高止まりしている。
+
+日本が高めにあるのは、**東日本大震災後に原子力の稼働が大きく落ち、LNG・石炭火力への依存が続いた**ことが大きい。再エネ比率は上昇しているものの、ベースロードを火力が担う構造が CO2 強度に表れている。日本の電源構成と再エネ比率の長期トレンドは、関連 Insight（[#21](/insight/renewables-share-trend)）で月次ベースの推移を追える。
+
+## 読み取りの注意
+
+- **CO2 強度 = 排出量 ÷ 発電量**であり、発電「量」の大小とは別物。中国は発電量が桁違いに大きいが、ここで比べているのは 1 kWh あたりの強度である。
+- 月次データには**季節性**がある（暖房・冷房需要、水力・風力の季節変動など）。短期の上下より中期のトレンドと国家間の差を見る。
+- 集計開始時期は国によって異なる（米国 2001-、中国・ドイツ・英国 2015-、日本 2018-）。共通して比較できるのは概ね 2018 年以降。
+- 数値は Ember の月次推計（CC-BY-4.0）。発電実績の確報反映で遡及改定されることがある。
+
+## 関連 Insight
+
+- 再エネ比率の 5 年トレンド → 日本の電源構成・再エネ比率の月次推移（[#21](/insight/renewables-share-trend)）
+- ECB と Fed、どちらが利上げに速いか → Phase 2 国際ドメイン第 1 弾、政策金利と為替の連動（[#66](/insight/ecb-fed-rate-diff-vs-eurusd)）
+- 国際ドメイン → ECB / EUR 為替 / Ember 5 ヶ国電力（[/domain/international](/domain/international)）
+
+## データと出典
+
+Ember Monthly Electricity Data は CC-BY-4.0 で公開されており、出典明記の上で再利用できる。各系列の現行ライセンスは catalog 個別ページの引用ボタンで確認できる（編集物は CC BY 4.0、個別系列は各 license に従う — [方法論 §9](/methodology#methodology-sec-9)）。
+
+- [Ember Monthly Electricity Data](https://ember-energy.org/data/monthly-electricity-data/)（CC-BY-4.0、月次、5 ヶ国電力部門 CO2 強度）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `ember-co2-intensity-jp` / `ember-co2-intensity-us` / `ember-co2-intensity-cn` / `ember-co2-intensity-de` / `ember-co2-intensity-gb`（5 系列、Ember）／レンダラ: ChartLine ×5*
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
