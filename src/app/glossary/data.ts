@@ -445,6 +445,50 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "Frequency Control。電力系統の周波数（東日本 50Hz / 西日本 60Hz）を、刻一刻と変動する需要と供給の差に応じて基準値付近に保つ制御。発電機のガバナフリー（GF、一次）、負荷周波数制御（LFC、二次）、経済負荷配分（EDC、三次）の階層で実現され、それぞれ需給調整市場の一次・二次・三次調整力として調達される。周波数のずれは需給インバランスの物理的な現れであり、制御に失敗すると周波数低下による発電機の連鎖解列＝大規模停電につながる。[[balancing-market]] が調達原資、[[imbalance]] の物理的指標、調整力の存在意義そのもの。",
     category: "regulation",
   },
+
+  // ===== Phase 2 Ember 3部作 (#67/#68/#69) readability 拡張 (2026-05-28) +6 項目: 58 → 64 =====
+  {
+    slug: "co2-intensity",
+    name: "電力 CO2 強度",
+    description:
+      "発電 1 kWh あたりに排出される二酸化炭素の量（gCO2/kWh）。電源構成（石炭・ガス・原子力・再エネの比率）でほぼ決まり、同じ kWh でも石炭発電と再エネ発電では大きく異なる。Ember 月次推計の 2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 と、国によって 3 倍以上の差がつく。[[power-mix]] が主因、[[coal-phase-out]] が最も効く要因。Insight #67 world-power-co2-intensity で可視化。",
+    category: "power",
+  },
+  {
+    slug: "power-mix",
+    name: "電源構成",
+    description:
+      "ある国・地域の発電量を電源（石炭・ガス・原子力・太陽光・風力・水力・バイオ等）別に分けた構成比率。CO2 強度・電気料金・供給安定性を規定する根幹。日本は化石 6 割超・原子力 1 割の構造、英国は石炭 0%・再エネ 6 割と国際的に分岐が大きい。[[co2-intensity]] [[capacity-factor]] [[renewables]] と密接。Insight #68 world-power-mix-compare / #69 japan-power-mix-trend で可視化。",
+    category: "power",
+  },
+  {
+    slug: "capacity-factor",
+    name: "設備利用率",
+    description:
+      "発電設備の最大出力（容量、kW）に対し、実際に発電できた電力量の比率（%）。原子力・大水力は 70〜90%、太陽光は 12〜20%、風力は 20〜40% 程度で、設備量（kW）と発電量（kWh）は単純比例しない。電源構成のシェアと容量のシェアが大きく異なる根本理由。[[power-mix]] [[baseload]] [[pumped-hydro]] と密接。",
+    category: "power",
+  },
+  {
+    slug: "coal-phase-out",
+    name: "脱石炭",
+    description:
+      "石炭火力を段階的に削減・全廃する政策の総称。英国は 2010 年代に石炭火力をほぼ完全に退出（2025-12 でシェア 0%、CO2 強度は世界最低水準）。ドイツも段階的削減中だがなお 19% 残る。日本は新設凍結・非効率石炭の休廃止を進めつつ、現状の石炭シェアはなお 3 割前後で、CO2 強度が国際的に高い主因。[[co2-intensity]] [[eua]] [[cbam]] [[gx-ets]] と連動。",
+    category: "power",
+  },
+  {
+    slug: "yoy-same-month",
+    name: "前年同月比 / 同月比較",
+    description:
+      "同じ月どうしの比較（例: 2025 年 4 月と 2019 年 4 月）でデータの変化を見る手法。気温・電力需要・太陽光シェア・水力シェアなど季節変動が大きい指標では、単月の前後比較（例: 2018-04 vs 2026-02）は季節差を含んでしまい誤読の元になる。月次データでトレンドを読むときの基本作法。年平均（暦年・年度）でならす方法も同じ目的。[[headline-cpi]] [[core-cpi]] [[industrial-production]] が前年同月比表示の代表。",
+    category: "basic",
+  },
+  {
+    slug: "renewables",
+    name: "再生可能エネルギー（再エネ）",
+    description:
+      "再生可能な自然由来のエネルギー源を用いた発電の総称。太陽光・風力・水力・バイオエネルギー・地熱が主。集計範囲は機関で異なる: Ember の「再エネ計」は太陽光＋風力＋水力＋バイオを合算（地熱は別カテゴリ）、METI の再エネ比率は地熱・廃棄物発電も含む。Ember 値と METI 値が完全一致しないのはこの定義差と、確報タイミングの違いによる。[[power-mix]] の構成要素、[[fit]] [[curtailment]] [[solar-curtailment]] と密接。",
+    category: "power",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {

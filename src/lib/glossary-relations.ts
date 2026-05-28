@@ -210,6 +210,34 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   // freq-control クラスタ (周波数制御、調整力の存在意義)
   { from: "freq-control", to: "balancing-market", weight: 0.85 },
   { from: "freq-control", to: "imbalance", weight: 0.6 },
+
+  // ===== Phase 2 Ember 3部作 (#67/#68/#69) readability +6 用語に伴う +20 エッジ (138 → 158) =====
+  // co2-intensity クラスタ (電力 CO2 強度、電源構成と炭素価格に橋)
+  { from: "co2-intensity", to: "power-mix", weight: 0.9 },
+  { from: "co2-intensity", to: "coal-phase-out", weight: 0.85 },
+  { from: "co2-intensity", to: "eu-ets", weight: 0.6 },
+  { from: "co2-intensity", to: "carbon-pricing", weight: 0.6 },
+  // power-mix クラスタ (電源構成、CO2 強度・設備利用率・再エネのハブ)
+  { from: "power-mix", to: "baseload", weight: 0.75 },
+  { from: "power-mix", to: "capacity-factor", weight: 0.8 },
+  { from: "power-mix", to: "renewables", weight: 0.85 },
+  { from: "power-mix", to: "coal-phase-out", weight: 0.8 },
+  // capacity-factor クラスタ (設備利用率、kW と kWh の非比例)
+  { from: "capacity-factor", to: "baseload", weight: 0.7 },
+  { from: "capacity-factor", to: "pumped-hydro", weight: 0.6 },
+  { from: "capacity-factor", to: "curtailment", weight: 0.6 },
+  // coal-phase-out クラスタ (脱石炭、炭素価格シグナルと日本制度)
+  { from: "coal-phase-out", to: "eua", weight: 0.7 },
+  { from: "coal-phase-out", to: "cbam", weight: 0.6 },
+  { from: "coal-phase-out", to: "gx-ets", weight: 0.7 },
+  // renewables クラスタ (再エネ、出力抑制と FIT)
+  { from: "renewables", to: "curtailment", weight: 0.8 },
+  { from: "renewables", to: "solar-curtailment", weight: 0.8 },
+  { from: "renewables", to: "fit", weight: 0.85 },
+  // yoy-same-month クラスタ (前年同月比、季節調整・前年比表示の指標群)
+  { from: "yoy-same-month", to: "headline-cpi", weight: 0.7 },
+  { from: "yoy-same-month", to: "core-cpi", weight: 0.7 },
+  { from: "yoy-same-month", to: "industrial-production", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
