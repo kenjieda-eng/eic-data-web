@@ -83,8 +83,8 @@ describe("Phase B-B Day 3: grouping ロジック", () => {
 });
 
 describe("Phase B-A Day 13: Insight #40-#42 着地で 41/41 達成 + Week 1 Day 3 で #42 fuel-cost-decomp 追加 + Day 4 で #43-#47 を 5 本追加 + Day 5 朝で #48-#50 + Day 5 午後で #51 + Day 5 午後第 2 弾で #52-#54 + Day 5 午後第 3 弾で #55-#56 + Day 5 午後第 4 弾で #57-#58 (日本 CPI/鉱工業) 追加 + Phase D 第 1 期 Day 1 で #61 capacity-market-5-year-trends 追加 + D-018 で #62-#63 需給調整市場 2 本 追加 + #64 容量市場エリア別 + 5/25 で #65 balancing-source-type-comparison (電源種別別) 追加 + Phase 2 国際ドメイン第 1 弾で #66 ecb-fed-rate-diff-vs-eurusd 追加", () => {
-  test("INSIGHTS は 67 件 (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng を draft 退避 = 66 → 65、5/28 Phase 2 Ember 第 1 弾 #67 world-power-co2-intensity 追加で 66、Ember 第 2 弾 #68 world-power-mix-compare 追加で 67)", () => {
-    expect(INSIGHTS).toHaveLength(67);
+  test("INSIGHTS は 68 件 (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng を draft 退避 = 66 → 65、5/28 Phase 2 Ember 第 1 弾 #67 world-power-co2-intensity 追加で 66、Ember 第 2 弾 #68 world-power-mix-compare 追加で 67、Ember 第 3 弾 (日本単独) #69 japan-power-mix-trend 追加で 68)", () => {
+    expect(INSIGHTS).toHaveLength(68);
   });
 
   test("Day 13 で追加した 3 slug (us-cpi-vs-fx / fed-funds-vs-jepx-tokyo / us-industrial-vs-jp-demand) が INSIGHTS に存在", () => {

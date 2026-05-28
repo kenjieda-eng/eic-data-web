@@ -547,6 +547,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
     updated: "2026-05-28",
   },
+  {
+    slug: "japan-power-mix-trend",
+    title: "日本の電源構成この 8 年 — 火力依存の固定、原子力の部分回復、再エネの伸び",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240、ember-share-{coal/gas/nuclear/solar/wind/hydro/bioenergy}-jp の 7 系列) で日本一国の電源別発電量シェアを 2018-04〜2026-02 の月次で追う。化石 (石炭 + ガス) は 67% → 63% でほぼ横ばい、原子力は 4% 台 → 9% 前後へ部分回復、太陽光は同月比 (4 月) で 9.0% → 13.8%、バイオは 2% → 7% 台。#67 / #68 の国際比較で見た「火力依存・原子力低位」を時系列で裏付ける、Phase 2 国際ドメイン Ember 第 3 弾 (日本単独)",
+    tags: ["電力", "電源構成", "再エネ", "脱炭素", "原子力", "Ember"],
+    sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
+    updated: "2026-05-28",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

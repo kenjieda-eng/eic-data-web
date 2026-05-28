@@ -1,0 +1,82 @@
+export const metadata = {
+  title: "日本の電源構成この 8 年 — 火力依存の固定、原子力の部分回復、再エネの伸び | EIC Data",
+  description:
+    "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240) の ember-share-{coal/gas/nuclear/solar/wind/hydro/bioenergy}-jp の 7 系列を 2018-04〜2026-02 の月次で追う。化石は 67% → 63% でほぼ横ばい、原子力 4% 台 → 9% 前後、太陽光は同月比で 9.0% → 13.8%、バイオ 2% → 7% 台。#67 / #68 の国際比較で見た日本の構造を時系列で裏付ける。",
+  openGraph: {
+    images: ['/api/og/insight/japan-power-mix-trend'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/japan-power-mix-trend'],
+  },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 日本の電源構成この 8 年 — 火力依存の固定、原子力の部分回復、再エネの伸び
+
+> 主要 5 か国の比較（[#67 CO2 強度](/insight/world-power-co2-intensity) / [#68 電源構成](/insight/world-power-mix-compare)）では、日本の電力が「火力依存・原子力低位」ゆえに CO2 強度が高いことを見た。ここでは視点を日本一国に絞り、**この約 8 年（2018 年以降）で電源構成がどう動いたか**を Ember Monthly Electricity Data（CC-BY-4.0、catalog 240）の月次データで追う。系列は `ember-share-{coal/gas/nuclear/solar/wind/hydro/bioenergy}-jp` の 7 本（単位 %、2018-04〜2026-02）。
+
+## 7 燃料の月次シェア（%）
+
+<ChartLine id="ember-share-coal-jp" color="#44403c" height={240} />
+
+<ChartLine id="ember-share-gas-jp" color="#ea580c" height={240} />
+
+<ChartLine id="ember-share-nuclear-jp" color="#dc2626" height={240} />
+
+<ChartLine id="ember-share-solar-jp" color="#f59e0b" height={240} />
+
+<ChartLine id="ember-share-wind-jp" color="#06b6d4" height={240} />
+
+<ChartLine id="ember-share-hydro-jp" color="#2563eb" height={240} />
+
+<ChartLine id="ember-share-bioenergy-jp" color="#16a34a" height={240} />
+
+各チャートは独立した y 軸で、出典・as-of 日付・ライセンス（CC-BY-4.0）を figcaption に明示している。シェアという同じ単位（%）で揃えているため、火力・原子力・再エネ各 fuel の振幅と中期トレンドを並べて読める。
+
+## 変わらない構造：火力依存
+
+石炭とガスを合わせた**化石シェアは依然 6 割超**で、構造は大きく変わっていない（化石合計はおおむね 63〜67%）。具体的には 2018 年 4 月で 石炭 28.61% + ガス 38.40% = **67.01%**、2026 年 2 月で 石炭 31.92% + ガス 31.42% = **63.34%**。8 年で約 4 %pt の低下にとどまり、内訳ではガスがやや低下し石炭が微増。ベースロードを火力が担う形が続いており、これが [#67](/insight/world-power-co2-intensity) で見た高い CO2 強度の土台になっている。
+
+## 動いたもの：原子力の部分回復と再エネの伸び
+
+- **原子力**：シェアは 2018 年 4 月の **4.07%** から 2026 年 2 月の **9.0%** へ**部分回復**した。震災後に停止した原子力の再稼働が段階的に進んだことを反映する。
+- **太陽光**：着実に伸びている。季節差を除くため**同月どうし**で見ると、4 月で 2019 年の **8.97%** から 2025 年の **13.81%** へ +4.84 %pt 上昇。
+- **バイオ**：2018 年 4 月の **2.18%** から 2026 年 2 月の **7.52%** へ伸長。
+- **風力**：増えてはいるが依然 2% 前後と小さく、欧州（[#68](/insight/world-power-mix-compare) のドイツ・英国）との差が大きい。
+
+## ⚠️ 季節性に注意（単月の前後比較で語らない）
+
+太陽光は春・夏に高く冬に低い。水力は雪解け期（春）に高い。したがって各シェアのチャートは**鋸歯状に動く**。例えば 2018 年 4 月（春）の水力 **12.11%** と 2026 年 2 月（冬）の水力 **4.91%** を並べても、それは**季節差であって「水力が減った」わけではない**。トレンドを読むときは、**同じ月どうしの比較**か**年平均**で見るのが正しい。本記事の上昇・低下の記述はいずれも同月比・中期トレンドに基づく。
+
+## 読み取りの注意
+
+- **シェア（%）であり発電量（絶対値）ではない**。需要総量の増減はシェアに直接表れない。
+- 各 fuel シェアの月次和は概ね 92〜100%（「その他化石／その他再エネ」を除外しているため）。
+- 値は Ember の月次推計（CC-BY-4.0）。確報反映で遡及改定されることがある。
+- 日本の集計開始は 2018-04 から（5 か国でやや異なる — [#68](/insight/world-power-mix-compare) 注記参照）。
+
+## 関連 Insight
+
+- 再エネ比率の 5 年トレンド → 国内一次統計（METI 電力調査統計）由来、**Ember 月次推計と独立した 2 ソースで相互に確認できる**（[#21](/insight/renewables-share-trend)、必須）
+- 電気の「きれいさ」を主要 5 か国で比べる → 同じ Ember データで CO2 強度ランキングを並べた国際比較（[#67](/insight/world-power-co2-intensity)）
+- なぜ日本の電気は CO2 強度が高いのか → 主要 5 か国 × 7 燃料の電源構成、本記事の国際版（[#68](/insight/world-power-mix-compare)）
+
+## データと出典
+
+Ember Monthly Electricity Data は CC-BY-4.0 で公開されており、出典明記の上で再利用できる。各系列の現行ライセンスは catalog 個別ページの引用ボタンで確認できる（編集物は CC BY 4.0、個別系列は各 license に従う — [方法論 §9](/methodology#methodology-sec-9)）。日本の再エネ比率は国内一次統計（METI 電力調査統計）由来の [再エネ比率トレンド](/insight/renewables-share-trend) でも追っており、独立した 2 ソースで相互に確認できる。
+
+- [Ember Monthly Electricity Data](https://ember-energy.org/data/monthly-electricity-data/)（CC-BY-4.0、月次、日本 × 7 燃料の電源別シェア %）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `ember-share-coal-jp` / `ember-share-gas-jp` / `ember-share-nuclear-jp` / `ember-share-solar-jp` / `ember-share-wind-jp` / `ember-share-hydro-jp` / `ember-share-bioenergy-jp`（7 系列、Ember）／レンダラ: ChartLine ×7*
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>

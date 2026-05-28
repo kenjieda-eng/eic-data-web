@@ -58,6 +58,7 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "wind-vs-wind-hokkaido",
       "wind-vs-wind-hokuriku",
       "geothermal-vs-volcanic-temp",
+      "japan-power-mix-trend",
     ],
   },
   {
