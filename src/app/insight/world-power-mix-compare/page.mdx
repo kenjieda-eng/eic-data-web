@@ -1,0 +1,87 @@
+export const metadata = {
+  title: "なぜ日本の電気は CO2 強度が高いのか — 主要 5 か国の電源構成で読み解く | EIC Data",
+  description:
+    "Ember Monthly Electricity Data (CC-BY-4.0) の電源別発電量シェア (%、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べる。2025-12 で 中国は石炭 58.5% / 日本は石炭 32.0% + ガス 30.7% / 英国は石炭 0% で再エネ 56% など、#67 で見た CO2 強度ランキングを電源構成から読み解く、Phase 2 国際ドメイン Ember 第 2 弾。",
+  openGraph: {
+    images: ['/api/og/insight/world-power-mix-compare'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/api/og/insight/world-power-mix-compare'],
+  },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# なぜ日本の電気は CO2 強度が高いのか — 主要 5 か国の電源構成で読み解く
+
+> 姉妹編 [#67「電気の『きれいさ』を主要 5 か国で比べる」](/insight/world-power-co2-intensity) で、日本の電力 CO2 強度が中国に次いで高いことを見た。**その理由は電源構成にある。** 同じ電気でも、石炭で作るか、ガス・原子力・再エネで作るかによって、1 kWh あたりの CO2 はまるで違う。ここでは Ember Monthly Electricity Data（CC-BY-4.0、catalog の 5 か国 × 7 燃料 = 35 系列の `ember-share-{fuel}-{cc}`）を使い、主要 5 か国の発電量に占める電源別シェアを並べる。Phase 2 国際ドメイン Ember 第 2 弾。
+
+## 2025-12 の電源構成（発電量シェア %）
+
+| 国 | 石炭 | ガス | 原子力 | 再エネ計（太陽光＋風力＋水力＋バイオ） |
+|---|---|---|---|---|
+| 中国 | 58.5 | 3.0 | 4.9 | 33.4 |
+| **日本** | **32.0** | **30.7** | **10.7** | **21.9** |
+| 米国 | 17.3 | 38.2 | 18.7 | 24.6 |
+| ドイツ | 19.4 | 21.5 | 0.0 | 54.0 |
+| 英国 | 0.0 | 29.9 | 12.1 | 56.1 |
+
+※ 残り（合計が 100% に満たない分）は「その他化石」「その他再エネ」。値は Ember 月次推計（CC-BY-4.0）の 2025-12 月次値で、`ember-share-{coal/gas/nuclear/solar/wind/hydro/bioenergy}-{jp/us/cn/de/gb}` から直接読める。
+
+## #67 の CO2 強度ランキングとの対応
+
+#67 の 2025-12 CO2 強度（gCO2/kWh）は **中国 592 ＞ 日本 476 ＞ 米国 384 ＞ ドイツ 357 ＞ 英国 192** だった。上の電源構成と並べると、構造がはっきり見える。
+
+- **中国（CO2 最高）**：石炭が約 6 割。再エネ計は 33% と絶対量では世界最大級だが、石炭の比重が CO2 強度を押し上げる。
+- **日本（2 番目）**：石炭 32% ＋ ガス 31% ＝ **化石 6 割超**。原子力は 11% にとどまり、再エネは 22%。震災後に原子力の稼働が落ち、火力（LNG・石炭）が穴を埋めた構造が、そのまま高い CO2 強度に表れている。
+- **米国**：石炭からガスへのシフトが進み（ガス 38%）、原子力 19% と合わせて中位。
+- **ドイツ**：再エネ **54%** と高いのに CO2 強度は英国より高い。理由は **原子力をゼロまで全廃**し、石炭がなお 19% 残るため。「再エネを大量導入しても、脱石炭と低炭素ベースロードの維持が伴わないと CO2 は下がりきらない」ことを示す。
+- **英国（CO2 最低）**：**石炭をほぼ完全に退出（0%）**させ、再エネ 56% ＋ 原子力 12% ＋ ガス 30% へ。脱石炭の徹底が最低 CO2 強度に直結した。
+
+つまり、CO2 強度を最も強く規定するのは **石炭シェア**であり、その裏返しとして**脱石炭・低炭素電源（再エネ＋原子力）の比率**が効く。日本の高さは「火力依存・原子力低位」という構成の結果である。
+
+## 象徴的なトレンド
+
+長期で見ると、石炭シェアの軌道は国によって大きく分岐している。英国は 2010 年代に石炭を 0% 近くまで落とし、中国は高止まり、日本は約 3 割で推移している。日本の太陽光シェアは緩やかに上昇しているものの、ベースロードを火力が担う構造そのものは変わっていない。
+
+<ChartLine id="ember-share-coal-gb" color="#047857" height={240} />
+
+<ChartLine id="ember-share-coal-cn" color="#7c2d12" height={240} />
+
+<ChartLine id="ember-share-coal-jp" color="#dc2626" height={240} />
+
+<ChartLine id="ember-share-solar-jp" color="#f59e0b" height={240} />
+
+各チャートは独立した y 軸で、出典・as-of 日付・ライセンス（CC-BY-4.0）を figcaption に明示している。シェアという同じ単位（%）で揃えているため、英国の急落と中国の高止まり、日本の中位横ばいの差を目視で比較できる。
+
+## 読み取りの注意
+
+- **シェア（%）であり絶対量ではない**。中国は発電量そのものが桁違いに大きいため、石炭 6 割は世界の排出に大きな意味を持つ。
+- 月次データには**季節性**（冷暖房需要、水力・太陽光・風力の季節変動）がある。短期の上下より構成の差と中期トレンドを見る。
+- 各 fuel シェアの月次和は概ね 92〜100%（「その他化石／その他再エネ」を除外しているため）。
+- 値は Ember の月次推計（CC-BY-4.0）。確報反映で遡及改定されることがある。集計開始時期は国により異なる（米国 2001-、中国・ドイツ・英国 2015-、日本 2018-）。
+
+## 関連 Insight
+
+- 電気の「きれいさ」を主要 5 か国で比べる → 同じ Ember データで CO2 強度ランキングを並べた姉妹編（[#67](/insight/world-power-co2-intensity)）
+- 再エネ比率の 5 年トレンド → 日本国内の再エネ比率推移、エネルギー基本計画 2030 年目標 36-38% との距離（[#21](/insight/renewables-share-trend)）
+- 国際ドメイン → ECB / EUR 為替 / Ember 5 ヶ国電力（[/domain/international](/domain/international)）
+
+## データと出典
+
+Ember Monthly Electricity Data は CC-BY-4.0 で公開されており、出典明記の上で再利用できる。各系列の現行ライセンスは catalog 個別ページの引用ボタンで確認できる（編集物は CC BY 4.0、個別系列は各 license に従う — [方法論 §9](/methodology#methodology-sec-9)）。
+
+- [Ember Monthly Electricity Data](https://ember-energy.org/data/monthly-electricity-data/)（CC-BY-4.0、月次、5 ヶ国 × 7 燃料の電源別シェア %）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+
+---
+
+*構成系列: `ember-share-coal-gb` / `ember-share-coal-cn` / `ember-share-coal-jp` / `ember-share-solar-jp`（4 系列、Ember）／レンダラ: ChartLine ×4*
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>

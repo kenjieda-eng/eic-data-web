@@ -539,6 +539,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
     updated: "2026-05-28",
   },
+  {
+    slug: "world-power-mix-compare",
+    title: "なぜ日本の電気は CO2 強度が高いのか — 主要 5 か国の電源構成で読み解く",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240、5 か国 × 7 燃料 = 35 系列の ember-share-{fuel}-{cc}) で主要 5 か国の電源別発電量シェアを並べ、#67 の CO2 強度ランキングを電源構成から説明する。2025-12 で 中国 石炭 58.5% / 日本 石炭 32.0% + ガス 30.7% / 米国 ガス 38.2% / ドイツ 再エネ 54% + 原子力 0% / 英国 石炭 0% + 再エネ 56% という分岐。CO2 強度を最も強く規定するのは石炭シェアであることを実データで示す、Phase 2 国際ドメイン Ember 第 2 弾",
+    tags: ["国際", "電力", "電源構成", "脱炭素", "石炭", "再エネ", "Ember"],
+    sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
+    updated: "2026-05-28",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
