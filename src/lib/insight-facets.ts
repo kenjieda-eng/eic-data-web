@@ -102,6 +102,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "ecb-fed-rate-diff-vs-eurusd": "ChartSpread",
   "world-power-co2-intensity": "ChartLine",
   "world-power-mix-compare": "ChartLine",
+  "japan-power-mix-trend": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
