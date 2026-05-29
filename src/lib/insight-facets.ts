@@ -103,6 +103,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "world-power-co2-intensity": "ChartLine",
   "world-power-mix-compare": "ChartLine",
   "japan-power-mix-trend": "ChartLine",
+  "jepx-tokyo-monthly-regression": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
