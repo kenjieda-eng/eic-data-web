@@ -555,6 +555,20 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
     updated: "2026-05-28",
   },
+  {
+    slug: "jepx-tokyo-monthly-regression",
+    title: "JEPX 東京 月次価格の回帰分析 — 何がどれだけ説明するか",
+    lede: "JEPX 東京の月次価格を残余系統需要・円建て LNG・東京気温・前月価格で OLS 回帰し、係数・標準誤差・t 値・R² をすべて開示する教材。n=44 (2022-05〜2025-12) で R²=0.883、ただし前月価格 1 変数だけでも R²=0.834 — 説明力の大半は時系列の慣性。統計的に有意なのは気温 (t=4.01) と前月価格 (t=6.78) で、残余需要・円建て LNG は t<2。過去データの当てはまり (in-sample fit) であり未来予測ではない (リク監修済)、引用インフラ第 3 層「方法論ライブラリ」Day 1。",
+    tags: ["電力", "JEPX", "回帰分析", "方法論", "統計", "データリテラシー"],
+    sources: [
+      "JEPX スポット市場",
+      "METI 電力調査統計",
+      "気象庁 日次気温",
+      "World Bank Pink Sheet",
+      "日本銀行 FM08",
+    ],
+    updated: "2026-05-29",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
