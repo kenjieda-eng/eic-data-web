@@ -569,6 +569,14 @@ export const INSIGHTS: Insight[] = [
     ],
     updated: "2026-05-29",
   },
+  {
+    slug: "holiday-power-pattern-jepx",
+    title: "電力の \"休んでいる日\" — GW・盆・年末年始で JEPX 価格はどう動くか",
+    lede: "JEPX 東京 日次価格 (2021-2025) と METI 月次需要 (2022-2025) で、GW・盆・年末年始という 3 つの休日窓の価格凹率を比較。GW −36% / 盆 −19% / 年末年始 −1% の差を「産業休止 × 気候 (暖冷房需要)」の枠組みで説明する教材。GW は気温が穏やかで暖冷房需要が需要を支えないため最大の凹み (5 月需要 61,951 GWh は年間最低、2025-05-05 は 6.99 円/kWh)。過去データの記述的分析であって未来予測ではない (リク監修済)、引用インフラ第 3 層「方法論ライブラリ」Day 2。",
+    tags: ["電力", "JEPX", "需要", "休日", "季節性", "方法論", "データリテラシー"],
+    sources: ["JEPX スポット市場", "METI 電力調査統計"],
+    updated: "2026-05-30",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

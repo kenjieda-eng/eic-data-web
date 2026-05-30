@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 69 本全 slug がマップに含まれる (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng を draft 退避 = 66 → 65、5/28 Phase 2 Ember 第 1 弾 #67 world-power-co2-intensity 追加で 66、Ember 第 2 弾 #68 world-power-mix-compare 追加で 67、Ember 第 3 弾 (日本単独) #69 japan-power-mix-trend 追加で 68、5/29 方法論ライブラリ Day 1 #70 jepx-tokyo-monthly-regression 追加で 69)", () => {
+  test("INSIGHT_RENDERER_MAP: 70 本全 slug がマップに含まれる (5/27 batch 2 remediation で #48 eu-ets-vs-yen-lng を draft 退避 = 66 → 65、5/28 Phase 2 Ember 第 1 弾 #67 world-power-co2-intensity 追加で 66、Ember 第 2 弾 #68 world-power-mix-compare 追加で 67、Ember 第 3 弾 (日本単独) #69 japan-power-mix-trend 追加で 68、5/29 方法論ライブラリ Day 1 #70 jepx-tokyo-monthly-regression 追加で 69、5/30 方法論ライブラリ Day 2 #71 holiday-power-pattern-jepx 追加で 70)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(69);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(69);
+    expect(INSIGHTS.length).toBe(70);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(70);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -84,10 +84,10 @@ describe("Phase C Day 1: insight-facets", () => {
     ]);
   });
 
-  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合 (batch 2 remediation で 66 → 65 / finance 19 → 18、5/28 Phase 2 Ember #67 world-power-co2-intensity 追加で all 65 → 66 / power は「電力」タグで +1、Ember #68 world-power-mix-compare 追加で all 66 → 67 / power は「電力」タグでさらに +1、Ember 第 3 弾 (日本単独) #69 japan-power-mix-trend 追加で all 67 → 68 / power は「電力」タグでさらに +1、5/29 方法論ライブラリ Day 1 #70 jepx-tokyo-monthly-regression 追加で all 68 → 69 / power は「電力」タグでさらに +1、finance は不変)", () => {
+  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合 (batch 2 remediation で 66 → 65 / finance 19 → 18、5/28 Phase 2 Ember #67 world-power-co2-intensity 追加で all 65 → 66 / power は「電力」タグで +1、Ember #68 world-power-mix-compare 追加で all 66 → 67 / power は「電力」タグでさらに +1、Ember 第 3 弾 (日本単独) #69 japan-power-mix-trend 追加で all 67 → 68 / power は「電力」タグでさらに +1、5/29 方法論ライブラリ Day 1 #70 jepx-tokyo-monthly-regression 追加で all 68 → 69 / power は「電力」タグでさらに +1、5/30 方法論ライブラリ Day 2 #71 holiday-power-pattern-jepx 追加で all 69 → 70 / power は「電力」タグでさらに +1、finance は不変)", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(69);
+    expect(all?.count).toBe(70);
     const finance = facets.domains.find((d) => d.value === "finance");
     expect(finance?.count).toBe(18);
   });
