@@ -84,6 +84,7 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "precip-hokuriku-vs-price",
       "precip-kyushu-vs-price",
       "demand-vs-temp",
+      "holiday-power-pattern-jepx",
     ],
   },
   {
