@@ -577,6 +577,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["JEPX スポット市場", "METI 電力調査統計"],
     updated: "2026-05-30",
   },
+  {
+    slug: "forecast-error-baseline-jepx",
+    title: "予測の \"下限ベンチマーク\" — 月次 JEPX を単純モデル4種で当てる",
+    lede: "月次 JEPX 東京を 4 つの単純ベースライン (持続予測 lag1 / 季節平均 / 12 ヶ月前同値 / 訓練期間平均) で out-of-sample 予測し、MAE・RMSE・MAPE を全開示する教材。訓練 2012-2021 → テスト 2022-01〜2026-04 (n=52) で、持続予測 (前月と同じ) が MAE 2.02 円/kWh・MAPE 11.94% で最良。季節平均 23.54% / 12 ヶ月前 49.77% の約 2〜4 倍に圧勝し、誤差は ±2 円以内 65.4% (34/52) ・±5 円以内 88.5% (46/52) ・中央値誤差 −0.21 円でほぼ無バイアス。訓練平均 11.88 円 → テスト平均 16.14 円の構造的水準シフトで定数モデルは破綻。#70 の in-sample 回帰 (前月価格 1 変数で R²=0.834) を out-of-sample 側から裏付ける。過去データの out-of-sample 検証であって未来予測ではない (リク監修済)、引用インフラ第 3 層「方法論ライブラリ」Day 3。",
+    tags: ["電力", "JEPX", "予測", "方法論", "統計", "データリテラシー"],
+    sources: ["JEPX スポット市場"],
+    updated: "2026-05-31",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
