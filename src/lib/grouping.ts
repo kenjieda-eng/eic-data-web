@@ -43,6 +43,7 @@ export const INSIGHT_GROUPS: InsightGroup[] = [
       "fx-decomp-lng-jepx-tokyo",
       "fuel-cost-decomp",
       "jepx-tokyo-monthly-regression",
+      "forecast-error-baseline-jepx",
     ],
   },
   {
