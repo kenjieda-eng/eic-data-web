@@ -111,10 +111,10 @@ describe("DOMAINS_DAY8", () => {
     }
   });
 
-  test("Day 8 のうち esg / technology は metaPage、international は Phase 2 で catalog 着地", () => {
-    expect(getDomainById("esg")?.metaPage).toBe(true);
+  test("Day 8 のうち technology は metaPage、esg は EU ETS で catalog 着地、international は Phase 2 で catalog 着地", () => {
+    expect(getDomainById("esg")?.metaPage).toBeFalsy();
     expect(getDomainById("technology")?.metaPage).toBe(true);
-    expect(getDomainById("esg")?.subcategories).toHaveLength(0);
+    expect(getDomainById("esg")?.subcategories).toHaveLength(2);
     expect(getDomainById("technology")?.subcategories).toHaveLength(0);
     expect(getDomainById("international")?.metaPage).toBeFalsy();
     expect(
@@ -122,10 +122,11 @@ describe("DOMAINS_DAY8", () => {
     ).toBeGreaterThan(0);
   });
 
-  test("Phase 2 国際着地で 9 ドメイン: catalog 系列を持つ 5 件 + メタ 4 件", () => {
+  test("EU ETS 着地で 9 ドメイン: catalog 系列を持つ 6 件 + メタ 3 件", () => {
     const withCatalog = DOMAINS_DAY8.filter((d) => !d.metaPage);
     const metaOnly = DOMAINS_DAY8.filter((d) => d.metaPage);
     expect(withCatalog.map((d) => d.id).sort()).toEqual([
+      "esg",
       "finance",
       "fuel",
       "international",
@@ -134,7 +135,6 @@ describe("DOMAINS_DAY8", () => {
     ]);
     expect(metaOnly.map((d) => d.id).sort()).toEqual([
       "economy",
-      "esg",
       "policy",
       "technology",
     ]);

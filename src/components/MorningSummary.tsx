@@ -241,7 +241,7 @@ export default function MorningSummary({
       </nav>
 
       <p className="mt-6 text-xs text-faint">
-        朝刊サマリーは毎平日朝 7:00 JST 自動更新。一次出典は{" "}
+        朝刊サマリーは 2026-05-17 で一時停止中（Phase 4 で自動更新を再開予定）。一次出典は{" "}
         <Link href="/catalog" className="text-emerald-700 underline hover:text-emerald-900">
           catalog
         </Link>{" "}

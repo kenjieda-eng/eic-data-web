@@ -489,6 +489,62 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "再生可能な自然由来のエネルギー源を用いた発電の総称。太陽光・風力・水力・バイオエネルギー・地熱が主。集計範囲は機関で異なる: Ember の「再エネ計」は太陽光＋風力＋水力＋バイオを合算（地熱は別カテゴリ）、METI の再エネ比率は地熱・廃棄物発電も含む。Ember 値と METI 値が完全一致しないのはこの定義差と、確報タイミングの違いによる。[[power-mix]] の構成要素、[[fit]] [[curtailment]] [[solar-curtailment]] と密接。",
     category: "power",
   },
+  {
+    slug: "r-squared",
+    name: "決定係数 R²",
+    description:
+      "回帰モデルの説明力。0〜1 で、1 に近いほど説明変数が目的変数の分散をよく説明する。相関係数の二乗にあたり、因果関係を意味しない点に注意。方法論 Insight #70 では JEPX 月次回帰で R²=0.883 を採用。",
+    category: "basic",
+  },
+  {
+    slug: "regression-coefficient",
+    name: "回帰係数",
+    description:
+      "回帰式で各説明変数が目的変数に与える限界的な効き目（傾き）。「説明変数が 1 単位増えると目的変数がどれだけ動くか」を表し、気温 1℃ や LNG 1 ドルの価格インパクトを定量化できる。符号と大きさの両方を読む。",
+    category: "basic",
+  },
+  {
+    slug: "persistence-forecast",
+    name: "持続予測（ナイーブ予測）",
+    description:
+      "「明日も今日と同じ」と置く最も単純な予測ベースライン。高度な予測モデルの良し悪しを測る最低基準として使う。方法論 Insight #72 では JEPX で MAPE 11.94%。",
+    category: "basic",
+  },
+  {
+    slug: "percentile-forecast",
+    name: "パーセンタイル予測（確率予測）",
+    description:
+      "単一の点予測ではなく、P10/P50/P90 のように起こりうる幅を確率帯で示す予測表現。イングランド銀行の金利見通し扇形チャートが代表例。Phase 3-B の扇形チャート（ChartFanChart）で可視化予定。",
+    category: "basic",
+  },
+  {
+    slug: "analogue-year",
+    name: "類似年（アナログ年）",
+    description:
+      "過去の似た気象・需給パターンの年を参照して将来を見立てる手法。「2022 年の夏が来たら」型のシナリオ分析に使う。Phase 3-B 中期の hindsight 教材の核となる考え方。",
+    category: "basic",
+  },
+  {
+    slug: "residual-demand",
+    name: "残余需要（ネット負荷）",
+    description:
+      "総需要から太陽光・風力など変動再エネの出力を差し引いた、火力・水力・揚水などで賄うべき需要。再エネ比率が上がるほどダックカーブ状に変形し、JEPX 価格や調整力の主要な説明変数になる。",
+    category: "power",
+  },
+  {
+    slug: "load-forecast",
+    name: "電力需要予測",
+    description:
+      "将来の電力需要を気温・曜日・季節などから推計すること。系統運用と市場取引の前提となる。EIC Data は予測値そのものは提供せず（過去データ起点の方法論教材に限定、リク監修の線引き）、考え方の解説に留める。",
+    category: "power",
+  },
+  {
+    slug: "weather-vendor",
+    name: "気象ベンダー",
+    description:
+      "電力・エネルギー事業者向けに気象予測を提供する専門事業者。需要予測・再エネ出力予測の入力となる。EIC Data は一次気象データ（気象庁）を用い、商用ベンダー予測は使わない（D-002）。",
+    category: "power",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
