@@ -25,10 +25,10 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("GLOSSARY_RELATIONS は 70-160 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109 + Phase D #61 +10 で 119 + Phase D #61 連動 容量市場 +10 で 129 + D-018 需給調整市場 +9 で 138 + Phase 2 Ember 3部作 +20 で 158)", () => {
+  test("GLOSSARY_RELATIONS は 70-180 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109 + Phase D #61 +10 で 119 + Phase D #61 連動 容量市場 +10 で 129 + D-018 需給調整市場 +9 で 138 + Phase 2 Ember 3部作 +20 で 158 + EU ETS 方法論 +12 で 170)", () => {
     expect(GLOSSARY_RELATIONS.length).toBeGreaterThanOrEqual(70);
-    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(160);
-    expect(GLOSSARY_RELATIONS.length).toBe(158);
+    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(180);
+    expect(GLOSSARY_RELATIONS.length).toBe(170);
   });
 
   test("GLOSSARY_RELATIONS は重複なし (順序問わず)", () => {
@@ -40,9 +40,9 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("buildGlossaryGraph: nodes は 64 件、各 degree が正しく集計", () => {
+  test("buildGlossaryGraph: nodes は 72 件、各 degree が正しく集計", () => {
     const g = buildGlossaryGraph();
-    expect(g.nodes).toHaveLength(64);
+    expect(g.nodes).toHaveLength(72);
     // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) + Day5 午後 2 (yen-denominated-cost / transmission-line-constraint) + Phase D 1 (occto) + Phase D #61 連動 1 (kw-value) = 12 本
     const jepx = g.nodes.find((n) => n.slug === "jepx-spot");
     expect(jepx?.degree).toBe(12);
@@ -104,7 +104,7 @@ describe("/glossary/graph: glossary-relations", () => {
     expect(GLOSSARY_CATEGORY_COLORS.international).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
-  test("全 64 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
+  test("全 72 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
     const g = buildGlossaryGraph();
     const isolated = g.nodes.filter((n) => n.degree === 0);
     expect(isolated).toHaveLength(0);

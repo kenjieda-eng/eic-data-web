@@ -238,6 +238,19 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "yoy-same-month", to: "headline-cpi", weight: 0.7 },
   { from: "yoy-same-month", to: "core-cpi", weight: 0.7 },
   { from: "yoy-same-month", to: "industrial-production", weight: 0.6 },
+  // EU ETS 方法論クラスタ（2026-06-02 +12）
+  { from: "r-squared", to: "regression-coefficient", weight: 0.9 },
+  { from: "r-squared", to: "persistence-forecast", weight: 0.5 },
+  { from: "regression-coefficient", to: "load-forecast", weight: 0.6 },
+  { from: "residual-demand", to: "load-forecast", weight: 0.8 },
+  { from: "residual-demand", to: "peak-demand", weight: 0.7 },
+  { from: "residual-demand", to: "curtailment", weight: 0.6 },
+  { from: "persistence-forecast", to: "percentile-forecast", weight: 0.6 },
+  { from: "percentile-forecast", to: "load-forecast", weight: 0.6 },
+  { from: "load-forecast", to: "weather-vendor", weight: 0.7 },
+  { from: "load-forecast", to: "peak-demand", weight: 0.7 },
+  { from: "weather-vendor", to: "analogue-year", weight: 0.5 },
+  { from: "analogue-year", to: "persistence-forecast", weight: 0.5 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

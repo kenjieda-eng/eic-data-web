@@ -184,10 +184,23 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "ESG / サステナ",
     emoji: "🌱",
     description:
-      "CO2 排出量（部門別）/ Scope1-2-3 / 非化石証書 / J-クレジット / TCFD・SBTi・RE100 加盟企業数を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。電源構成・燃料転換・再エネ導入の長期トレンドを「排出原単位」と「企業の脱炭素行動」の両面から読み解くための参照軸として機能し、各 Insight から引用される。",
-    insightKeywords: ["ESG", "CO2", "排出", "Scope", "TCFD", "SBTi", "RE100", "非化石", "脱炭素", "サステナ"],
-    subcategories: [],
-    metaPage: true,
+      "EU ETS（EU 排出量取引制度）の検証排出量を一次データとするドメイン。EUTL（EU Transaction Log）／欧州環境機関（EEA）由来で、EU 全体の部門別 8 系列と加盟国別の合計 31 系列、計 39 系列（2005-2025、年次、Mt-CO2e）を収録。日本の GX-ETS との比較や、脱炭素ペースの国際ベンチマークの土台となる。ライセンスは EEA 再利用ポリシー（出典明記で商用可）。",
+    insightKeywords: ["ESG", "排出量", "CO2", "脱炭素", "カーボン", "EU ETS", "排出枠", "GX"],
+    subcategories: [
+      {
+        name: "部門別 検証排出量（EU 全体・8 部門）",
+        description: "航空 / 燃料燃焼 / 製油 / 鉄鋼 / セメント / 石灰 / 製紙 / 化学",
+        matcher: (id) =>
+          id.startsWith("eu-ets-emissions-") &&
+          !id.startsWith("eu-ets-emissions-country-"),
+      },
+      {
+        name: "加盟国別 合計検証排出量（31 か国）",
+        description: "EU ETS 対象国の全部門合計（年次）",
+        matcher: (id) => id.startsWith("eu-ets-emissions-country-"),
+      },
+    ],
+    // metaPage 削除（catalog 着地により実ドメイン化）
   },
   {
     id: "technology",

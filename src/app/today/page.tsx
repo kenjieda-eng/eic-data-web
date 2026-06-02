@@ -13,8 +13,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "朝刊サマリー /today — EIC Data",
     description: latest
-      ? `毎平日朝 7:00 JST に自動更新される 5 系列横断 (JEPX 東京 + WTI + USD/JPY + JGB 10y + 米 CPI) の前日比 + 解説。最新版: ${latest}。`
-      : "毎平日朝 7:00 JST に自動更新される 5 系列横断の前日比 + 解説。",
+      ? `5 系列横断 (JEPX 東京 + WTI + USD/JPY + JGB 10y + 米 CPI) の前日比 + 解説（2026-05-17 で一時停止中、Phase 4 で自動更新を再開予定）。停止時点のアーカイブ最新版: ${latest}。`
+      : "5 系列横断の前日比 + 解説（2026-05-17 で一時停止中、Phase 4 で自動更新を再開予定）。",
   };
 }
 
@@ -27,7 +27,7 @@ export default async function TodayPage() {
           朝刊サマリー — 準備中
         </h1>
         <p className="mt-3 text-base text-subink">
-          朝刊サマリーは Phase D 以降に毎平日朝 7:00 JST で自動配信開始予定です。
+          朝刊サマリーは 2026-05-17 で一時停止中です。Phase 4（2026-06-30 以降）で自動更新を本格再開予定です。
         </p>
       </Container>
     );
@@ -46,6 +46,11 @@ export default async function TodayPage() {
 
   return (
     <Container size="data" className="py-10">
+      <div className="mb-6 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        朝刊サマリーは <strong>2026-05-17</strong> で一時停止中です。Phase 4（2026-06-30
+        以降）で自動更新を本格再開予定です。以下は停止時点のアーカイブ表示です。
+      </div>
+
       <MorningSummary summary={summary} />
 
       <section className="mt-10 rounded-md border border-slate-200 bg-slate-50 p-5">

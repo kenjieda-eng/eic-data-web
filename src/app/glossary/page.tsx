@@ -7,8 +7,7 @@ import { GLOSSARY_TERMS, searchTerms } from "./data";
 
 export const metadata: Metadata = {
   title: "用語集 — EIC Data",
-  description:
-    "EIC Data 掲載指標で使われる主な用語 35 件。基本・制度・電力・燃料・金融マクロ・経済の 6 カテゴリで分類。各用語の個別ページから関連 Insight を辿れる。",
+  description: `EIC Data 掲載指標で使われる主な用語 ${GLOSSARY_TERMS.length} 件。基本・制度・電力・燃料・金融マクロ・経済の 6 カテゴリで分類。各用語の個別ページから関連 Insight を辿れる。`,
 };
 
 function pickQuery(
