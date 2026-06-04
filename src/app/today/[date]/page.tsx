@@ -38,7 +38,7 @@ export default async function TodayArchivePage({ params }: PageProps) {
   if (!summary) notFound();
 
   return (
-    <Container size="data" className="py-10">
+    <Container size="wide" className="py-10">
       <MorningSummary summary={summary} />
     </Container>
   );

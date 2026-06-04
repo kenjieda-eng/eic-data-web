@@ -67,7 +67,7 @@ const MARKETS: MarketEntry[] = [
 
 export default function MarketsHubPage() {
   return (
-    <Container size="data" className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-8">
         <p className="text-xs text-faint uppercase tracking-wider">ホーム ／ 市場</p>
         <h1 className="mt-2 text-3xl md:text-4xl font-bold text-ink leading-tight">

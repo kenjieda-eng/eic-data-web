@@ -176,7 +176,7 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
         </header>
         <main>{children}</main>
         <footer className="mt-12 border-t border-slate-200 bg-white">
-          <div className="mx-auto max-w-3xl md:max-w-5xl lg:max-w-7xl xl:max-w-[1320px] px-4 py-6 text-xs text-slate-500 space-y-1">
+          <div className="mx-auto max-w-3xl md:max-w-5xl lg:max-w-7xl xl:max-w-[1320px] px-4 py-6 text-xs text-slate-600 space-y-1">
             <p>
               © 2026 一般社団法人エネルギー情報センター ／ 編集物 CC BY 4.0 ／ catalog:{" "}
               {catalog.indicator_count} 系列

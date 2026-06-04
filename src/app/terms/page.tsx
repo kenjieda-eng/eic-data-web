@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <Container size="prose" className="py-10">
-      <header className="mb-8">
+    <Container size="wide" className="py-10">
+      <header className="mb-8 max-w-3xl mx-auto">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
             ホーム
@@ -31,7 +31,7 @@ export default function TermsPage() {
         </p>
       </header>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           1. 本規約について
         </h2>
@@ -44,7 +44,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           2. 本サービスの提供
         </h2>
@@ -57,7 +57,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           3. コンテンツ・データのライセンス（二層構造）
         </h2>
@@ -152,7 +152,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           4. 禁止事項
         </h2>
@@ -184,7 +184,7 @@ export default function TermsPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           5. 免責事項
         </h2>
@@ -218,7 +218,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           6. 知的財産権
         </h2>
@@ -253,7 +253,7 @@ export default function TermsPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           7. 第三者サービス
         </h2>
@@ -287,7 +287,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           8. 準拠法および裁判管轄
         </h2>
@@ -300,7 +300,7 @@ export default function TermsPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           9. 改定履歴
         </h2>
@@ -323,7 +323,7 @@ export default function TermsPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           10. 連絡先
         </h2>

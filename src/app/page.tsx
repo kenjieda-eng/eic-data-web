@@ -44,9 +44,9 @@ export default async function HomePage() {
           <strong className="text-ink tabular-nums">
             {catalog.indicator_count}
           </strong>{" "}
-          系列のエネルギー・金融指標と{" "}
+          系列のエネルギー・金融指標は毎営業日更新、独自 Insight{" "}
           <strong className="text-ink tabular-nums">{INSIGHTS.length}</strong>{" "}
-          本の独自 Insight を毎朝自動更新。一次出典・as-of・引用形式すべて備えた、研究者・ジャーナリスト・実務者の「2 クリックで元データに辿れる」基準点。
+          本は随時公開。一次出典・as-of・引用形式すべて備えた、研究者・ジャーナリスト・実務者の「2 クリックで元データに辿れる」基準点。
         </p>
         <p className="mt-3 text-xs text-faint">
           catalog 生成: {catalog.generated_at} ／ schema: {catalog.schema}

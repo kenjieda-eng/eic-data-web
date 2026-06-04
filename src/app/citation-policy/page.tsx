@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function CitationPolicyPage() {
   return (
-    <Container size="prose" className="py-10">
-      <header className="mb-8">
+    <Container size="wide" className="py-10">
+      <header className="mb-8 max-w-3xl mx-auto">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
             ホーム
@@ -34,7 +34,7 @@ export default function CitationPolicyPage() {
         </p>
       </header>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           1. 3 形式の使い分け (早見表)
         </h2>
@@ -82,7 +82,7 @@ export default function CitationPolicyPage() {
         </div>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           2. データ引用 vs Insight 引用
         </h2>
@@ -116,7 +116,7 @@ export default function CitationPolicyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           3. CitationButton の使い方
         </h2>
@@ -160,7 +160,7 @@ export default function CitationPolicyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           4. 媒体取材時の表記
         </h2>
@@ -187,7 +187,7 @@ export default function CitationPolicyPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           5. 二次利用時の帰属表示（系列ごとのライセンス確認）
         </h2>
@@ -292,7 +292,7 @@ export default function CitationPolicyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           6. 問い合わせ
         </h2>
