@@ -28,7 +28,7 @@ export default async function GlossaryPage({
   const filtered = searchTerms(GLOSSARY_TERMS, query);
 
   return (
-    <Container size="compact" className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-6">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">

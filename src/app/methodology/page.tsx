@@ -26,8 +26,8 @@ export default async function MethodologyPage() {
     METHODOLOGY_SECTIONS.find((s) => s.number === n)!;
 
   return (
-    <Container size="prose" className="py-10">
-      <header className="mb-6">
+    <Container size="wide" className="py-10">
+      <header className="mb-6 max-w-3xl mx-auto">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
             ホーム
@@ -42,7 +42,7 @@ export default async function MethodologyPage() {
         </p>
       </header>
 
-      <div className="space-y-6 text-[15px] leading-7 text-slate-800">
+      <div className="max-w-3xl mx-auto space-y-6 text-[15px] leading-7 text-slate-800">
         <MethodologyTOC />
 
         <MethodologySectionCard section={sec(1)}>

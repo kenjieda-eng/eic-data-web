@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <Container size="prose" className="py-10">
-      <header className="mb-8">
+    <Container size="wide" className="py-10">
+      <header className="mb-8 max-w-3xl mx-auto">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
             ホーム
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         <p className="mt-2 text-xs text-faint">初版: 2026-05-12 ／ 最終改定: 2026-05-12</p>
       </header>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           1. 本サイトについて
         </h2>
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           2. 取得する情報
         </h2>
@@ -89,7 +89,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           3. 利用目的
         </h2>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           4. 第三者提供
         </h2>
@@ -121,7 +121,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           5. データ保持期間
         </h2>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           6. Cookie について
         </h2>
@@ -169,7 +169,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           6.5 透明性ダッシュボード
         </h2>
@@ -188,7 +188,7 @@ export default function PrivacyPage() {
         </p>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           7. EU 訪問者 (GDPR 整合)
         </h2>
@@ -210,7 +210,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           8. 改正個人情報保護法 (PIPL 2022) 整合
         </h2>
@@ -226,7 +226,7 @@ export default function PrivacyPage() {
         </ul>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           9. 連絡先
         </h2>
@@ -250,7 +250,7 @@ export default function PrivacyPage() {
         </div>
       </section>
 
-      <section className="prose-section space-y-3">
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
           10. 改定履歴
         </h2>

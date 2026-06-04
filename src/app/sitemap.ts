@@ -32,6 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/citation-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.4 },
     { url: `${SITE_URL}/usage-stats`, lastModified: now, changeFrequency: "daily", priority: 0.4 },
+    { url: `${SITE_URL}/cite`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/map`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
+    { url: `${SITE_URL}/today/archive`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${SITE_URL}/editorial-calendar`, lastModified: now, changeFrequency: "weekly", priority: 0.5 },
+    { url: `${SITE_URL}/pipeline-status`, lastModified: now, changeFrequency: "daily", priority: 0.4 },
   ];
 
   const insightPages: MetadataRoute.Sitemap = INSIGHTS.map((i) => ({
@@ -48,14 +53,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // N8 (2026-05-17): /embed/<id> も sitemap に登録し、業界フロントが
-  // 直接埋め込み URL を発見できるようにする。priority は低め (主目的は iframe 経由)。
-  const embedPages: MetadataRoute.Sitemap = catalog.indicators.map((ind) => ({
-    url: `${SITE_URL}/embed/${ind.id}`,
-    lastModified: ind.updated_at ? new Date(ind.updated_at) : now,
-    changeFrequency: "daily",
-    priority: 0.3,
-  }));
+  // SEO (2026-06-04): /embed/<id> は各ページに robots index:false (noindex) が
+  // 入っているため sitemap から除外する。noindex ページを sitemap に載せず、
+  // crawl budget を catalog / insight 本体へ集中させる (N8 の方針を更新)。
 
   const domainPages: MetadataRoute.Sitemap = DOMAINS_DAY8.map((d) => ({
     url: `${SITE_URL}/domain/${d.id}`,
@@ -82,7 +82,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...fixed,
     ...insightPages,
     ...catalogPages,
-    ...embedPages,
     ...domainPages,
     ...glossaryPages,
     ...todayPages,

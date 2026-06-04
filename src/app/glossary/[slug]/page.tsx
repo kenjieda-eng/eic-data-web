@@ -73,12 +73,12 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   const definedTermJsonLd = buildDefinedTermJsonLd(term);
 
   return (
-    <Container size="compact" className="py-10">
+    <Container size="wide" className="py-10">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermJsonLd) }}
       />
-      <header className="mb-6">
+      <header className="mb-6 max-w-3xl mx-auto">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
             ホーム
@@ -99,12 +99,12 @@ export default async function GlossaryTermPage({ params }: PageProps) {
         </p>
       </header>
 
-      <article className="bg-white border border-slate-200 rounded-md p-5 text-[13px] text-ink leading-relaxed">
+      <article className="max-w-3xl mx-auto bg-white border border-slate-200 rounded-md p-5 text-[13px] text-ink leading-relaxed">
         <h2 className="sr-only">定義</h2>
         <p>{term.description}</p>
       </article>
 
-      <section className="mt-8">
+      <section className="mt-8 max-w-3xl mx-auto">
         <h2 className="mb-3 text-[14px] font-semibold text-ink">
           関連 Insight
           <span className="ml-2 text-[11px] text-faint tabular-nums">
@@ -114,7 +114,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
         <RelatedInsights insights={related} />
       </section>
 
-      <div className="mt-8 flex gap-3 text-[12px]">
+      <div className="mt-8 max-w-3xl mx-auto flex gap-3 text-[12px]">
         <Link
           href="/glossary"
           className="text-emerald-700 underline hover:text-emerald-800"

@@ -1,16 +1,14 @@
 import type { ReactNode } from "react";
 
-export type ContainerSize = "wide" | "data" | "prose" | "compact";
+export type ContainerSize = "wide" | "data";
 
 const SIZE_CLASSES: Record<ContainerSize, string> = {
-  // 俯瞰系 (TOP / Insight 一覧 / catalog 一覧 / Insight マップ / データ品質 / ドメイン詳細)
+  // 俯瞰系: ハブ / 一覧 / ダッシュボード / 長文ページ
+  // (TOP / Insight 一覧 / catalog 一覧 / Insight マップ / データ品質 / ドメイン詳細 /
+  //  検索 / 用語集 / today / markets / 方法論・規約など長文ページの外枠)
   wide: "max-w-3xl md:max-w-5xl lg:max-w-7xl xl:max-w-[1320px]",
-  // データ + 解説併記 (Insight 個別 / catalog 個別) — 既存デフォルト、後方互換
+  // 詳細 + 解説併記 (Insight 個別 / catalog 個別) — 既存デフォルト、後方互換
   data: "max-w-3xl md:max-w-5xl lg:max-w-6xl",
-  // 本文系 (方法論)
-  prose: "max-w-3xl md:max-w-4xl lg:max-w-5xl",
-  // 用語集 (リンク密度高い)
-  compact: "max-w-3xl md:max-w-4xl",
 };
 
 export default function Container({

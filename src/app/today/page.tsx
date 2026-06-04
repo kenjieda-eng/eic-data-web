@@ -22,7 +22,7 @@ export default async function TodayPage() {
   const latest = getLatestMorningSummaryDate();
   if (!latest) {
     return (
-      <Container size="data" className="py-10">
+      <Container size="wide" className="py-10">
         <h1 className="text-2xl font-semibold text-ink">
           朝刊サマリー — 準備中
         </h1>
@@ -35,7 +35,7 @@ export default async function TodayPage() {
   const summary = await generateMorningSummary(latest);
   if (!summary) {
     return (
-      <Container size="data" className="py-10">
+      <Container size="wide" className="py-10">
         <h1 className="text-2xl font-semibold text-ink">
           朝刊サマリー — データなし
         </h1>
@@ -45,7 +45,7 @@ export default async function TodayPage() {
   const allDates = listMorningSummaryDates();
 
   return (
-    <Container size="data" className="py-10">
+    <Container size="wide" className="py-10">
       <div className="mb-6 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
         朝刊サマリーは <strong>2026-05-17</strong> で一時停止中です。Phase 4（2026-06-30
         以降）で自動更新を本格再開予定です。以下は停止時点のアーカイブ表示です。

@@ -203,7 +203,7 @@ export default async function BalancingMarketPage() {
         : "bg-rose-50 border-rose-200 text-rose-700";
 
   return (
-    <Container size="data" className="py-10">
+    <Container size="wide" className="py-10">
       <header className="mb-8">
         <p className="text-xs text-faint uppercase tracking-wider">
           <Link href="/" className="hover:text-emerald-700">
