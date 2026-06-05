@@ -72,6 +72,12 @@ export const METHODOLOGY_SECTIONS: MethodologySection[] = [
     boxColor: "sky",
     dynamic: "quality-signals",
   },
+  {
+    id: "methodology-sec-11",
+    number: 11,
+    title: "方法論ライブラリ — 回帰・記述統計・予測誤差の読み方",
+    boxColor: "emerald",
+  },
 ];
 
 export const BOX_COLOR_CLASS: Record<MethodologyBoxColor, string> = {

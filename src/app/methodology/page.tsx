@@ -13,7 +13,7 @@ import { D011_SCHEMA, METHODOLOGY_SECTIONS } from "./sections";
 export const metadata: Metadata = {
   title: "方法論 — EIC Data",
   description:
-    "EIC Data の編集方針。一次出典優先・再現可能・透明な運用を原則とする。10 セクション: 二層アーキテクチャ / 一次出典 / 実データ / 更新頻度 / 訂正 / 引用 / D-011 / 引用作法 / ライセンス / SLA。",
+    "EIC Data の編集方針。一次出典優先・再現可能・透明な運用を原則とする。11 セクション: 二層アーキテクチャ / 一次出典 / 実データ / 更新頻度 / 訂正 / 引用 / D-011 / 引用作法 / ライセンス / SLA / 方法論ライブラリ。",
 };
 
 export default async function MethodologyPage() {
@@ -403,6 +403,165 @@ export default async function MethodologyPage() {
             {" "}を参照。本セクションは Phase B-C の MDX 移植時に独立した{" "}
             <code className="font-mono">/methodology/quality-signals</code>{" "}
             ページに昇格予定。
+          </p>
+        </MethodologySectionCard>
+
+        <MethodologySectionCard section={sec(11)}>
+          <p>
+            EIC Data の方法論 Insight は、過去データを使った分析手法を「隠さず全部見せる」教材として公開している。ここでは、その読み方を{" "}
+            <strong>回帰の読み方</strong> / <strong>記述的分析</strong> /{" "}
+            <strong>予測誤差ベンチマーク</strong>{" "}
+            の 3 つに整理する。いずれも{" "}
+            <strong>過去データ起点の方法論であって、未来予測値は提供しない</strong>{" "}
+            という EIC Data の線引きを共有する。
+          </p>
+
+          <h3 className="mt-5 text-[14px] font-semibold text-slate-900">
+            11.1 回帰の読み方（in-sample fit ≠ 予測・因果）
+          </h3>
+          <p className="mt-2">
+            EIC Data の方法論 Insight は、回帰モデルの出力を「隠さず全部見せる」ことを原則にする。読者が結果を鵜呑みにせず、自分で妥当性を判断できるようにするためだ。
+          </p>
+          <p className="mt-2">
+            回帰式を読むときに見るべきは 4 つ。
+            <Link
+              href="/glossary/regression-coefficient"
+              className="font-semibold text-sky-700 underline hover:text-sky-800"
+            >
+              回帰係数
+            </Link>
+            （各説明変数が目的変数に与える限界的な効き目＝傾き）、
+            <strong>標準誤差</strong>（その係数推定のばらつき）、
+            <strong>t 値</strong>（係数がゼロと区別できる確からしさ）、そして{" "}
+            <Link
+              href="/glossary/r-squared"
+              className="font-semibold text-sky-700 underline hover:text-sky-800"
+            >
+              決定係数 R²
+            </Link>
+            （モデルが目的変数の分散をどれだけ説明できたか、0〜1）。
+          </p>
+          <p className="mt-2">
+            具体例として、Insight{" "}
+            <Link
+              href="/insight/jepx-tokyo-monthly-regression"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              #70「JEPX 東京 月次回帰」
+            </Link>
+            では、東京エリアの月次価格を残余系統需要・円建て LNG・東京気温・前月価格で OLS 回帰し、係数・標準誤差・t 値・R² をすべて開示している。n=44（2022-05〜2025-12）で{" "}
+            <strong>R²=0.883</strong>。ただし注意すべきは、
+            <strong>前月価格 1 変数だけでも R²=0.834</strong>{" "}
+            に達する点だ。つまり高い R² の大部分は「価格の慣性（前月に似る）」で説明されており、他の変数の追加的な寄与は見かけより小さい。
+          </p>
+          <p className="mt-2">
+            ここで強調したいのは、
+            <strong>
+              この R² は「過去データへの当てはまり（in-sample fit）」であって、未来予測の精度でも、因果関係の証明でもない
+            </strong>
+            ということ。当てはまりの良さと、将来当たるかどうかは別問題である（その検証は 11.3 を参照）。EIC Data は未来予測値を提供しない（過去データ起点の方法論教材に限定）。
+          </p>
+
+          <h3 className="mt-5 text-[14px] font-semibold text-slate-900">
+            11.2 記述的分析 — 「何が起きたか」を正確に測る
+          </h3>
+          <p className="mt-2">
+            回帰の前段として、まず「過去に何が起きたか」を記述的（descriptive）に正確に測ることが重要だ。モデルを立てる前に、データそのものが持つ規則性を見る。
+          </p>
+          <p className="mt-2">
+            Insight{" "}
+            <Link
+              href="/insight/holiday-power-pattern-jepx"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              #71「休日の電力パターン」
+            </Link>
+            は、その典型例である。JEPX 東京の価格が、通常営業日と比べて特異日にどれだけ下がるかを実データで測ると、
+            <strong>
+              ゴールデンウィークは約 −36%、お盆は約 −19%、年末年始は約 −1%
+            </strong>{" "}
+            という明確な差が出る。これは予測でもモデルでもなく、「過去に観測された事実の要約」だ。
+          </p>
+          <p className="mt-2">
+            記述的分析の価値は、後段のモデルが説明すべき「説明対象」を明確にすることにある。たとえば{" "}
+            <Link
+              href="/glossary/residual-demand"
+              className="font-semibold text-sky-700 underline hover:text-sky-800"
+            >
+              残余需要
+            </Link>
+            モデルを組むなら、こうした休日効果をカレンダー変数として織り込むべきだ、という設計指針が記述統計から導かれる。
+          </p>
+
+          <h3 className="mt-5 text-[14px] font-semibold text-slate-900">
+            11.3 予測誤差のベンチマーク — 単純ベースラインに勝てるか
+          </h3>
+          <p className="mt-2">
+            モデルが「使える」かどうかは、
+            <strong>最も単純な予測（ベースライン）に勝てるか</strong>{" "}
+            で測る。これは予測研究の世界標準で、EIC Data も同じ規律を採る。
+          </p>
+          <p className="mt-2">
+            代表的なベースラインが
+            <Link
+              href="/glossary/persistence-forecast"
+              className="font-semibold text-sky-700 underline hover:text-sky-800"
+            >
+              持続予測（ナイーブ予測）
+            </Link>
+            ＝「来月も今月と同じ」と置く方法だ。Insight{" "}
+            <Link
+              href="/insight/forecast-error-baseline-jepx"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              #72「予測誤差ベンチマーク」
+            </Link>
+            では、月次 JEPX 東京を 4 つの単純ベースライン（持続予測 lag1 / 季節平均 / 12 ヶ月前同値 / 訓練期間平均）で{" "}
+            <strong>out-of-sample</strong>（訓練 2012-2021 → テスト 2022-01〜2026-04、n=52）に検証し、MAE・RMSE・MAPE を全開示している。
+          </p>
+          <p className="mt-2">
+            結果は示唆的だ。
+            <strong>持続予測が MAPE 11.94% で最良</strong>、季節平均 23.54%、12 ヶ月前同値 49.77% と、持続予測が他の約 2〜4 倍の精度で圧勝した。誤差分布は{" "}
+            <strong>±2 円以内が 65.4%、±5 円以内が 88.5%</strong>。つまり「来月も今月と同じ」という最も素朴な予測が、月次の電力価格では驚くほど強い。複雑なモデルを評価するときは、まずこの持続予測を超えられるかを問うべきだ。
+          </p>
+          <p className="mt-2">
+            誤差率の指標は使い分ける。
+            <strong>MAE</strong>（平均絶対誤差）は外れ値に頑健、
+            <strong>RMSE</strong>（二乗平均平方根誤差）は大きな外れを重く罰し、
+            <strong>MAPE</strong>（平均絶対パーセント誤差）は水準の異なる系列を比較しやすい。いずれも{" "}
+            <strong>out-of-sample</strong>（モデルが見ていない期間）で測ることが鉄則で、in-sample の当てはまり（11.1 の R²）と混同してはならない。
+          </p>
+          <p className="mt-2">
+            最後に限界も明示する。#72 のベンチマークは 2022 年の燃料価格急騰という構造変化を含む期間でテストしており、どのベースラインもこの局面では誤差が拡大した。
+            <strong>
+              過去データの out-of-sample 検証であって、未来予測ではない
+            </strong>
+            。モデルの優劣は「過去のある期間でどれだけ当たっていたか」を示すに過ぎず、将来の的中を保証しない。
+          </p>
+
+          <p className="mt-4 text-[12px] text-subink">
+            本セクションの数値は実 Insight #70 /{" "}
+            <Link
+              href="/insight/jepx-tokyo-monthly-regression"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              月次回帰
+            </Link>
+            、#71 /{" "}
+            <Link
+              href="/insight/holiday-power-pattern-jepx"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              休日パターン
+            </Link>
+            、#72 /{" "}
+            <Link
+              href="/insight/forecast-error-baseline-jepx"
+              className="text-sky-700 underline hover:text-sky-800"
+            >
+              予測誤差ベンチマーク
+            </Link>
+            {" "}由来の照合済み実値。すべて過去データの分析であり、未来予測ではない。
           </p>
         </MethodologySectionCard>
       </div>
