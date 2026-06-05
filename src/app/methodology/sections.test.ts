@@ -8,12 +8,19 @@ import {
 } from "./sections";
 
 describe("METHODOLOGY_SECTIONS", () => {
-  test("contains 10 sections in order 1-10", () => {
-    expect(METHODOLOGY_SECTIONS).toHaveLength(10);
+  test("contains 11 sections in order 1-11", () => {
+    expect(METHODOLOGY_SECTIONS).toHaveLength(11);
     METHODOLOGY_SECTIONS.forEach((s, idx) => {
       expect(s.number).toBe(idx + 1);
       expect(s.id).toBe(`methodology-sec-${idx + 1}`);
     });
+  });
+
+  test("includes the methodology library section (11) with sub-sections", () => {
+    const lib = METHODOLOGY_SECTIONS.find((s) => s.number === 11);
+    expect(lib).toBeDefined();
+    expect(lib?.id).toBe("methodology-sec-11");
+    expect(lib?.title).toContain("方法論ライブラリ");
   });
 
   test("ids are unique", () => {
