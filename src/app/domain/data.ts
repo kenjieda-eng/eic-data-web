@@ -203,14 +203,29 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     // metaPage 削除（catalog 着地により実ドメイン化）
   },
   {
-    id: "technology",
+    id: "tech",
     name: "技術",
     emoji: "🔋",
     description:
-      "蓄電池容量 / EV 普及率 / 太陽光 LCOE / 水素・アンモニア混焼 / ヒートポンプ普及率など、エネルギー転換を駆動する「技術指標」を扱う編集軸メタドメイン。Phase C 以降で catalog 系列を順次追加予定（β 段階では未掲載）。コスト低下曲線と導入加速の交点を読み解くための参照軸として機能し、Insight 群の長期シナリオ前提を支える。",
-    insightKeywords: ["技術", "蓄電池", "EV", "水素", "アンモニア", "LCOE", "ヒートポンプ", "燃料電池"],
-    subcategories: [],
-    metaPage: true,
+      "NREL ATB（Annual Technology Baseline）を一次出典とする米国の発電技術コストドメイン。発電コスト LCOE（$/MWh）・資本費 CAPEX（$/kW）・容量率（%）の 3 指標を、太陽光・陸上/洋上風力・原子力・地熱・水力・バイオマス・CSP など 10 技術 + 蓄電池 CAPEX の計 31 系列で揃える。米国コスト前提・各年版の当年値（2021-2024 年版、将来射影は非収載）で、技術別のコスト水準と年版間の変化を横断比較できる。ライセンスは CC BY 4.0。",
+    insightKeywords: ["技術", "LCOE", "蓄電池", "太陽光", "風力", "原子力", "発電コスト", "CAPEX"],
+    subcategories: [
+      {
+        name: "発電コスト LCOE（$/MWh）",
+        description: "NREL ATB 均等化発電原価、10 技術",
+        matcher: (id) => id.startsWith("atb-lcoe-"),
+      },
+      {
+        name: "資本費 CAPEX（$/kW）",
+        description: "NREL ATB 設備資本費、10 技術 + 蓄電池",
+        matcher: (id) => id.startsWith("atb-capex-"),
+      },
+      {
+        name: "容量率（%）",
+        description: "NREL ATB 設備利用率、10 技術",
+        matcher: (id) => id.startsWith("atb-cf-"),
+      },
+    ],
   },
   {
     id: "international",
@@ -254,6 +269,31 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         name: "Ember 月次電力需要（5 ヶ国）",
         description: "日米英独中の月次電力需要 TWh",
         matcher: (id) => id.startsWith("ember-demand-"),
+      },
+    ],
+  },
+  {
+    id: "population",
+    name: "人口",
+    emoji: "👥",
+    description:
+      "政府統計の総合窓口（e-Stat）人口推計を一次出典とする、都道府県別の人口ドメイン。総人口・65 歳以上人口・生産年齢人口（15-64 歳）の 3 指標を 47 都道府県すべてで揃え、計 141 系列（2016-2024 年・年次・各年 10 月 1 日現在・千人）を収録する。電力需要の最も基礎的な母数である「人口」と、高齢化・東京一極集中・地方急減といった地域分化を、電力・需要データと同じ場所で並べられる。ライセンスは estat-terms（出典明示で再利用可）。",
+    insightKeywords: ["人口", "高齢化", "都道府県", "人口減少", "生産年齢", "需要"],
+    subcategories: [
+      {
+        name: "総人口（47 都道府県）",
+        description: "e-Stat 人口推計 総人口、年次・千人",
+        matcher: (id) => id.startsWith("jpn-pop-total-"),
+      },
+      {
+        name: "65 歳以上人口（47 都道府県）",
+        description: "高齢化率の母数、年次・千人",
+        matcher: (id) => id.startsWith("jpn-pop-65over-"),
+      },
+      {
+        name: "生産年齢人口 15-64（47 都道府県）",
+        description: "労働力の母数、年次・千人",
+        matcher: (id) => id.startsWith("jpn-pop-working-"),
       },
     ],
   },
