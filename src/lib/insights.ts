@@ -585,6 +585,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["JEPX スポット市場"],
     updated: "2026-05-31",
   },
+  {
+    slug: "population-decline-vs-power-demand",
+    title: "人口減少 × 電力需要：母数が縮む時代の電力",
+    lede: "日本の総人口は 2019→2024 の 5 年で −2.2%（約 −275 万人）。同じ期間、全国の電力需要は −2.0% とほぼ同率で減った。一人当たり消費はほぼ横ばい（+0.1%）— 需要減のかなりの部分が「母数の縮小」で説明できる。47 都道府県の人口データで地域分化（東京 +3.9% vs 秋田 −11.3%）も見る。",
+    tags: ["電力", "需要", "人口", "高齢化", "都道府県"],
+    sources: ["e-Stat 人口推計", "Ember Monthly Electricity Data"],
+    updated: "2026-06-07",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

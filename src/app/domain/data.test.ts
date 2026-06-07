@@ -78,8 +78,8 @@ describe("DOMAINS_DAY7", () => {
 });
 
 describe("DOMAINS_DAY8", () => {
-  test("contains 9 domains (Day 7 末 6 件 + Day 8 追加 3 件)", () => {
-    expect(DOMAINS_DAY8).toHaveLength(9);
+  test("contains 10 domains (Day 7 末 6 件 + Day 8 追加 4 件)", () => {
+    expect(DOMAINS_DAY8).toHaveLength(10);
     expect(DOMAINS_DAY8.map((d) => d.id)).toEqual([
       "power",
       "weather",
@@ -88,8 +88,9 @@ describe("DOMAINS_DAY8", () => {
       "economy",
       "policy",
       "esg",
-      "technology",
+      "tech",
       "international",
+      "population",
     ]);
   });
 
@@ -104,25 +105,27 @@ describe("DOMAINS_DAY8", () => {
     const additions = DOMAINS_DAY8.filter(
       (d) => !DOMAINS_DAY7.some((p) => p.id === d.id),
     );
-    expect(additions).toHaveLength(3);
+    expect(additions).toHaveLength(4);
     for (const d of additions) {
       expect(d.description.length).toBeGreaterThanOrEqual(150);
       expect(d.insightKeywords.length).toBeGreaterThan(0);
     }
   });
 
-  test("Day 8 のうち technology は metaPage、esg は EU ETS で catalog 着地、international は Phase 2 で catalog 着地", () => {
+  test("Day 8 のうち tech / population は catalog 着地、esg は EU ETS で catalog 着地、international は Phase 2 で catalog 着地", () => {
     expect(getDomainById("esg")?.metaPage).toBeFalsy();
-    expect(getDomainById("technology")?.metaPage).toBe(true);
+    expect(getDomainById("tech")?.metaPage).toBeFalsy();
     expect(getDomainById("esg")?.subcategories).toHaveLength(2);
-    expect(getDomainById("technology")?.subcategories).toHaveLength(0);
+    expect(getDomainById("tech")?.subcategories).toHaveLength(3);
+    expect(getDomainById("population")?.metaPage).toBeFalsy();
+    expect(getDomainById("population")?.subcategories).toHaveLength(3);
     expect(getDomainById("international")?.metaPage).toBeFalsy();
     expect(
       getDomainById("international")?.subcategories.length,
     ).toBeGreaterThan(0);
   });
 
-  test("EU ETS 着地で 9 ドメイン: catalog 系列を持つ 6 件 + メタ 3 件", () => {
+  test("tech / population 着地で 10 ドメイン: catalog 系列を持つ 8 件 + メタ 2 件", () => {
     const withCatalog = DOMAINS_DAY8.filter((d) => !d.metaPage);
     const metaOnly = DOMAINS_DAY8.filter((d) => d.metaPage);
     expect(withCatalog.map((d) => d.id).sort()).toEqual([
@@ -130,13 +133,14 @@ describe("DOMAINS_DAY8", () => {
       "finance",
       "fuel",
       "international",
+      "population",
       "power",
+      "tech",
       "weather",
     ]);
     expect(metaOnly.map((d) => d.id).sort()).toEqual([
       "economy",
       "policy",
-      "technology",
     ]);
   });
 });
@@ -149,13 +153,13 @@ describe("getDomainById", () => {
     expect(getDomainById("economy")?.name).toBe("経済");
     expect(getDomainById("policy")?.name).toBe("制度");
     expect(getDomainById("esg")?.name).toBe("ESG / サステナ");
-    expect(getDomainById("technology")?.name).toBe("技術");
+    expect(getDomainById("tech")?.name).toBe("技術");
     expect(getDomainById("international")?.name).toBe("国際");
+    expect(getDomainById("population")?.name).toBe("人口");
   });
 
-  test("returns undefined for unknown id (12 候補のうち未着手の 3 ドメイン)", () => {
+  test("returns undefined for unknown id (12 候補のうち未着手の 2 ドメイン)", () => {
     expect(getDomainById("geopolitics")).toBeUndefined();
-    expect(getDomainById("population")).toBeUndefined();
     expect(getDomainById("ir")).toBeUndefined();
   });
 });
