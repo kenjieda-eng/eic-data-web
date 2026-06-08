@@ -601,6 +601,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["NREL ATB", "METI 電力調査統計"],
     updated: "2026-06-08",
   },
+  {
+    slug: "eu-ets-vs-jp-gx",
+    title: "EU ETS × 日本 GX-ETS：炭素価格20年の実績と、日本が立つ入口",
+    lede: "EU ETS は20年で無償割当を約76%縮小し、発電・熱の燃料燃焼排出を2014年比で約55%削減した。日本の GX-ETS は2026年度に義務化、2033年度に発電部門を有償オークションへ。EU が歩んだ道のどこに日本が立つのかを EEA 実データで読む。",
+    tags: ["ESG", "炭素価格", "EU ETS", "GX-ETS", "排出量取引", "国際", "電力"],
+    sources: ["EEA EU ETS Data Viewer", "METI 排出量取引制度"],
+    updated: "2026-06-09",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

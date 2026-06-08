@@ -108,6 +108,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "forecast-error-baseline-jepx": "ChartLine",
   "population-decline-vs-power-demand": "ChartLine",
   "lcoe-vs-power-mix": "ChartLine",
+  "eu-ets-vs-jp-gx": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
