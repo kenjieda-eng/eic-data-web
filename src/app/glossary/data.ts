@@ -545,6 +545,22 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
       "電力・エネルギー事業者向けに気象予測を提供する専門事業者。需要予測・再エネ出力予測の入力となる。EIC Data は一次気象データ（気象庁）を用い、商用ベンダー予測は使わない（D-002）。",
     category: "power",
   },
+
+  // ===== 2026-06-08 Insight #74 lcoe-vs-power-mix 連動 +2 用語 (bess-net 定義と同期) =====
+  {
+    slug: "lcoe",
+    name: "LCOE（均等化発電原価）",
+    description:
+      "発電設備が生涯に発電する 1 MWh あたりの平均コスト。建設費・運転維持費・燃料費の総額を生涯発電量で割り、太陽光・風力・火力・原子力など異なる電源を横並びで比較する指標。設備利用率・割引率・燃料価格の前提で変わるため、出典と前提の確認が重要。EIC Data の技術ドメインは NREL ATB（米国前提）の電源別 LCOE を収録。蓄電池は発電しないため LCOE では測れず、LCOS を用いる。",
+    category: "basic",
+  },
+  {
+    slug: "lcos",
+    name: "LCOS（均等化蓄電原価）",
+    description:
+      "蓄電設備が生涯に放電する 1 MWh あたりの平均コスト。設備費・運転維持費に充電電力費を加えた総額を生涯放電量で割って求める、LCOE の蓄電池版。単一値ではなく CAPEX（資本費）を起点に運用前提で変わり、効く要素は充放電効率・サイクル寿命・充電電力費。安く充電し、効率よく多サイクル使うほど下がる。",
+    category: "basic",
+  },
 ];
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
