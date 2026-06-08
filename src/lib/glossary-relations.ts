@@ -251,6 +251,13 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "load-forecast", to: "peak-demand", weight: 0.7 },
   { from: "weather-vendor", to: "analogue-year", weight: 0.5 },
   { from: "analogue-year", to: "persistence-forecast", weight: 0.5 },
+
+  // ===== 2026-06-08 Insight #74 連動 lcoe / lcos +5 エッジ (参照先は実在 slug) =====
+  { from: "lcoe", to: "lcos", weight: 0.9 },
+  { from: "lcoe", to: "capacity-factor", weight: 0.7 },
+  { from: "lcoe", to: "renewables", weight: 0.6 },
+  { from: "lcos", to: "kw-value", weight: 0.6 },
+  { from: "lcos", to: "capacity-factor", weight: 0.5 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

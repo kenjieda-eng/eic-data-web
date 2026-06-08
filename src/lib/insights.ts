@@ -593,6 +593,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["e-Stat 人口推計", "Ember Monthly Electricity Data"],
     updated: "2026-06-07",
   },
+  {
+    slug: "lcoe-vs-power-mix",
+    title: "LCOE × 電源構成：安い電源ほど日本では少ない",
+    lede: "発電コスト（LCOE）が最も安い電源——陸上風力 $21/MWh・太陽光 $43/MWh（米 NREL ATB）——は、日本の電源構成では風力 1.3%・太陽光 4.1% と小さい。最大シェアは火力 73.7%。コストの序列と普及の順序がねじれている構造を、技術別 LCOE と日本の発電量シェアで並べて見る。",
+    tags: ["電力", "再エネ", "電源構成", "LCOE", "コスト", "技術"],
+    sources: ["NREL ATB", "METI 電力調査統計"],
+    updated: "2026-06-08",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
