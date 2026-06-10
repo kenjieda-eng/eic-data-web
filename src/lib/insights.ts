@@ -609,6 +609,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EEA EU ETS Data Viewer", "METI 排出量取引制度"],
     updated: "2026-06-09",
   },
+  {
+    slug: "eu-ets-allocation-gap-by-country",
+    title: "EU ETS 排出 vs 無償割当：排出枠を市場で買っているのはどの国か",
+    lede: "2025年、EU ETS 対象29か国の排出の約46%しか無償枠で覆われず、残り582Mtは市場で調達される。無償カバー率は石炭・島嶼の電力国ほど低く（ポーランド33%・アイルランド24%）、水力・原子力のクリーン電源国ほど高い（フランス84%・スウェーデン84%）。発電は原則オークションという設計が国別に映る。",
+    tags: ["ESG", "炭素価格", "EU ETS", "排出量取引", "無償割当", "国際", "電力"],
+    sources: ["EEA EU ETS Data Viewer", "METI 排出量取引制度"],
+    updated: "2026-06-10",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
