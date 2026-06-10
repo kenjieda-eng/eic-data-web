@@ -109,6 +109,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "population-decline-vs-power-demand": "ChartLine",
   "lcoe-vs-power-mix": "ChartLine",
   "eu-ets-vs-jp-gx": "ChartLine",
+  "eu-ets-allocation-gap-by-country": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
