@@ -617,6 +617,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EEA EU ETS Data Viewer", "METI 排出量取引制度"],
     updated: "2026-06-10",
   },
+  {
+    slug: "jp-energy-import-sources",
+    title: "日本のエネルギーは誰から買っているか：原油・LNG・石炭の輸入相手国",
+    lede: "2025年、日本は原油・LNG・石炭を計約18.7兆円輸入。原油は中東に94%依存（UAE43%+サウジ40%）、LNGは豪40%中心に分散（露9%・米7%）、石炭は豪67%の一極集中。燃料ごとに供給リスクの構造が異なる。",
+    tags: ["地政", "エネルギー安全保障", "輸入", "原油", "LNG", "石炭"],
+    sources: ["財務省 貿易統計（e-Stat）"],
+    updated: "2026-06-11",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
