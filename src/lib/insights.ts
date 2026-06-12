@@ -625,6 +625,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["財務省 貿易統計（e-Stat）"],
     updated: "2026-06-11",
   },
+  {
+    slug: "jp-energy-import-trend",
+    title: "原油は一極化、LNGは多様：日本のエネルギー調達 10年の二つの方向",
+    lede: "2016→2025年、原油は中東依存が77%→94%へ「一極化」、LNGは米シェール参入で供給国が多様なまま（ただし露は8%で残存し脱ロシアは未達）。同じ輸入燃料でも10年の進む方向は逆だった。",
+    tags: ["地政", "エネルギー安全保障", "輸入", "原油", "LNG", "中東依存", "脱ロシア"],
+    sources: ["財務省 貿易統計（e-Stat）"],
+    updated: "2026-06-12",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

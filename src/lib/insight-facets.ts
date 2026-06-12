@@ -111,6 +111,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "eu-ets-vs-jp-gx": "ChartLine",
   "eu-ets-allocation-gap-by-country": "ChartLine",
   "jp-energy-import-sources": "ChartLine",
+  "jp-energy-import-trend": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
