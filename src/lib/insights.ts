@@ -633,6 +633,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["財務省 貿易統計（e-Stat）"],
     updated: "2026-06-12",
   },
+  {
+    slug: "fit-price-by-source",
+    title: "FITで安くなったのは太陽光だけ：電源別 買取価格の14年",
+    lede: "FIT買取価格は事業用太陽光が40円(2012)→9.9円(2026)へ4分の1に、陸上風力も22→14円。だが地熱40・木質バイオマス24・中小水力34は14年間据え置き。量産が効く電源だけが安くなった。",
+    tags: ["制度", "FIT", "再エネ", "買取価格", "太陽光"],
+    sources: ["METI なっとく（FIT買取価格）"],
+    updated: "2026-06-13",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
