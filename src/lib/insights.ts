@@ -641,6 +641,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["METI なっとく（FIT買取価格）"],
     updated: "2026-06-13",
   },
+  {
+    slug: "power9-fuel-crisis-recovery",
+    title: "電力9社、そろって沈みそろって浮上：燃料危機の傷と記録的回復",
+    lede: "2022年度、燃料高と円安で大手電力9社のうち8社が経常赤字に。だが翌2023年度は9社すべて黒字に回復し関西電力は7,660億円。燃料価格×料金制度のラグが生む利益のV字を9社の経常利益で読む。",
+    tags: ["企業IR", "電力会社", "財務", "経常利益", "燃料費", "火力"],
+    sources: ["金融庁 EDINET"],
+    updated: "2026-06-13",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
