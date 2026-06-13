@@ -113,6 +113,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "jp-energy-import-sources": "ChartLine",
   "jp-energy-import-trend": "ChartLine",
   "fit-price-by-source": "ChartLine",
+  "power9-fuel-crisis-recovery": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
