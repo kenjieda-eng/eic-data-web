@@ -649,6 +649,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["金融庁 EDINET"],
     updated: "2026-06-13",
   },
+  {
+    slug: "power9-revenue-vs-margin",
+    title: "売上最大でも利益率は最低：電力9社の規模と収益性",
+    lede: "大手電力9社のFY2024決算で、売上最大の東京電力HD(6.8兆円)の営業利益率は3.4%と9社中最低。一方 関西10.8%・北陸11.8%。規模と稼ぐ力は一致しない。",
+    tags: ["企業IR", "電力会社", "財務", "営業利益率", "収益性", "火力"],
+    sources: ["金融庁 EDINET"],
+    updated: "2026-06-14",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
