@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { DOMAINS_DAY8 } from "./domain/data";
+import { DOMAINS } from "./domain/data";
 import { GLOSSARY_TERMS } from "./glossary/data";
 import { fetchCatalog } from "@/lib/catalog";
 import { INSIGHTS } from "@/lib/insights";
@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/markets`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: `${SITE_URL}/markets/balancing`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/catalog`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/domain`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/compare`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/playground`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
     { url: `${SITE_URL}/data-quality`, lastModified: now, changeFrequency: "daily", priority: 0.7 },
@@ -57,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 入っているため sitemap から除外する。noindex ページを sitemap に載せず、
   // crawl budget を catalog / insight 本体へ集中させる (N8 の方針を更新)。
 
-  const domainPages: MetadataRoute.Sitemap = DOMAINS_DAY8.map((d) => ({
+  const domainPages: MetadataRoute.Sitemap = DOMAINS.map((d) => ({
     url: `${SITE_URL}/domain/${d.id}`,
     lastModified: now,
     changeFrequency: "weekly",

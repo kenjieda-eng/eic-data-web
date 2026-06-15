@@ -14,13 +14,26 @@
 import { INSIGHTS, type Insight } from "./insights";
 import { INSIGHT_DOMAINS, type InsightDomain, type InsightRenderer } from "./insight-validator";
 
-// tag → domain の優先順マッピング (tag が複数該当する場合は先に出現したものを採用)
-// 「金融」を最優先とすることで Phase B-A Day 13 で確立した 8 件の金融タグが
-// すべて finance domain に集まるよう設計。
+// tag → domain の優先順マッピング (tag が複数該当する場合は先に出現したものを採用)。
+// 「金融」を最優先とすることで Phase B-A Day 13 で確立した金融タグ群が
+// すべて finance domain に集まる設計を維持。
+//
+// Polish #2 (2026-06-15): 正準 12 ドメインのタグを追加。編集軸として明示的な
+// ESG / 国際 / 制度 / 地政 / 企業IR は汎用エネルギータグ「電力」より具体性が高いため
+// その上位に置く (例: #75 eu-ets-vs-jp-gx は ESG/国際/電力 を併せ持つが ESG=esg に解決)。
+// 一方で既存の 燃料 / 気象 は従来割り当てを保つため「電力」だけを末尾へ降格した。
 const TAG_TO_DOMAIN: ReadonlyArray<[string, InsightDomain]> = [
   ["金融", "finance"],
   ["燃料", "fuel"],
   ["気象", "weather"],
+  ["ESG", "esg"],
+  ["国際", "international"],
+  ["制度", "regulation"],
+  ["地政", "geopolitics"],
+  ["企業IR", "corp_ir"],
+  ["技術", "tech"],
+  ["経済", "economy"],
+  ["人口", "population"],
   ["電力", "power"],
 ];
 

@@ -61,26 +61,55 @@ export interface DomainMeta {
   emoji: string;
 }
 
+// 正準 12 ドメイン (pipeline catalog の実 domain ID に統一)。
+// Polish #2 (2026-06-15) で旧 ID (geo/policy/demand/ir/intl/econ/electricity) を廃し、
+// catalog `indicators.json` が出力する domain 文字列そのものに揃えた。emoji/ja 表示は踏襲。
 const DOMAIN_TABLE: DomainMeta[] = [
   { id: "power", ja: "電力・電源", emoji: "🔌" },
   { id: "fuel", ja: "燃料", emoji: "🔥" },
   { id: "finance", ja: "金融", emoji: "💰" },
   { id: "weather", ja: "気象", emoji: "🌡️" },
-  { id: "electricity", ja: "電力", emoji: "⚡" },
-  { id: "policy", ja: "制度", emoji: "📜" },
   { id: "esg", ja: "ESG", emoji: "🌱" },
   { id: "tech", ja: "技術", emoji: "🔧" },
-  { id: "geo", ja: "地政", emoji: "🌏" },
-  { id: "econ", ja: "経済", emoji: "📊" },
-  { id: "demand", ja: "人口・需要", emoji: "👥" },
-  { id: "ir", ja: "企業IR", emoji: "📑" },
-  { id: "intl", ja: "国際", emoji: "🌐" },
+  { id: "geopolitics", ja: "地政", emoji: "🌏" },
+  { id: "regulation", ja: "制度", emoji: "📜" },
+  { id: "population", ja: "人口・需要", emoji: "👥" },
+  { id: "corp_ir", ja: "企業IR", emoji: "📑" },
+  { id: "international", ja: "国際", emoji: "🌐" },
+  { id: "economy", ja: "経済", emoji: "📊" },
 ];
 
+// 非正準な catalog domain 文字列 / 旧 web ID → 正準 ID のエイリアス。
+// catalog の `macro` 系列 (米マクロ・日銀短観) は web では economy に内包して表示する。
+const DOMAIN_ALIASES: Record<string, string> = {
+  macro: "economy",
+  electricity: "power",
+  // 旧 web 短縮 ID (Polish #2 以前の drift) も防御的に解決
+  geo: "geopolitics",
+  policy: "regulation",
+  demand: "population",
+  ir: "corp_ir",
+  intl: "international",
+  econ: "economy",
+  technology: "tech",
+};
+
+/** catalog domain 文字列 / 旧 ID を正準 12 ドメイン ID に解決 (未知はそのまま返す)。 */
+export function canonicalDomain(id: string | undefined | null): string {
+  if (!id) return "";
+  return DOMAIN_ALIASES[id] ?? id;
+}
+
 export function domainOf(id: string | undefined | null): DomainMeta {
-  const found = DOMAIN_TABLE.find((d) => d.id === id);
+  const canonical = canonicalDomain(id);
+  const found = DOMAIN_TABLE.find((d) => d.id === canonical);
   if (found) return found;
   return { id: id ?? "", ja: id ?? "不明", emoji: "❓" };
+}
+
+/** 正準 12 ドメインのメタ一覧 (表示順は DOMAIN_TABLE のまま)。 */
+export function allDomains(): DomainMeta[] {
+  return DOMAIN_TABLE;
 }
 
 const SPDX_PATTERN = /^(CC-BY|CC0|MIT|Apache|GPL|BSD|public-domain)/i;
@@ -131,6 +160,31 @@ export function filterByDomain<T extends { domain: string }>(
 ): T[] {
   if (!domain) return rows;
   return rows.filter((r) => r.domain === domain);
+}
+
+/**
+ * 正準 ドメイン ID で絞り込む (エイリアス解決つき)。
+ * 例: filterByCanonicalDomain(rows, "economy") は domain==="economy" と
+ * domain==="macro" の両方を拾う。
+ */
+export function filterByCanonicalDomain<T extends { domain: string }>(
+  rows: T[],
+  domain: string | null | undefined,
+): T[] {
+  if (!domain) return rows;
+  return rows.filter((r) => canonicalDomain(r.domain) === domain);
+}
+
+/** 正準 ドメイン ID ごとの系列数 (macro→economy 等のエイリアスを畳み込む)。 */
+export function countByCanonicalDomain(
+  rows: Pick<Indicator, "domain">[],
+): Map<string, number> {
+  const counts = new Map<string, number>();
+  for (const r of rows) {
+    const key = canonicalDomain(r.domain);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return counts;
 }
 
 export function filterByStatus<T extends { status: SlaStatus }>(

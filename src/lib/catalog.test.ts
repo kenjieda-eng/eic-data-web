@@ -1,9 +1,12 @@
 import { describe, expect, test } from "vitest";
 import {
+  canonicalDomain,
+  countByCanonicalDomain,
   crossDomainLicense,
   daysSinceCutoff,
   domainOf,
   enrichIndicators,
+  filterByCanonicalDomain,
   filterByDomain,
   filterByFrequency,
   filterByStatus,
@@ -171,6 +174,55 @@ describe("Phase B-B Day 1: catalog 集計ヘルパ", () => {
       ja: "zzz-unknown",
       emoji: "❓",
     });
+  });
+
+  test("domainOf: 正準 12 ドメインを全て解決 (❓ を出さない)", () => {
+    for (const id of [
+      "power",
+      "fuel",
+      "finance",
+      "weather",
+      "esg",
+      "tech",
+      "geopolitics",
+      "regulation",
+      "population",
+      "corp_ir",
+      "international",
+      "economy",
+    ]) {
+      expect(domainOf(id).emoji).not.toBe("❓");
+      expect(domainOf(id).id).toBe(id);
+    }
+  });
+
+  test("domainOf / canonicalDomain: macro→economy, electricity→power のエイリアス解決", () => {
+    expect(canonicalDomain("macro")).toBe("economy");
+    expect(canonicalDomain("electricity")).toBe("power");
+    expect(domainOf("macro").id).toBe("economy");
+    expect(domainOf("macro").emoji).toBe("📊");
+    expect(domainOf("electricity").id).toBe("power");
+    // 旧 web 短縮 ID も防御的に解決
+    expect(canonicalDomain("geo")).toBe("geopolitics");
+    expect(canonicalDomain("ir")).toBe("corp_ir");
+    // 未知はそのまま返す
+    expect(canonicalDomain("zzz-unknown")).toBe("zzz-unknown");
+  });
+
+  test("filterByCanonicalDomain / countByCanonicalDomain: macro を economy に畳み込む", () => {
+    const rows = [
+      { domain: "economy" },
+      { domain: "macro" },
+      { domain: "macro" },
+      { domain: "power" },
+    ];
+    expect(filterByCanonicalDomain(rows, "economy")).toHaveLength(3);
+    expect(filterByCanonicalDomain(rows, "power")).toHaveLength(1);
+    expect(filterByCanonicalDomain(rows, null)).toHaveLength(4);
+    const counts = countByCanonicalDomain(rows);
+    expect(counts.get("economy")).toBe(3);
+    expect(counts.get("power")).toBe(1);
+    expect(counts.get("macro")).toBeUndefined();
   });
 
   test("crossDomainLicense: 行 domain × 列 license のクロス集計", () => {

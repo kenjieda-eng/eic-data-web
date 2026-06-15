@@ -9,16 +9,22 @@
  * Phase C 以降に追加される新 Insight に対してテンプレ整合性を保証する役割。
  */
 
+// 正準 12 ドメイン (pipeline catalog の実 domain ID に統一 — Polish #2 / 2026-06-15)。
+// 旧定義の "technology"/"policy" は catalog 実値の "tech"/"regulation" に揃え、
+// geopolitics / population / corp_ir を追加した。
 export const INSIGHT_DOMAINS = [
   "power",
-  "weather",
   "fuel",
   "finance",
+  "weather",
   "esg",
-  "technology",
+  "tech",
+  "geopolitics",
+  "regulation",
+  "population",
+  "corp_ir",
   "international",
   "economy",
-  "policy",
 ] as const;
 export type InsightDomain = (typeof INSIGHT_DOMAINS)[number];
 

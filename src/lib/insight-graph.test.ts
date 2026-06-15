@@ -6,6 +6,7 @@ import {
   insightEdgeWidth,
   insightNodeRadius,
 } from "./insight-graph";
+import { INSIGHT_DOMAINS } from "./insight-validator";
 import { INSIGHTS, type Insight } from "./insights";
 
 describe("/insight/network: insight-graph", () => {
@@ -192,20 +193,9 @@ describe("/insight/network: insight-graph", () => {
     expect(INSIGHT_DOMAIN_COLORS.other).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
-  test("buildInsightGraph: 各 node の domain は 5 種類 + other のいずれか", () => {
+  test("buildInsightGraph: 各 node の domain は正準 12 ドメイン + other のいずれか", () => {
     const g = buildInsightGraph();
-    const validDomains = new Set([
-      "power",
-      "weather",
-      "fuel",
-      "finance",
-      "other",
-      "esg",
-      "technology",
-      "international",
-      "economy",
-      "policy",
-    ]);
+    const validDomains = new Set<string>([...INSIGHT_DOMAINS, "other"]);
     for (const n of g.nodes) {
       expect(validDomains.has(n.domain)).toBe(true);
     }

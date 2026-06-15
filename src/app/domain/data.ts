@@ -156,20 +156,40 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     name: "経済",
     emoji: "📊",
     description:
-      "GDP・CPI・鉱工業生産・貿易などのマクロ経済指標を扱う編集軸ドメイン。catalog には Phase C 以降で順次追加予定（β 段階では未掲載）。Phase 3-B 第 2 弾（5/11 完走）で米 CPI / Fed Funds Rate / 米鉱工業生産の 3 系列が `macro` ドメインに着地済、Insight #40-#42 で景気サイクル × エネルギーの連結を進める。日本側マクロ（日銀短観・GDP 統計）は Phase C の D-013 メタデータ整備後に追加。",
-    insightKeywords: ["経済", "景気", "マクロ", "GDP", "CPI", "鉱工業"],
-    subcategories: [],
-    metaPage: true,
+      "日米のマクロ経済指標を扱うドメイン。日本側の CPI（前年比）・鉱工業生産指数に加え、catalog の `macro` 系列として米 CPI（総合 / 食料 / エネルギー）・Fed Funds Rate・米鉱工業生産・米雇用統計（非農業部門雇用者数・失業率）・日銀短観 DI（大企業 / 中小企業 × 製造 / 非製造）を内包し、計 13 系列を月次・四半期で揃える。景気サイクルと為替・燃料・電力市場の連結を読む土台となり、Insight #40-#42 の米マクロ × エネルギー連結シリーズを支える。",
+    insightKeywords: ["経済", "景気", "マクロ", "GDP", "CPI", "鉱工業", "短観", "雇用"],
+    subcategories: [
+      {
+        name: "日本マクロ（CPI・鉱工業生産）",
+        description: "総務省 CPI 前年比 / 経産省 鉱工業生産指数、月次",
+        matcher: (id) => id.startsWith("jpn-"),
+      },
+      {
+        name: "米国マクロ（CPI・金利・生産・雇用）",
+        description: "米 CPI / Fed Funds / 鉱工業生産 / 雇用統計、月次",
+        matcher: (id) => id.startsWith("us-"),
+      },
+      {
+        name: "日銀短観 DI（4 区分）",
+        description: "大企業 / 中小企業 × 製造業 / 非製造業、四半期",
+        matcher: (id) => id.startsWith("tankan-"),
+      },
+    ],
   },
   {
-    id: "policy",
+    id: "regulation",
     name: "制度",
     emoji: "📜",
     description:
-      "FIT/FIP（再エネ買取制度）、GX-ETS（排出量取引）、容量市場、系統運用ルール、原子力規制委員会の審査進捗など、エネルギー市場の構造を決める「制度」を扱う編集軸ドメイン。catalog には Phase C 以降で順次追加予定（β 段階では Insight 内の引用に留まる）。電源構成・燃料転換・再エネ導入ペースの長期トレンドを読み解く際の前提条件として、各 Insight から本ドメインを参照する設計。",
-    insightKeywords: ["制度", "FIT", "FIP", "GX", "ETS", "容量市場", "系統", "規制"],
-    subcategories: [],
-    metaPage: true,
+      "再エネ FIT（固定価格買取制度）の買取価格を一次データとするドメイン。太陽光（事業用）・陸上風力・小水力・地熱・木質バイオマスの電源別買取価格（円/kWh）を年度ごとに揃え、計 5 系列を収録する。GX-ETS（排出量取引）・容量市場・系統運用ルールなどエネルギー市場の構造を決める「制度」の編集軸であり、再エネ導入ペースや電源構成の長期トレンドを読み解く前提条件として各 Insight から参照される。",
+    insightKeywords: ["制度", "FIT", "FIP", "買取価格", "再エネ", "GX", "ETS", "容量市場", "系統", "規制"],
+    subcategories: [
+      {
+        name: "FIT 買取価格（電源別）",
+        description: "太陽光（事業用）/ 陸上風力 / 小水力 / 地熱 / 木質バイオマス、年度",
+        matcher: (id) => id.startsWith("fit-price-"),
+      },
+    ],
   },
 ];
 
@@ -184,7 +204,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "ESG / サステナ",
     emoji: "🌱",
     description:
-      "EU ETS（EU 排出量取引制度）の検証排出量を一次データとするドメイン。EUTL（EU Transaction Log）／欧州環境機関（EEA）由来で、EU 全体の部門別 8 系列と加盟国別の合計 31 系列、計 39 系列（2005-2025、年次、Mt-CO2e）を収録。日本の GX-ETS との比較や、脱炭素ペースの国際ベンチマークの土台となる。ライセンスは EEA 再利用ポリシー（出典明記で商用可）。",
+      "EU ETS（EU 排出量取引制度）の検証排出量と排出枠を一次データとするドメイン。EUTL（EU Transaction Log）／欧州環境機関（EEA）由来で、検証排出量（EU 全体の部門別 8 系列 + 加盟国別 31 系列）と排出枠（割当 EU 全体 + 加盟国別 32 系列・オークション 1 系列）を合わせ計 72 系列（2005-2025、年次、Mt-CO2e / 枠数）を収録。日本の GX-ETS との比較や、脱炭素ペースの国際ベンチマークの土台となる。ライセンスは EEA 再利用ポリシー（出典明記で商用可）。",
     insightKeywords: ["ESG", "排出量", "CO2", "脱炭素", "カーボン", "EU ETS", "排出枠", "GX"],
     subcategories: [
       {
@@ -198,6 +218,16 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         name: "加盟国別 合計検証排出量（31 か国）",
         description: "EU ETS 対象国の全部門合計（年次）",
         matcher: (id) => id.startsWith("eu-ets-emissions-country-"),
+      },
+      {
+        name: "排出枠 割当（EU 全体 + 加盟国別）",
+        description: "無償・有償割当の合計枠数（年次）",
+        matcher: (id) => id.startsWith("eu-ets-allowances-allocated"),
+      },
+      {
+        name: "排出枠 オークション量",
+        description: "EU 全体のオークション供給枠数（年次）",
+        matcher: (id) => id.startsWith("eu-ets-allowances-auctioned"),
       },
     ],
     // metaPage 削除（catalog 着地により実ドメイン化）
@@ -304,8 +334,84 @@ export const DOMAINS_DAY8: DomainPageMeta[] = [
   ...DOMAINS_DAY8_ADDITIONS,
 ];
 
+// Polish #2 (2026-06-15): 残る 2 ドメインを catalog 着地に合わせて整備。
+// geopolitics(財務省 貿易統計・輸入額 23 系列) と corp_ir(EDINET 電力 9 社 45 系列) を
+// 追加し、正準 12 ドメインを web の /domain 導線に出揃わせた。すべて metaPage は false。
+const DOMAINS_POLISH2_ADDITIONS: DomainPageMeta[] = [
+  {
+    id: "geopolitics",
+    name: "地政",
+    emoji: "🌏",
+    description:
+      "財務省 貿易統計を一次出典とする、日本のエネルギー輸入額を相手国別に追うドメイン。原油・LNG・石炭の 3 燃料について、主要相手国 + 合計の輸入額（月次・円）を計 23 系列で揃える。中東依存・ロシア産の動向・調達多角化など、エネルギー安全保障と地政学リスクを金額ベースで可視化し、Insight #77 日本のエネルギー輸入相手国・#78 原油一極化×LNG多様の土台となる。",
+    insightKeywords: ["地政", "エネルギー安全保障", "輸入", "原油", "LNG", "石炭", "中東", "ロシア"],
+    subcategories: [
+      {
+        name: "原油 輸入額（相手国別）",
+        description: "サウジ / UAE / カタール / クウェート / 米 等 + 合計、月次",
+        matcher: (id) => id.startsWith("jp-import-value-crude-"),
+      },
+      {
+        name: "LNG 輸入額（相手国別）",
+        description: "豪 / 米 / カタール / マレーシア / ロシア 等 + 合計、月次",
+        matcher: (id) => id.startsWith("jp-import-value-lng-"),
+      },
+      {
+        name: "石炭 輸入額（相手国別）",
+        description: "豪 / インドネシア / 米 / ロシア 等 + 合計、月次",
+        matcher: (id) => id.startsWith("jp-import-value-coal-"),
+      },
+    ],
+  },
+  {
+    id: "corp_ir",
+    name: "企業IR",
+    emoji: "📑",
+    description:
+      "EDINET（金融庁 有価証券報告書）を一次出典とする、電力大手 9 社の財務指標ドメイン。北海道・東北・東京・中部・北陸・関西・中国・四国・九州の各電力について、売上高・営業利益・経常利益・純利益・総資産の 5 指標を年次で揃え、計 45 系列を収録する。燃料費高騰局面の収益悪化と回復、規模と収益性のばらつきを横断比較でき、Insight #80 燃料危機×回復・#81 規模×収益性を支える。",
+    insightKeywords: ["企業IR", "電力会社", "財務", "売上高", "営業利益", "経常利益", "純利益", "EDINET"],
+    subcategories: [
+      {
+        name: "売上高（電力 9 社）",
+        description: "EDINET 有報 売上高、年次",
+        matcher: (id) => id.endsWith("-revenue"),
+      },
+      {
+        name: "営業利益（電力 9 社）",
+        description: "本業の利益、年次",
+        matcher: (id) => id.endsWith("-operating-income"),
+      },
+      {
+        name: "経常利益（電力 9 社）",
+        description: "金融損益込みの利益、年次",
+        matcher: (id) => id.endsWith("-ordinary-income"),
+      },
+      {
+        name: "純利益（電力 9 社）",
+        description: "当期純利益、年次",
+        matcher: (id) => id.endsWith("-net-income"),
+      },
+      {
+        name: "総資産（電力 9 社）",
+        description: "期末総資産、年次",
+        matcher: (id) => id.endsWith("-total-assets"),
+      },
+    ],
+  },
+];
+
+/**
+ * 正準 12 ドメインのページメタ全集合 (/domain 導線が参照する唯一の一覧)。
+ * pipeline catalog の実 domain ID (power/fuel/finance/weather/esg/tech/
+ * geopolitics/regulation/population/corp_ir/international/economy) に 1:1 で対応する。
+ */
+export const DOMAINS: DomainPageMeta[] = [
+  ...DOMAINS_DAY8,
+  ...DOMAINS_POLISH2_ADDITIONS,
+];
+
 export function getDomainById(id: string): DomainPageMeta | undefined {
-  return DOMAINS_DAY8.find((d) => d.id === id);
+  return DOMAINS.find((d) => d.id === id);
 }
 
 export function findRelatedInsightsForDomain(
