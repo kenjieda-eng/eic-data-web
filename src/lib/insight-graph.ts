@@ -56,17 +56,20 @@ export const INSIGHT_INDICATORS = [
 export type InsightIndicator = (typeof INSIGHT_INDICATORS)[number];
 const INDICATOR_SET = new Set<string>(INSIGHT_INDICATORS as readonly string[]);
 
-/** Insight domain → 日本語ラベル */
+/** Insight domain → 日本語ラベル (正準 12 ドメイン + other) */
 export const INSIGHT_DOMAIN_LABEL_JA: Record<InsightDomain | "other", string> = {
   power: "電力",
   weather: "気象",
   fuel: "燃料",
   finance: "金融",
   esg: "ESG",
-  technology: "技術",
+  tech: "技術",
+  geopolitics: "地政",
+  regulation: "制度",
+  population: "人口",
+  corp_ir: "企業IR",
   international: "国際",
   economy: "経済",
-  policy: "制度",
   other: "その他",
 };
 
@@ -74,6 +77,7 @@ export const INSIGHT_DOMAIN_LABEL_JA: Record<InsightDomain | "other", string> = 
  * domain → 色。/glossary/graph の 5 色パレットを共有:
  *   weather=sky / power=emerald / fuel=orange / finance=yellow / other=violet
  * (基本/制度/電力/燃料/金融 と同じ系統色で統一感を保つ)
+ * Polish #2 で追加した編集軸ドメインも other と同系の violet で統一する。
  */
 export const INSIGHT_DOMAIN_COLORS: Record<InsightDomain | "other", string> = {
   weather: "#0ea5e9", // sky-500 (glossary: basic)
@@ -81,12 +85,15 @@ export const INSIGHT_DOMAIN_COLORS: Record<InsightDomain | "other", string> = {
   fuel: "#f97316", // orange-500 (glossary: fuel)
   finance: "#eab308", // yellow-500 (glossary: finance)
   other: "#8b5cf6", // violet-500 (glossary: regulation)
-  // 以下は INSIGHTS では未使用だが domain 完全型のため定義
+  // 以下は主要 4 + other 以外の正準ドメイン (violet 系で統一)
   esg: "#8b5cf6",
-  technology: "#8b5cf6",
+  tech: "#8b5cf6",
+  geopolitics: "#8b5cf6",
+  regulation: "#8b5cf6",
+  population: "#8b5cf6",
+  corp_ir: "#8b5cf6",
   international: "#8b5cf6",
   economy: "#8b5cf6",
-  policy: "#8b5cf6",
 };
 
 export type InsightEdgeKind = "tag" | "indicator" | "region";

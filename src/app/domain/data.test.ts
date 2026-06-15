@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { INSIGHTS } from "../../lib/insights";
 import {
+  DOMAINS,
   DOMAINS_DAY6,
   DOMAINS_DAY7,
   DOMAINS_DAY8,
@@ -9,13 +10,30 @@ import {
   groupIndicatorsBySubcategory,
 } from "./data";
 
+// 正準 12 ドメイン (pipeline catalog の実 domain ID)。Polish #2 (2026-06-15) で
+// 旧 drift ID (policy 等) を解消し、geopolitics / corp_ir を追加して 12 を出揃わせた。
+const CANONICAL_DOMAIN_IDS = [
+  "power",
+  "weather",
+  "fuel",
+  "finance",
+  "economy",
+  "regulation",
+  "esg",
+  "tech",
+  "international",
+  "population",
+  "geopolitics",
+  "corp_ir",
+];
+
 describe("DOMAINS_DAY6", () => {
   test("contains 3 domains (power + weather + fuel)", () => {
     expect(DOMAINS_DAY6).toHaveLength(3);
     expect(DOMAINS_DAY6.map((d) => d.id)).toEqual(["power", "weather", "fuel"]);
   });
 
-  test("every domain has non-empty description (200+ chars)", () => {
+  test("every domain has non-empty description (150+ chars)", () => {
     for (const d of DOMAINS_DAY6) {
       expect(d.name.length).toBeGreaterThan(0);
       expect(d.emoji.length).toBeGreaterThan(0);
@@ -27,7 +45,7 @@ describe("DOMAINS_DAY6", () => {
 });
 
 describe("DOMAINS_DAY7", () => {
-  test("contains 6 domains (Day 6 末 3 件 + Day 7 追加 3 件)", () => {
+  test("contains 6 domains (Day 6 末 3 件 + finance/economy/regulation)", () => {
     expect(DOMAINS_DAY7).toHaveLength(6);
     expect(DOMAINS_DAY7.map((d) => d.id)).toEqual([
       "power",
@@ -35,26 +53,8 @@ describe("DOMAINS_DAY7", () => {
       "fuel",
       "finance",
       "economy",
-      "policy",
+      "regulation",
     ]);
-  });
-
-  test("DOMAINS_DAY6 is fully contained in DOMAINS_DAY7", () => {
-    const day7Ids = new Set(DOMAINS_DAY7.map((d) => d.id));
-    for (const d of DOMAINS_DAY6) {
-      expect(day7Ids.has(d.id)).toBe(true);
-    }
-  });
-
-  test("each Day 7 addition has description >= 150 chars and >= 1 insightKeyword", () => {
-    const additions = DOMAINS_DAY7.filter(
-      (d) => !DOMAINS_DAY6.some((p) => p.id === d.id),
-    );
-    expect(additions).toHaveLength(3);
-    for (const d of additions) {
-      expect(d.description.length).toBeGreaterThanOrEqual(150);
-      expect(d.insightKeywords.length).toBeGreaterThan(0);
-    }
   });
 
   test("finance has 3 subcategories (USD/JPY + JGB + US Treasury)", () => {
@@ -69,16 +69,19 @@ describe("DOMAINS_DAY7", () => {
     ]);
   });
 
-  test("economy and policy are flagged as metaPage (catalog 不在)", () => {
-    expect(getDomainById("economy")?.metaPage).toBe(true);
-    expect(getDomainById("policy")?.metaPage).toBe(true);
-    expect(getDomainById("economy")?.subcategories).toHaveLength(0);
-    expect(getDomainById("policy")?.subcategories).toHaveLength(0);
+  test("economy / regulation は catalog 着地済 (metaPage なし・subcategories あり)", () => {
+    // economy は catalog の economy(2) + macro(11) を内包し metaPage ではない
+    expect(getDomainById("economy")?.metaPage).toBeFalsy();
+    expect(getDomainById("economy")?.subcategories.length).toBeGreaterThan(0);
+    // policy は regulation に正準化され FIT 買取価格 5 系列で着地
+    expect(getDomainById("policy")).toBeUndefined();
+    expect(getDomainById("regulation")?.metaPage).toBeFalsy();
+    expect(getDomainById("regulation")?.subcategories.length).toBeGreaterThan(0);
   });
 });
 
 describe("DOMAINS_DAY8", () => {
-  test("contains 10 domains (Day 7 末 6 件 + Day 8 追加 4 件)", () => {
+  test("contains 10 domains (Day 7 末 6 件 + esg/tech/international/population)", () => {
     expect(DOMAINS_DAY8).toHaveLength(10);
     expect(DOMAINS_DAY8.map((d) => d.id)).toEqual([
       "power",
@@ -86,7 +89,7 @@ describe("DOMAINS_DAY8", () => {
       "fuel",
       "finance",
       "economy",
-      "policy",
+      "regulation",
       "esg",
       "tech",
       "international",
@@ -94,28 +97,10 @@ describe("DOMAINS_DAY8", () => {
     ]);
   });
 
-  test("DOMAINS_DAY7 is fully contained in DOMAINS_DAY8", () => {
-    const day8Ids = new Set(DOMAINS_DAY8.map((d) => d.id));
-    for (const d of DOMAINS_DAY7) {
-      expect(day8Ids.has(d.id)).toBe(true);
-    }
-  });
-
-  test("each Day 8 addition has description >= 150 chars and >= 1 insightKeyword", () => {
-    const additions = DOMAINS_DAY8.filter(
-      (d) => !DOMAINS_DAY7.some((p) => p.id === d.id),
-    );
-    expect(additions).toHaveLength(4);
-    for (const d of additions) {
-      expect(d.description.length).toBeGreaterThanOrEqual(150);
-      expect(d.insightKeywords.length).toBeGreaterThan(0);
-    }
-  });
-
-  test("Day 8 のうち tech / population は catalog 着地、esg は EU ETS で catalog 着地、international は Phase 2 で catalog 着地", () => {
+  test("esg は EU ETS 排出量 + 排出枠で 4 subcategory, tech/population も着地", () => {
     expect(getDomainById("esg")?.metaPage).toBeFalsy();
+    expect(getDomainById("esg")?.subcategories).toHaveLength(4);
     expect(getDomainById("tech")?.metaPage).toBeFalsy();
-    expect(getDomainById("esg")?.subcategories).toHaveLength(2);
     expect(getDomainById("tech")?.subcategories).toHaveLength(3);
     expect(getDomainById("population")?.metaPage).toBeFalsy();
     expect(getDomainById("population")?.subcategories).toHaveLength(3);
@@ -124,43 +109,57 @@ describe("DOMAINS_DAY8", () => {
       getDomainById("international")?.subcategories.length,
     ).toBeGreaterThan(0);
   });
+});
 
-  test("tech / population 着地で 10 ドメイン: catalog 系列を持つ 8 件 + メタ 2 件", () => {
-    const withCatalog = DOMAINS_DAY8.filter((d) => !d.metaPage);
-    const metaOnly = DOMAINS_DAY8.filter((d) => d.metaPage);
-    expect(withCatalog.map((d) => d.id).sort()).toEqual([
-      "esg",
-      "finance",
-      "fuel",
-      "international",
-      "population",
-      "power",
-      "tech",
-      "weather",
-    ]);
-    expect(metaOnly.map((d) => d.id).sort()).toEqual([
-      "economy",
-      "policy",
-    ]);
+describe("DOMAINS (正準 12 ドメイン)", () => {
+  test("contains 12 domains 全て catalog 着地済 (metaPage は皆無)", () => {
+    expect(DOMAINS).toHaveLength(12);
+    expect(DOMAINS.map((d) => d.id)).toEqual(CANONICAL_DOMAIN_IDS);
+    for (const d of DOMAINS) {
+      expect(d.metaPage).toBeFalsy();
+      expect(d.subcategories.length).toBeGreaterThan(0);
+      expect(d.description.length).toBeGreaterThanOrEqual(150);
+      expect(d.insightKeywords.length).toBeGreaterThan(0);
+    }
+  });
+
+  test("DOMAINS_DAY8 is fully contained in DOMAINS, geopolitics/corp_ir が追加分", () => {
+    const allIds = new Set(DOMAINS.map((d) => d.id));
+    for (const d of DOMAINS_DAY8) {
+      expect(allIds.has(d.id)).toBe(true);
+    }
+    const additions = DOMAINS.filter(
+      (d) => !DOMAINS_DAY8.some((p) => p.id === d.id),
+    );
+    expect(additions.map((d) => d.id).sort()).toEqual(["corp_ir", "geopolitics"]);
+  });
+
+  test("domain id に重複なし", () => {
+    const ids = DOMAINS.map((d) => d.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 
 describe("getDomainById", () => {
-  test("returns the domain when id matches", () => {
+  test("正準 12 ドメインの id で name を解決", () => {
     expect(getDomainById("power")?.name).toBe("電力");
     expect(getDomainById("weather")?.emoji).toBe("🌤️");
     expect(getDomainById("finance")?.name).toBe("金融");
     expect(getDomainById("economy")?.name).toBe("経済");
-    expect(getDomainById("policy")?.name).toBe("制度");
+    expect(getDomainById("regulation")?.name).toBe("制度");
     expect(getDomainById("esg")?.name).toBe("ESG / サステナ");
     expect(getDomainById("tech")?.name).toBe("技術");
     expect(getDomainById("international")?.name).toBe("国際");
     expect(getDomainById("population")?.name).toBe("人口");
+    expect(getDomainById("geopolitics")?.name).toBe("地政");
+    expect(getDomainById("corp_ir")?.name).toBe("企業IR");
   });
 
-  test("returns undefined for unknown id (12 候補のうち未着手の 2 ドメイン)", () => {
-    expect(getDomainById("geopolitics")).toBeUndefined();
+  test("旧 drift ID は解決しない (canonical 化済)", () => {
+    expect(getDomainById("policy")).toBeUndefined();
     expect(getDomainById("ir")).toBeUndefined();
+    expect(getDomainById("geo")).toBeUndefined();
+    expect(getDomainById("econ")).toBeUndefined();
   });
 });
 
@@ -194,6 +193,19 @@ describe("findRelatedInsightsForDomain", () => {
     const slugs = related.map((i) => i.slug);
     expect(slugs.some((s) => s.includes("yield") || s.includes("jgb") || s.includes("usdjpy") || s.includes("treasury"))).toBe(true);
   });
+
+  test("corp_ir / geopolitics domain も代表 Insight を拾う", () => {
+    const corpIr = getDomainById("corp_ir")!;
+    const corpRelated = findRelatedInsightsForDomain(corpIr, INSIGHTS, 100);
+    expect(
+      corpRelated.some((i) => i.slug.startsWith("power9-")),
+    ).toBe(true);
+    const geo = getDomainById("geopolitics")!;
+    const geoRelated = findRelatedInsightsForDomain(geo, INSIGHTS, 100);
+    expect(
+      geoRelated.some((i) => i.slug === "jp-energy-import-sources"),
+    ).toBe(true);
+  });
 });
 
 describe("groupIndicatorsBySubcategory", () => {
@@ -210,6 +222,22 @@ describe("groupIndicatorsBySubcategory", () => {
     expect(new Set(allIds).size).toBe(allIds.length);
     expect(allIds).toContain("jepx-spot-tokyo");
     expect(allIds).toContain("meti-gen-thermal");
+  });
+
+  test("corp_ir: edinet 系列を指標別 5 subcategory に振り分け", () => {
+    const corpIr = getDomainById("corp_ir")!;
+    const rows = [
+      { id: "edinet-tepco-revenue" },
+      { id: "edinet-tepco-operating-income" },
+      { id: "edinet-tepco-ordinary-income" },
+      { id: "edinet-tepco-net-income" },
+      { id: "edinet-tepco-total-assets" },
+    ];
+    const groups = groupIndicatorsBySubcategory(corpIr, rows);
+    const allIds = groups.flatMap((g) => g.rows.map((r) => r.id));
+    // 5 系列が重複なく全て分類される (ordinary/operating/net の -income 衝突なし)
+    expect(new Set(allIds).size).toBe(5);
+    expect(groups).toHaveLength(5);
   });
 
   test("empty subcategories are filtered out", () => {

@@ -5,14 +5,14 @@ import Container from "@/components/Container";
 import {
   enrichIndicators,
   fetchCatalog,
-  filterByDomain,
+  filterByCanonicalDomain,
 } from "@/lib/catalog";
 import DomainHeader from "../components/DomainHeader";
 import DomainIndicatorTable from "../components/DomainIndicatorTable";
 import DomainInsights from "../components/DomainInsights";
 import DomainQualitySummary from "../components/DomainQualitySummary";
 import {
-  DOMAINS_DAY8,
+  DOMAINS,
   findRelatedInsightsForDomain,
   getDomainById,
 } from "../data";
@@ -22,7 +22,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return DOMAINS_DAY8.map((d) => ({ id: d.id }));
+  return DOMAINS.map((d) => ({ id: d.id }));
 }
 
 export const dynamicParams = false;
@@ -48,7 +48,8 @@ export default async function DomainPage({ params }: PageProps) {
 
   const catalog = await fetchCatalog();
   const enriched = enrichIndicators(catalog.indicators);
-  const rows = filterByDomain(enriched, meta.id);
+  // canonical 解決つきで絞り込む (economy は catalog の macro 系列も内包する)。
+  const rows = filterByCanonicalDomain(enriched, meta.id);
   const related = findRelatedInsightsForDomain(meta);
 
   return (

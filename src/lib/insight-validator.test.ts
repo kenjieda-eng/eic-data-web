@@ -94,10 +94,28 @@ describe("Phase C Day 1: validateInsightFrontmatter", () => {
     ).toBe(true);
   });
 
-  test("INSIGHT_DOMAINS が 9 ドメイン全列挙", () => {
-    expect(INSIGHT_DOMAINS).toHaveLength(9);
-    expect(INSIGHT_DOMAINS).toContain("finance");
-    expect(INSIGHT_DOMAINS).toContain("esg");
+  test("INSIGHT_DOMAINS が正準 12 ドメイン全列挙 (Polish #2 で 9 → 12)", () => {
+    expect(INSIGHT_DOMAINS).toHaveLength(12);
+    // catalog 実値に揃えた正準 ID
+    for (const d of [
+      "power",
+      "fuel",
+      "finance",
+      "weather",
+      "esg",
+      "tech",
+      "geopolitics",
+      "regulation",
+      "population",
+      "corp_ir",
+      "international",
+      "economy",
+    ]) {
+      expect(INSIGHT_DOMAINS).toContain(d);
+    }
+    // 旧 drift ID は廃止済
+    expect(INSIGHT_DOMAINS as readonly string[]).not.toContain("technology");
+    expect(INSIGHT_DOMAINS as readonly string[]).not.toContain("policy");
   });
 
   test("INSIGHT_RENDERERS が 6 種列挙", () => {

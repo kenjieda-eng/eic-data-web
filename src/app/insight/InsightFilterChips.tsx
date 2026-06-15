@@ -27,10 +27,13 @@ const DOMAIN_LABELS: Record<InsightDomain, string> = {
   fuel: "燃料",
   finance: "金融",
   esg: "ESG",
-  technology: "技術",
+  tech: "技術",
+  geopolitics: "地政",
+  regulation: "制度",
+  population: "人口",
+  corp_ir: "企業IR",
   international: "国際",
   economy: "経済",
-  policy: "制度",
 };
 
 export default function InsightFilterChips({
