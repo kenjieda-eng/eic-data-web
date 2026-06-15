@@ -657,6 +657,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["金融庁 EDINET"],
     updated: "2026-06-14",
   },
+  {
+    slug: "eu-emissions-by-country-trend",
+    title: "EU各国の脱炭素20年：最も減らしたのは誰か",
+    lede: "EU ETS の対象排出量を加盟国は2005年から軒並み削減。最大減はフランス(-58%)・英国(-57%)、最も鈍いのはオランダ(-14%)。同じEUでも脱炭素のペースは国で大きく違う。",
+    tags: ["ESG", "国際", "EU ETS", "排出量", "脱炭素"],
+    sources: ["EEA EU ETS Data Viewer"],
+    updated: "2026-06-15",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

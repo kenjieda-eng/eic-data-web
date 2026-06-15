@@ -115,6 +115,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "fit-price-by-source": "ChartLine",
   "power9-fuel-crisis-recovery": "ChartLine",
   "power9-revenue-vs-margin": "ChartLine",
+  "eu-emissions-by-country-trend": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
