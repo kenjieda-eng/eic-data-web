@@ -673,6 +673,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["金融庁 EDINET"],
     updated: "2026-06-16",
   },
+  {
+    slug: "fuel-crisis-2022",
+    title: "2022エネルギー危機で最も暴れたのは石炭：輸入燃料の値動き",
+    lede: "2022年のエネルギー危機。原油は2.4倍、LNGは2.2倍に上がったが、最も激しく動いたのは石炭——豪州石炭は2020年比5.7倍(指数567)に急騰しその後反落。電力損益V字の入力側を輸入燃料で読む。",
+    tags: ["燃料", "石炭", "LNG", "原油", "エネルギー危機", "火力"],
+    sources: ["World Bank Pink Sheet"],
+    updated: "2026-06-16",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

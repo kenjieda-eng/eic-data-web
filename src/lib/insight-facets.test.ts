@@ -20,14 +20,14 @@ describe("Phase C Day 1: insight-facets", () => {
     expect(["weather", "power"]).toContain(getInsightDomain(energy));
   });
 
-  test("INSIGHT_RENDERER_MAP: 82 本全 slug がマップに含まれる (5/31 方法論ライブラリ Day 3 #72 forecast-error-baseline-jepx 追加で 71、6/7 #73 population-decline-vs-power-demand 追加で 72、6/8 #74 lcoe-vs-power-mix 追加で 73、6/9 #75 eu-ets-vs-jp-gx 追加で 74、6/10 #76 eu-ets-allocation-gap-by-country 追加で 75、6/11 #77 jp-energy-import-sources 追加で 76、6/12 #78 jp-energy-import-trend 追加で 77、6/13 #79 fit-price-by-source 追加で 78、6/13 #80 power9-fuel-crisis-recovery 追加で 79、6/14 #81 power9-revenue-vs-margin 追加で 80、6/15 #82 eu-emissions-by-country-trend 追加で 81、6/16 #83 power9-total-assets 追加で 82)", () => {
+  test("INSIGHT_RENDERER_MAP: 83 本全 slug がマップに含まれる (5/31 方法論ライブラリ Day 3 #72 forecast-error-baseline-jepx 追加で 71、6/7 #73 population-decline-vs-power-demand 追加で 72、6/8 #74 lcoe-vs-power-mix 追加で 73、6/9 #75 eu-ets-vs-jp-gx 追加で 74、6/10 #76 eu-ets-allocation-gap-by-country 追加で 75、6/11 #77 jp-energy-import-sources 追加で 76、6/12 #78 jp-energy-import-trend 追加で 77、6/13 #79 fit-price-by-source 追加で 78、6/13 #80 power9-fuel-crisis-recovery 追加で 79、6/14 #81 power9-revenue-vs-margin 追加で 80、6/15 #82 eu-emissions-by-country-trend 追加で 81、6/16 #83 power9-total-assets 追加で 82、6/16 #84 fuel-crisis-2022 追加で 83)", () => {
     const mappedSlugs = new Set(Object.keys(INSIGHT_RENDERER_MAP));
     const insightsSlugs = new Set(INSIGHTS.map((i) => i.slug));
     for (const slug of insightsSlugs) {
       expect(mappedSlugs.has(slug), `slug ${slug} は map に未登録`).toBe(true);
     }
-    expect(INSIGHTS.length).toBe(82);
-    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(82);
+    expect(INSIGHTS.length).toBe(83);
+    expect(Object.keys(INSIGHT_RENDERER_MAP)).toHaveLength(83);
   });
 
   test("getInsightRenderer: 各 slug に正しい renderer を返す", () => {
@@ -84,10 +84,10 @@ describe("Phase C Day 1: insight-facets", () => {
     ]);
   });
 
-  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合 (5/31 方法論ライブラリ Day 3 #72 forecast-error-baseline-jepx 追加で all 71 / power は「電力」タグで +1、6/7 #73 population-decline-vs-power-demand 追加で all 71 → 72 / power は「電力」タグでさらに +1、6/8 #74 lcoe-vs-power-mix 追加で all 72 → 73 / power は「電力」タグでさらに +1、6/9 #75 eu-ets-vs-jp-gx 追加で all 73 → 74 / power は「電力」タグでさらに +1、6/10 #76 eu-ets-allocation-gap-by-country 追加で all 74 → 75 / power は「電力」タグでさらに +1、6/11 #77 jp-energy-import-sources 追加で all 75 → 76 / power は「電力」タグ無しで不変、finance は不変、6/12 #78 jp-energy-import-trend 追加で all 76 → 77 / power は「電力」タグ無しで不変、finance は不変、6/13 #79 fit-price-by-source 追加で all 77 → 78 / power は「電力」タグ無しで不変、finance は不変、6/13 #80 power9-fuel-crisis-recovery 追加で all 78 → 79 / tags は domain 非該当で power・finance とも不変、6/14 #81 power9-revenue-vs-margin 追加で all 79 → 80 / tags は domain 非該当で power・finance とも不変、6/15 #82 eu-emissions-by-country-trend 追加で all 80 → 81 / tags(ESG/国際) は domain 非該当で power・finance とも不変、6/16 #83 power9-total-assets 追加で all 81 → 82 / tags(企業IR=corp_ir) は power・finance 非該当で両者不変)", () => {
+  test("summarizeInsightFacets: domains には all + 出現 domain のみ、count 整合 (5/31 方法論ライブラリ Day 3 #72 forecast-error-baseline-jepx 追加で all 71 / power は「電力」タグで +1、6/7 #73 population-decline-vs-power-demand 追加で all 71 → 72 / power は「電力」タグでさらに +1、6/8 #74 lcoe-vs-power-mix 追加で all 72 → 73 / power は「電力」タグでさらに +1、6/9 #75 eu-ets-vs-jp-gx 追加で all 73 → 74 / power は「電力」タグでさらに +1、6/10 #76 eu-ets-allocation-gap-by-country 追加で all 74 → 75 / power は「電力」タグでさらに +1、6/11 #77 jp-energy-import-sources 追加で all 75 → 76 / power は「電力」タグ無しで不変、finance は不変、6/12 #78 jp-energy-import-trend 追加で all 76 → 77 / power は「電力」タグ無しで不変、finance は不変、6/13 #79 fit-price-by-source 追加で all 77 → 78 / power は「電力」タグ無しで不変、finance は不変、6/13 #80 power9-fuel-crisis-recovery 追加で all 78 → 79 / tags は domain 非該当で power・finance とも不変、6/14 #81 power9-revenue-vs-margin 追加で all 79 → 80 / tags は domain 非該当で power・finance とも不変、6/15 #82 eu-emissions-by-country-trend 追加で all 80 → 81 / tags(ESG/国際) は domain 非該当で power・finance とも不変、6/16 #83 power9-total-assets 追加で all 81 → 82 / tags(企業IR=corp_ir) は power・finance 非該当で両者不変、6/16 #84 fuel-crisis-2022 追加で all 82 → 83 / tags(燃料/石炭/LNG/原油) は fuel domain に乗り power・finance 非該当で両者不変)", () => {
     const facets = summarizeInsightFacets(INSIGHTS);
     const all = facets.domains.find((d) => d.value === "all");
-    expect(all?.count).toBe(82);
+    expect(all?.count).toBe(83);
     const finance = facets.domains.find((d) => d.value === "finance");
     expect(finance?.count).toBe(18);
   });
