@@ -665,6 +665,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EEA EU ETS Data Viewer"],
     updated: "2026-06-15",
   },
+  {
+    slug: "power9-total-assets",
+    title: "電力9社の巨大設備：売上の2倍超、10年で2〜4割増えた総資産",
+    lede: "電力会社は資本集約産業。大手9社の総資産は売上の1.9〜2.85倍、しかも10年で20〜42%増えた。最大は中国電力+42%、最小は東京HD+10%（福島負担で投資余力に制約）。",
+    tags: ["企業IR", "電力会社", "財務", "総資産", "資本集約", "火力"],
+    sources: ["金融庁 EDINET"],
+    updated: "2026-06-16",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
