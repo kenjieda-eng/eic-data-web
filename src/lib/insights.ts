@@ -681,6 +681,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["World Bank Pink Sheet"],
     updated: "2026-06-16",
   },
+  {
+    slug: "coal-phaseout-5countries",
+    title: "脱石炭の通信簿：英国ゼロ、日本だけ止まったまま — 主要5か国の石炭シェア10年",
+    lede: "電気に占める石炭の割合はこの10年でどう動いたか。英国は25.5%→0.0%でゼロ達成、独・米はほぼ半減、中国も72%→56%へ低下。だが日本は30%→29%でほぼ横ばいで、先進国の中で唯一止まっている。Ember月次の年平均で読む。",
+    tags: ["国際", "電力", "電源構成", "脱炭素", "石炭", "Ember"],
+    sources: ["Ember Monthly Electricity Data"],
+    updated: "2026-06-17",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
