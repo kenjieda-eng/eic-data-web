@@ -689,6 +689,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data"],
     updated: "2026-06-17",
   },
+  {
+    slug: "renewables-rise-5countries",
+    title: "石炭が抜けた先：風力＋太陽光シェアの10年 — 英独の急伸、日本の出遅れ",
+    lede: "脱石炭の裏側。電気に占める風力＋太陽光の割合はこの10年で、英国16%→43%・ドイツ20%→47%と急伸し、抜けた石炭をほぼ1対1で置き換えた。米中も伸ばす中、日本は7%(2018)→12%で最も出遅れ——とくに風力が1.4%とほぼ存在しない。",
+    tags: ["国際", "電力", "再エネ", "電源構成", "脱炭素", "Ember"],
+    sources: ["Ember Monthly Electricity Data"],
+    updated: "2026-06-18",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
