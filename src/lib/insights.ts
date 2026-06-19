@@ -697,6 +697,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data"],
     updated: "2026-06-18",
   },
+  {
+    slug: "gas-share-5countries",
+    title: "石炭の代わりにガスが来たのか：天然ガスシェアの10年 — 主役は米国だけ",
+    lede: "脱石炭3部作の締め。電気に占める天然ガスのシェアを主要5か国で10年並べると、ガスが主役なのは米国(約40%)だけ。英・日はガス大国だが再エネ・原子力に押されて縮小、独は低位、中はほぼゼロ。この10年の脱石炭の主役はガスではなく再エネだった。",
+    tags: ["国際", "電力", "電源構成", "脱炭素", "ガス", "Ember"],
+    sources: ["Ember Monthly Electricity Data"],
+    updated: "2026-06-19",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
