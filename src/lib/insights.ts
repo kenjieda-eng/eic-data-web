@@ -705,6 +705,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data"],
     updated: "2026-06-19",
   },
+  {
+    slug: "power9-roa",
+    title: "巨大な資産で、どれだけ稼ぐか：電力9社のROA10年 — 規模最大の東京HDが効率は最下位",
+    lede: "純利益÷総資産＝ROAで電力9社の資本効率を10年。資本集約ゆえ平常時でも1〜5%と低く、2022年度の燃料危機では9社中7社が赤字に。FY2024で最高は原発を持つ関西4.4%、最低は資産最大の東京HD1.1%。規模と効率は一致しない。",
+    tags: ["企業IR", "電力会社", "財務", "ROA", "資本効率", "火力"],
+    sources: ["金融庁 EDINET"],
+    updated: "2026-06-20",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
