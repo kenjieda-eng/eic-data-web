@@ -214,6 +214,13 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
               </a>
               <span aria-hidden>／</span>
               <a
+                href="https://bess-net.jp/"
+                className="underline hover:text-emerald-700"
+              >
+                姉妹: bess-net
+              </a>
+              <span aria-hidden>／</span>
+              <a
                 href="https://github.com/kenjieda-eng/eic-data-pipeline"
                 className="underline hover:text-emerald-700"
               >
