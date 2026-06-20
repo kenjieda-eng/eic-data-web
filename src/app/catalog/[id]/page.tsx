@@ -14,6 +14,7 @@ import CitationButton from "@/components/CitationButton";
 import EmbedCodeCopy from "@/components/EmbedCodeCopy";
 import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
 import DependsOnPanel from "../components/DependsOnPanel";
+import { getInsightsForSeries } from "@/lib/insight-series-map";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -123,6 +124,7 @@ export default async function IndicatorPage({ params }: PageProps) {
     .map((dep) => getIndicatorById(catalog, dep))
     .filter((x): x is NonNullable<typeof x> => Boolean(x));
   const dependents = getDependentIndicators(catalog, indicator.id);
+  const relatedInsights = getInsightsForSeries(indicator.id);
   const dom = domainOf(indicator.domain);
   const datasetJsonLd = buildDatasetJsonLd(indicator);
 
@@ -170,6 +172,26 @@ export default async function IndicatorPage({ params }: PageProps) {
           dependents={dependents}
         />
       </div>
+
+      {relatedInsights.length > 0 && (
+        <section className="mt-6 rounded border border-slate-200 bg-white p-4">
+          <h2 className="text-sm font-semibold text-ink">
+            <span aria-hidden>📈</span> この系列を使った Insight
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {relatedInsights.map((ins) => (
+              <li key={ins.slug}>
+                <Link
+                  href={`/insight/${ins.slug}`}
+                  className="text-[13px] leading-relaxed text-emerald-700 underline hover:text-emerald-800"
+                >
+                  {ins.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="mt-6 space-y-4">
         <CitationButton
