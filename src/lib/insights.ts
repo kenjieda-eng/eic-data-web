@@ -713,6 +713,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["金融庁 EDINET"],
     updated: "2026-06-20",
   },
+  {
+    slug: "co2-intensity-trend-5countries",
+    title: "電気は実際どれだけきれいになったか：CO2強度の10年 — 英国は半減、日本は1割減",
+    lede: "脱石炭3部作の締め。石炭が抜け(#85)、風力＋太陽光が増えた(#86)結果、各国の電気はどれだけクリーンになったか。CO2強度(gCO2/kWh)を5か国で10年並べると、英国は428→203と半減(-53%)、電源構成を動かさなかった日本は-12%にとどまり中国に次ぐ2番目に高い。電源構成を変えた国ほど電気がきれいになった。",
+    tags: ["国際", "電力", "脱炭素", "電源構成", "CO2", "Ember"],
+    sources: ["Ember Monthly Electricity Data"],
+    updated: "2026-06-21",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
