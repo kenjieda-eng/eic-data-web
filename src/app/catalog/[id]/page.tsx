@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
 import {
+  buildIndicatorSummary,
   domainOf,
   fetchCatalog,
   getDependentIndicators,
@@ -35,7 +36,10 @@ export async function generateMetadata({
     return { title: "系列が見つかりません — EIC Data" };
   }
   const title = `${indicator.name} (${indicator.id}) — EIC Data`;
-  const description = `D-011 メタデータ: ${indicator.name}。出典 ${indicator.source_name}、頻度 ${indicator.frequency}、ライセンス ${indicator.license}。`;
+  // T2-1: テンプレ1文を廃し、メタデータ由来の固有プローズを ~150 字に丸めて使う。
+  const summary = buildIndicatorSummary(indicator);
+  const description =
+    summary.length <= 150 ? summary : `${summary.slice(0, 149)}…`;
   const ogUrl = `/api/og/catalog/${indicator.id}`;
   return {
     title,
@@ -126,6 +130,7 @@ export default async function IndicatorPage({ params }: PageProps) {
   const dependents = getDependentIndicators(catalog, indicator.id);
   const relatedInsights = getInsightsForSeries(indicator.id);
   const dom = domainOf(indicator.domain);
+  const summary = buildIndicatorSummary(indicator);
   const datasetJsonLd = buildDatasetJsonLd(indicator);
 
   return (
@@ -153,11 +158,8 @@ export default async function IndicatorPage({ params }: PageProps) {
           <span aria-hidden>{dom.emoji}</span> {dom.ja} ／{" "}
           <code className="tabular-nums text-faint">{indicator.id}</code>
         </p>
-        {indicator.notes && (
-          <p className="mt-2 text-[12px] text-subink leading-relaxed bg-slate-50 border border-slate-200 rounded px-3 py-2">
-            {indicator.notes}
-          </p>
-        )}
+        {/* T2-1: 系列固有の概要プローズ（notes を内包するため単独の notes 表示は廃止）。 */}
+        <p className="mt-3 text-sm text-subink leading-relaxed">{summary}</p>
       </header>
 
       <div className="space-y-4">

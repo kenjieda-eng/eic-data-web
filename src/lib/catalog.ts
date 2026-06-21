@@ -316,6 +316,65 @@ export function filterByFrequency<T extends { frequency: string }>(
   return rows.filter((r) => r.frequency === frequency);
 }
 
+// =============================================================================
+// SEO T2-1: catalog 個別ページ向け 独自プローズ生成
+// 「テンプレ1文」を廃し、メタデータ由来の固有概要文を組み立てる（薄さ・重複緩和）。
+// per-series の時系列 CSV は読まず、catalog メタデータのみを使用。
+// =============================================================================
+
+// catalog `indicators.json` の実在 frequency は annual/daily/monthly/quarterly の 4 値。
+// weekly は将来追加に備えた防御的マッピング。未知値は原値フォールバック。
+const FREQUENCY_JA: Record<string, string> = {
+  daily: "日次",
+  weekly: "週次",
+  monthly: "月次",
+  quarterly: "四半期",
+  annual: "年次",
+};
+
+/** frequency 文字列を日本語化。未知値はそのまま返す。 */
+export function frequencyJa(freq: string | undefined | null): string {
+  if (!freq) return "";
+  return FREQUENCY_JA[freq] ?? freq;
+}
+
+/**
+ * indicator のメタデータから固有の概要文を組み立てる（graceful、欠損はスキップ）。
+ * notes は系列ごとに最も独自性が高いシグナルなのでそのまま 1 文として活かす。
+ */
+export function buildIndicatorSummary(indicator: Indicator): string {
+  const sentences: string[] = [];
+  const name = indicator.name || indicator.id;
+
+  // 1) 誰が・どの頻度で・どの単位で公表する系列か
+  if (indicator.source_name) {
+    const freq = frequencyJa(indicator.frequency);
+    const freqClause = freq ? `${freq}で公表する` : "公表する";
+    const unitClause = indicator.unit ? ` ${indicator.unit} の系列` : "系列";
+    sentences.push(`${name}は、${indicator.source_name}が${freqClause}${unitClause}です。`);
+  } else {
+    const unitClause = indicator.unit ? `${indicator.unit} の系列` : "系列";
+    sentences.push(`${name}は${unitClause}です。`);
+  }
+
+  // 2) カバー期間（backfill_start〜observation_cutoff の両方が揃うときのみ）
+  if (indicator.backfill_start && indicator.observation_cutoff) {
+    sentences.push(`${indicator.backfill_start}〜${indicator.observation_cutoff}をカバー。`);
+  }
+
+  // 3) notes（最も固有性が高い。末尾の句点を整えて 1 文として追記）
+  if (indicator.notes) {
+    const n = indicator.notes.trim();
+    if (n) sentences.push(/[。.．]$/.test(n) ? n : `${n}。`);
+  }
+
+  // 4) ドメイン + 共通の信頼シグナル
+  const dom = domainOf(indicator.domain);
+  sentences.push(`${dom.ja}ドメイン。一次出典付き・無料。`);
+
+  return sentences.join("");
+}
+
 export function crossDomainLicense(
   rows: Pick<Indicator, "domain" | "license">[],
 ): {
