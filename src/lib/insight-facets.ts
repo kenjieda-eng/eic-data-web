@@ -135,6 +135,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "renewables-rise-5countries": "ChartLine",
   "gas-share-5countries": "ChartLine",
   "power9-roa": "ChartLine",
+  "co2-intensity-trend-5countries": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
