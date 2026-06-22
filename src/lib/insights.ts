@@ -721,6 +721,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["Ember Monthly Electricity Data"],
     updated: "2026-06-21",
   },
+  {
+    slug: "jp-russia-decoupling",
+    title: "日本はロシア炭を切った：脱ロシアが石炭で完遂し、LNGで残ったわけ",
+    lede: "2022年ウクライナ侵攻後、日本のエネルギー脱ロシアは燃料で濃淡が分かれた。ロシア炭は輸入額シェア10%→0.7%（額−95%）へ禁輸でほぼ消滅、一方ロシアLNG（サハリン2）は約9%を維持。石炭はスポット調達で代替可、LNGは長期権益で残した。#78が「脱ロシア未達」と呼んだのはLNGの話で、石炭では完遂している。",
+    tags: ["地政", "エネルギー安全保障", "輸入", "石炭", "ロシア", "脱ロシア"],
+    sources: ["財務省 貿易統計（e-Stat）"],
+    updated: "2026-06-22",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
