@@ -735,6 +735,18 @@ export function getInsightBySlug(slug: string): Insight | undefined {
   return INSIGHTS.find((i) => i.slug === slug);
 }
 
+/**
+ * `/insight/<slug>` パスから slug を抽出する純関数。
+ * InsightNav / InsightStructuredData が `usePathname()` 後に行う抽出ロジックと同一。
+ * 一覧 (`/insight`) やサブページ (`/insight/map`) では INSIGHTS に無い文字列を返すため、
+ * 呼び出し側で getInsightBySlug が undefined になり描画されない。
+ */
+export function extractInsightSlug(
+  pathname: string | null | undefined,
+): string {
+  return (pathname ?? "").replace(/^\/insight\//, "").replace(/\/$/, "");
+}
+
 export function searchInsights(
   insights: Insight[],
   query: string | null | undefined,
