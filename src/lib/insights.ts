@@ -729,6 +729,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["財務省 貿易統計（e-Stat）"],
     updated: "2026-06-22",
   },
+  {
+    slug: "lcoe-cost-trend",
+    title: "再エネのコストも上がった：電源別LCOEの2021-2024 —「安くなり続ける」神話の転機",
+    lede: "「再エネは年々安くなる」は2010年代の話。発電コスト(LCOE)を電源別に2021〜2024で追うと9電源中8つで上昇——バイオ+48%・水力+44%・洋上風力+37%。資材高・サプライチェーン・金利上昇が資本集約な再エネのコストを押し上げた。ただし陸上風力(横ばい)と大規模太陽光(+12%)の最安2電源はコスト優位を保った。NREL ATB(米国基準のモデル値)。",
+    tags: ["技術", "再エネ", "LCOE", "コスト", "発電コスト", "風力"],
+    sources: ["NREL ATB"],
+    updated: "2026-06-25",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
