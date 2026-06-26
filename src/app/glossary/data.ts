@@ -138,7 +138,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "curtailment",
     name: "出力制御",
     description:
-      "系統制約・需給バランス維持のため、再エネ電源（主に太陽光）の発電を強制的に停止する措置。九州・四国・東北で実施実績あり。",
+      "系統制約・需給バランス維持のため、再エネ電源（主に太陽光）の発電を強制的に停止・抑制する措置。域内需要を発電が上回り、連系線で他エリアへ送り切れないときに発動する。日本では九州・四国・東北・北海道で実施実績があり、春や大型連休の晴天昼間に頻発。太陽光特化版は [[solar-curtailment]]。蓄電池の充放電タイミング最適化（カーテイルメント回避）に直結し、再エネの実質的な利用率を左右する。",
     category: "power",
   },
   {
@@ -173,7 +173,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "treasury-bill",
     name: "T-Bill / 米国財務省証券",
     description:
-      "米国政府が発行する債券の総称。期間 1 年以内が T-Bill、1〜10 年が T-Note、10 年超が T-Bond。EIC Data は米 2y/5y/10y/30y の 4 系列を Phase 3-A で取得（U.S. Treasury Daily Yields, public-domain）。",
+      "米国政府が発行する債券の総称。期間 1 年以内が T-Bill、1〜10 年が T-Note、10 年超が T-Bond。EIC Data は米 2y/5y/10y/30y の 4 系列を取得（U.S. Treasury Daily Yields, public-domain）。",
     category: "finance",
   },
   {
@@ -187,7 +187,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "nonfarm-payrolls",
     name: "米雇用統計（非農業部門雇用者数）",
     description:
-      "米労働省が毎月第 1 金曜日（21:30 JST）に公表する、農業以外の事業所で働く雇用者数の前月比増減。米国 GDP の約 70% を占める個人消費を駆動する所得の代理指標で、為替・米金利・株式が同時に動く市場最注目指標。EIC Data は FRED PAYEMS 系列で月次取得。FRB の二大マンデート（雇用最大化）を直接表現するため、FF レート政策見通しと表裏一体。Insight #43 で日本のエネルギー価格への波及を扱う予定。",
+      "米労働省が毎月第 1 金曜日（21:30 JST）に公表する、農業以外の事業所で働く雇用者数の前月比増減。米国 GDP の約 70% を占める個人消費を駆動する所得の代理指標で、為替・米金利・株式が同時に動く市場最注目指標。EIC Data は FRED PAYEMS 系列で月次取得。FRB の二大マンデート（雇用最大化）を直接表現するため、FF レート政策見通しと表裏一体。Insight #43 で日本のエネルギー価格への波及を扱う。",
     category: "finance",
   },
   {
@@ -318,7 +318,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "solar-surplus",
     name: "太陽光余剰",
     description:
-      "Solar Surplus。太陽光発電の出力が域内電力需要を上回る状況。発生条件: ① 晴天（日射量大）② 軽負荷（休日・GW・工場稼働低下）③ 太陽光導入比率高（九州・四国・中国）。結果: JEPX 価格暴落（< 1 ¥/kWh）、カーテイルメント発動、連系線制約。2026-05-15 四国 0.49 ¥/kWh の主因。Phase B-A Day 3 / Phase B-B Day 7 で関連 Insight 多数。",
+      "Solar Surplus。太陽光発電の出力が域内電力需要を上回る状況。発生条件: ① 晴天（日射量大）② 軽負荷（休日・GW・工場稼働低下）③ 太陽光導入比率高（九州・四国・中国）。結果: JEPX 価格暴落（< 1 ¥/kWh）、カーテイルメント発動、連系線制約。2026-05-15 四国 0.49 ¥/kWh の主因。カーテイルメント（[[curtailment]] / [[solar-curtailment]]）の直接の引き金となる。",
     category: "power",
   },
 
@@ -343,7 +343,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "carbon-pricing",
     name: "カーボンプライシング",
     description:
-      "Carbon Pricing。CO2 排出に価格付けする政策手段の総称。3 形態: ① 炭素税（税として政府が徴収）② 排出量取引（市場で排出枠を取引、EU ETS が代表）③ クレジット取引（削減量を売買、自主参加）。日本では 2026 年 GX-ETS 導入 + 2028 年 炭素賦課金開始予定。電力業界では発電コストへの上乗せ → JEPX 価格上昇圧力。Phase D 期（6 月以降）で関連系列追加検討候補。",
+      "Carbon Pricing。CO2 排出に価格付けする政策手段の総称。3 形態: ① 炭素税（税として政府が徴収）② 排出量取引（市場で排出枠を取引、EU ETS の [[eua]] が代表）③ クレジット取引（削減量を売買、自主参加）。日本では GX-ETS（[[gx-ets]]）や炭素賦課金が段階的に導入される。電力業界では発電コストへの上乗せ → JEPX 価格上昇圧力。国境炭素調整は [[cbam]]、各国の脱炭素ペースは Insight #82 eu-emissions-by-country-trend で可視化。[[co2-intensity]] [[coal-phase-out]] と密接。",
     category: "economy",
   },
 
@@ -451,7 +451,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "co2-intensity",
     name: "電力 CO2 強度",
     description:
-      "発電 1 kWh あたりに排出される二酸化炭素の量（gCO2/kWh）。電源構成（石炭・ガス・原子力・再エネの比率）でほぼ決まり、同じ kWh でも石炭発電と再エネ発電では大きく異なる。Ember 月次推計の 2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 と、国によって 3 倍以上の差がつく。[[power-mix]] が主因、[[coal-phase-out]] が最も効く要因。Insight #67 world-power-co2-intensity で可視化。",
+      "発電 1 kWh あたりに排出される二酸化炭素の量（gCO2/kWh）。電源構成（石炭・ガス・原子力・再エネの比率）でほぼ決まり、同じ kWh でも石炭発電と再エネ発電では大きく異なる。Ember 月次推計の 2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 と、国によって 3 倍以上の差がつく。[[power-mix]] が主因、[[coal-phase-out]] が最も効く要因。Insight #67 world-power-co2-intensity（断面）で可視化、10 年トレンドは #89 co2-intensity-trend-5countries（英 −53% vs 日 −12%）で扱う。",
     category: "power",
   },
   {
@@ -472,7 +472,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "coal-phase-out",
     name: "脱石炭",
     description:
-      "石炭火力を段階的に削減・全廃する政策の総称。英国は 2010 年代に石炭火力をほぼ完全に退出（2025-12 でシェア 0%、CO2 強度は世界最低水準）。ドイツも段階的削減中だがなお 19% 残る。日本は新設凍結・非効率石炭の休廃止を進めつつ、現状の石炭シェアはなお 3 割前後で、CO2 強度が国際的に高い主因。[[co2-intensity]] [[eua]] [[cbam]] [[gx-ets]] と連動。",
+      "石炭火力を段階的に削減・全廃する政策の総称。英国は 2010 年代に石炭火力をほぼ完全に退出（2025 年シェア 0%、CO2 強度は世界最低水準）。ドイツも段階的削減中だがなお 2 割前後。日本は新設凍結・非効率石炭の休廃止を進めつつ、現状の石炭シェアはなお 3 割前後で、CO2 強度が国際的に高い主因。[[co2-intensity]] [[eua]] [[cbam]] [[gx-ets]] と連動。脱石炭の進捗は Insight #85 coal-phaseout-5countries、抜けた先の再エネ・ガスは #86 renewables-rise-5countries / #87 gas-share-5countries、結果の CO2 強度は #89 co2-intensity-trend-5countries で可視化。",
     category: "power",
   },
   {
@@ -514,14 +514,14 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "percentile-forecast",
     name: "パーセンタイル予測（確率予測）",
     description:
-      "単一の点予測ではなく、P10/P50/P90 のように起こりうる幅を確率帯で示す予測表現。イングランド銀行の金利見通し扇形チャートが代表例。Phase 3-B の扇形チャート（ChartFanChart）で可視化予定。",
+      "単一の点予測ではなく、P10/P50/P90 のように起こりうる幅を確率帯で示す予測表現。イングランド銀行の金利見通し扇形チャートが代表例。確率帯は扇形（ファン）チャートで表すのが一般的。",
     category: "basic",
   },
   {
     slug: "analogue-year",
     name: "類似年（アナログ年）",
     description:
-      "過去の似た気象・需給パターンの年を参照して将来を見立てる手法。「2022 年の夏が来たら」型のシナリオ分析に使う。Phase 3-B 中期の hindsight 教材の核となる考え方。",
+      "過去の似た気象・需給パターンの年を参照して将来を見立てる手法。「2022 年の夏が来たら」型のシナリオ分析に使う。過去事例の振り返り（hindsight）分析の核となる考え方。",
     category: "basic",
   },
   {
@@ -562,6 +562,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: "basic",
   },
 ];
+
+/** slug → 用語名 の解決表（description 内 [[slug]] 相互リンクのリゾルバ用、派生定数）。 */
+export const GLOSSARY_NAME_BY_SLUG: Record<string, string> = Object.fromEntries(
+  GLOSSARY_TERMS.map((t) => [t.slug, t.name]),
+);
 
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
   return GLOSSARY_TERMS.find((t) => t.slug === slug);

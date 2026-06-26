@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/Container";
+import GlossaryText from "@/components/GlossaryText";
+import { glossaryTextToPlain } from "@/lib/glossaryText";
 import RelatedInsights from "../components/RelatedInsights";
-import { GLOSSARY_CATEGORIES, GLOSSARY_TERMS, getTermBySlug } from "../data";
+import {
+  GLOSSARY_CATEGORIES,
+  GLOSSARY_NAME_BY_SLUG,
+  GLOSSARY_TERMS,
+  getTermBySlug,
+} from "../data";
 import { findRelatedInsights } from "../related";
 
 interface PageProps {
@@ -25,7 +32,10 @@ export async function generateMetadata({
     return { title: "用語が見つかりません — EIC Data" };
   }
   const title = `${term.name} — EIC Data 用語集`;
-  const description = term.description.slice(0, 120);
+  const description = glossaryTextToPlain(
+    term.description,
+    GLOSSARY_NAME_BY_SLUG,
+  ).slice(0, 120);
   const ogUrl = `/api/og/glossary/${term.slug}`;
   return {
     title,
@@ -52,7 +62,7 @@ function buildDefinedTermJsonLd(term: NonNullable<ReturnType<typeof getTermBySlu
     "@context": "https://schema.org",
     "@type": "DefinedTerm",
     name: term.name,
-    description: term.description,
+    description: glossaryTextToPlain(term.description, GLOSSARY_NAME_BY_SLUG),
     inDefinedTermSet: {
       "@type": "DefinedTermSet",
       name: "EIC Data 用語集",
@@ -101,7 +111,9 @@ export default async function GlossaryTermPage({ params }: PageProps) {
 
       <article className="max-w-3xl mx-auto bg-white border border-slate-200 rounded-md p-5 text-[13px] text-ink leading-relaxed">
         <h2 className="sr-only">定義</h2>
-        <p>{term.description}</p>
+        <p>
+          <GlossaryText text={term.description} />
+        </p>
       </article>
 
       <section className="mt-8 max-w-3xl mx-auto">
