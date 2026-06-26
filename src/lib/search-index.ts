@@ -1,5 +1,11 @@
 import type { Catalog, Indicator } from "./catalog";
-import { GLOSSARY_CATEGORIES, GLOSSARY_TERMS, type GlossaryTerm } from "../app/glossary/data";
+import {
+  GLOSSARY_CATEGORIES,
+  GLOSSARY_NAME_BY_SLUG,
+  GLOSSARY_TERMS,
+  type GlossaryTerm,
+} from "../app/glossary/data";
+import { glossaryTextToPlain } from "./glossaryText";
 import { INSIGHTS, type Insight } from "./insights";
 
 export type SearchCategory = "indicator" | "insight" | "glossary";
@@ -45,13 +51,14 @@ function insightEntry(i: Insight): SearchEntry {
 
 function glossaryEntry(t: GlossaryTerm): SearchEntry {
   const category = GLOSSARY_CATEGORIES[t.category];
+  const description = glossaryTextToPlain(t.description, GLOSSARY_NAME_BY_SLUG);
   return {
     id: t.slug,
     category: "glossary",
     title: t.name,
-    description: t.description,
+    description,
     url: `/glossary/${t.slug}`,
-    tokens: [t.slug, t.name, t.description, t.category, category].join(" ").toLowerCase(),
+    tokens: [t.slug, t.name, description, t.category, category].join(" ").toLowerCase(),
     meta: category,
   };
 }

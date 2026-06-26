@@ -1,4 +1,5 @@
 import Link from "next/link";
+import GlossaryText from "@/components/GlossaryText";
 import {
   GLOSSARY_CATEGORIES,
   groupTermsByCategory,
@@ -60,7 +61,7 @@ export default function GlossaryTable({ terms }: GlossaryTableProps) {
                       </div>
                     </td>
                     <td className={`${TD} text-subink leading-relaxed`}>
-                      {t.description}
+                      <GlossaryText text={t.description} />
                     </td>
                   </tr>
                 ))}

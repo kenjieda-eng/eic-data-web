@@ -3,6 +3,7 @@
 import * as d3 from "d3";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import GlossaryText from "@/components/GlossaryText";
 import {
   edgeWidth,
   GLOSSARY_CATEGORY_COLORS,
@@ -249,7 +250,7 @@ export default function GlossaryGraphClient({
                 <span>関連 {selected.degree} 本</span>
               </div>
               <p className="mt-3 text-[13px] text-ink leading-relaxed">
-                {selected.description}
+                <GlossaryText text={selected.description} />
               </p>
               <Link
                 href={`/glossary/${selected.slug}`}

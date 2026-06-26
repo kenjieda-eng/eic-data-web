@@ -7,7 +7,9 @@
  * カード辞書化する単純な関数を提供する。
  */
 
+import { GLOSSARY_NAME_BY_SLUG } from "../app/glossary/data";
 import type { Indicator } from "./catalog";
+import { glossaryTextToPlain } from "./glossaryText";
 import type { Insight } from "./insights";
 
 export interface OgCard {
@@ -48,7 +50,10 @@ export function glossaryCard(term: { name: string; slug: string; description: st
   return {
     badge: "📖 用語集",
     title: term.name,
-    body: ellipsize(term.description, 120),
+    body: ellipsize(
+      glossaryTextToPlain(term.description, GLOSSARY_NAME_BY_SLUG),
+      120,
+    ),
     meta: term.slug,
   };
 }

@@ -563,6 +563,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   },
 ];
 
+/** slug → 用語名 の解決表（description 内 [[slug]] 相互リンクのリゾルバ用、派生定数）。 */
+export const GLOSSARY_NAME_BY_SLUG: Record<string, string> = Object.fromEntries(
+  GLOSSARY_TERMS.map((t) => [t.slug, t.name]),
+);
+
 export function getTermBySlug(slug: string): GlossaryTerm | undefined {
   return GLOSSARY_TERMS.find((t) => t.slug === slug);
 }
