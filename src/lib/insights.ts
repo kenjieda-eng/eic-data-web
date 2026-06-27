@@ -737,6 +737,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["NREL ATB"],
     updated: "2026-06-25",
   },
+  {
+    slug: "power9-profit-bridge",
+    title: "本業の利益はどこへ消えるか：電力9社の営業→純利益ブリッジ",
+    lede: "決算は営業利益だけ見ても最終像はわからない。電力9社のFY2024で、営業利益のうち純利益として残る残存率は64〜90%とばらつく。関西90%・中部83%は経常が営業を上回り（JERA等の持分法）、東京HDは69%へ目減り（特別損益・税）。本業→経常→最終の3段階で利益の増減を読む。",
+    tags: ["企業IR", "電力会社", "財務", "持分法", "利益", "火力"],
+    sources: ["金融庁 EDINET"],
+    updated: "2026-06-27",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
