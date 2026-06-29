@@ -745,6 +745,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["金融庁 EDINET"],
     updated: "2026-06-27",
   },
+  {
+    slug: "how-to-read-eic-metrics",
+    title: "指標の読み方ガイド：シェアと絶対量・相関・モデル値の落とし穴",
+    lede: "EIC Data を正しく読む教材。①シェア(%)と絶対量は別物（中国の石炭はシェア低下・絶対量増）②相関は因果でない③ラグ相関＝何ヶ月遅れて効くか④LCOE・CO2強度はモデル値・定義依存⑤輸入「額」シェアは価格に揺れる。引用前に押さえたい5つの落とし穴を実例で。",
+    tags: ["方法論", "データリテラシー", "統計", "引用", "電力"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-06-29",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

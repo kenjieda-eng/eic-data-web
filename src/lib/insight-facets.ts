@@ -139,6 +139,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "jp-russia-decoupling": "ChartLine",
   "lcoe-cost-trend": "ChartLine",
   "power9-profit-bridge": "ChartLine",
+  "how-to-read-eic-metrics": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
