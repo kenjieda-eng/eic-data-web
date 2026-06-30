@@ -1,0 +1,62 @@
+import ChartLine from "@/components/ChartLine";
+
+export const metadata = {
+  title: "電力市場の3層：スポット・容量・需給調整の読み方 | EIC Data",
+  description:
+    "日本の電力卸売には3つの市場がある。①JEPXスポット（電力量＝kWhを前日に取引）②容量市場（将来の供給力＝kWを4年前に確保、OCCTO運営）③需給調整市場（リアルタイムの調整力）。それぞれ「取引するもの」「価値の種類」「時間軸」が違う。3つの市場の役割と読み方を、当サイトのデータと用語集リンク付きで整理する教材。",
+  openGraph: { images: ['/api/og/insight/jp-power-markets-three-layers'] },
+  twitter: { card: 'summary_large_image', images: ['/api/og/insight/jp-power-markets-three-layers'] },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 電力市場の3層：スポット・容量・需給調整の読み方
+
+> 「電力市場」と一口に言っても、日本の電力卸売には性質の違う3つの市場がある。電力量そのものを売買する**スポット市場**、将来の供給力を確保する**容量市場**、リアルタイムの需給バランスを保つ**需給調整市場**だ。価格や約定量を読むには、まず「どの市場が、何を、いつ取引しているか」を分けて理解する必要がある。本ガイドはその地図を描く教材で、[指標の読み方ガイド](/insight/how-to-read-eic-metrics)の姉妹編にあたる。
+
+## 3つの市場の早見表
+
+| 市場 | 取引するもの | 価値の種類 | 時間軸 | 主な運営 |
+|---|---|---|---|---|
+| JEPX スポット | 電力量（kWh） | kWh価値（エネルギー） | 前日 | JEPX |
+| 容量市場 | 将来の供給力（kW） | kW価値（容量） | 約4年前に確保 | OCCTO（広域機関） |
+| 需給調整市場 | 調整力（ΔkW） | 調整力（瞬時の需給調整） | 当日・リアルタイム | 一般送配電（TSO） |
+
+## ① JEPX スポット市場 ＝ 「今の電力量（kWh）」
+
+最もなじみがあるのがこれだ。翌日の各30分コマの電力量を、前日にオークション（シングルプライス）で売買する。当サイトで「JEPX 価格」と呼ぶのはこのスポット価格で、9エリアごとに約定する（[エリア比較](/insight/multi-region-jepx-comparison)）。気温・燃料・再エネ出力で日々動く、エネルギーそのものの価格だ。用語は[JEPX スポット](/glossary/jepx-spot)。
+
+<ChartLine id="jepx-spot-tokyo" color="#2563eb" height={240} />
+
+*JEPX 東京エリアのスポット価格（¥/kWh）。これは「電力量（kWh）」の価格——3市場のうち最も身近な「エネルギーの市場」。*
+
+## ② 容量市場 ＝ 「将来の供給力（kW）」
+
+スポットが「今のkWh」なら、容量市場は「将来のkW（供給できる能力）」を取引する。発電所を将来も維持してもらうため、約4年前のメインオークションで供給力を確保し、[容量拠出金](/glossary/capacity-payment)で対価を払う。運営はOCCTO（電力広域的運営推進機関）。価格は kW・年あたりで、エネルギー価格とは単位も意味も違う（[容量市場5年推移](/insight/capacity-market-5-year-trends) / [エリア別](/insight/capacity-market-area-vs-power-mix)）。用語は[容量市場](/glossary/capacity-market)と[kW価値](/glossary/kw-value)。
+
+## ③ 需給調整市場 ＝ 「リアルタイムの調整力」
+
+電気は需要と供給を瞬時に一致させ続けないと周波数が乱れる。そのための「調整力（上げ下げできる能力）」を取引するのが需給調整市場だ。一次〜三次②の5商品があり、応動の速さで分かれる（[5商品比較](/insight/balancing-market-5-products-comparison)）。三次調整力②はスポット価格との関係も見える（[三次②×JEPX](/insight/tertiary-balance-vs-jepx)）。用語は[需給調整市場](/glossary/balancing-market)。
+
+## 3つはどう補完し合うか
+
+- **スポット（kWh）**＝今この瞬間のエネルギーをいくらで売買するか。
+- **容量（kW）**＝将来も発電所が存在し続けるための「備え」を確保する。
+- **需給調整（ΔkW）**＝予測と実需給のズレを、秒〜分単位で埋める。
+
+3つは別々の価格・単位を持ち、足し引きできない。「電力価格が上がった／下がった」を読むときは、それがどの市場の話かをまず分ける——スポットの卸価格と、容量拠出金や調整力コストは、別の層の話だ。これらは最終的に小売の電気料金へ積み上がるが、その経路はそれぞれ異なる。
+
+> 注: 本ガイドは制度・市場構造の解説（過去〜現行制度の記述）であり、将来予測でも投資判断でもない。市場の細目（商品区分・約定方法・対象期間など）は制度改正で変わりうるため、最新の制度詳細は各運営機関（JEPX・OCCTO・各送配電）の公表資料を参照のこと。当サイトの各データ系列の定義・出典は各[指標ページ](/catalog)と[方法論](/methodology)に従う。
+
+## 関連
+- データ: [JEPX エリア比較](/insight/multi-region-jepx-comparison) / [容量市場5年推移](/insight/capacity-market-5-year-trends) / [需給調整5商品](/insight/balancing-market-5-products-comparison)
+- 用語: [JEPX スポット](/glossary/jepx-spot) / [容量市場](/glossary/capacity-market) / [kW価値](/glossary/kw-value) / [容量拠出金](/glossary/capacity-payment) / [需給調整市場](/glossary/balancing-market)
+- 指標の読み方は [指標の読み方ガイド](/insight/how-to-read-eic-metrics)。
+
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>

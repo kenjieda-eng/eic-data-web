@@ -753,6 +753,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-06-29",
   },
+  {
+    slug: "jp-power-markets-three-layers",
+    title: "電力市場の3層：スポット・容量・需給調整の読み方",
+    lede: "日本の電力卸売には3つの市場がある。①JEPXスポット（電力量kWhを前日に取引）②容量市場（将来の供給力kWを約4年前に確保、OCCTO運営）③需給調整市場（リアルタイムの調整力）。取引するもの・価値の種類・時間軸が違う3市場の役割と読み方を、データと用語集リンク付きで整理する教材。",
+    tags: ["電力", "JEPX", "容量市場", "需給調整", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-06-30",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
