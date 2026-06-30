@@ -140,6 +140,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "lcoe-cost-trend": "ChartLine",
   "power9-profit-bridge": "ChartLine",
   "how-to-read-eic-metrics": "ChartLine",
+  "jp-power-markets-three-layers": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
