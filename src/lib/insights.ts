@@ -761,6 +761,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-06-30",
   },
+  {
+    slug: "electricity-bill-structure",
+    title: "電気料金の構造：料金は何の積み上げでできているか",
+    lede: "毎月の電気料金は単一の「電気の値段」ではなく、卸電力(kWh)・燃料費調整・容量(kW)・調整力・託送料金・再エネ賦課金・小売経費という性質の違うコストの積み上げ。どの層がどの市場・制度から来て、当サイトのどのデータ・用語で追えるかを整理する教材。「電力市場の3層」の姉妹編。",
+    tags: ["電力", "JEPX", "容量市場", "需給調整", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-01",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
