@@ -142,6 +142,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "how-to-read-eic-metrics": "ChartLine",
   "jp-power-markets-three-layers": "ChartLine",
   "electricity-bill-structure": "ChartLine",
+  "lcoe-vs-electricity-price": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

@@ -769,6 +769,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-01",
   },
+  {
+    slug: "lcoe-vs-electricity-price",
+    title: "発電コスト（LCOE）と電気料金は別物：なぜ一致しないのか",
+    lede: "「この電源はX円/kWh」という発電コスト(LCOE)は、家庭や事業所が払う電気料金とは別物。LCOEは発電端の均等化コスト(モデル値・前提依存)、電気料金は送配電・小売・制度負担まで含む需要端の請求額。両者がなぜズレるのかを6観点で整理する教材。「電気料金の構造」「LCOE×電源構成」の橋渡し。",
+    tags: ["電力", "技術", "LCOE", "コスト", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "NREL ATB"],
+    updated: "2026-07-02",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
