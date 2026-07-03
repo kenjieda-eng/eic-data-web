@@ -1,0 +1,58 @@
+import ChartLine from "@/components/ChartLine";
+
+export const metadata = {
+  title: "容量市場の読み方：4年先の「kW」を確保する仕組み | EIC Data",
+  description:
+    "JEPX が「今の電力量(kWh)」、需給調整が「リアルタイムの調整力」なら、容量市場は「将来の供給力(kW)」を約4年前に確保する市場。メインオークション、容量拠出金、単位 ¥/kW（＝kW価値）、OCCTO 運営、エリア別データの読み方を整理する教材。電力市場の3層の深掘り編。",
+  openGraph: { images: ['/api/og/insight/how-to-read-capacity-market'] },
+  twitter: { card: 'summary_large_image', images: ['/api/og/insight/how-to-read-capacity-market'] },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 容量市場の読み方：4年先の「kW」を確保する仕組み
+
+> [電力市場の3層](/insight/jp-power-markets-three-layers)の②、[容量市場](/glossary/capacity-market)を深掘りする。[JEPX スポット](/glossary/jepx-spot)が「今の電力量（kWh）」を前日に、需給調整市場が「リアルタイムの調整力」を当日に扱うのに対し、容量市場は「**将来の供給力（kW）**」を実需給の**約4年前**に確保する市場だ。仕組み・価格の単位・運営・データの読み方を、当サイトの系列と用語集リンク付きで整理する教材である。今日の[需給調整市場の読み方](/insight/how-to-read-balancing-market)と対になる、もう一つの「kW価値」の市場だ。
+
+## なぜ必要か
+
+発電所は、建てても卸電力（JEPX）の売上だけでは投資回収の見通しが立ちにくい。放っておくと古い電源が退出し、いざという時の供給力（kW）が足りなくなるおそれがある。そこで「**発電できる能力そのもの**」に固定的な収入を与え、将来も設備を維持してもらうのが容量市場だ。電力量（kWh）ではなく「いつでも出せる備え（kW）」に価値を払う——ここが出発点になる。
+
+## メインオークションの仕組み
+
+必要な供給力は、実需給年度の**約4年前**に開かれる[メインオークション](/glossary/main-auction)で確保する。応札の中から必要量に達するまで安い順に約定し、価格は一律（シングルプライス）で決まる。運営は **OCCTO（電力広域的運営推進機関）** で、当サイトのデータもOCCTOの約定結果に基づく。※ リアルタイムの調整力を扱う需給調整市場（送配電＋EPRX 運営）とは別の市場だ。
+
+## 容量拠出金 — 誰が払うか
+
+確保した供給力の対価は **[容量拠出金](/glossary/capacity-payment)** として小売電気事業者などが負担し、最終的に小売経由で電気料金の一部になる（[電気料金の構造](/insight/electricity-bill-structure)の「容量」層）。つまり容量市場の価格は、めぐりめぐって需要家のコストにつながっている。
+
+## 単位「¥/kW」の読み方
+
+容量市場の価格は **¥/kW**（供給力 1 kW・1年あたり）で、これは電力量（kWh）ではなく「**供給できる能力（kW）を確保する対価**」＝[kW価値](/glossary/kw-value)だ。同じ「kW価値」でも、需給調整の 円/ΔkW・30分（＝瞬時に上げ下げできる“調整力”）とは別物で、容量は「いつでも出せる“供給力”」を指す。JEPX の 円/kWh（エネルギー）とも別軸——**3つの市場は単位が違い、足し引きも直接比較もできない**。
+
+<ChartLine id="capacity-main-auction-price-national" color="#0891b2" height={240} />
+
+*容量市場メインオークションの全国加重平均約定価格（¥/kW、年次、OCCTO）。「初回高値 → 下落 → 回復」という制度初期のドラマが出ている。これは将来の「供給力（kW）」の価格で、JEPX の電力量価格とは別の軸。*
+
+## データの読み方
+
+当サイトの容量市場データは、**OCCTO メインオークション約定結果**の**エリア別 約定価格（¥/kW、年次）**と**約定量（kW、年次）**だ。読みどころが2つある。①全国加重平均価格は初回が高く、その後の下落と回復という制度初期の動きを見せる（[6年推移](/insight/capacity-market-5-year-trends)）。②エリア別価格は、連系線制約・電源構成・需要パターンで差がつき、「大需要地の東京が安い」「太陽光の多い九州が安い」という直感が必ずしも成り立たない（[エリア別の地理構造](/insight/capacity-market-area-vs-power-mix)）。
+
+## 読み方のまとめ
+
+①実需給の**約4年前**にメインオークションで**将来の供給力（kW）**を確保する ②価格の単位は **¥/kW＝kW価値**で、JEPX の kWh とも需給調整の ΔkW とも別軸 ③運営は **OCCTO**、対価は**容量拠出金**として料金へ ④当サイトの数値は **OCCTO 約定結果のエリア別・年次**。この4点で、容量市場のデータが読める。
+
+> 注: 本ガイドは容量市場の仕組み・制度の解説（過去〜現行制度の記述）であり、将来予測でも投資判断でもない。オークションの区分・対象年度・算定方法などの細目は制度改正で変わりうるため、正確な条件は各運営機関（OCCTO・経済産業省）の公表資料を、当サイトの各系列の定義・出典は[指標ページ](/catalog)と[方法論](/methodology)を参照のこと。
+
+## 関連
+- 姉妹編: [電力市場の3層](/insight/jp-power-markets-three-layers) / [需給調整市場の読み方](/insight/how-to-read-balancing-market) / [電気料金の構造](/insight/electricity-bill-structure) / [指標の読み方ガイド](/insight/how-to-read-eic-metrics)
+- データ: [容量市場メインオークション6年推移](/insight/capacity-market-5-year-trends) / [エリア別約定価格の地理構造](/insight/capacity-market-area-vs-power-mix) / [市場データ](/markets)
+- 用語: [容量市場](/glossary/capacity-market) / [メインオークション](/glossary/main-auction) / [容量拠出金](/glossary/capacity-payment) / [kW価値](/glossary/kw-value) / [OCCTO](/glossary/occto)
+
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>

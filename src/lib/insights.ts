@@ -793,6 +793,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-04",
   },
+  {
+    slug: "how-to-read-capacity-market",
+    title: "容量市場の読み方：4年先の「kW」を確保する仕組み",
+    lede: "JEPXが「今の電力量(kWh)」、需給調整が「リアルタイムの調整力」なら、容量市場は「将来の供給力(kW)」を約4年前に確保する市場。メインオークション、容量拠出金、単位¥/kW(＝kW価値でkWh/ΔkWと別軸)、OCCTO運営、エリア別データの読み方を整理する教材。電力市場の3層の深掘り編で、需給調整の読み方と対のkW価値市場。",
+    tags: ["電力", "容量市場", "OCCTO", "kW 価値", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-04",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
