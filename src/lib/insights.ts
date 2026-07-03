@@ -777,6 +777,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "NREL ATB"],
     updated: "2026-07-02",
   },
+  {
+    slug: "fuel-cost-adjustment",
+    title: "燃料費調整の読み方：燃料高が電気料金に「遅れて」効く仕組み",
+    lede: "規制料金や多くの標準プランには、LNG・石炭・原油の輸入価格の変動を毎月自動で反映する「燃料費調整」がある。だから燃料高は数ヶ月遅れて請求額に効く。何を見て(過去の輸入実績の平均)・なぜ遅れ(3〜5ヶ月)・上限で何が起きたか(2022〜2023の到達)を整理する教材。電気料金の構造の深掘り編。",
+    tags: ["電力", "燃料", "燃料費調整", "火力", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-03",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
