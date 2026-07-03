@@ -785,6 +785,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-03",
   },
+  {
+    slug: "how-to-read-balancing-market",
+    title: "需給調整市場の読み方：5つの「調整力」と円/ΔkW・30分",
+    lede: "電気は需要と供給を秒〜分単位で一致させないと周波数が乱れる。その「調整力(ΔkW)」を売買するのが需給調整市場。一次〜三次②の5商品(応動速度で区分)、価格の単位(円/ΔkW・30分＝kW価値、JEPXのkWhと別軸)、運営(送配電＋EPRX)、EPRX年次データの読み方を整理する教材。電力市場の3層の深掘り編で、需給調整3データ記事の入口。",
+    tags: ["電力", "需給調整市場", "ΔkW", "周波数調整", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-04",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
