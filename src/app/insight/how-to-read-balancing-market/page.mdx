@@ -1,0 +1,66 @@
+import ChartLine from "@/components/ChartLine";
+
+export const metadata = {
+  title: "需給調整市場の読み方：5つの「調整力」と円/ΔkW・30分 | EIC Data",
+  description:
+    "電気は需要と供給を秒〜分単位で一致させ続けないと周波数が乱れる。そのための「調整力（上げ下げできる能力＝ΔkW）」を売買するのが需給調整市場。一次〜三次②の5商品、価格の単位（円/ΔkW・30分＝kW価値）、運営（送配電＋EPRX）、データの読み方を整理する教材。電力市場の3層の深掘り編。",
+  openGraph: { images: ['/api/og/insight/how-to-read-balancing-market'] },
+  twitter: { card: 'summary_large_image', images: ['/api/og/insight/how-to-read-balancing-market'] },
+};
+
+<div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
+
+# 需給調整市場の読み方：5つの「調整力」と円/ΔkW・30分
+
+> [電力市場の3層](/insight/jp-power-markets-three-layers)の③、需給調整市場を深掘りする。電気は需要と供給を秒〜分単位で一致させ続けないと[周波数](/glossary/freq-control)が乱れる。そのための「[調整力](/glossary/balancing-market)（上げ下げできる能力＝ΔkW）」を売買するのが需給調整市場だ。商品の種類・価格の単位・運営・データの読み方を、当サイトの系列と用語集リンク付きで整理する教材である。
+
+## なぜ必要か
+
+太陽光・風力の出力や需要は、前日計画どおりにはいかない。予測と実需給のズレを、秒〜分単位で埋め続けるのが調整力の役割だ。ズレを放置すると周波数が基準（50/60Hz）から外れ、最悪は停電につながる。卸電力（[JEPX スポット](/glossary/jepx-spot)）が「電力量そのもの」を前日に売買するのに対し、需給調整市場は「リアルタイムで上げ下げできる能力」を確保する——時間軸も価値の種類も違う。
+
+## 5つの商品 — 応動の速さで分かれる
+
+| 商品 | 役割（応動の速さ） | 当サイトの系列 |
+|---|---|---|
+| 一次調整力 | 最速。周波数が動いた瞬間の初期対応 | `balancing-price-primary` |
+| 二次調整力① | 自動制御で追従（速い） | `balancing-price-secondary-1` |
+| 二次調整力② | 経済的に負荷配分（やや遅い） | `balancing-price-secondary-2` |
+| 三次調整力① | 需給ギャップをまとめて埋める | `balancing-price-tertiary-1` |
+| 三次調整力② | 最も遅い。再エネ予測誤差への対応。**唯一 5 年分取れる長期系列** | `balancing-price-tertiary-2` |
+
+速い商品ほど高度な応答性能が要る。5商品を束ねた「複合」区分（`balancing-price-composite`）もある。応動時間などの正確な区分は制度で定義されるため、細目は OCCTO・各送配電事業者の公表資料を参照のこと。
+
+## 価格の単位「円/ΔkW・30分」の読み方
+
+需給調整市場の価格は **円/ΔkW・30分** という単位で、これは電力量（kWh）ではなく「**調整できる能力（kW）を 30 分ぶん確保する対価**」だ。つまり[kW価値](/glossary/kw-value)——JEPX の 円/kWh（エネルギーの価格）とは別物である。ここを取り違えると「JEPX より高い/安い」といった無意味な比較をしてしまう。単位が違うものは足し引きも直接比較もできない。
+
+<ChartLine id="balancing-price-tertiary-2" color="#7c3aed" height={240} />
+
+*三次調整力②の年間平均落札単価（円/ΔkW・30分、年次、EPRX 取りまとめ）。需給調整市場で唯一 5 年分そろう長期系列。これは「調整力（kW）」の価格で、電力量（kWh）の JEPX 価格とは別の軸。*
+
+## 誰が運営しているか
+
+調整力を必要とするのは、系統を管理する**一般送配電事業者（TSO）**だ。その調達・取引は **EPRX（電力需給調整力取引所）** を通じて行われ、当サイトのデータもEPRXの取引実績の取りまとめに基づく。※ 将来の供給力（kW）を約4年前に確保する[容量市場](/glossary/capacity-market)は OCCTO の運営で、こちらとは別の市場だ（[3層の整理](/insight/jp-power-markets-three-layers)）。
+
+## データの読み方と注意
+
+当サイトの需給調整の価格は、**EPRX 年次取りまとめの「年間平均落札単価」（年次）**である。読むときの注意が2つある。①単価は約定時の水準であって、量で加重した市場全体の平均単価でも、市場全体のコスト寄与でもない。②電源種別（揚水・蓄電池・VPP）で単価は大きく割れ、蓄電池・VPP は上限価格付近の高値、揚水は基準線的という二極構造がある（[電源種別別](/insight/balancing-source-type-comparison)）。商品別の帯や、三次②と卸価格・燃料の連動は、下の関連データ記事で数字を確認できる。
+
+## 読み方のまとめ
+
+①**応動の速さ**で一次〜三次②の5商品に分かれる ②価格の単位は **円/ΔkW・30分＝kW価値**で、JEPX の kWh とは別軸 ③運営は**送配電（TSO）＋ EPRX**（容量市場の OCCTO とは別）④当サイトの数値は **EPRX 年次の平均落札単価**で、約定時水準という性質に注意。この4点を押さえると、需給調整市場のデータが読める。
+
+> 注: 本ガイドは需給調整市場の仕組み・制度の解説（過去〜現行制度の記述）であり、将来予測でも投資判断でもない。商品区分・応動時間・約定方法・対象期間などの細目は制度改正で変わりうるため、正確な条件は各運営機関（各一般送配電事業者・OCCTO・EPRX・経済産業省）の公表資料を、当サイトの各系列の定義・出典は[指標ページ](/catalog)と[方法論](/methodology)を参照のこと。
+
+## 関連
+- 姉妹編: [電力市場の3層](/insight/jp-power-markets-three-layers) / [電気料金の構造](/insight/electricity-bill-structure) / [指標の読み方ガイド](/insight/how-to-read-eic-metrics)
+- データ: [需給調整 5商品の約定価格](/insight/balancing-market-5-products-comparison) / [電源種別別 落札単価](/insight/balancing-source-type-comparison) / [三次調整力②×JEPX](/insight/tertiary-balance-vs-jepx) / [需給調整市場ページ](/markets/balancing)
+- 用語: [需給調整市場](/glossary/balancing-market) / [周波数調整](/glossary/freq-control) / [kW価値](/glossary/kw-value) / [容量市場](/glossary/capacity-market)
+
+*編集物著作権: EIC Data (CC BY 4.0)*
+
+<InsightStructuredData />
+<InsightCitation />
+<InsightNav />
+
+</div>
