@@ -11,6 +11,7 @@ import {
   getIndicatorById,
   slaStatusOf,
 } from "@/lib/catalog";
+import ChartLine from "@/components/ChartLine";
 import CitationButton from "@/components/CitationButton";
 import EmbedCodeCopy from "@/components/EmbedCodeCopy";
 import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
@@ -161,6 +162,28 @@ export default async function IndicatorPage({ params }: PageProps) {
         {/* T2-1: 系列固有の概要プローズ（notes を内包するため単独の notes 表示は廃止）。 */}
         <p className="mt-3 text-sm text-subink leading-relaxed">{summary}</p>
       </header>
+
+      {/* 探索UX P1: 全期間チャート + 比較/実験への導線。 */}
+      <section className="mb-6 rounded border border-slate-200 bg-white p-4">
+        <ChartLine id={indicator.id} height={320} />
+        <p className="mt-3 text-[12px] text-subink leading-relaxed">
+          全期間を表示。下部のスライダーで期間を絞り込めます。出典・ライセンスは下のメタデータ参照。
+        </p>
+        <div className="mt-3 flex flex-wrap gap-4 text-[12px]">
+          <Link
+            href={`/compare?ids=${indicator.id}`}
+            className="text-emerald-700 underline hover:text-emerald-800"
+          >
+            系列比較で重ねる →
+          </Link>
+          <Link
+            href={`/playground?a=${indicator.id}`}
+            className="text-emerald-700 underline hover:text-emerald-800"
+          >
+            データ実験で分析する →
+          </Link>
+        </div>
+      </section>
 
       <div className="space-y-4">
         <IndicatorMetadataPanel
