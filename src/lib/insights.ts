@@ -801,6 +801,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-04",
   },
+  {
+    slug: "how-to-read-fit-fip",
+    title: "FIT/FIPの読み方：買取価格・再エネ賦課金・入札の仕組み",
+    lede: "再エネ電気を固定価格で買い取るFIT(2012〜)と、市場価格＋プレミアムのFIP(2022〜)。費用は再エネ賦課金として全需要家がkWh比例で負担する。調達価格は「年度×電源×区分」で決まり認定時価格が10〜20年固定——グラフの価格低下は新規向けの話で、賦課金とは時間差がある。制度の仕組みと3つの誤読を整理する教材。電気料金の構造の深掘り編で、FIT買取価格データ記事の入口。",
+    tags: ["電力", "再エネ", "制度", "FIT", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "METI なっとく（FIT買取価格）"],
+    updated: "2026-07-05",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
