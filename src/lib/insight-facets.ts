@@ -146,6 +146,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "fuel-cost-adjustment": "ChartLine",
   "how-to-read-balancing-market": "ChartLine",
   "how-to-read-capacity-market": "ChartLine",
+  "how-to-read-fit-fip": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
