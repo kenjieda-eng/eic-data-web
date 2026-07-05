@@ -15,6 +15,7 @@ import ChartLine from "@/components/ChartLine";
 import CitationButton from "@/components/CitationButton";
 import EmbedCodeCopy from "@/components/EmbedCodeCopy";
 import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
+import SeriesSummaryStats from "../components/SeriesSummaryStats";
 import DependsOnPanel from "../components/DependsOnPanel";
 import { getInsightsForSeries } from "@/lib/insight-series-map";
 
@@ -184,6 +185,9 @@ export default async function IndicatorPage({ params }: PageProps) {
           </Link>
         </div>
       </section>
+
+      {/* SEO L2: サーバー描画のサマリー統計 (固有 indexable テキスト)。 */}
+      <SeriesSummaryStats indicator={indicator} />
 
       <div className="space-y-4">
         <IndicatorMetadataPanel
