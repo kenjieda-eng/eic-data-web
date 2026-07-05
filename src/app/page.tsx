@@ -57,13 +57,17 @@ export default async function HomePage() {
         <h2 className="mb-4 text-xl font-semibold text-ink">Key Indicators</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {KEY_INDICATORS.map(({ id, color }) => (
-            <ChartLine
-              key={id}
-              id={id}
-              height={200}
-              color={color}
-              showZoom={false}
-            />
+            <div key={id}>
+              <ChartLine id={id} height={200} color={color} showZoom={false} />
+              <div className="mt-1">
+                <Link
+                  href={`/catalog/${id}`}
+                  className="text-xs text-emerald-700 underline hover:text-emerald-800"
+                >
+                  系列ページへ →
+                </Link>
+              </div>
+            </div>
           ))}
         </div>
       </section>
@@ -79,6 +83,52 @@ export default async function HomePage() {
             >
               <div className="text-xs uppercase tracking-wider text-faint">
                 インサイト
+              </div>
+              <div className="mt-1 text-lg font-semibold text-ink">
+                {it.title}
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-subink">
+                {it.lede}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mb-12">
+        <h2 className="mb-4 text-xl font-semibold text-ink">
+          データを探索する
+        </h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          {[
+            {
+              href: "/watch",
+              title: "マーケットビュー",
+              lede: "主要12指標の直近値とスパークライン。毎日更新",
+            },
+            {
+              href: "/catalog",
+              title: "指標カタログ",
+              lede: `全${catalog.indicator_count}系列を検索。各系列ページに全期間チャート・出典・CSV`,
+            },
+            {
+              href: "/compare",
+              title: "系列比較",
+              lede: "最大5系列を重ね描き。期間・正規化を切替",
+            },
+            {
+              href: "/playground",
+              title: "データ実験",
+              lede: "相関・ラグ相関・移動平均をUIだけで計算",
+            },
+          ].map((it) => (
+            <Link
+              key={it.href}
+              href={it.href}
+              className="block rounded-md border border-slate-200 bg-white p-5 transition hover:border-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
+            >
+              <div className="text-xs uppercase tracking-wider text-faint">
+                探索
               </div>
               <div className="mt-1 text-lg font-semibold text-ink">
                 {it.title}

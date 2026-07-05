@@ -7,6 +7,7 @@ import ChartHeatmap from "@/components/ChartHeatmap";
 import ChartSpread from "@/components/ChartSpread";
 import BalancingProductsCompareChart from "@/components/BalancingProductsCompareChart";
 import InsightCitation from "@/components/InsightCitation";
+import InsightDataUsed from "@/components/InsightDataUsed";
 import InsightNav from "@/components/InsightNav";
 import InsightStructuredData from "@/components/InsightStructuredData";
 import UtterancesComments from "@/components/UtterancesComments";
@@ -22,6 +23,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     BalancingProductsCompareChart,
     InsightNav,
     InsightCitation,
+    InsightDataUsed,
     InsightStructuredData,
     UtterancesComments,
 

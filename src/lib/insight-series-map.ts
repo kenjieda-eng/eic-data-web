@@ -149,3 +149,73 @@ export function getInsightsForSeries(seriesId: string): RelatedInsight[] {
     return [];
   }
 }
+
+// =============================================================================
+// 内部リンク L1: Insight → 系列ページの逆引き
+// 上の「系列 id → Insight」マップと同じ走査 (extractSeriesIds 再利用) で、
+// 「Insight slug → 参照系列 id[]」の逆引きマップをビルド時に一度だけ構築する。
+// InsightDataUsed コンポーネントが記事末尾の「この記事で使ったデータ」枠から
+// 各系列ページ (全期間チャート・出典・CSV) へ導線を張るために使う。
+// =============================================================================
+
+/** slug → 参照系列 id[] のマップをビルド時に一度だけ構築する。 */
+function buildSlugMap(): Map<string, string[]> {
+  const map = new Map<string, string[]>();
+  try {
+    const insightDir = path.join(process.cwd(), "src", "app", "insight");
+
+    const entries = fs
+      .readdirSync(insightDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .sort((a, b) => a.name.localeCompare(b.name)); // 決定的な並び
+
+    for (const entry of entries) {
+      const slug = entry.name;
+
+      let mdx: string;
+      try {
+        mdx = fs.readFileSync(path.join(insightDir, slug, "page.mdx"), "utf8");
+      } catch {
+        continue; // page.mdx が無いディレクトリはスキップ
+      }
+
+      let seriesIds: string[];
+      try {
+        seriesIds = extractSeriesIds(mdx);
+      } catch {
+        seriesIds = []; // 正規表現で何かあっても 1 本だけ諦める
+      }
+
+      if (seriesIds.length > 0) {
+        map.set(slug, seriesIds);
+      }
+    }
+  } catch {
+    return new Map(); // ディレクトリが読めない等 → 空マップ
+  }
+  return map;
+}
+
+let cachedSlugMap: Map<string, string[]> | null = null;
+
+function getSlugMap(): Map<string, string[]> {
+  if (cachedSlugMap === null) {
+    cachedSlugMap = buildSlugMap();
+  }
+  return cachedSlugMap;
+}
+
+/**
+ * 指定した Insight slug が本文チャートで参照している系列 id の一覧を返す。
+ * マッチが無ければ空配列。同一 id は排除済み (extractSeriesIds 準拠)。
+ * 何が起きても例外を投げず空配列を返す(記事ページを壊さない)。
+ */
+export function getSeriesForInsight(slug: string): string[] {
+  try {
+    if (!slug) return [];
+    const list = getSlugMap().get(slug);
+    return list ? list.slice() : [];
+  } catch {
+    return [];
+  }
+}
