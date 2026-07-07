@@ -3,16 +3,41 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import { groupByMonth, listAllSummaries } from "@/lib/archive-search";
 import { MORNING_SUMMARIES } from "@/lib/morning-summary-data";
+import {
+  fetchArchiveIndex,
+  fetchArchiveSummary,
+  type MorningSummary,
+} from "@/lib/morning-summary";
 import ArchiveClient from "./ArchiveClient";
+
+// ISR 1 時間 — pipeline nightly が append した新しい日付を再デプロイなしで反映
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "朝刊アーカイブ — EIC Data",
   description:
-    "過去の朝刊サマリーを日付・キーワードで検索。5 系列横断 (JEPX 東京 + WTI + USD/JPY + JGB 10y + 米 CPI) の前日比 + 解説を月次グルーピングで一覧、各カードから個別ページに即遷移。",
+    "過去の朝刊サマリーを日付・キーワードで検索。JEPX・燃料・為替・金利を横断する前日比 + 解説を月次グルーピングで一覧、各カードから個別ページに即遷移。",
 };
 
-export default function TodayArchivePage() {
-  const summaries = listAllSummaries(MORNING_SUMMARIES);
+/** 自動生成 (pipeline) + 手動 (編集版) の朝刊を日付でマージ (自動生成優先)、降順 */
+async function loadAllSummaries(): Promise<MorningSummary[]> {
+  const remoteDates = await fetchArchiveIndex();
+  const remote = (
+    await Promise.all(remoteDates.map((d) => fetchArchiveSummary(d)))
+  ).filter((s): s is MorningSummary => s !== null);
+
+  const byDate = new Map<string, MorningSummary>();
+  // 手動を先に入れ、自動生成で上書き (同一日付なら pipeline 版を優先)
+  for (const s of listAllSummaries(MORNING_SUMMARIES)) byDate.set(s.date, s);
+  for (const s of remote) byDate.set(s.date, s);
+
+  return [...byDate.values()].sort((a, b) =>
+    a.date < b.date ? 1 : a.date > b.date ? -1 : 0,
+  );
+}
+
+export default async function TodayArchivePage() {
+  const summaries = await loadAllSummaries();
   const groups = groupByMonth(summaries);
 
   return (
@@ -41,8 +66,8 @@ export default function TodayArchivePage() {
           <code>/today/[YYYY-MM-DD]</code> に遷移。
         </p>
         <p className="mt-2 text-sm md:text-base text-subink leading-relaxed">
-          5 系列横断 (JEPX 東京 + WTI + USD/JPY + JGB 10y + 米 CPI) の前日比 + 解説を
-          時系列で追跡できる、北極星「引用インフラ」の編集物アーカイブ。
+          JEPX・燃料・為替・金利を横断する前日比 + 解説を時系列で追跡できる、
+          北極星「引用インフラ」の編集物アーカイブ。毎朝データから自動生成。
         </p>
       </header>
 
@@ -51,7 +76,7 @@ export default function TodayArchivePage() {
       <p className="mt-6 text-[11px] text-faint">
         実装: 検索 + 日付範囲フィルタは <code>useDeferredValue</code> で 100ms 程度の
         体感遅延に抑制、月次グルーピング/200 字抜粋は <code>useMemo</code> でキャッシュ。
-        Phase D 以降は毎平日 7:00 JST cron で append される朝刊が自動的に本ページに反映。
+        朝刊は pipeline nightly が毎朝自動生成し、ISR (1 時間) で本ページへ反映されます。
       </p>
     </Container>
   );
