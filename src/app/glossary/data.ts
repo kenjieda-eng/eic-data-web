@@ -74,6 +74,13 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: "regulation",
   },
   {
+    slug: "wheeling-charge",
+    name: "託送料金",
+    description:
+      "送配電網の利用料。発電・小売の自由化後も送配電は一般送配電事業者の規制部門で、小売事業者が支払い電気料金に転嫁される（基本料金kW＋電力量料金kWhの二部制、電圧区分で単価が異なる）。2023年度からレベニューキャップ制度で国が5年ごとに収入上限を審査。福島賠償の負担金・廃炉円滑化負担金の回収経路でもある。詳細は Insight「託送料金の仕組み」参照。",
+    category: "regulation",
+  },
+  {
     slug: "scope123",
     name: "Scope 1/2/3",
     description:

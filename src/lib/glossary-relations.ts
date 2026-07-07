@@ -258,6 +258,13 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "lcoe", to: "renewables", weight: 0.6 },
   { from: "lcos", to: "kw-value", weight: 0.6 },
   { from: "lcos", to: "capacity-factor", weight: 0.5 },
+
+  // ===== 2026-07-07 Insight #100 連動 託送料金 wheeling-charge +4 エッジ (175 → 179) =====
+  // 電気料金に転嫁される規制コスト層のクラスタ (電気料金の構造・深掘り編)
+  { from: "wheeling-charge", to: "fuel-adj", weight: 0.6 },
+  { from: "wheeling-charge", to: "fit", weight: 0.6 },
+  { from: "wheeling-charge", to: "capacity-payment", weight: 0.7 },
+  { from: "wheeling-charge", to: "fuel-pass-through", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
