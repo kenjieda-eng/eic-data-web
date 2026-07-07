@@ -809,6 +809,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "METI なっとく（FIT買取価格）"],
     updated: "2026-07-05",
   },
+  {
+    slug: "wheeling-charge-structure",
+    title: "託送料金の仕組み：電気を「運ぶ」料金は誰がいつ払っているか",
+    lede: "託送料金は送配電網の利用料。発電・小売が自由化された今も送配電は各地域の一般送配電事業者が担う規制部門で、料金は2023年度からレベニューキャップ制度（国が5年ごとに収入上限を審査・承認）で決まる。何が含まれ（維持運用＋賠償・廃炉負担金の回収経路）、なぜ競争で下がらないのか、よくある3つの誤読を整理する教材。電気料金の構造・深掘り編の最終章。",
+    tags: ["電力", "制度", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-07",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
