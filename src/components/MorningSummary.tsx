@@ -95,7 +95,7 @@ export default function MorningSummary({
             <tr className="border-b border-slate-300 bg-slate-50 text-left text-ink">
               <th className="px-3 py-2 font-semibold">系列</th>
               <th className="px-3 py-2 font-semibold text-right">値</th>
-              <th className="px-3 py-2 font-semibold text-right">前日比</th>
+              <th className="px-3 py-2 font-semibold text-right">増減</th>
               <th className="px-3 py-2 font-semibold">編集</th>
             </tr>
           </thead>
@@ -116,6 +116,11 @@ export default function MorningSummary({
                 </td>
                 <td className="px-3 py-2 text-right tabular-nums text-ink">
                   {formatValue(line.value, line.unit)}
+                  {line.dataDate && (
+                    <span className="block text-[10px] font-normal text-faint">
+                      {line.dataDate}
+                    </span>
+                  )}
                 </td>
                 <td
                   className={`px-3 py-2 text-right tabular-nums ${
@@ -126,6 +131,9 @@ export default function MorningSummary({
                         : "text-emerald-700"
                   }`}
                 >
+                  <span className="block text-[10px] font-normal text-faint">
+                    {line.periodLabel ?? "前日比"}
+                  </span>
                   {formatDod(line.dod, line.dodPct, line.unit)}
                 </td>
                 <td className="px-3 py-2">
@@ -241,7 +249,10 @@ export default function MorningSummary({
       </nav>
 
       <p className="mt-6 text-xs text-faint">
-        朝刊サマリーは 2026-05-17 で一時停止中（Phase 4 で自動更新を再開予定）。一次出典は{" "}
+        {summary.generated
+          ? "本サマリーはデータから自動生成しています（事実の記述のみ）。取引判断向けの情報ではありません。"
+          : "本サマリーは編集版（編集部の手書き）です。取引判断向けの情報ではありません。"}{" "}
+        一次出典は{" "}
         <Link href="/catalog" className="text-emerald-700 underline hover:text-emerald-900">
           catalog
         </Link>{" "}

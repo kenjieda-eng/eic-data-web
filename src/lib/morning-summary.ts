@@ -35,6 +35,13 @@ export interface MorningSummaryLine {
   editor: MorningEditor;
   /** 200-400 字の解説文 */
   explanation: string;
+  /**
+   * この値の観測日 (YYYY-MM-DD)。pipeline 由来のみ設定。
+   * 月次系列は最新月末日など、date と一致しないことがある。
+   */
+  dataDate?: string;
+  /** 比較の種別ラベル ("前日比" | "前月比")。pipeline 由来のみ設定、未設定時は "前日比" 扱い。 */
+  periodLabel?: string;
 }
 
 export interface TrendAlert {
@@ -61,6 +68,11 @@ export interface MorningSummary {
   relatedInsightSlugs: string[];
   /** 週末まとめ or 来週展望 (週末版のみ、平日は null) */
   weekendNote: string | null;
+  /**
+   * pipeline nightly が生成した自動サマリーなら true。
+   * 手動 (リン編集長の編集版) エントリでは undefined。
+   */
+  generated?: boolean;
 }
 
 const TREND_ALERT_THRESHOLD = 3.0;
@@ -181,4 +193,182 @@ export async function generateMorningSummary(
     }
   }
   return summary;
+}
+
+/* ------------------------------------------------------------------ *
+ * pipeline (eic-data-pipeline) 由来の自動生成朝刊を取得する fetch 層
+ *
+ * pipeline nightly が data/today/{latest,index,archive/*}.json を main に配信。
+ * ここでは today-v1 スキーマを既存 MorningSummary 型へ純関数でアダプトし、
+ * 取得失敗は全て null / [] で graceful に握りつぶす (呼び出し側で手動版へフォールバック)。
+ * ------------------------------------------------------------------ */
+
+const TODAY_DATA_BASE =
+  "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/today";
+
+/** ISR 1 時間 — 毎朝 nightly 後の最初のアクセスで自動更新される */
+const TODAY_REVALIDATE = 3600;
+
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+/** pipeline today-v1 スキーマ (リモート JSON の 1 行) */
+interface RemoteTodayLine {
+  indicatorId: string;
+  label: string;
+  unit: string;
+  dataDate?: string;
+  value: number;
+  prevDate?: string;
+  prevValue?: number | null;
+  diff: number | null;
+  diffPct: number | null;
+  periodLabel?: string;
+  rangePosPct?: number | null;
+  editor: string;
+  explanation: string;
+}
+
+interface RemoteTodayAlert {
+  indicatorId: string;
+  label: string;
+  diffPct: number;
+  message: string;
+}
+
+/** pipeline today-v1 スキーマ (ルート) */
+export interface RemoteTodaySummary {
+  schema: string;
+  date: string;
+  weekday: string;
+  weekend: boolean;
+  generatedAt: string;
+  lines: RemoteTodayLine[];
+  alerts?: RemoteTodayAlert[];
+  relatedInsights?: string[];
+}
+
+/** pipeline today-index-v1 スキーマ */
+interface RemoteTodayIndex {
+  schema: string;
+  dates: string[];
+}
+
+/** pipeline の editor コード ("haru" | "makoto") を既存 MorningEditor へ写像 */
+export function mapRemoteEditor(editor: string): MorningEditor {
+  switch (editor) {
+    case "haru":
+    case "ハル":
+      return "ハル";
+    case "makoto":
+    case "マコト":
+      return "マコト";
+    case "リン":
+      return "リン";
+    default:
+      return "ハル";
+  }
+}
+
+/**
+ * pipeline today-v1 JSON → 既存 MorningSummary 型 (純関数)
+ *   - diff → dod、diffPct → dodPct
+ *   - editor "haru"/"makoto" → "ハル"/"マコト"
+ *   - relatedInsights → relatedInsightSlugs
+ *   - dataDate / periodLabel は optional でそのまま保持
+ *   - generated: true を付与 (リモート由来の目印)
+ */
+export function adaptRemoteSummary(remote: RemoteTodaySummary): MorningSummary {
+  const lines: MorningSummaryLine[] = remote.lines.map((l) => ({
+    indicatorId: l.indicatorId,
+    label: l.label,
+    unit: l.unit,
+    value: l.value,
+    dod: l.diff ?? null,
+    dodPct: l.diffPct ?? null,
+    editor: mapRemoteEditor(l.editor),
+    explanation: l.explanation,
+    dataDate: l.dataDate,
+    periodLabel: l.periodLabel,
+  }));
+  const alerts: TrendAlert[] = (remote.alerts ?? []).map((a) => ({
+    indicatorId: a.indicatorId,
+    label: a.label,
+    dodPct: a.diffPct,
+    message: a.message,
+  }));
+  return {
+    date: remote.date,
+    weekday: remote.weekday,
+    weekend: remote.weekend,
+    generatedAt: remote.generatedAt,
+    lines,
+    alerts,
+    relatedInsightSlugs: remote.relatedInsights ?? [],
+    weekendNote: null,
+    generated: true,
+  };
+}
+
+/** today-v1 の最低限の形状チェック (schema + lines 配列) */
+function isRemoteTodaySummary(json: unknown): json is RemoteTodaySummary {
+  if (typeof json !== "object" || json === null) return false;
+  const o = json as Record<string, unknown>;
+  return o.schema === "today-v1" && Array.isArray(o.lines);
+}
+
+/** 最新の自動生成朝刊を取得。失敗時 (ネットワーク / スキーマ不整合) は null */
+export async function fetchLatestSummary(): Promise<MorningSummary | null> {
+  try {
+    const res = await fetch(`${TODAY_DATA_BASE}/latest.json`, {
+      next: { revalidate: TODAY_REVALIDATE },
+    });
+    if (!res.ok) return null;
+    const json: unknown = await res.json();
+    if (!isRemoteTodaySummary(json)) return null;
+    return adaptRemoteSummary(json);
+  } catch {
+    return null;
+  }
+}
+
+/** 自動生成朝刊の日付索引 (降順)。失敗時は空配列 */
+export async function fetchArchiveIndex(): Promise<string[]> {
+  try {
+    const res = await fetch(`${TODAY_DATA_BASE}/index.json`, {
+      next: { revalidate: TODAY_REVALIDATE },
+    });
+    if (!res.ok) return [];
+    const json: unknown = await res.json();
+    if (
+      typeof json !== "object" ||
+      json === null ||
+      !Array.isArray((json as RemoteTodayIndex).dates)
+    ) {
+      return [];
+    }
+    const dates = (json as RemoteTodayIndex).dates.filter(
+      (d): d is string => typeof d === "string" && ISO_DATE_RE.test(d),
+    );
+    return sortByDateDesc(dates);
+  } catch {
+    return [];
+  }
+}
+
+/** 指定日の自動生成朝刊 (archive/{date}.json)。無ければ / 失敗時は null */
+export async function fetchArchiveSummary(
+  date: string,
+): Promise<MorningSummary | null> {
+  if (!ISO_DATE_RE.test(date)) return null;
+  try {
+    const res = await fetch(`${TODAY_DATA_BASE}/archive/${date}.json`, {
+      next: { revalidate: TODAY_REVALIDATE },
+    });
+    if (!res.ok) return null;
+    const json: unknown = await res.json();
+    if (!isRemoteTodaySummary(json)) return null;
+    return adaptRemoteSummary(json);
+  } catch {
+    return null;
+  }
 }

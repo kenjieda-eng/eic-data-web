@@ -195,6 +195,15 @@ export default function ArchiveClient({ summaries }: ArchiveClientProps) {
                             🔴 {s.alerts.length} alerts
                           </span>
                         )}
+                        <span
+                          className={`mr-2 rounded px-1.5 py-0.5 ${
+                            s.generated
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-slate-100 text-faint"
+                          }`}
+                        >
+                          {s.generated ? "自動生成" : "編集版"}
+                        </span>
                         {s.weekend ? "週末版" : "平日"}
                       </span>
                     </div>
