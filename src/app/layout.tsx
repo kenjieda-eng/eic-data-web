@@ -26,24 +26,46 @@ const notoSansJp = Noto_Sans_JP({
   weight: ["400", "500", "700"],
 });
 
-const NAV_ITEMS = [
-  { href: "/", label: "TOP" },
-  { href: "/today", label: "朝刊" },
-  { href: "/watch", label: "マーケット" },
-  { href: "/insight", label: "インサイト" },
-  { href: "/insight/map", label: "Insight マップ" },
-  { href: "/insight/network", label: "Insight ネットワーク" },
-  { href: "/map", label: "9 エリア地図" },
-  { href: "/markets", label: "市場" },
-  { href: "/catalog", label: "カタログ" },
-  { href: "/compare", label: "系列比較" },
-  { href: "/playground", label: "データ実験" },
-  { href: "/cite", label: "引用" },
-  { href: "/data-quality", label: "データ品質" },
-  { href: "/methodology", label: "方法論" },
-  { href: "/glossary", label: "用語集" },
-  { href: "/search", label: "検索" },
+// 探索UX P2: フラット16項目を「常時2（TOP / 検索）＋ 3群」に再編。
+// 全16の href・ラベルは据え置き（群で文脈を与えるだけ）。MobileNav も同じ構造を消費する。
+const NAV_HOME = { href: "/", label: "TOP" };
+const NAV_SEARCH = { href: "/search", label: "検索" };
+
+const NAV_GROUPS = [
+  {
+    label: "データ",
+    items: [
+      { href: "/watch", label: "マーケット" },
+      { href: "/catalog", label: "カタログ" },
+      { href: "/compare", label: "系列比較" },
+      { href: "/playground", label: "データ実験" },
+      { href: "/map", label: "9 エリア地図" },
+      { href: "/markets", label: "市場" },
+    ],
+  },
+  {
+    label: "読みもの",
+    items: [
+      { href: "/today", label: "朝刊" },
+      { href: "/insight", label: "インサイト" },
+      { href: "/insight/map", label: "Insight マップ" },
+      { href: "/insight/network", label: "Insight ネットワーク" },
+      { href: "/glossary", label: "用語集" },
+    ],
+  },
+  {
+    label: "利用ガイド",
+    items: [
+      { href: "/cite", label: "引用" },
+      { href: "/methodology", label: "方法論" },
+      { href: "/data-quality", label: "データ品質" },
+    ],
+  },
 ];
+
+// 既存リンクと同一のトップレベル・スタイル（TOP / 検索 / 各群の summary で共有）。
+const NAV_LINK_CLASS =
+  "text-slate-700 transition-colors hover:text-emerald-700 focus-visible:text-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500";
 
 export async function generateMetadata(): Promise<Metadata> {
   const catalog = await fetchCatalog();
@@ -159,19 +181,43 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
             </Link>
             <nav
               aria-label="グローバルナビ"
-              className="hidden md:flex flex-wrap gap-4 text-sm"
+              className="hidden md:flex flex-wrap items-center gap-4 text-sm"
             >
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="text-slate-700 transition-colors hover:text-emerald-700 focus-visible:text-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
-                >
-                  {item.label}
-                </Link>
+              <Link href={NAV_HOME.href} className={NAV_LINK_CLASS}>
+                {NAV_HOME.label}
+              </Link>
+              {NAV_GROUPS.map((group) => (
+                // JSなしネイティブ <details>/<summary> ドロップダウン（Server Component のまま）。
+                // 中身の全リンクは初期 DOM に常在するため SEO 非退行。
+                <details key={group.label} className="relative">
+                  <summary
+                    className={`${NAV_LINK_CLASS} flex cursor-pointer list-none items-center gap-1 [&::-webkit-details-marker]:hidden`}
+                  >
+                    {group.label}
+                    <span aria-hidden>▾</span>
+                  </summary>
+                  <div className="absolute left-0 top-full z-50 mt-2 w-52 rounded-md border border-slate-200 bg-white p-2 shadow-lg">
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`block px-3 py-1.5 ${NAV_LINK_CLASS}`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </details>
               ))}
+              <Link href={NAV_SEARCH.href} className={NAV_LINK_CLASS}>
+                {NAV_SEARCH.label}
+              </Link>
             </nav>
-            <MobileNav items={NAV_ITEMS} />
+            <MobileNav
+              home={NAV_HOME}
+              groups={NAV_GROUPS}
+              search={NAV_SEARCH}
+            />
           </div>
         </header>
         <main>{children}</main>
