@@ -1,14 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 export interface MobileNavItem {
   href: string;
   label: string;
 }
 
-export default function MobileNav({ items }: { items: MobileNavItem[] }) {
+export interface MobileNavGroup {
+  label: string;
+  items: MobileNavItem[];
+}
+
+export default function MobileNav({
+  home,
+  groups,
+  search,
+}: {
+  home: MobileNavItem;
+  groups: MobileNavGroup[];
+  search: MobileNavItem;
+}) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -19,6 +32,9 @@ export default function MobileNav({ items }: { items: MobileNavItem[] }) {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
+
+  const linkClass =
+    "block rounded-md px-3 py-2 text-base text-ink hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500";
 
   return (
     <div className="md:hidden">
@@ -37,18 +53,46 @@ export default function MobileNav({ items }: { items: MobileNavItem[] }) {
           id="mobile-nav-panel"
           className="absolute left-0 right-0 top-full z-50 border-b border-slate-200 bg-white shadow-md"
         >
+          {/* TOP →（群見出し + 群リンク）→ 検索。全16リンクを保持。 */}
           <ul className="mx-auto max-w-3xl px-4 py-3 space-y-1">
-            {items.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-2 text-base text-ink hover:bg-emerald-50 hover:text-emerald-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
-                >
-                  {item.label}
-                </Link>
-              </li>
+            <li>
+              <Link
+                href={home.href}
+                onClick={() => setOpen(false)}
+                className={linkClass}
+              >
+                {home.label}
+              </Link>
+            </li>
+            {groups.map((group) => (
+              <Fragment key={group.label}>
+                <li>
+                  <p className="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    {group.label}
+                  </p>
+                </li>
+                {group.items.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={linkClass}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </Fragment>
             ))}
+            <li>
+              <Link
+                href={search.href}
+                onClick={() => setOpen(false)}
+                className={linkClass}
+              >
+                {search.label}
+              </Link>
+            </li>
           </ul>
         </div>
       )}
