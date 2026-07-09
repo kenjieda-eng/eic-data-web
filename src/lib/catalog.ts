@@ -33,7 +33,7 @@ export interface Catalog {
   indicators: Indicator[];
 }
 
-export async function fetchCatalog(): Promise<Catalog> {
+async function fetchCatalogUncached(): Promise<Catalog> {
   const res = await fetch(CATALOG_URL, {
     next: { revalidate: 86400 },
   });
@@ -41,6 +41,21 @@ export async function fetchCatalog(): Promise<Catalog> {
     throw new Error(`Failed to fetch catalog: ${res.status} ${res.statusText}`);
   }
   return res.json();
+}
+
+// 同一ランタイム内（特にクライアントの同一ページ）で fetchCatalog が多重に呼ばれても
+// GitHub raw への実 fetch を 1 本に束ねるための in-flight メモ。reject 時はクリアして
+// 次回リトライを可能にする（成功結果は共有）。
+let inFlightCatalog: Promise<Catalog> | null = null;
+
+export function fetchCatalog(): Promise<Catalog> {
+  if (!inFlightCatalog) {
+    inFlightCatalog = fetchCatalogUncached().catch((err) => {
+      inFlightCatalog = null;
+      throw err;
+    });
+  }
+  return inFlightCatalog;
 }
 
 // =============================================================================

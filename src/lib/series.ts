@@ -67,10 +67,106 @@ function toMeta(ind: Indicator): SeriesMeta {
   };
 }
 
+/**
+ * /api/indicator/<id> のレスポンス（クライアント経由取得時）。
+ * route.ts は catalog の Indicator を top-level に spread し、時系列を `data` に、
+ * レスポンス自体のメタ（生成時刻・series_error 等）を `meta` に載せる。
+ * SeriesMeta の必須 8 フィールドはすべて top-level に含まれる。
+ */
+interface IndicatorApiResponse {
+  data?: unknown;
+  error?: unknown;
+  meta?: unknown;
+  [key: string]: unknown;
+}
+
+const SERIES_META_FIELDS: readonly (keyof SeriesMeta)[] = [
+  "id",
+  "name",
+  "unit",
+  "source_name",
+  "source_url",
+  "observation_cutoff",
+  "license",
+  "domain",
+];
+
+/**
+ * /api/indicator/<id> のレスポンス JSON を { meta, points } に変換する純関数。
+ *
+ * - API がエラー本文 (`error`) を返した場合、または CSV 取得に失敗して
+ *   `meta.series_error` が付いている場合は throw する（チャート側の error 表示を
+ *   現行の raw 直 fetch 時と同様に活かすため）。
+ * - SeriesMeta の必須フィールドが欠けている場合も throw する。
+ *
+ * fetch 分離のため純関数として切り出し、単体テスト可能にしている。
+ */
+export function adaptIndicatorResponse(
+  id: string,
+  json: unknown,
+): { meta: SeriesMeta; points: SeriesPoint[] } {
+  if (!json || typeof json !== "object") {
+    throw new Error(`Invalid indicator response for ${id}`);
+  }
+  const body = json as IndicatorApiResponse;
+
+  // 404 / 502 / 429 などは本文に `error` を持つ。
+  if (typeof body.error === "string" && body.error) {
+    throw new Error(`Failed to fetch indicator ${id}: ${body.error}`);
+  }
+
+  // サーバー側で CSV 取得に失敗すると 200 + data:[] + meta.series_error になる。
+  const respMeta = body.meta;
+  if (respMeta && typeof respMeta === "object") {
+    const seriesError = (respMeta as { series_error?: unknown }).series_error;
+    if (typeof seriesError === "string" && seriesError) {
+      throw new Error(`Failed to fetch series ${id}: ${seriesError}`);
+    }
+  }
+
+  const meta = {} as SeriesMeta;
+  for (const field of SERIES_META_FIELDS) {
+    const value = body[field];
+    if (typeof value !== "string") {
+      throw new Error(`Indicator response ${id} missing field: ${field}`);
+    }
+    meta[field] = value;
+  }
+
+  if (!Array.isArray(body.data)) {
+    throw new Error(`Indicator response ${id} missing data array`);
+  }
+  const points: SeriesPoint[] = [];
+  for (const row of body.data) {
+    const r = (row ?? {}) as { date?: unknown; value?: unknown };
+    if (typeof r.date !== "string" || !r.date) continue;
+    const v = r.value;
+    points.push({
+      date: r.date,
+      value: typeof v === "number" && Number.isFinite(v) ? v : null,
+    });
+  }
+
+  return { meta, points };
+}
+
 export async function fetchSeries(id: string): Promise<{
   meta: SeriesMeta;
   points: SeriesPoint[];
 }> {
+  // クライアント (ブラウザ) では GitHub raw を直接叩かず、自前の
+  // /api/indicator/<id> (Vercel CDN / Cache-Control s-maxage 済み) を経由する。
+  // これで raw.githubusercontent の同一 IP レート制限 (429) を回避する。
+  // GitHub への実アクセスはサーバー側 (build/ISR、下の Next fetch キャッシュ済み経路) だけに閉じる。
+  if (typeof window !== "undefined") {
+    const res = await fetch(`/api/indicator/${encodeURIComponent(id)}`);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch series ${id}: ${res.status}`);
+    }
+    return adaptIndicatorResponse(id, await res.json());
+  }
+
+  // サーバー側 (build/ISR): 従来どおり raw.githubusercontent を直 fetch。
   const catalog = await fetchCatalog();
   const ind = catalog.indicators.find((i) => i.id === id);
   if (!ind) throw new Error(`Indicator not found in catalog: ${id}`);
