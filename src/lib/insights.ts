@@ -817,6 +817,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-07",
   },
+  {
+    slug: "imbalance-charge-structure",
+    title: "インバランス料金の仕組み：計画と実績の「ズレ」はいくらで精算されるか",
+    lede: "電気は30分ごとの「計画」を提出し、実績とのズレ＝インバランスを一般送配電事業者と事後精算する。料金は調整力のkWh価格をベースに全国一律で算定され、余剰・不足とも同一単価、需給ひっ迫時には高くなる（2022年度〜現行制度）。ペナルティではなくコストの事後負担という整理、スポット・調整力価格との関係、よくある3つの誤読を整理する教材。需給調整市場の読み方の続編。",
+    tags: ["電力", "制度", "需給調整市場", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-09",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

@@ -70,7 +70,8 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     slug: "imbalance",
     name: "インバランス",
-    description: "計画と実績の差に対する補給・精算制度。",
+    description:
+      "計画値同時同量制度のもとで生じる、発電・需要の計画と実績の差（インバランス）を一般送配電事業者と事後精算する仕組み。料金はそのコマで使われた調整力のkWh価格をベースに全国一律で算定され、余剰・不足とも同一単価。需給ひっ迫時には高くなる補正の枠組みがある（2022年度〜現行制度）。[[balancing-market]] の調達・運用コストと地続きで、平常時の水準は [[jepx-spot]] など卸市場価格に近い。詳細は Insight「インバランス料金の仕組み」参照。",
     category: "regulation",
   },
   {

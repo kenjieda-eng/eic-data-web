@@ -148,6 +148,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "how-to-read-capacity-market": "ChartLine",
   "how-to-read-fit-fip": "ChartLine",
   "wheeling-charge-structure": "ChartLine",
+  "imbalance-charge-structure": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */
