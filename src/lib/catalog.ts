@@ -1,3 +1,5 @@
+import { fetchWithRetry } from "./fetch-retry";
+
 const CATALOG_URL =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/catalog/indicators.json";
 
@@ -34,7 +36,7 @@ export interface Catalog {
 }
 
 async function fetchCatalogUncached(): Promise<Catalog> {
-  const res = await fetch(CATALOG_URL, {
+  const res = await fetchWithRetry(CATALOG_URL, {
     next: { revalidate: 86400 },
   });
   if (!res.ok) {

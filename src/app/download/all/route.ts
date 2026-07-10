@@ -19,6 +19,7 @@
 
 import JSZip from "jszip";
 import { fetchCatalog, type Indicator } from "@/lib/catalog";
+import { fetchWithRetry } from "@/lib/fetch-retry";
 import { idToDirectory } from "@/lib/series";
 
 export const revalidate = 86400;
@@ -133,7 +134,7 @@ async function fetchCsvOrNull(ind: Indicator): Promise<string | null> {
     const url = ind.csv_path
       ? `${RAW_BASE}/${ind.csv_path}`
       : `${SERIES_BASE}/${idToDirectory(ind.id)}/${ind.id}.csv`;
-    const res = await fetch(url, { next: { revalidate: 86400 } });
+    const res = await fetchWithRetry(url, { next: { revalidate: 86400 } });
     if (!res.ok) return null;
     return await res.text();
   } catch {
