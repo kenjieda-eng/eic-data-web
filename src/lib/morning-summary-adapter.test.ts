@@ -59,6 +59,7 @@ const REMOTE_FIXTURE: RemoteTodaySummary = {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.useRealTimers();
 });
 
 describe("adaptRemoteSummary: today-v1 → MorningSummary", () => {
@@ -122,8 +123,13 @@ describe("fetch 層: graceful 失敗", () => {
   });
 
   test("fetchLatestSummary: ネットワーク例外時は null", async () => {
+    // fetchWithRetry がネットワーク例外を 3 回リトライする。実時間スリープを避け
+    // fake timers でバックオフを消化し、最終的に null へ graceful fallback する。
+    vi.useFakeTimers();
     vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("network"));
-    expect(await fetchLatestSummary()).toBeNull();
+    const p = fetchLatestSummary();
+    await vi.runAllTimersAsync();
+    expect(await p).toBeNull();
   });
 
   test("fetchLatestSummary: !res.ok や schema 不整合は null", async () => {
@@ -135,7 +141,11 @@ describe("fetch 層: graceful 失敗", () => {
   });
 
   test("fetchArchiveIndex: 失敗時は空配列", async () => {
+    // 同上: リトライ後のバックオフを fake timers で消化してから空配列へ収束。
+    vi.useFakeTimers();
     vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("network"));
-    expect(await fetchArchiveIndex()).toEqual([]);
+    const p = fetchArchiveIndex();
+    await vi.runAllTimersAsync();
+    expect(await p).toEqual([]);
   });
 });

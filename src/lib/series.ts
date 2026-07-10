@@ -1,4 +1,5 @@
 import { fetchCatalog, type Indicator } from "./catalog";
+import { fetchWithRetry } from "./fetch-retry";
 
 const SERIES_BASE =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/processed";
@@ -174,7 +175,7 @@ export async function fetchSeries(id: string): Promise<{
   const url = ind.csv_path
     ? `${RAW_BASE}/${ind.csv_path}`
     : `${SERIES_BASE}/${idToDirectory(id)}/${id}.csv`;
-  const res = await fetch(url, { next: { revalidate: 86400 } });
+  const res = await fetchWithRetry(url, { next: { revalidate: 86400 } });
   if (!res.ok) {
     throw new Error(`Failed to fetch series ${id}: ${res.status} ${url}`);
   }

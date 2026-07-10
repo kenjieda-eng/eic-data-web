@@ -13,6 +13,7 @@
  * を実装。Phase D-Day-Z で GitHub Actions cron + catalog 動的取得で運用化予定。
  */
 
+import { fetchWithRetry } from "./fetch-retry";
 import { INSIGHTS, type Insight } from "./insights";
 import { MORNING_SUMMARIES } from "./morning-summary-data";
 
@@ -319,7 +320,7 @@ function isRemoteTodaySummary(json: unknown): json is RemoteTodaySummary {
 /** 最新の自動生成朝刊を取得。失敗時 (ネットワーク / スキーマ不整合) は null */
 export async function fetchLatestSummary(): Promise<MorningSummary | null> {
   try {
-    const res = await fetch(`${TODAY_DATA_BASE}/latest.json`, {
+    const res = await fetchWithRetry(`${TODAY_DATA_BASE}/latest.json`, {
       next: { revalidate: TODAY_REVALIDATE },
     });
     if (!res.ok) return null;
@@ -334,7 +335,7 @@ export async function fetchLatestSummary(): Promise<MorningSummary | null> {
 /** 自動生成朝刊の日付索引 (降順)。失敗時は空配列 */
 export async function fetchArchiveIndex(): Promise<string[]> {
   try {
-    const res = await fetch(`${TODAY_DATA_BASE}/index.json`, {
+    const res = await fetchWithRetry(`${TODAY_DATA_BASE}/index.json`, {
       next: { revalidate: TODAY_REVALIDATE },
     });
     if (!res.ok) return [];
@@ -361,7 +362,7 @@ export async function fetchArchiveSummary(
 ): Promise<MorningSummary | null> {
   if (!ISO_DATE_RE.test(date)) return null;
   try {
-    const res = await fetch(`${TODAY_DATA_BASE}/archive/${date}.json`, {
+    const res = await fetchWithRetry(`${TODAY_DATA_BASE}/archive/${date}.json`, {
       next: { revalidate: TODAY_REVALIDATE },
     });
     if (!res.ok) return null;
