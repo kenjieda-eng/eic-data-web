@@ -245,6 +245,13 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
               schema {catalog.schema} ／ generated {catalog.generated_at}
             </p>
             <p className="space-x-2">
+              <Link
+                href="/en"
+                className="underline hover:text-emerald-700"
+              >
+                English
+              </Link>
+              <span aria-hidden>／</span>
               <a
                 href="https://eic-jp.org/"
                 className="underline hover:text-emerald-700"

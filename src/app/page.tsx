@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import ChartLine from "@/components/ChartLine";
 import Container from "@/components/Container";
 import NewsletterSubscribeBox from "@/components/NewsletterSubscribeBox";
 import { fetchCatalog } from "@/lib/catalog";
 import { INSIGHTS } from "@/lib/insights";
+
+// 英語版パイロット (D-019): layout の generateMetadata とマージされ、
+// hreflang alternate (en → /en) のみ追加する。title 等 他フィールドは layout を継承。
+export const metadata: Metadata = {
+  alternates: {
+    languages: { en: "/en" },
+  },
+};
 
 const KEY_INDICATORS: { id: string; color: string }[] = [
   { id: "jepx-spot-tokyo", color: "#047857" },
