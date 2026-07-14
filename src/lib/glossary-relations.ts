@@ -265,6 +265,12 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "wheeling-charge", to: "fit", weight: 0.6 },
   { from: "wheeling-charge", to: "capacity-payment", weight: 0.7 },
   { from: "wheeling-charge", to: "fuel-pass-through", weight: 0.6 },
+
+  // ===== 2026-07-14 Insight #102 市場分断 market-splitting +3 エッジ (179 → 182) =====
+  // 連系線制約 → 市場分断 → エリアプライスのクラスタ (エリアプライスと市場分断の読み方)
+  { from: "market-splitting", to: "transmission-line-constraint", weight: 0.7 },
+  { from: "market-splitting", to: "jepx-spot", weight: 0.7 },
+  { from: "market-splitting", to: "solar-surplus", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

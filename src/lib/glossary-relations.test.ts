@@ -25,10 +25,10 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("GLOSSARY_RELATIONS は 70-180 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109 + Phase D #61 +10 で 119 + Phase D #61 連動 容量市場 +10 で 129 + D-018 需給調整市場 +9 で 138 + Phase 2 Ember 3部作 +20 で 158 + EU ETS 方法論 +12 で 170 + #74 lcoe/lcos +5 で 175 + #100 託送料金 +4 で 179)", () => {
+  test("GLOSSARY_RELATIONS は 70-185 件 (Day 4 拡張 70-100 + Day 6 PM +10 で 109 + Phase D #61 +10 で 119 + Phase D #61 連動 容量市場 +10 で 129 + D-018 需給調整市場 +9 で 138 + Phase 2 Ember 3部作 +20 で 158 + EU ETS 方法論 +12 で 170 + #74 lcoe/lcos +5 で 175 + #100 託送料金 +4 で 179 + #102 市場分断 +3 で 182)", () => {
     expect(GLOSSARY_RELATIONS.length).toBeGreaterThanOrEqual(70);
-    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(180);
-    expect(GLOSSARY_RELATIONS.length).toBe(179);
+    expect(GLOSSARY_RELATIONS.length).toBeLessThanOrEqual(185);
+    expect(GLOSSARY_RELATIONS.length).toBe(182);
   });
 
   test("GLOSSARY_RELATIONS は重複なし (順序問わず)", () => {
@@ -40,12 +40,12 @@ describe("/glossary/graph: glossary-relations", () => {
     }
   });
 
-  test("buildGlossaryGraph: nodes は 75 件、各 degree が正しく集計", () => {
+  test("buildGlossaryGraph: nodes は 76 件、各 degree が正しく集計", () => {
     const g = buildGlossaryGraph();
-    expect(g.nodes).toHaveLength(75);
-    // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) + Day5 午後 2 (yen-denominated-cost / transmission-line-constraint) + Phase D 1 (occto) + Phase D #61 連動 1 (kw-value) = 12 本
+    expect(g.nodes).toHaveLength(76);
+    // 手動チェック: jepx-spot は 6 + Day4 拡張 2 (fuel-pass-through / industrial-production) + Day5 午後 2 (yen-denominated-cost / transmission-line-constraint) + Phase D 1 (occto) + Phase D #61 連動 1 (kw-value) + #102 市場分断 1 (market-splitting) = 13 本
     const jepx = g.nodes.find((n) => n.slug === "jepx-spot");
-    expect(jepx?.degree).toBe(12);
+    expect(jepx?.degree).toBe(13);
     // 全 degree の合計 = エッジ数 × 2
     const totalDegree = g.nodes.reduce((sum, n) => sum + n.degree, 0);
     expect(totalDegree).toBe(g.edges.length * 2);
@@ -104,7 +104,7 @@ describe("/glossary/graph: glossary-relations", () => {
     expect(GLOSSARY_CATEGORY_COLORS.international).toMatch(/^#[0-9a-f]{6}$/i);
   });
 
-  test("全 75 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
+  test("全 76 用語が少なくとも 1 つの関連 (孤立ノードなし)", () => {
     const g = buildGlossaryGraph();
     const isolated = g.nodes.filter((n) => n.degree === 0);
     expect(isolated).toHaveLength(0);

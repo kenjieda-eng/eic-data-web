@@ -825,6 +825,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-09",
   },
+  {
+    slug: "how-to-read-area-prices",
+    title: "エリアプライスと市場分断の読み方：なぜ電気の値段は9つに分かれるのか",
+    lede: "JEPXスポットは全国で一つのオークションなのに、価格は9エリアに分かれることがある。連系線の容量上限に達すると市場が「分断」され、両側で別々の約定価格＝エリアプライスが付くからだ。冬の北海道（上方向）と太陽光余剰の九州（下方向）という2つの典型、価格差が意味するもの（送電容量の希少性シグナル）、日次平均データを読むときの誤読を整理する教材。9エリア比較データ記事の入口。",
+    tags: ["電力", "JEPX", "連系線", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "JEPX スポット市場"],
+    updated: "2026-07-14",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
