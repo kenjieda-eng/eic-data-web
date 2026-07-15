@@ -11,7 +11,8 @@
  *     data: [{ date: "2024-01", value: 9.32 }, ...]
  *   }
  *
- * Cache: ISR 24 時間 (revalidate = 86400)
+ * Cache: ISR 1 時間 (revalidate = 3600)
+ *   毎朝 9 時台の nightly 更新後、10 時台にはチャートへ反映させるため 24h → 1h に短縮。
  * CORS: 公開 API、認証不要
  */
 
@@ -25,7 +26,7 @@ import {
 } from "@/lib/rate-limit";
 import { bumpUsage } from "@/lib/usage-stats";
 
-export const revalidate = 86400; // 24 時間
+export const revalidate = 3600; // 1 時間（毎朝9時台のnightly後、10時台にはチャート反映）
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -106,8 +107,9 @@ export async function GET(request: Request, { params }: RouteParams) {
         headers: withRateLimitHeaders(
           {
             ...CORS_HEADERS,
+            // 毎朝9時台のnightly後、10時台にはチャート反映させるため s-maxage を 1h に短縮。
             "Cache-Control":
-              "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
+              "public, max-age=300, s-maxage=3600, stale-while-revalidate=86400",
           },
           rl,
         ),

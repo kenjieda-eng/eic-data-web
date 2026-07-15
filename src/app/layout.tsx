@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import Script from "next/script";
 import MobileNav from "@/components/MobileNav";
+import NavDropdownBehavior from "@/components/NavDropdownBehavior";
 import { fetchCatalog } from "@/lib/catalog";
 import "./globals.css";
 
@@ -181,6 +182,7 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
             </Link>
             <nav
               aria-label="グローバルナビ"
+              data-nav-dropdowns
               className="hidden md:flex flex-wrap items-center gap-4 text-sm"
             >
               <Link href={NAV_HOME.href} className={NAV_LINK_CLASS}>
@@ -218,6 +220,8 @@ gtag('config', '${GA_MEASUREMENT_ID}', {
               groups={NAV_GROUPS}
               search={NAV_SEARCH}
             />
+            {/* ナビ <details> の挙動（外側クリックで閉じる / 同時に1つだけ）を後付け。描画は null。 */}
+            <NavDropdownBehavior />
           </div>
         </header>
         <main>{children}</main>

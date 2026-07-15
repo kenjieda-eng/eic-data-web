@@ -36,8 +36,9 @@ export interface Catalog {
 }
 
 async function fetchCatalogUncached(): Promise<Catalog> {
+  // 毎朝9時台のnightly後、10時台にはチャート反映させるため 24h → 1h に短縮。
   const res = await fetchWithRetry(CATALOG_URL, {
-    next: { revalidate: 86400 },
+    next: { revalidate: 3600 },
   });
   if (!res.ok) {
     throw new Error(`Failed to fetch catalog: ${res.status} ${res.statusText}`);

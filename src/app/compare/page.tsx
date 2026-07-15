@@ -14,6 +14,22 @@ export const metadata: Metadata = {
 
 export const revalidate = 86400;
 
+// よく見る組み合わせのプリセット。ids は URL クエリでそのまま CompareClient に渡り、
+// 既存の searchParams → state 初期化機構で復元される（catalog 実在 id のみ）。
+const COMPARE_PRESETS: { label: string; ids: string }[] = [
+  { label: "東西価格差", ids: "jepx-spot-tokyo,jepx-spot-kansai" },
+  {
+    label: "市場分断の3エリア",
+    ids: "jepx-spot-tokyo,jepx-spot-kyushu,jepx-spot-hokkaido",
+  },
+  { label: "燃料3種", ids: "fuel-lng-jp-cif,fuel-crude-brent,fuel-coal-au" },
+  { label: "日米10年金利", ids: "jgb-10y-yield,us-treasury-10y" },
+  {
+    label: "電源構成3種",
+    ids: "meti-gen-solar,meti-gen-thermal,meti-gen-nuclear",
+  },
+];
+
 export default async function ComparePage() {
   const catalog = await fetchCatalog();
 
@@ -56,6 +72,24 @@ export default async function ComparePage() {
           </Link>
         </p>
       </header>
+
+      {/* よく見る組み合わせ（サーバー描画のチップ型リンク。既存チップ準拠のスタイル） */}
+      <section aria-label="よく見る組み合わせ" className="mb-6">
+        <h2 className="text-[12px] font-semibold uppercase tracking-wider text-faint mb-2">
+          よく見る組み合わせ
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {COMPARE_PRESETS.map((preset) => (
+            <Link
+              key={preset.label}
+              href={`/compare?ids=${preset.ids}`}
+              className="inline-flex items-center rounded-full border border-slate-300 bg-white px-3 py-1 text-[12px] text-subink transition-colors hover:border-emerald-500 hover:text-emerald-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
+            >
+              {preset.label}
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <Suspense
         fallback={<div className="text-sm text-subink">読み込み中…</div>}
