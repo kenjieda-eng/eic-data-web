@@ -271,6 +271,12 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "market-splitting", to: "transmission-line-constraint", weight: 0.7 },
   { from: "market-splitting", to: "jepx-spot", weight: 0.7 },
   { from: "market-splitting", to: "solar-surplus", weight: 0.6 },
+
+  // ===== 2026-07-16 Insight #103 予備率 reserve-margin +3 エッジ (182 → 185) =====
+  // kW の現在値 → ひっ迫が市場に映る経路のクラスタ (予備率と需給ひっ迫の読み方)
+  { from: "reserve-margin", to: "kw-value", weight: 0.7 },
+  { from: "reserve-margin", to: "jepx-spot", weight: 0.6 },
+  { from: "reserve-margin", to: "imbalance", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

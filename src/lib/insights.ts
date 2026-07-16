@@ -833,6 +833,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "JEPX スポット市場"],
     updated: "2026-07-14",
   },
+  {
+    slug: "how-to-read-reserve-margin",
+    title: "予備率と需給ひっ迫の読み方：「3%」はなにを意味するのか",
+    lede: "夏や冬のニュースで見る「予備率」は、供給力が需要に対してどれだけ余裕があるかを示すkWの指標＝（供給力−需要）÷需要。最低ラインとされる3%、需給ひっ迫注意報（5%未満見込み）・警報（3%未満見込み）の段階構造、ひっ迫時に市場で起きること（JEPX高騰・インバランス補正・融通）、でんき予報の見方と3つの誤読（3%＝停電ではない／危険な時間帯は点灯帯へ移った／kWhの余裕ではない）を整理する教材。容量市場・インバランス・市場分断と接続する需給の総合入口。",
+    tags: ["電力", "容量市場", "JEPX", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-07-16",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
