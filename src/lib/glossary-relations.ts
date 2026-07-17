@@ -277,6 +277,11 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   { from: "reserve-margin", to: "kw-value", weight: 0.7 },
   { from: "reserve-margin", to: "jepx-spot", weight: 0.6 },
   { from: "reserve-margin", to: "imbalance", weight: 0.6 },
+
+  // ===== 2026-07-17 Insight #104 非化石証書 nonfossil-certificate +2 エッジ (185 → 187) =====
+  // 電気と切り離した環境価値取引のクラスタ (非化石証書の読み方)
+  { from: "nonfossil-certificate", to: "fit", weight: 0.7 },
+  { from: "nonfossil-certificate", to: "gx-ets", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {

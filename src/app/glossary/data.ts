@@ -54,6 +54,13 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     category: "regulation",
   },
   {
+    slug: "nonfossil-certificate",
+    name: "非化石証書",
+    description:
+      "非化石電源（再エネ＋原子力）の電気1kWhが持つ非化石価値を証書化し、電気と切り離して取引可能にしたもの。高度化法の非化石比率算定・温対法の排出係数調整・需要家への環境表示の3用途。JEPXの非化石価値取引市場で年4回オークションされ、[[fit]] 電気由来のFIT証書（再エネ価値取引市場、2021年11月から需要家も直接購入可・売上は賦課金原資に充当）と、非FIT証書（高度化法義務達成市場、再エネ指定／指定なし）に分かれる。制度が上限・下限価格を設定（FIT証書は上限4円・下限0.4円/kWh、2023年8月〜）。[[gx-ets]] などと並ぶ環境価値取引の一形態。詳細は Insight「非化石証書の読み方」参照。",
+    category: "regulation",
+  },
+  {
     slug: "peak-demand",
     name: "ピーク需要",
     description:
