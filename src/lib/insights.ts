@@ -841,6 +841,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-07-16",
   },
+  {
+    slug: "how-to-read-nonfossil-certificates",
+    title: "非化石証書の読み方：電気の「環境価値」はどこで、いくらで取引されるか",
+    lede: "再エネや原子力の電気が持つ「非化石価値」を電気から切り離して取引するのが非化石証書。FIT証書（需要家も直接買える再エネ価値取引市場、売上は賦課金原資に充当）と非FIT証書（小売の高度化法義務達成市場）の2市場・3類型、制度が定める上限・下限価格（FITは上限4円・下限0.4円/kWh=2023年8月〜）と「下限に張り付きがちな約定」の読み方、トラッキングとRE100、よくある3つの誤読を整理する教材。FIT/FIP・電気料金の構造と接続する環境価値の入口。",
+    tags: ["電力", "制度", "再エネ", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "新電力ネット（原典: JEPX）"],
+    updated: "2026-07-17",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
