@@ -152,6 +152,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "how-to-read-area-prices": "ChartLine",
   "how-to-read-reserve-margin": "ChartLine",
   "how-to-read-nonfossil-certificates": "ChartLine",
+  "how-to-read-jepx-spot": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

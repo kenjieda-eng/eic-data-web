@@ -849,6 +849,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "新電力ネット（原典: JEPX）"],
     updated: "2026-07-17",
   },
+  {
+    slug: "how-to-read-jepx-spot",
+    title: "JEPXスポットの読み方：電気の値段が1日48回決まる仕組み",
+    lede: "日本の電気の卸値は、JEPXスポット市場で「翌日の30分ごと×48コマ」を前日にオークションして決まる。全員が同じ約定価格になるシングルプライス方式の意味（指値でなく市場全体の限界コストが値段になる）、太陽光がつくった昼の谷と点灯帯のピーク、当サイトの日次平均データの正しい読み方（48コマの要約統計であること）と3つの誤読を整理する教材。電力市場の3層・市場分断の姉妹編で、当サイト看板データの取扱説明書。",
+    tags: ["電力", "JEPX", "全国", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "JEPX スポット市場"],
+    updated: "2026-07-20",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
