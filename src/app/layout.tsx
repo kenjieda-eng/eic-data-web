@@ -57,6 +57,7 @@ const NAV_GROUPS = [
   {
     label: "利用ガイド",
     items: [
+      { href: "/whats-new", label: "新着一覧" },
       { href: "/cite", label: "引用" },
       { href: "/methodology", label: "方法論" },
       { href: "/data-quality", label: "データ品質" },
