@@ -49,6 +49,7 @@ const NAV_GROUPS = [
     items: [
       { href: "/today", label: "朝刊" },
       { href: "/insight", label: "インサイト" },
+      { href: "/insight/guide", label: "学ぶ（教材）" },
       { href: "/insight/map", label: "Insight マップ" },
       { href: "/insight/network", label: "Insight ネットワーク" },
       { href: "/glossary", label: "用語集" },

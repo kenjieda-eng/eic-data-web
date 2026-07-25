@@ -18,6 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/today`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/watch`, lastModified: now, changeFrequency: "daily", priority: 0.85 },
     { url: `${SITE_URL}/insight`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/insight/guide`, lastModified: now, changeFrequency: "weekly", priority: 0.85 },
     { url: `${SITE_URL}/insight/map`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/insight/network`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/markets`, lastModified: now, changeFrequency: "weekly", priority: 0.75 },
