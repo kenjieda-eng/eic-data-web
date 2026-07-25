@@ -18,6 +18,7 @@ import IndicatorMetadataPanel from "../components/IndicatorMetadataPanel";
 import SeriesSummaryStats from "../components/SeriesSummaryStats";
 import DependsOnPanel from "../components/DependsOnPanel";
 import { getInsightsForSeries } from "@/lib/insight-series-map";
+import { getKnownStale } from "@/lib/known-stale";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -134,6 +135,8 @@ export default async function IndicatorPage({ params }: PageProps) {
   const dom = domainOf(indicator.domain);
   const summary = buildIndicatorSummary(indicator);
   const datasetJsonLd = buildDatasetJsonLd(indicator);
+  // pipeline 側 KNOWN_STALE と対の「更新が来ないのが正常」な系列のみ非 null。
+  const knownStale = getKnownStale(indicator.id);
 
   return (
     <Container className="py-10">
@@ -185,6 +188,26 @@ export default async function IndicatorPage({ params }: PageProps) {
           </Link>
         </div>
       </section>
+
+      {/* 誠実表示: 更新が止まっている系列は理由付きバナーで明示（pipeline KNOWN_STALE と対）。
+          structural=構造的更新停止は slate（灰）、seasonal=季節要因は amber（既存注記トーン）。 */}
+      {knownStale && (
+        <aside
+          role="note"
+          className={`mb-6 rounded border px-4 py-3 ${
+            knownStale.kind === "structural"
+              ? "border-slate-300 bg-slate-100"
+              : "border-amber-200 bg-amber-50"
+          }`}
+        >
+          <p className="text-sm font-semibold text-ink">
+            ℹ️ この系列の更新について
+          </p>
+          <p className="mt-1 text-[13px] leading-relaxed text-subink">
+            {knownStale.note}
+          </p>
+        </aside>
+      )}
 
       {/* SEO L2: サーバー描画のサマリー統計 (固有 indexable テキスト)。 */}
       <SeriesSummaryStats indicator={indicator} />
