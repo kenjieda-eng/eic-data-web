@@ -8,9 +8,12 @@ import { INSIGHTS } from "@/lib/insights";
 
 // 英語版パイロット (D-019): layout の generateMetadata とマージされ、
 // hreflang alternate (en → /en) のみ追加する。title 等 他フィールドは layout を継承。
+// なお alternates はページ側の値が layout 側を丸ごと置き換えるため、
+// layout に足した RSS 自動発見 (types) をここでも明示しないと TOP から消える。
 export const metadata: Metadata = {
   alternates: {
     languages: { en: "/en" },
+    types: { "application/rss+xml": "/feed.xml" },
   },
 };
 
@@ -129,6 +132,11 @@ export default async function HomePage() {
               href: "/playground",
               title: "データ実験",
               lede: "相関・ラグ相関・移動平均をUIだけで計算",
+            },
+            {
+              href: "/insight/guide",
+              title: "学ぶ（教材）",
+              lede: "電力市場の仕組みを14本の教材で体系的に。読み順ガイド付き",
             },
           ].map((it) => (
             <Link

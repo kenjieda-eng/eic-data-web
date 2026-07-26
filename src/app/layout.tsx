@@ -83,6 +83,13 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL("https://data.eic-jp.org"),
     title,
     description,
+    // RSS 自動発見。全ページの <head> に
+    // <link rel="alternate" type="application/rss+xml" href="/feed.xml"> が入る。
+    alternates: {
+      types: {
+        "application/rss+xml": "/feed.xml",
+      },
+    },
     openGraph: {
       title,
       description,
