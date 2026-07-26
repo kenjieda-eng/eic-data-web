@@ -110,6 +110,15 @@ export default async function WhatsNewPage() {
         <p className="mt-3 text-base leading-relaxed text-subink md:text-lg">
           新しい記事とサイトの全ページを、URL付きで一覧できます（記事の追加で自動更新）。
         </p>
+        <p className="mt-2 text-sm leading-relaxed text-subink">
+          RSSで新着を購読:{" "}
+          <a
+            href="/feed.xml"
+            className="font-mono text-emerald-700 underline hover:text-emerald-900"
+          >
+            /feed.xml
+          </a>
+        </p>
       </header>
 
       {/* b. 新着・更新（直近30日） */}

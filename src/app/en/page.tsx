@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/en",
     languages: { ja: "/" },
+    // alternates はページ側が layout 側を丸ごと置き換えるため、RSS 自動発見を再掲。
+    types: { "application/rss+xml": "/feed.xml" },
   },
 };
 
