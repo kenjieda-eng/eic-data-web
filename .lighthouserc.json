@@ -1,13 +1,23 @@
 {
+  "_comment": [
+    "監査 URL は 2026-07-27 に 7 月の新設・改修ページ中心へ刷新。5 URL 上限は L-020 規律のまま維持し、閾値・numberOfRuns も不変。",
+    "退役 URL (5月〜7月に監査済み・安定、閾値クリア継続のため定常監査から外す):",
+    "  http://localhost:3000/glossary/graph  — 5月〜7月に監査済み・安定",
+    "  http://localhost:3000/data-quality    — 5月〜7月に監査済み・安定",
+    "  http://localhost:3000/catalog         — 5月〜7月に監査済み・安定",
+    "  http://localhost:3000/cite            — 5月〜7月に監査済み・安定",
+    "退役 URL の再測定が必要なときは workflow_dispatch + .lighthouserc.day3.json 方式 (Day 3 の全 12 ページ監査と同じ運用) を使う。",
+    "本ファイルは scripts/lighthouse-5url-check.ts が JSON.parse で読むため // コメント不可。履歴はこの _comment キーに残す (lhci は ci キーのみ参照)。"
+  ],
   "ci": {
     "collect": {
       "startServerCommand": "pnpm start",
       "url": [
         "http://localhost:3000/",
-        "http://localhost:3000/glossary/graph",
-        "http://localhost:3000/data-quality",
-        "http://localhost:3000/catalog",
-        "http://localhost:3000/cite"
+        "http://localhost:3000/catalog/jepx-spot-tokyo",
+        "http://localhost:3000/insight/how-to-read-jepx-spot",
+        "http://localhost:3000/insight/guide",
+        "http://localhost:3000/whats-new"
       ],
       "numberOfRuns": 3,
       "settings": {
