@@ -5,6 +5,7 @@ import {
   glossaryCard,
   insightCard,
   isValidOgType,
+  pageCard,
 } from "./og-card";
 
 describe("ellipsize", () => {
@@ -91,11 +92,30 @@ describe("glossaryCard", () => {
   });
 });
 
+describe("pageCard", () => {
+  it("returns the registered card for insight-guide", () => {
+    const c = pageCard("insight-guide");
+    expect(c).not.toBeNull();
+    expect(c?.title).toBe("電力市場を学ぶ — 教材14本の読み順ガイド");
+    expect(c?.meta).toBe("5 章・教材 14 本 ／ CC BY 4.0");
+  });
+  it("returns null for unregistered ids (route → 404)", () => {
+    expect(pageCard("not-registered")).toBeNull();
+    expect(pageCard("")).toBeNull();
+  });
+  it("is not fooled by Object.prototype keys", () => {
+    expect(pageCard("constructor")).toBeNull();
+    expect(pageCard("toString")).toBeNull();
+  });
+});
+
 describe("isValidOgType", () => {
-  it("accepts the three valid types", () => {
+  it("accepts the five valid types", () => {
     expect(isValidOgType("catalog")).toBe(true);
     expect(isValidOgType("insight")).toBe(true);
     expect(isValidOgType("glossary")).toBe(true);
+    expect(isValidOgType("default")).toBe(true);
+    expect(isValidOgType("page")).toBe(true);
   });
   it("rejects anything else", () => {
     expect(isValidOgType("foo")).toBe(false);

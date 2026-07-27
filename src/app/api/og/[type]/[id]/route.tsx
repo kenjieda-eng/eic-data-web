@@ -2,13 +2,15 @@
  * N9 SEO 強化 (Day 6 Phase C, 2026-05-17): OG image 動的生成
  *
  * GET /api/og/<type>/<id>
- *   type: "catalog" | "insight" | "glossary"
- *   id  : indicator id / insight slug / glossary slug
+ *   type: "catalog" | "insight" | "glossary" | "default" | "page"
+ *   id  : indicator id / insight slug / glossary slug / path-slug / page card key
  *
  * 1200x630 PNG (next/og ImageResponse、Edge runtime)
  * - catalog : 系列名 + 出典 + 最新 as-of
  * - insight : title + lede + tags
  * - glossary: 用語名 + description (先頭 120 文字)
+ * - default : サイト共通カード (TOP / メタページの継承元)
+ * - page    : ハブ・特集ページ固有タイトル (og-card.ts の登録制、2026-07-27 追加)
  *
  * 設計ノート:
  *  - Node fs を使わないので fonts 配列は省略 (system default + 日本語は OS フォントに頼る)
@@ -27,6 +29,7 @@ import {
   glossaryCard,
   insightCard,
   isValidOgType,
+  pageCard,
   type OgCard,
 } from "@/lib/og-card";
 
@@ -53,6 +56,9 @@ async function buildOgCard(type: string, id: string): Promise<OgCard | null> {
   }
   if (type === "default") {
     return defaultCard(id);
+  }
+  if (type === "page") {
+    return pageCard(id);
   }
   return null;
 }

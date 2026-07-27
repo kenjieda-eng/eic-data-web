@@ -72,8 +72,40 @@ export function defaultCard(id: string): OgCard {
   };
 }
 
-export const VALID_OG_TYPES = new Set(["catalog", "insight", "glossary", "default"] as const);
-export type OgType = "catalog" | "insight" | "glossary" | "default";
+/**
+ * page タイプ: ハブ・特集ページ用の「ページ固有タイトルを描く」汎用カード。
+ * 2026-07-27 追加。default カードはサイト共通の固定タイトルしか描けないため、
+ * /insight/guide のようなハブページで固有タイトルを見せる用途を賄えない。
+ *
+ * id → カードは下の PAGE_OG_CARDS に明示登録する。URL のタイトル文字列を
+ * そのまま描画する方式にしないのは、未知 id で無制限に画像生成できてしまう
+ * (route 冒頭の「不正 id は 400/404」= DoS 防止方針) のを避けるため。
+ */
+const PAGE_OG_CARDS = new Map<string, OgCard>([
+  [
+    "insight-guide",
+    {
+      badge: "🎓 教材ハブ",
+      title: "電力市場を学ぶ — 教材14本の読み順ガイド",
+      body: "JEPX スポット・エリアプライス・容量市場・需給調整市場・インバランス・非化石証書を、俯瞰から各論へ 5 章で読む。",
+      // 右下に data.eic-jp.org が常時入るので、左下はパスではなく中身の要約を出す
+      meta: "5 章・教材 14 本 ／ CC BY 4.0",
+    },
+  ],
+]);
+
+export function pageCard(id: string): OgCard | null {
+  return PAGE_OG_CARDS.get(id) ?? null;
+}
+
+export const VALID_OG_TYPES = new Set([
+  "catalog",
+  "insight",
+  "glossary",
+  "default",
+  "page",
+] as const);
+export type OgType = "catalog" | "insight" | "glossary" | "default" | "page";
 
 export function isValidOgType(type: string): type is OgType {
   return VALID_OG_TYPES.has(type as OgType);

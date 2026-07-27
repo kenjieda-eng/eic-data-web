@@ -8,10 +8,28 @@ import { INSIGHTS } from "@/lib/insights";
 // 読み順で 5 章に並べた静的カリキュラム。INSIGHTS を build 時に
 // slug で引くだけなので、教材の追加・本文更新に自動追随する。
 // slug が INSIGHTS に無い場合はビルドを止めず console.warn でスキップ。
+const OG_TITLE = "電力市場を学ぶ — 教材14本の読み順ガイド";
+const DESCRIPTION =
+  "日本の電力市場の仕組みを、俯瞰から各論へ、14本の教材で体系的に読めるように並べた学習ガイド。JEPXスポット・エリアプライス・容量市場・需給調整市場・インバランス・非化石証書などを5章のカリキュラムで無料・引用可（CC BY 4.0）に解説します。";
+// ハブページ固有の OG 画像。root layout の default カードだとサイト共通タイトルに
+// なってしまうため、og-card.ts の page 登録 ("insight-guide") を参照する。
+const OG_URL = "/api/og/page/insight-guide";
+
 export const metadata: Metadata = {
-  title: "電力市場を学ぶ — 教材14本の読み順ガイド | EIC Data",
-  description:
-    "日本の電力市場の仕組みを、俯瞰から各論へ、14本の教材で体系的に読めるように並べた学習ガイド。JEPXスポット・エリアプライス・容量市場・需給調整市場・インバランス・非化石証書などを5章のカリキュラムで無料・引用可（CC BY 4.0）に解説します。",
+  title: `${OG_TITLE} | EIC Data`,
+  description: DESCRIPTION,
+  openGraph: {
+    title: OG_TITLE,
+    description: DESCRIPTION,
+    type: "article",
+    images: [{ url: OG_URL, width: 1200, height: 630, alt: OG_TITLE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: DESCRIPTION,
+    images: [OG_URL],
+  },
 };
 
 // 読み順カリキュラム。各章は slug の配列で教材を指す。
