@@ -4,6 +4,7 @@ import {
   type Indicator,
   type SlaStatus,
 } from "@/lib/catalog";
+import { STATUS_TEXT_COLORS } from "@/app/data-quality/filters";
 
 interface IndicatorMetadataPanelProps {
   indicator: Indicator;
@@ -18,6 +19,7 @@ const STATUS_LABELS: Record<SlaStatus, string> = {
   unknown: "⚪ 不明",
 };
 
+// バッジ背景のティント色。前景は STATUS_TEXT_COLORS (AA 4.5:1) を使う。
 const STATUS_COLORS: Record<SlaStatus, string> = {
   healthy: "#16a34a",
   warning: "#d97706",
@@ -57,6 +59,7 @@ export default function IndicatorMetadataPanel({
   const dom = domainOf(i.domain);
   const licIsSpdx = isSpdxLicense(i.license);
   const statusColor = STATUS_COLORS[status];
+  const statusTextColor = STATUS_TEXT_COLORS[status];
 
   return (
     <section className="bg-white border border-slate-200 rounded-md p-5">
@@ -138,7 +141,7 @@ export default function IndicatorMetadataPanel({
               className="text-[10px] px-2 py-0.5 rounded font-medium tracking-wider"
               style={{
                 background: `${statusColor}20`,
-                color: statusColor,
+                color: statusTextColor,
               }}
             >
               {STATUS_LABELS[status]}
