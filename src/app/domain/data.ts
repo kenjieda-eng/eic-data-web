@@ -59,6 +59,27 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
         matcher: (id) => id.startsWith("jepx-spot"),
       },
       {
+        name: "需給調整市場 約定単価（商品区分 × 電源種別）",
+        description:
+          "一次 / 二次① / 二次② / 三次① / 三次② / 複合商品 × 全体・火力・水力・揚水・蓄電池・VPP、年次",
+        matcher: (id) => id.startsWith("balancing-price-"),
+      },
+      {
+        name: "需給調整市場 不足率（商品区分別）",
+        description: "商品区分ごとの年間募集量に対する未達率、年次",
+        matcher: (id) => id.startsWith("balancing-shortage-"),
+      },
+      {
+        name: "容量市場 メインオークション 約定価格（エリア別）",
+        description: "9 エリア + 全国加重平均の約定価格、年次",
+        matcher: (id) => id.startsWith("capacity-main-auction-price-"),
+      },
+      {
+        name: "容量市場 メインオークション 約定容量（エリア別）",
+        description: "9 エリア + 合計の約定容量、年次",
+        matcher: (id) => id.startsWith("capacity-main-auction-volume-"),
+      },
+      {
         name: "METI 電源別発電量",
         description: "火力 / 水力 / 原子力 / 太陽光 / 風力 / 地熱 / バイオマス / 総発電",
         matcher: (id) => id.startsWith("meti-gen-"),
@@ -82,31 +103,34 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
     description:
       "気象庁の 9 地点（札幌・仙台・東京・名古屋・金沢・大阪・広島・高松・福岡）について、気温・降水量・日照時間・風速・最深積雪の 5 変数を月次で揃えた catalog 最大規模ドメイン。電力需要や再エネ出力との相関分析の土台となり、Insight #1〜#10 の地域別気温 × JEPX シリーズと #19〜#21 のヒートマップ群を支える。",
     insightKeywords: ["気象", "気温", "降水量", "日照", "風速", "雪", "豪雪"],
+    // matcher は catalog の実 ID プレフィックス `jma-<観測項目>-` に揃える。
+    // 旧 matcher は `temp-` / `precip-` 等の非 `jma-` 命名を見ており、72 系列すべてが
+    // 「その他」に落ちていた (2026-08-10 修正)。
     subcategories: [
       {
-        name: "気温（9 地点 + 全国平均）",
-        description: "JMA 日平均気温の月次集約",
-        matcher: (id) => id.startsWith("temp-") || id === "temp-avg",
+        name: "気温（9 地点 × 平均・最高・最低）",
+        description: "JMA 日平均 / 日最高 / 日最低気温、日次",
+        matcher: (id) => id.startsWith("jma-temp-"),
       },
       {
         name: "降水量（9 地点）",
-        description: "JMA 日次降水量の月次集約",
-        matcher: (id) => id.startsWith("precip-"),
+        description: "JMA 日降水量合計、日次",
+        matcher: (id) => id.startsWith("jma-precip-"),
       },
       {
         name: "日照時間（9 地点）",
-        description: "太陽光発電ポテンシャルの裏側指標",
-        matcher: (id) => id.startsWith("sunshine-"),
+        description: "太陽光発電ポテンシャルの裏側指標、日次",
+        matcher: (id) => id.startsWith("jma-sunshine-"),
       },
       {
-        name: "風速（9 地点）",
-        description: "陸上風力ポテンシャルの裏側指標",
-        matcher: (id) => id.startsWith("wind-"),
+        name: "風速・風向（9 地点 × 平均風速・最大風速時風向）",
+        description: "陸上風力ポテンシャルの裏側指標、日次",
+        matcher: (id) => id.startsWith("jma-wind-"),
       },
       {
         name: "最深積雪（9 地点）",
-        description: "暖房需要 + 融雪需要 + 水力ベースロードの先行指標",
-        matcher: (id) => id.startsWith("snow-"),
+        description: "暖房需要 + 融雪需要 + 水力ベースロードの先行指標、日次",
+        matcher: (id) => id.startsWith("jma-snow-"),
       },
     ],
   },
@@ -342,6 +366,19 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         name: "Ember 月次電力需要（5 ヶ国）",
         description: "日米英独中の月次電力需要 TWh",
         matcher: (id) => id.startsWith("ember-demand-"),
+      },
+      {
+        // ID が `ember-share-<電源>-<国>` で電源が主キー。ページ内の他グループが
+        // すべて「1 指標 × 全 5 ヶ国」で切られているため、国別ではなく指標種別で束ねる。
+        name: "Ember 電源種別 発電量シェア（5 ヶ国 × 7 電源）",
+        description:
+          "石炭 / ガス / 原子力 / 水力 / 太陽光 / 風力 / バイオの発電量シェア %、月次",
+        matcher: (id) => id.startsWith("ember-share-"),
+      },
+      {
+        name: "中国 製造業 PMI",
+        description: "国家統計局（NBS）官製 PMI、季節調整済・月次",
+        matcher: (id) => id.startsWith("china-nbs-"),
       },
     ],
   },

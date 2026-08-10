@@ -315,6 +315,239 @@ describe("groupIndicatorsBySubcategory", () => {
   });
 });
 
+// =============================================================================
+// 2026-08-10 (PR #152 申し送り): subcategory matcher が ID 命名の変遷に追随できず、
+// weather 72 / power 59 / international 36 の計 167 系列が「その他」に落ちていた。
+// 以下の ID 一覧は catalog `indicators.json` (2026-08-10 / 581 系列) の実 ID を
+// 構造的に再現したもので、tmp スクリプトで catalog と完全一致を照合済み。
+// 各ドメインの合計が catalog 件数と一致し、かつ「その他」が 0 であることを固定する。
+// =============================================================================
+
+/** JMA 観測 9 地点 (catalog の ID サフィックス)。 */
+const JMA_SITES = [
+  "hokkaido",
+  "tohoku",
+  "tokyo",
+  "chubu",
+  "hokuriku",
+  "kansai",
+  "chugoku",
+  "shikoku",
+  "kyushu",
+];
+
+/** 気象 8 観測変数 × 9 地点 = 72 系列 (catalog weather の全量)。 */
+const WEATHER_IDS = [
+  "jma-temp-avg",
+  "jma-temp-max",
+  "jma-temp-min",
+  "jma-precip",
+  "jma-sunshine",
+  "jma-wind-avg",
+  "jma-wind-dir",
+  "jma-snow-max",
+].flatMap((v) => JMA_SITES.map((s) => `${v}-${s}`));
+
+/** JEPX / 容量市場のエリア 9 区分。 */
+const JP_AREAS = [
+  "hokkaido",
+  "tohoku",
+  "tokyo",
+  "chubu",
+  "hokuriku",
+  "kansai",
+  "chugoku",
+  "shikoku",
+  "kyushu",
+];
+
+/** 需給調整市場の商品区分 → 落札単価が存在する電源種別 (商品ごとに異なる)。 */
+const BALANCING_PRODUCTS: Record<string, string[]> = {
+  primary: ["battery", "hydro", "pumped", "thermal", "vpp"],
+  "secondary-1": ["battery", "hydro", "pumped", "thermal"],
+  "secondary-2": ["battery", "hydro", "pumped", "thermal"],
+  "tertiary-1": ["battery", "hydro", "pumped", "thermal", "vpp"],
+  "tertiary-2": ["battery", "pumped", "thermal", "vpp"],
+  composite: ["battery", "hydro", "pumped", "thermal", "vpp"],
+};
+
+/** 電力 81 系列 (catalog power の全量)。 */
+const POWER_IDS = [
+  ...JP_AREAS.map((a) => `jepx-spot-${a}`),
+  "jepx-spot-system",
+  ...Object.entries(BALANCING_PRODUCTS).flatMap(([product, sources]) => [
+    `balancing-price-${product}`,
+    ...sources.map((s) => `balancing-price-${product}-${s}`),
+  ]),
+  ...Object.keys(BALANCING_PRODUCTS).map((p) => `balancing-shortage-${p}`),
+  ...JP_AREAS.map((a) => `capacity-main-auction-price-${a}`),
+  "capacity-main-auction-price-national",
+  ...JP_AREAS.map((a) => `capacity-main-auction-volume-${a}`),
+  "capacity-main-auction-volume-total",
+  ...[
+    "thermal",
+    "hydro",
+    "nuclear",
+    "solar",
+    "wind",
+    "geothermal",
+    "biomass",
+    "total",
+  ].map((s) => `meti-gen-${s}`),
+  ...["lights", "power", "total"].map((s) => `meti-demand-${s}`),
+  "meti-renewables-share",
+];
+
+const EMBER_COUNTRIES = ["jp", "us", "gb", "de", "cn"];
+const EMBER_SOURCES = [
+  "coal",
+  "gas",
+  "nuclear",
+  "hydro",
+  "solar",
+  "wind",
+  "bioenergy",
+];
+
+/** 国際 56 系列 (catalog international の全量)。 */
+const INTERNATIONAL_IDS = [
+  ...["dfr", "mlf", "mrr"].map((r) => `ecb-rate-${r}`),
+  "fx-eurusd-monthly-avg",
+  "fx-eurjpy-monthly-avg",
+  ...["co2-intensity", "generation", "demand"].flatMap((m) =>
+    EMBER_COUNTRIES.map((c) => `ember-${m}-${c}`),
+  ),
+  ...EMBER_SOURCES.flatMap((s) =>
+    EMBER_COUNTRIES.map((c) => `ember-share-${s}-${c}`),
+  ),
+  "china-nbs-mfg-pmi",
+];
+
+/** groupIndicatorsBySubcategory の結果を [グループ名, 件数] の配列に落とす。 */
+function groupSizes(domainId: string, ids: string[]): [string, number][] {
+  const meta = getDomainById(domainId)!;
+  return groupIndicatorsBySubcategory(
+    meta,
+    ids.map((id) => ({ id })),
+  ).map((g) => [g.sub.name, g.rows.length]);
+}
+
+/** DomainIndicatorTable の「その他」に落ちる ID (どの subcategory にも当たらない)。 */
+function ungroupedIds(domainId: string, ids: string[]): string[] {
+  const meta = getDomainById(domainId)!;
+  const grouped = new Set(
+    groupIndicatorsBySubcategory(
+      meta,
+      ids.map((id) => ({ id })),
+    ).flatMap((g) => g.rows.map((r) => r.id)),
+  );
+  return ids.filter((id) => !grouped.has(id));
+}
+
+describe("subcategory matcher が catalog の実 ID に追随している", () => {
+  test("weather: 72 系列が観測項目別 5 グループに全量分類される", () => {
+    expect(WEATHER_IDS).toHaveLength(72);
+    expect(new Set(WEATHER_IDS).size).toBe(72);
+    expect(groupSizes("weather", WEATHER_IDS)).toEqual([
+      ["気温（9 地点 × 平均・最高・最低）", 27],
+      ["降水量（9 地点）", 9],
+      ["日照時間（9 地点）", 9],
+      ["風速・風向（9 地点 × 平均風速・最大風速時風向）", 18],
+      ["最深積雪（9 地点）", 9],
+    ]);
+    expect(ungroupedIds("weather", WEATHER_IDS)).toEqual([]);
+  });
+
+  test("weather: 旧命名 (temp-/precip- 始まり) では 1 件も拾わない", () => {
+    // 実 ID は `jma-` プレフィックス付き。非 `jma-` の旧 ID が復活しても
+    // 誤って分類されないことを確認する (逆流防止)。
+    expect(ungroupedIds("weather", ["temp-tokyo", "precip-tokyo"])).toEqual([
+      "temp-tokyo",
+      "precip-tokyo",
+    ]);
+  });
+
+  test("power: 81 系列が 8 グループに全量分類される（需給調整・容量市場を追加）", () => {
+    expect(POWER_IDS).toHaveLength(81);
+    expect(new Set(POWER_IDS).size).toBe(81);
+    expect(groupSizes("power", POWER_IDS)).toEqual([
+      ["JEPX 9 エリア + システム", 10],
+      ["需給調整市場 約定単価（商品区分 × 電源種別）", 33],
+      ["需給調整市場 不足率（商品区分別）", 6],
+      ["容量市場 メインオークション 約定価格（エリア別）", 10],
+      ["容量市場 メインオークション 約定容量（エリア別）", 10],
+      ["METI 電源別発電量", 8],
+      ["METI 販売電力量", 3],
+      ["派生・比率指標", 1],
+    ]);
+    expect(ungroupedIds("power", POWER_IDS)).toEqual([]);
+  });
+
+  test("power: balancing の価格と不足率、容量市場の価格と容量が混ざらない", () => {
+    const groups = groupIndicatorsBySubcategory(
+      getDomainById("power")!,
+      POWER_IDS.map((id) => ({ id })),
+    );
+    const rowsOf = (name: string) =>
+      groups.find((g) => g.sub.name === name)!.rows.map((r) => r.id);
+    expect(
+      rowsOf("需給調整市場 約定単価（商品区分 × 電源種別）").every((id) =>
+        id.startsWith("balancing-price-"),
+      ),
+    ).toBe(true);
+    expect(rowsOf("需給調整市場 不足率（商品区分別）")).toEqual(
+      expect.arrayContaining(["balancing-shortage-composite"]),
+    );
+    expect(
+      rowsOf("容量市場 メインオークション 約定価格（エリア別）"),
+    ).toContain("capacity-main-auction-price-national");
+    expect(
+      rowsOf("容量市場 メインオークション 約定容量（エリア別）"),
+    ).toContain("capacity-main-auction-volume-total");
+  });
+
+  test("international: 56 系列が指標種別 7 グループに全量分類される", () => {
+    expect(INTERNATIONAL_IDS).toHaveLength(56);
+    expect(new Set(INTERNATIONAL_IDS).size).toBe(56);
+    expect(groupSizes("international", INTERNATIONAL_IDS)).toEqual([
+      ["ECB 政策金利（3 系列）", 3],
+      ["EUR 為替（2 系列）", 2],
+      ["Ember 電力部門 CO2 排出強度（5 ヶ国）", 5],
+      ["Ember 月次発電量（5 ヶ国）", 5],
+      ["Ember 月次電力需要（5 ヶ国）", 5],
+      ["Ember 電源種別 発電量シェア（5 ヶ国 × 7 電源）", 35],
+      ["中国 製造業 PMI", 1],
+    ]);
+    expect(ungroupedIds("international", INTERNATIONAL_IDS)).toEqual([]);
+  });
+
+  test("international: ember-share が既存 Ember 3 グループを侵食しない", () => {
+    // ember-generation-jp / ember-demand-jp と ember-share-*-jp が同居しても
+    // それぞれの prefix グループに正しく収まる。
+    const groups = groupIndicatorsBySubcategory(getDomainById("international")!, [
+      { id: "ember-generation-jp" },
+      { id: "ember-demand-jp" },
+      { id: "ember-co2-intensity-jp" },
+      { id: "ember-share-solar-jp" },
+    ]);
+    expect(groups.map((g) => [g.sub.name, g.rows.length])).toEqual([
+      ["Ember 電力部門 CO2 排出強度（5 ヶ国）", 1],
+      ["Ember 月次発電量（5 ヶ国）", 1],
+      ["Ember 月次電力需要（5 ヶ国）", 1],
+      ["Ember 電源種別 発電量シェア（5 ヶ国 × 7 電源）", 1],
+    ]);
+  });
+
+  test("subcategory 名は全ドメインで重複しない（表示見出しの衝突防止）", () => {
+    for (const d of DOMAINS) {
+      const names = d.subcategories.map((s) => s.name);
+      expect(new Set(names).size, `${d.id} に重複 subcategory 名`).toBe(
+        names.length,
+      );
+    }
+  });
+});
+
 describe("resolveDomainDescription (系列数の動的化)", () => {
   test("description に手書きの「計 N 系列」が残っていない", () => {
     for (const d of DOMAINS) {
