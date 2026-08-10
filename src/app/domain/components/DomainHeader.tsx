@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { DomainPageMeta } from "../data";
+import { type DomainPageMeta, resolveDomainDescription } from "../data";
 
 interface DomainHeaderProps {
   meta: DomainPageMeta;
@@ -34,7 +34,7 @@ export default function DomainHeader({ meta, indicatorCount }: DomainHeaderProps
         )}
       </h1>
       <p className="mt-3 text-[13px] text-subink leading-relaxed max-w-3xl">
-        {meta.description}
+        {resolveDomainDescription(meta, indicatorCount)}
       </p>
       <div className="mt-3 flex items-center gap-2 text-[12px]">
         {!meta.metaPage && (

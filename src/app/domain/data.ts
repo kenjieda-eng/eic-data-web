@@ -10,6 +10,10 @@ export interface DomainPageMeta {
   id: string;
   name: string;
   emoji: string;
+  /**
+   * ドメイン説明文。総系列数は手書きせず `SERIES_COUNT_TOKEN` を埋め、
+   * 描画時に `resolveDomainDescription` で catalog の実行数に解決する。
+   */
   description: string;
   insightKeywords: string[];
   subcategories: DomainSubcategory[];
@@ -18,6 +22,26 @@ export interface DomainPageMeta {
    * true の場合、ページに「Phase C 追加予定」の案内バナーを表示。
    */
   metaPage?: boolean;
+}
+
+/**
+ * description 中に埋める系列数プレースホルダ。描画時に catalog の実行数で置換する。
+ *
+ * 手書きの「計 N 系列」は pipeline 側に系列が増えても更新されず静かに陳腐化する
+ * (2026-08-10 時点で esg は 72→90、regulation は 5→11 とズレていた)。
+ * DOMAINS 側では総数を持たず、必ず resolveDomainDescription 経由で解決する。
+ */
+export const SERIES_COUNT_TOKEN = "{{seriesCount}}";
+
+/**
+ * meta.description の {{seriesCount}} を実系列数に解決する。
+ * DomainHeader / /domain カード / generateMetadata の 3 経路すべてがここを通る。
+ */
+export function resolveDomainDescription(
+  meta: DomainPageMeta,
+  seriesCount: number,
+): string {
+  return meta.description.split(SERIES_COUNT_TOKEN).join(String(seriesCount));
 }
 
 export const DOMAINS_DAY6: DomainPageMeta[] = [
@@ -156,7 +180,7 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     name: "経済",
     emoji: "📊",
     description:
-      "日米のマクロ経済指標を扱うドメイン。日本側の CPI（前年比）・鉱工業生産指数に加え、catalog の `macro` 系列として米 CPI（総合 / 食料 / エネルギー）・Fed Funds Rate・米鉱工業生産・米雇用統計（非農業部門雇用者数・失業率）・日銀短観 DI（大企業 / 中小企業 × 製造 / 非製造）を内包し、計 13 系列を月次・四半期で揃える。景気サイクルと為替・燃料・電力市場の連結を読む土台となり、Insight #40-#42 の米マクロ × エネルギー連結シリーズを支える。",
+      `日米のマクロ経済指標を扱うドメイン。日本側の CPI（前年比）・鉱工業生産指数に加え、catalog の \`macro\` 系列として米 CPI（総合 / 食料 / エネルギー）・Fed Funds Rate・米鉱工業生産・米雇用統計（非農業部門雇用者数・失業率）・日銀短観 DI（大企業 / 中小企業 × 製造 / 非製造）を内包し、計 ${SERIES_COUNT_TOKEN} 系列を月次・四半期で揃える。景気サイクルと為替・燃料・電力市場の連結を読む土台となり、Insight #40-#42 の米マクロ × エネルギー連結シリーズを支える。`,
     insightKeywords: ["経済", "景気", "マクロ", "GDP", "CPI", "鉱工業", "短観", "雇用"],
     subcategories: [
       {
@@ -181,13 +205,19 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     name: "制度",
     emoji: "📜",
     description:
-      "再エネ FIT（固定価格買取制度）の買取価格を一次データとするドメイン。太陽光（事業用）・陸上風力・小水力・地熱・木質バイオマスの電源別買取価格（円/kWh）を年度ごとに揃え、計 5 系列を収録する。GX-ETS（排出量取引）・容量市場・系統運用ルールなどエネルギー市場の構造を決める「制度」の編集軸であり、再エネ導入ペースや電源構成の長期トレンドを読み解く前提条件として各 Insight から参照される。",
+      `再エネ FIT（固定価格買取制度）の買取価格と非化石証書の市場データを一次データとするドメイン。太陽光（事業用）・陸上風力・小水力・地熱・木質バイオマスの電源別買取価格（円/kWh・年度）に、FIT / 非 FIT 非化石証書の約定価格と約定量を加え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。GX-ETS（排出量取引）・容量市場・系統運用ルールなどエネルギー市場の構造を決める「制度」の編集軸であり、再エネ導入ペースや電源構成の長期トレンドを読み解く前提条件として各 Insight から参照される。`,
     insightKeywords: ["制度", "FIT", "FIP", "買取価格", "再エネ", "GX", "ETS", "容量市場", "系統", "規制"],
     subcategories: [
       {
         name: "FIT 買取価格（電源別）",
         description: "太陽光（事業用）/ 陸上風力 / 小水力 / 地熱 / 木質バイオマス、年度",
         matcher: (id) => id.startsWith("fit-price-"),
+      },
+      {
+        name: "非化石証書（約定価格・約定量）",
+        description:
+          "FIT 証書（再エネ価値取引市場）/ 非 FIT 証書（高度化法義務達成市場、再エネ指定含む）の価格・量",
+        matcher: (id) => id.startsWith("nonfossil-cert-"),
       },
     ],
   },
@@ -204,7 +234,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "ESG / サステナ",
     emoji: "🌱",
     description:
-      "EU ETS（EU 排出量取引制度）の検証排出量と排出枠を一次データとするドメイン。EUTL（EU Transaction Log）／欧州環境機関（EEA）由来で、検証排出量（EU 全体の部門別 8 系列 + 加盟国別 31 系列）と排出枠（割当 EU 全体 + 加盟国別 32 系列・オークション 1 系列）を合わせ計 72 系列（2005-2025、年次、Mt-CO2e / 枠数）を収録。日本の GX-ETS との比較や、脱炭素ペースの国際ベンチマークの土台となる。ライセンスは EEA 再利用ポリシー（出典明記で商用可）。",
+      `EU ETS（EU 排出量取引制度）と日本の温室効果ガスインベントリを一次データとするドメイン。EUTL（EU Transaction Log）／欧州環境機関（EEA）由来の検証排出量（EU 全体の部門別 8 系列 + 加盟国別 31 系列）と排出枠（割当 EU 全体 + 加盟国別 32 系列・オークション 1 系列、2005-2025・年次）に、国立環境研究所 GIO の日本の温室効果ガス排出量（総排出量 / ネット / ガス別 / 部門別 CO2、1990-2024 年度）を加え、計 ${SERIES_COUNT_TOKEN} 系列を収録。日本の GX-ETS との比較や、脱炭素ペースの国際ベンチマークの土台となる。ライセンスは EEA 再利用ポリシー（出典明記で商用可）と GIO 利用規約。`,
     insightKeywords: ["ESG", "排出量", "CO2", "脱炭素", "カーボン", "EU ETS", "排出枠", "GX"],
     subcategories: [
       {
@@ -229,6 +259,19 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         description: "EU 全体のオークション供給枠数（年次）",
         matcher: (id) => id.startsWith("eu-ets-allowances-auctioned"),
       },
+      {
+        name: "日本 温室効果ガス 総排出量・ガス別",
+        description:
+          "GIO インベントリ 総排出量 / ネット / 森林等吸収量 / CO2・CH4・N2O・代替フロン等 4 ガス、年度",
+        matcher: (id) =>
+          id.startsWith("jp-ghg-") && !id.startsWith("jp-ghg-co2-"),
+      },
+      {
+        name: "日本 温室効果ガス 部門別・起源別 CO2",
+        description:
+          "産業 / 運輸 / 業務その他 / 家庭 / エネルギー転換（電気・熱配分後）とエネルギー起源・非エネルギー起源、年度",
+        matcher: (id) => id.startsWith("jp-ghg-co2-"),
+      },
     ],
     // metaPage 削除（catalog 着地により実ドメイン化）
   },
@@ -237,7 +280,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "技術",
     emoji: "🔋",
     description:
-      "NREL ATB（Annual Technology Baseline）を一次出典とする米国の発電技術コストドメイン。発電コスト LCOE（$/MWh）・資本費 CAPEX（$/kW）・容量率（%）の 3 指標を、太陽光・陸上/洋上風力・原子力・地熱・水力・バイオマス・CSP など 10 技術 + 蓄電池 CAPEX の計 31 系列で揃える。米国コスト前提・各年版の当年値（2021-2024 年版、将来射影は非収載）で、技術別のコスト水準と年版間の変化を横断比較できる。ライセンスは CC BY 4.0。",
+      `NREL ATB（Annual Technology Baseline）を一次出典とする米国の発電技術コストドメイン。発電コスト LCOE（$/MWh）・資本費 CAPEX（$/kW）・容量率（%）の 3 指標を、太陽光・陸上/洋上風力・原子力・地熱・水力・バイオマス・CSP など 10 技術 + 蓄電池 CAPEX の計 ${SERIES_COUNT_TOKEN} 系列で揃える。米国コスト前提・各年版の当年値（2021-2024 年版、将来射影は非収載）で、技術別のコスト水準と年版間の変化を横断比較できる。ライセンスは CC BY 4.0。`,
     insightKeywords: ["技術", "LCOE", "蓄電池", "太陽光", "風力", "原子力", "発電コスト", "CAPEX"],
     subcategories: [
       {
@@ -307,7 +350,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "人口",
     emoji: "👥",
     description:
-      "政府統計の総合窓口（e-Stat）人口推計を一次出典とする、都道府県別の人口ドメイン。総人口・65 歳以上人口・生産年齢人口（15-64 歳）の 3 指標を 47 都道府県すべてで揃え、計 141 系列（2016-2024 年・年次・各年 10 月 1 日現在・千人）を収録する。電力需要の最も基礎的な母数である「人口」と、高齢化・東京一極集中・地方急減といった地域分化を、電力・需要データと同じ場所で並べられる。ライセンスは estat-terms（出典明示で再利用可）。",
+      `政府統計の総合窓口（e-Stat）人口推計を一次出典とする、都道府県別の人口ドメイン。総人口・65 歳以上人口・生産年齢人口（15-64 歳）の 3 指標を 47 都道府県すべてで揃え、計 ${SERIES_COUNT_TOKEN} 系列（2016-2024 年・年次・各年 10 月 1 日現在・千人）を収録する。電力需要の最も基礎的な母数である「人口」と、高齢化・東京一極集中・地方急減といった地域分化を、電力・需要データと同じ場所で並べられる。ライセンスは estat-terms（出典明示で再利用可）。`,
     insightKeywords: ["人口", "高齢化", "都道府県", "人口減少", "生産年齢", "需要"],
     subcategories: [
       {
@@ -343,7 +386,7 @@ const DOMAINS_POLISH2_ADDITIONS: DomainPageMeta[] = [
     name: "地政",
     emoji: "🌏",
     description:
-      "財務省 貿易統計を一次出典とする、日本のエネルギー輸入額を相手国別に追うドメイン。原油・LNG・石炭の 3 燃料について、主要相手国 + 合計の輸入額（月次・円）を計 23 系列で揃える。中東依存・ロシア産の動向・調達多角化など、エネルギー安全保障と地政学リスクを金額ベースで可視化し、Insight #77 日本のエネルギー輸入相手国・#78 原油一極化×LNG多様の土台となる。",
+      `財務省 貿易統計を一次出典とする、日本のエネルギー輸入額を相手国別に追うドメイン。原油・LNG・石炭の 3 燃料について、主要相手国 + 合計の輸入額（月次・円）を計 ${SERIES_COUNT_TOKEN} 系列で揃える。中東依存・ロシア産の動向・調達多角化など、エネルギー安全保障と地政学リスクを金額ベースで可視化し、Insight #77 日本のエネルギー輸入相手国・#78 原油一極化×LNG多様の土台となる。`,
     insightKeywords: ["地政", "エネルギー安全保障", "輸入", "原油", "LNG", "石炭", "中東", "ロシア"],
     subcategories: [
       {
@@ -368,7 +411,7 @@ const DOMAINS_POLISH2_ADDITIONS: DomainPageMeta[] = [
     name: "企業IR",
     emoji: "📑",
     description:
-      "EDINET（金融庁 有価証券報告書）を一次出典とする、電力大手 9 社の財務指標ドメイン。北海道・東北・東京・中部・北陸・関西・中国・四国・九州の各電力について、売上高・営業利益・経常利益・純利益・総資産の 5 指標を年次で揃え、計 45 系列を収録する。燃料費高騰局面の収益悪化と回復、規模と収益性のばらつきを横断比較でき、Insight #80 燃料危機×回復・#81 規模×収益性を支える。",
+      `EDINET（金融庁 有価証券報告書）を一次出典とする、電力大手 9 社の財務指標ドメイン。北海道・東北・東京・中部・北陸・関西・中国・四国・九州の各電力について、売上高・営業利益・経常利益・純利益・総資産の 5 指標を年次で揃え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。燃料費高騰局面の収益悪化と回復、規模と収益性のばらつきを横断比較でき、Insight #80 燃料危機×回復・#81 規模×収益性を支える。`,
     insightKeywords: ["企業IR", "電力会社", "財務", "売上高", "営業利益", "経常利益", "純利益", "EDINET"],
     subcategories: [
       {

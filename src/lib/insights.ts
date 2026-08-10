@@ -857,6 +857,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "JEPX スポット市場"],
     updated: "2026-07-20",
   },
+  {
+    slug: "how-to-read-jp-ghg",
+    title: "日本の温室効果ガス排出量の読み方：総排出量・ネット・部門別の使い分け",
+    lede: "「日本の排出量は◯億トン」は指す範囲で3つ以上ある。総排出量1,046.4Mt（2024年度）／森林吸収を引いたネット994.1Mt／部門別CO2は「電気・熱配分後」で、5部門を足しても合計に一致しない（統計誤差が別枠）。基準年2013年度の意味、遡及改定される仕組み、引用時に間違えやすい3点を整理する教材。当サイト収載18系列（GIO）の取扱説明書。",
+    tags: ["ESG", "制度", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部", "国立環境研究所 GIO"],
+    updated: "2026-08-10",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
