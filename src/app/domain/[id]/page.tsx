@@ -15,6 +15,7 @@ import {
   DOMAINS,
   findRelatedInsightsForDomain,
   getDomainById,
+  resolveDomainDescription,
 } from "../data";
 
 interface PageProps {
@@ -35,9 +36,13 @@ export async function generateMetadata({
   if (!meta) {
     return { title: "ドメインが見つかりません — EIC Data" };
   }
+  // description の {{seriesCount}} は meta タグにも素で出せないため、
+  // 本文と同じ catalog 実行数で解決してから切り出す (fetchCatalog は in-flight 共有)。
+  const catalog = await fetchCatalog();
+  const rows = filterByCanonicalDomain(catalog.indicators, meta.id);
   return {
     title: `${meta.name} ドメイン — EIC Data`,
-    description: meta.description.slice(0, 120),
+    description: resolveDomainDescription(meta, rows.length).slice(0, 120),
   };
 }
 

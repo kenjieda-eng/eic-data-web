@@ -8,6 +8,8 @@ import {
   findRelatedInsightsForDomain,
   getDomainById,
   groupIndicatorsBySubcategory,
+  resolveDomainDescription,
+  SERIES_COUNT_TOKEN,
 } from "./data";
 
 // 正準 12 ドメイン (pipeline catalog の実 domain ID)。Polish #2 (2026-06-15) で
@@ -97,9 +99,9 @@ describe("DOMAINS_DAY8", () => {
     ]);
   });
 
-  test("esg は EU ETS 排出量 + 排出枠で 4 subcategory, tech/population も着地", () => {
+  test("esg は EU ETS 排出量 + 排出枠 4 + GIO 日本 GHG 2 で 6 subcategory, tech/population も着地", () => {
     expect(getDomainById("esg")?.metaPage).toBeFalsy();
-    expect(getDomainById("esg")?.subcategories).toHaveLength(4);
+    expect(getDomainById("esg")?.subcategories).toHaveLength(6);
     expect(getDomainById("tech")?.metaPage).toBeFalsy();
     expect(getDomainById("tech")?.subcategories).toHaveLength(3);
     expect(getDomainById("population")?.metaPage).toBeFalsy();
@@ -246,5 +248,99 @@ describe("groupIndicatorsBySubcategory", () => {
     const groups = groupIndicatorsBySubcategory(fuel, rows);
     expect(groups.every((g) => g.rows.length > 0)).toBe(true);
     expect(groups.length).toBeLessThanOrEqual(fuel.subcategories.length);
+  });
+
+  // 2026-08-10: 新規 GX 系列 24 本が「その他」に落ちていた申し送りの回帰テスト。
+  test("esg: GIO 日本 GHG 18 系列が 2 subcategory に分かれ「その他」に落ちない", () => {
+    const esg = getDomainById("esg")!;
+    const gasRows = [
+      "jp-ghg-total",
+      "jp-ghg-net",
+      "jp-ghg-co2",
+      "jp-ghg-ch4",
+      "jp-ghg-n2o",
+      "jp-ghg-fgas",
+      "jp-ghg-lulucf-removal",
+    ].map((id) => ({ id }));
+    const sectorRows = [
+      "jp-ghg-co2-total",
+      "jp-ghg-co2-industry",
+      "jp-ghg-co2-transport",
+      "jp-ghg-co2-commercial",
+      "jp-ghg-co2-household",
+      "jp-ghg-co2-energy-conversion",
+      "jp-ghg-co2-energy-origin",
+      "jp-ghg-co2-nonenergy-origin",
+      "jp-ghg-co2-industrial-process",
+      "jp-ghg-co2-waste",
+      "jp-ghg-co2-other",
+    ].map((id) => ({ id }));
+    const groups = groupIndicatorsBySubcategory(esg, [
+      ...gasRows,
+      ...sectorRows,
+    ]);
+    expect(groups).toHaveLength(2);
+    expect(groups[0].sub.name).toBe("日本 温室効果ガス 総排出量・ガス別");
+    expect(groups[0].rows).toHaveLength(7);
+    expect(groups[1].sub.name).toBe("日本 温室効果ガス 部門別・起源別 CO2");
+    expect(groups[1].rows).toHaveLength(11);
+    // jp-ghg-co2 (ガス別 CO2) と jp-ghg-co2-total (部門表の CO2 合計) が混ざらない
+    expect(groups[0].rows.map((r) => r.id)).toContain("jp-ghg-co2");
+    expect(groups[1].rows.map((r) => r.id)).not.toContain("jp-ghg-co2");
+  });
+
+  test("regulation: 非化石証書 6 系列が専用 subcategory に入る", () => {
+    const regulation = getDomainById("regulation")!;
+    const rows = [
+      "nonfossil-cert-fit-price",
+      "nonfossil-cert-fit-volume",
+      "nonfossil-cert-nonfit-price",
+      "nonfossil-cert-nonfit-volume",
+      "nonfossil-cert-nonfit-re-price",
+      "nonfossil-cert-nonfit-re-volume",
+    ].map((id) => ({ id }));
+    const groups = groupIndicatorsBySubcategory(regulation, [
+      { id: "fit-price-solar-business" },
+      ...rows,
+    ]);
+    expect(groups).toHaveLength(2);
+    const cert = groups.find(
+      (g) => g.sub.name === "非化石証書（約定価格・約定量）",
+    )!;
+    expect(cert.rows).toHaveLength(6);
+    // fit-price-* が nonfossil-cert-* を飲み込まない
+    expect(
+      groups.find((g) => g.sub.name === "FIT 買取価格（電源別）")!.rows,
+    ).toHaveLength(1);
+  });
+});
+
+describe("resolveDomainDescription (系列数の動的化)", () => {
+  test("description に手書きの「計 N 系列」が残っていない", () => {
+    for (const d of DOMAINS) {
+      expect(
+        /計\s*[0-9０-９]+\s*系列/.test(d.description),
+        `${d.id} の description に手書きの総系列数が残っている`,
+      ).toBe(false);
+    }
+  });
+
+  test("総系列数を書くドメインは token を使い、実行数で解決される", () => {
+    const esg = getDomainById("esg")!;
+    expect(esg.description).toContain(SERIES_COUNT_TOKEN);
+    expect(resolveDomainDescription(esg, 90)).toContain("計 90 系列");
+    expect(resolveDomainDescription(esg, 90)).not.toContain(
+      SERIES_COUNT_TOKEN,
+    );
+
+    const regulation = getDomainById("regulation")!;
+    expect(regulation.description).toContain(SERIES_COUNT_TOKEN);
+    expect(resolveDomainDescription(regulation, 11)).toContain("計 11 系列");
+  });
+
+  test("token を持たない description はそのまま返る", () => {
+    const weather = getDomainById("weather")!;
+    expect(weather.description).not.toContain(SERIES_COUNT_TOKEN);
+    expect(resolveDomainDescription(weather, 72)).toBe(weather.description);
   });
 });

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
 import { countByCanonicalDomain, fetchCatalog } from "@/lib/catalog";
-import { DOMAINS, findRelatedInsightsForDomain } from "./data";
+import {
+  DOMAINS,
+  findRelatedInsightsForDomain,
+  resolveDomainDescription,
+} from "./data";
 
 export const metadata: Metadata = {
   title: "ドメイン一覧 — EIC Data",
@@ -69,7 +73,7 @@ export default async function DomainIndexPage() {
                 <span>{insightCount} Insight</span>
               </div>
               <p className="mt-3 text-[12px] leading-relaxed text-subink line-clamp-4">
-                {meta.description}
+                {resolveDomainDescription(meta, seriesCount)}
               </p>
               <span className="mt-3 inline-block text-[12px] text-emerald-700 group-hover:text-emerald-800">
                 ドメインを見る →
