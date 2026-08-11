@@ -865,6 +865,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部", "国立環境研究所 GIO"],
     updated: "2026-08-10",
   },
+  {
+    slug: "how-to-read-grid-capacity",
+    title: "空き容量とN-1電制の読み方：系統に「あと何MW繋げるか」はどう決まるか",
+    lede: "発電所や蓄電池を建てたい場所が決まっても、系統に空きがなければ繋げない。変電所ごとに公表される「空き容量」はN-1基準の余力かつ契約ベースで、実潮流が空いていても0MWになる。それを解くのが日本版コネクト＆マネージ（想定潮流の合理化・N-1電制・ノンファーム型接続）で、0MWでも条件付きで接続できる。データを探すときの3つの壁（形式バラバラ・N/Aの多義・座標が公開データにない）と誤読3点を整理する制度編。実務編は姉妹サイト蓄電所ネット。",
+    tags: ["電力", "制度", "連系線", "方法論", "データリテラシー"],
+    sources: ["EIC Data 編集部"],
+    updated: "2026-08-11",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {

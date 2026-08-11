@@ -7,8 +7,8 @@ import {
 } from "./data";
 
 describe("GLOSSARY_TERMS", () => {
-  test("contains 78 terms", () => {
-    expect(GLOSSARY_TERMS).toHaveLength(78);
+  test("contains 80 terms", () => {
+    expect(GLOSSARY_TERMS).toHaveLength(80);
   });
 
   test("every term has slug, name, description, category", () => {
