@@ -154,6 +154,7 @@ export const INSIGHT_RENDERER_MAP: Record<string, InsightRenderer> = {
   "how-to-read-nonfossil-certificates": "ChartLine",
   "how-to-read-jepx-spot": "ChartLine",
   "how-to-read-jp-ghg": "ChartLine",
+  "how-to-read-grid-capacity": "ChartLine",
 };
 
 /** slug → renderer (静的マップ参照、未定義は ChartLine フォールバック) */

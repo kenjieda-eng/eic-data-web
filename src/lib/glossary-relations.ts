@@ -282,6 +282,13 @@ export const GLOSSARY_RELATIONS: GlossaryRelation[] = [
   // 電気と切り離した環境価値取引のクラスタ (非化石証書の読み方)
   { from: "nonfossil-certificate", to: "fit", weight: 0.7 },
   { from: "nonfossil-certificate", to: "gx-ets", weight: 0.6 },
+
+  // ===== 2026-08-11 Insight #107 空き容量/N-1電制 +4 で 191 =====
+  // 系統に「あと何MW繋げるか」のクラスタ (空き容量とN-1電制の読み方)
+  { from: "available-capacity", to: "n1-denryu", weight: 0.8 },
+  { from: "available-capacity", to: "grid-constraint", weight: 0.7 },
+  { from: "n1-denryu", to: "grid-constraint", weight: 0.6 },
+  { from: "available-capacity", to: "curtailment", weight: 0.6 },
 ];
 
 export const GLOSSARY_CATEGORY_COLORS: Record<GlossaryCategory, string> = {
