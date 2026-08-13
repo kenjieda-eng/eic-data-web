@@ -65,7 +65,7 @@ describe("DOMAINS_DAY7", () => {
     expect(finance!.metaPage).toBeFalsy();
     expect(finance!.subcategories).toHaveLength(3);
     expect(finance!.subcategories.map((s) => s.name)).toEqual([
-      "USD/JPY 為替（月次 4 系列）",
+      "USD/JPY 為替（月次）",
       "JGB（日本国債新発金利）",
       "U.S. Treasury（米国国債）",
     ]);
@@ -510,8 +510,8 @@ describe("subcategory matcher が catalog の実 ID に追随している", () =
     expect(INTERNATIONAL_IDS).toHaveLength(56);
     expect(new Set(INTERNATIONAL_IDS).size).toBe(56);
     expect(groupSizes("international", INTERNATIONAL_IDS)).toEqual([
-      ["ECB 政策金利（3 系列）", 3],
-      ["EUR 為替（2 系列）", 2],
+      ["ECB 政策金利", 3],
+      ["EUR 為替", 2],
       ["Ember 電力部門 CO2 排出強度（5 ヶ国）", 5],
       ["Ember 月次発電量（5 ヶ国）", 5],
       ["Ember 月次電力需要（5 ヶ国）", 5],
@@ -546,6 +546,21 @@ describe("subcategory matcher が catalog の実 ID に追随している", () =
       );
     }
   });
+
+  // 2026-08-13 (PR #153 申し送り): fuel「LNG（4 系列）」が実 3 系列とズレていた。
+  // DomainIndicatorTable は見出しの直後に必ず `g.rows.length` 系列を描画するので、
+  // 名前側の系列数は二重表示かつ静かな陳腐化の温床にしかならない。
+  // (「9 地点」「5 ヶ国」等の実体の次元は系列数ではないので対象外)
+  test("subcategory 名に系列数のハードコードが無い", () => {
+    for (const d of DOMAINS) {
+      for (const s of d.subcategories) {
+        expect(
+          /[0-9０-９]+\s*系列/.test(s.name),
+          `${d.id} / ${s.name} に系列数がハードコードされている`,
+        ).toBe(false);
+      }
+    }
+  });
 });
 
 describe("resolveDomainDescription (系列数の動的化)", () => {
@@ -575,5 +590,71 @@ describe("resolveDomainDescription (系列数の動的化)", () => {
     const weather = getDomainById("weather")!;
     expect(weather.description).not.toContain(SERIES_COUNT_TOKEN);
     expect(resolveDomainDescription(weather, 72)).toBe(weather.description);
+  });
+});
+
+// =============================================================================
+// 2026-08-13 (PR #153 申し送り): description が catalog 実態から離れていた 3 件
+// (weather の変数数・頻度 / fuel の LNG 銘柄・ライセンス / geopolitics の頻度) の
+// 回帰テスト。catalog `indicators.json` (2026-08-13 / 581 系列) を実照合した値を固定する。
+// =============================================================================
+describe("description が catalog の実態と整合している", () => {
+  test("weather: 8 観測変数・日次（旧「5 変数を月次」からの是正）", () => {
+    const weather = getDomainById("weather")!.description;
+    expect(weather).toContain("8 観測変数");
+    expect(weather).toContain("日次");
+    expect(weather).not.toContain("月次");
+    // population 141 / esg 90 / power 81 > weather 72。最大規模を名乗らない。
+    expect(weather).not.toContain("最大規模");
+  });
+
+  test("fuel: JKM 不在・鉄鉱石に言及・ライセンスは CC BY 4.0", () => {
+    const fuel = getDomainById("fuel")!;
+    // catalog の LNG/天然ガス は jp-cif / henryhub / ttf の 3 本のみ。JKM は未収載。
+    expect(fuel.description).not.toContain("JKM");
+    for (const s of fuel.subcategories) expect(s.description).not.toContain("JKM");
+    // 非燃料コモディティ commodity-iron-ore が fuel ドメインに同居している事実を明示
+    expect(fuel.description).toContain("鉄鉱石");
+    expect(fuel.description).toContain("commodity-iron-ore");
+    // 実ライセンスは CC-BY-4.0（旧「public-domain 系列」は誤り）
+    expect(fuel.description).not.toContain("public-domain");
+    expect(fuel.description).toContain("CC BY 4.0");
+  });
+
+  test("geopolitics: 年次・千円（旧「月次・円」からの是正）", () => {
+    const geo = getDomainById("geopolitics")!;
+    expect(geo.description).toContain("年次・千円");
+    expect(geo.description).not.toContain("月次");
+    for (const s of geo.subcategories) {
+      expect(s.description).toContain("年次");
+      expect(s.description).not.toContain("月次");
+    }
+  });
+
+  test("power / international: 総系列数は token で解決する", () => {
+    // 説明が扱う市場ブロックを増やしたため総数を明記。手書きせず実行数に追随させる。
+    for (const id of ["power", "international"]) {
+      const meta = getDomainById(id)!;
+      expect(meta.description, `${id}`).toContain(SERIES_COUNT_TOKEN);
+    }
+    expect(resolveDomainDescription(getDomainById("power")!, 81)).toContain(
+      "計 81 系列",
+    );
+    expect(
+      resolveDomainDescription(getDomainById("international")!, 56),
+    ).toContain("計 56 系列");
+  });
+
+  test("power: 需給調整市場・容量市場が説明から漏れていない", () => {
+    // subcategory には 2026-08-10 から存在したが description は JEPX+METI のままだった。
+    const power = getDomainById("power")!.description;
+    expect(power).toContain("需給調整市場");
+    expect(power).toContain("容量市場");
+  });
+
+  test("international: 電源種別シェアと中国 PMI が説明から漏れていない", () => {
+    const intl = getDomainById("international")!.description;
+    expect(intl).toContain("発電量シェア");
+    expect(intl).toContain("PMI");
   });
 });
