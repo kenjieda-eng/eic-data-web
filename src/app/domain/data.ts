@@ -1,6 +1,13 @@
 import { INSIGHTS, type Insight } from "../../lib/insights";
 
 export interface DomainSubcategory {
+  /**
+   * グループ見出し。**系列数を書かないこと**。
+   * DomainIndicatorTable が見出しの直後に実行数 (`g.rows.length` 系列) を必ず描画するため、
+   * 名前に「（N 系列）」を埋めると二重表示になり、しかも catalog 側が増減すると静かに
+   * 食い違う (2026-08-13 時点で fuel「LNG（4 系列）」が実 3 系列と衝突していた)。
+   * 「9 地点」「5 ヶ国」「47 都道府県」のような**実体の次元**は系列数ではないので可。
+   */
   name: string;
   description: string;
   matcher: (id: string) => boolean;
@@ -50,7 +57,7 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
     name: "電力",
     emoji: "⚡",
     description:
-      "JEPX 卸電力価格 9 エリア + システムプライス 1 と、METI 電力調査統計の電源別 8 系列・販売電力量 3 系列・派生 1 を扱うドメイン。気象（気温・降水量・日照）と燃料（LNG・原油）の両方から影響を受け、Insight 群の中核を構成する。再エネ比率や原発再稼働の進捗もここで追える。",
+      `JEPX 卸電力価格 9 エリア + システムプライス 1 を軸に、需給調整市場（商品区分別の約定単価・不足率）と容量市場メインオークション（エリア別の約定価格・約定容量）、METI 電力調査統計の電源別 8 系列・販売電力量 3 系列・派生 1 を合わせ、計 ${SERIES_COUNT_TOKEN} 系列を扱うドメイン。気象（気温・降水量・日照）と燃料（LNG・原油）の両方から影響を受け、Insight 群の中核を構成する。再エネ比率や原発再稼働の進捗に加え、kW 価値（容量市場）と ΔkW 価値（需給調整市場）の市場価格もここで追える。`,
     insightKeywords: ["電力", "原発", "再エネ", "太陽光", "風力", "水力", "火力", "需要", "JEPX"],
     subcategories: [
       {
@@ -101,7 +108,7 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
     name: "気象",
     emoji: "🌤️",
     description:
-      "気象庁の 9 地点（札幌・仙台・東京・名古屋・金沢・大阪・広島・高松・福岡）について、気温・降水量・日照時間・風速・最深積雪の 5 変数を月次で揃えた catalog 最大規模ドメイン。電力需要や再エネ出力との相関分析の土台となり、Insight #1〜#10 の地域別気温 × JEPX シリーズと #19〜#21 のヒートマップ群を支える。",
+      "気象庁の 9 地点（札幌・仙台・東京・名古屋・金沢・大阪・広島・高松・福岡）について、気温 3 種（日平均・日最高・日最低）・降水量・日照時間・平均風速・最大風速時風向・最深積雪の 8 観測変数を日次で揃えたドメイン。電力需要や再エネ出力との相関分析の土台となり、Insight #1〜#10 の地域別気温 × JEPX シリーズと #26〜#31 の「9 地点 × 36 ヶ月」ヒートマップ群を支える。",
     insightKeywords: ["気象", "気温", "降水量", "日照", "風速", "雪", "豪雪"],
     // matcher は catalog の実 ID プレフィックス `jma-<観測項目>-` に揃える。
     // 旧 matcher は `temp-` / `precip-` 等の非 `jma-` 命名を見ており、72 系列すべてが
@@ -139,16 +146,16 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
     name: "燃料",
     emoji: "🔥",
     description:
-      "World Bank Pink Sheet を一次出典とする LNG（JKM / 日本 CIF / Henry Hub / TTF）と原油（Brent / Dubai / WTI）、石炭（豪州 Newcastle）の月次価格。電力ドメインとの 2 軸時系列・ラグ相関・要因分解の起点となり、Insight #11〜#15 の燃料伝播シリーズで主役を務める。すべて月次・public-domain 系列。",
+      "World Bank Pink Sheet を一次出典とする LNG・天然ガス（日本 CIF / Henry Hub / TTF）と原油（Brent / Dubai / WTI）、石炭（豪州 Newcastle）の月次価格。加えて同じ Pink Sheet 由来の非燃料コモディティとして鉄鉱石（commodity-iron-ore、中国輸入 CFR スポット）が同居し、鉄鋼業を介した資源価格 → 国内電力需要の連動（Insight #51）の材料になる。電力ドメインとの 2 軸時系列・ラグ相関・要因分解の起点となり、Insight #11〜#15 の燃料伝播シリーズで主役を務める。すべて月次・CC BY 4.0。",
     insightKeywords: ["燃料", "LNG", "原油", "TTF", "石炭"],
     subcategories: [
       {
-        name: "LNG（4 系列）",
-        description: "JKM / 日本 CIF / Henry Hub / TTF",
+        name: "LNG・天然ガス",
+        description: "日本 LNG 輸入価格（CIF）/ Henry Hub / TTF",
         matcher: (id) => id.includes("lng") || id.includes("ng-"),
       },
       {
-        name: "原油（3 系列）",
+        name: "原油",
         description: "Brent / Dubai / WTI",
         matcher: (id) => id.includes("crude"),
       },
@@ -167,7 +174,7 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     name: "金融",
     emoji: "💰",
     description:
-      "エネルギーと金融の引用インフラ中心軸。USD/JPY 月次 4 系列（月中平均 / 月末値 / 月内高値・安値、BOJ FM08）と JGB 10y・30y 新発金利（財務省）、米国国債 2y/5y/10y/30y（U.S. Treasury Daily Yields）を組み合わせ、日米金利差・イールドカーブ・超長期スプレッド・円安要因分解など Insight #16-#17 + #35-#39 の主役を担う。Phase 3-B 第 2 弾（5/11 完走）の米マクロ 3 系列は別ドメイン (macro) に分離、Insight #40-#42 で連結予定。",
+      "エネルギーと金融の引用インフラ中心軸。USD/JPY 月次 4 系列（月中平均 / 月末値 / 月内高値・安値、BOJ FM08）と JGB 10y・30y 新発金利（財務省）、米国国債 2y/5y/10y/30y（U.S. Treasury Daily Yields）を組み合わせ、日米金利差・イールドカーブ・超長期スプレッド・円安要因分解など Insight #15-#16 + #35-#39 の主役を担う。米マクロ（FRED）と日銀短観は catalog では別ドメイン (macro) にあり、web では経済ドメインに内包して Insight #40-#42 の米マクロ × エネルギー連結シリーズにつないでいる。",
     insightKeywords: [
       "金融",
       "為替",
@@ -183,7 +190,7 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     ],
     subcategories: [
       {
-        name: "USD/JPY 為替（月次 4 系列）",
+        name: "USD/JPY 為替（月次）",
         description: "BOJ FM08 月中平均 / 月末値 / 月内高値・安値",
         matcher: (id) => id.startsWith("fx-usdjpy-"),
       },
@@ -229,7 +236,7 @@ const DOMAINS_DAY7_ADDITIONS: DomainPageMeta[] = [
     name: "制度",
     emoji: "📜",
     description:
-      `再エネ FIT（固定価格買取制度）の買取価格と非化石証書の市場データを一次データとするドメイン。太陽光（事業用）・陸上風力・小水力・地熱・木質バイオマスの電源別買取価格（円/kWh・年度）に、FIT / 非 FIT 非化石証書の約定価格と約定量を加え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。GX-ETS（排出量取引）・容量市場・系統運用ルールなどエネルギー市場の構造を決める「制度」の編集軸であり、再エネ導入ペースや電源構成の長期トレンドを読み解く前提条件として各 Insight から参照される。`,
+      `再エネ FIT（固定価格買取制度）の買取価格と非化石証書の市場データを一次データとするドメイン。太陽光（事業用）・陸上風力・小水力・地熱・木質バイオマスの電源別買取価格（円/kWh・年度）に、FIT / 非 FIT 非化石証書の約定価格と約定量を加え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。GX-ETS（排出量取引）・容量市場・系統運用ルールなどエネルギー市場の構造を決める「制度」の編集軸でもある（ただし容量市場の約定データは電力ドメイン、EU ETS は ESG ドメインに収録）。再エネ導入ペースや電源構成の長期トレンドを読み解く前提条件として各 Insight から参照される。`,
     insightKeywords: ["制度", "FIT", "FIP", "買取価格", "再エネ", "GX", "ETS", "容量市場", "系統", "規制"],
     subcategories: [
       {
@@ -329,7 +336,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "国際",
     emoji: "🌐",
     description:
-      "ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・月次発電量・月次需要を月次で揃える Phase 2 第 1 期ドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策と結びつける編集の起点として機能する。",
+      `ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・発電量・電力需要と 5 ヶ国 × 7 電源の発電量シェア、中国 NBS 製造業 PMI を、すべて月次・計 ${SERIES_COUNT_TOKEN} 系列で揃えるドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策と結びつける編集の起点として機能する。`,
     insightKeywords: [
       "国際",
       "ECB",
@@ -343,12 +350,12 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     ],
     subcategories: [
       {
-        name: "ECB 政策金利（3 系列）",
+        name: "ECB 政策金利",
         description: "欧州中央銀行 DFR / MLF / MRR、月次",
         matcher: (id) => id.startsWith("ecb-rate-"),
       },
       {
-        name: "EUR 為替（2 系列）",
+        name: "EUR 為替",
         description: "ECB Reference Rate 月平均、EUR/USD・EUR/JPY",
         matcher: (id) => id.startsWith("fx-eur"),
       },
@@ -423,22 +430,22 @@ const DOMAINS_POLISH2_ADDITIONS: DomainPageMeta[] = [
     name: "地政",
     emoji: "🌏",
     description:
-      `財務省 貿易統計を一次出典とする、日本のエネルギー輸入額を相手国別に追うドメイン。原油・LNG・石炭の 3 燃料について、主要相手国 + 合計の輸入額（月次・円）を計 ${SERIES_COUNT_TOKEN} 系列で揃える。中東依存・ロシア産の動向・調達多角化など、エネルギー安全保障と地政学リスクを金額ベースで可視化し、Insight #77 日本のエネルギー輸入相手国・#78 原油一極化×LNG多様の土台となる。`,
+      `財務省 貿易統計（e-Stat 普通貿易統計 品別国別表・輸入）を一次出典とする、日本のエネルギー輸入額を相手国別に追うドメイン。原油・LNG・石炭の 3 燃料について、主要相手国 + 合計の輸入額（年次・千円）を計 ${SERIES_COUNT_TOKEN} 系列で揃える。中東依存・ロシア産の動向・調達多角化など、エネルギー安全保障と地政学リスクを金額ベースで可視化し、Insight #76 日本のエネルギー輸入相手国・#77 原油一極化×LNG多様の土台となる。`,
     insightKeywords: ["地政", "エネルギー安全保障", "輸入", "原油", "LNG", "石炭", "中東", "ロシア"],
     subcategories: [
       {
         name: "原油 輸入額（相手国別）",
-        description: "サウジ / UAE / カタール / クウェート / 米 等 + 合計、月次",
+        description: "サウジ / UAE / カタール / クウェート / オマーン / 米 + 合計、年次",
         matcher: (id) => id.startsWith("jp-import-value-crude-"),
       },
       {
         name: "LNG 輸入額（相手国別）",
-        description: "豪 / 米 / カタール / マレーシア / ロシア 等 + 合計、月次",
+        description: "豪 / 米 / カタール / マレーシア / ロシア 等 + 合計、年次",
         matcher: (id) => id.startsWith("jp-import-value-lng-"),
       },
       {
         name: "石炭 輸入額（相手国別）",
-        description: "豪 / インドネシア / 米 / ロシア 等 + 合計、月次",
+        description: "豪 / インドネシア / 米 / ロシア / カナダ / 南ア + 合計、年次",
         matcher: (id) => id.startsWith("jp-import-value-coal-"),
       },
     ],
@@ -448,12 +455,12 @@ const DOMAINS_POLISH2_ADDITIONS: DomainPageMeta[] = [
     name: "企業IR",
     emoji: "📑",
     description:
-      `EDINET（金融庁 有価証券報告書）を一次出典とする、電力大手 9 社の財務指標ドメイン。北海道・東北・東京・中部・北陸・関西・中国・四国・九州の各電力について、売上高・営業利益・経常利益・純利益・総資産の 5 指標を年次で揃え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。燃料費高騰局面の収益悪化と回復、規模と収益性のばらつきを横断比較でき、Insight #80 燃料危機×回復・#81 規模×収益性を支える。`,
+      `EDINET（金融庁 有価証券報告書）を一次出典とする、電力大手 9 社の財務指標ドメイン。北海道・東北・東京・中部・北陸・関西・中国・四国・九州の各電力について、売上高（営業収益）・営業利益・経常利益・純利益・総資産の 5 指標を連結・年次で揃え、計 ${SERIES_COUNT_TOKEN} 系列を収録する。燃料費高騰局面の収益悪化と回復、規模と収益性のばらつきを横断比較でき、Insight #79 燃料危機×回復・#80 規模×収益性を支える。`,
     insightKeywords: ["企業IR", "電力会社", "財務", "売上高", "営業利益", "経常利益", "純利益", "EDINET"],
     subcategories: [
       {
         name: "売上高（電力 9 社）",
-        description: "EDINET 有報 売上高、年次",
+        description: "EDINET 有報 営業収益（売上高）、連結・年次",
         matcher: (id) => id.endsWith("-revenue"),
       },
       {
