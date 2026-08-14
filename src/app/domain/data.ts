@@ -336,7 +336,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "国際",
     emoji: "🌐",
     description:
-      `ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・発電量・電力需要と 5 ヶ国 × 7 電源の発電量シェア、中国 NBS 製造業 PMI を、すべて月次・計 ${SERIES_COUNT_TOKEN} 系列で揃えるドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策と結びつける編集の起点として機能する。`,
+      `ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・発電量・電力需要と 5 ヶ国 × 7 電源の発電量シェア、中国 NBS 製造業 PMI（ここまで月次）、EIA 国際 CO2 排出量 9 系列（世界・日本・中国・米国・EU27・OECD の合計と日本の燃料別内訳、年次）を、計 ${SERIES_COUNT_TOKEN} 系列で揃えるドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策・国際的な脱炭素動向と結びつける編集の起点として機能する。`,
     insightKeywords: [
       "国際",
       "ECB",
