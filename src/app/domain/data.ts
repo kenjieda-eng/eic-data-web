@@ -387,6 +387,16 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         description: "国家統計局（NBS）官製 PMI、季節調整済・月次",
         matcher: (id) => id.startsWith("china-nbs-"),
       },
+      {
+        // 本ドメイン唯一の年次グループ。EIA 独自のエネルギー収支 × 排出係数による
+        // 暦年値で、UNFCCC インベントリ（esg ドメインの jp-ghg-*、年度）とは
+        // 方法論・期間定義が異なり数値は一致しない（日本 2024 年: EIA 941.0 /
+        // GIO エネルギー起源 906.6 Mt-CO2）。両者を同一チャートに並べないこと。
+        name: "EIA 国際 CO2 排出量",
+        description:
+          "世界・日本・中国・米国・EU27・OECD の合計と日本の燃料別内訳、年次 Mt-CO2",
+        matcher: (id) => id.startsWith("eia-co2-"),
+      },
     ],
   },
   {
