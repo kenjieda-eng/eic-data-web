@@ -445,10 +445,10 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "global-lng-price-comparison",
-    title: "国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造",
-    lede: "アジア LNG (JKM)、欧州 (TTF)、米国 (Henry Hub)、日本 CIF の 4 地域価格を 15 年比較。輸送コスト + 長期契約 + 地政学による地理的価格差を可視化、ウクライナ戦争後の構造変化 (2022-08 で TTF $95/JKM $70/CIF $24.5 の歴史的最大格差) を読み解く",
-    tags: ["燃料", "国際", "LNG", "JKM", "TTF", "Henry Hub", "地理的価格差"],
-    sources: ["FRED MHHNGSP", "World Bank Pink Sheet", "Platts JKM"],
+    title: "国際 LNG プライス比較：Henry Hub × TTF × 日本 CIF の地理的価格差構造",
+    lede: "米国天然ガス (Henry Hub)、欧州 LNG (TTF)、日本 LNG CIF の 3 地域価格を 15 年比較。アジア LNG スポット (JKM) は当サイト非収録のため公開情報の概数で文脈参照。輸送コスト + 長期契約 + 地政学による地理的価格差を可視化、ウクライナ戦争後の構造変化を読み解く。",
+    tags: ["燃料", "国際", "LNG", "TTF", "Henry Hub", "地理的価格差"],
+    sources: ["FRED MHHNGSP", "World Bank Pink Sheet"],
     updated: "2026-05-16",
   },
   {

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造 | EIC Data",
-  description: "アジア LNG スポット (JKM)、欧州 LNG (TTF、fuel-ng-europe-ttf)、米国天然ガス (Henry Hub、fuel-ng-henryhub)、日本 LNG CIF (fuel-lng-jp-cif) の 4 地域価格を 15 年比較。輸送コスト + 長期契約 + 地政学による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。",
+  title: "国際 LNG プライス比較：Henry Hub × TTF × 日本 CIF の地理的価格差構造 | EIC Data",
+  description: "米国天然ガス (Henry Hub、fuel-ng-henryhub)、欧州 LNG (TTF、fuel-ng-europe-ttf)、日本 LNG CIF (fuel-lng-jp-cif) の 3 地域価格を 15 年比較。アジア LNG スポット (JKM) は当サイト非収録のため公開情報の概数で文脈参照。輸送コスト + 長期契約 + 地政学による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。",
   openGraph: {
     images: ['/api/og/insight/global-lng-price-comparison'],
   },
@@ -12,9 +12,9 @@ export const metadata = {
 
 <div className="mx-auto px-4 py-10 max-w-3xl md:max-w-5xl lg:max-w-6xl">
 
-# 国際 LNG プライス比較：JKM × TTF × Henry Hub × 日本 CIF の地理的価格差構造
+# 国際 LNG プライス比較：Henry Hub × TTF × 日本 CIF の地理的価格差構造
 
-> アジア LNG スポット (JKM)、欧州 LNG (TTF、`fuel-ng-europe-ttf`)、米国天然ガス (Henry Hub、`fuel-ng-henryhub`)、日本 LNG CIF (`fuel-lng-jp-cif`) の **4 地域価格を 15 年比較**。**輸送コスト + 長期契約 + 地政学**による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。
+> 米国天然ガス (Henry Hub、`fuel-ng-henryhub`)、欧州 LNG (TTF、`fuel-ng-europe-ttf`)、日本 LNG CIF (`fuel-lng-jp-cif`) の **3 地域価格を 15 年比較**し、アジア LNG スポット (JKM、当サイト非収録) は公開情報の概数で文脈参照する。**輸送コスト + 長期契約 + 地政学**による地理的価格差 ($/MMBtu) を可視化、ウクライナ戦争後の構造変化を読み解く。
 
 ## 背景
 
@@ -34,7 +34,7 @@ export const metadata = {
 - **アジア (JKM)**: 米国・カタール・豪州からの LNG 輸送、最も高価
 - **日本 (CIF)**: JKM + 長期契約価格、JKM より安定
 
-## 4 市場の歴史的価格 ($/MMBtu)
+## 4 市場の歴史的価格 (概数、$/MMBtu)
 
 | 期間 | Henry Hub | TTF | JKM | 日本 CIF | 価格差 (JKM - HH) |
 |---|---|---|---|---|---|
@@ -46,6 +46,8 @@ export const metadata = {
 | **2022-08** | **$8.0** | **$95** ⚠️ | **$70** | **$24.5** ⚠️ | **+$62** (歴史的最大) |
 | 2023-12 | $2.5 | $13 | $16 | $14 | +$13.5 |
 | 2024-12 | $3.0 | $13 | $14 | $11 | +$11 |
+
+*表の数値はいずれも各市場の代表的な報道・公的レポートに基づく概数。とくに JKM 列は当サイト非収録の参考値であり、catalog 収載系列（Henry Hub / TTF / 日本 CIF）の月次実データは下の 3 チャートを参照。*
 
 ## チャート 1: Henry Hub (米国天然ガス、$/MMBtu、月次)
 
@@ -147,7 +149,7 @@ JKM は catalog 未収録 (Phase D 第 1 期候補)、本記事は Henry Hub + T
 
 ### JKM データの catalog 不在
 
-⚠️ JKM (Japan/Korea Marker) は Platts (S&P Global) の有料データ。catalog 未収録、本記事は Henry Hub + TTF + 日本 CIF の 3 軸対比で代替。Phase D 第 1 期で JKM 公開分の探索 (一部公的レポートで月次値が入手可能)。
+⚠️ JKM (Japan/Korea Marker) は Platts (S&P Global) の有料データ。catalog 未収録、本記事は Henry Hub + TTF + 日本 CIF の 3 軸対比で代替。将来 JKM の公開分（一部公的レポートで月次値が入手可能）を探索する。
 
 ### 長期契約価格の不透明性
 
@@ -169,8 +171,8 @@ JKM は catalog 未収録 (Phase D 第 1 期候補)、本記事は Henry Hub + T
 
 - [FRED MHHNGSP](https://fred.stlouisfed.org/series/MHHNGSP) (Henry Hub Natural Gas Spot Price、CC0-1.0)
 - [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets) (TTF + Japan LNG CIF、CC BY 4.0)
-- [Platts JKM Assessment](https://www.spglobal.com/) (JKM、商用利用は別途、参考)
-- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda21-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
+- JKM は当サイト非収録。本文・表の JKM 値は公開報道・公的機関レポートに基づく概数（参考値）
+- 当データはエネルギー情報センター運営 [eic-data-pipeline](https://github.com/kenjieda-eng/eic-data-pipeline) が毎朝 8:00 JST に自動更新
 
 ---
 
