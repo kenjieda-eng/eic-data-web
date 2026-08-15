@@ -1,0 +1,49 @@
+name: Test
+
+# vitest (432 本) を PR ごとに CI で実行する。
+#
+# 経緯: 内部リンクガード (src/lib/internal-links.test.ts) をはじめ恒久ガードの
+# テストは揃っていたが、それを回す CI job が存在せず (workflow は lighthouse と
+# newsletter のみ)、「誰かがローカルで pnpm test を走らせたときだけ効く」状態
+# だった。ガードを PR で必ず発火させるために追加する。
+#
+# ネットワーク非依存: 全テストがフィクスチャ or fetch のモック
+# (vi.spyOn(globalThis, "fetch") / vi.stubGlobal) で完結しており、
+# raw.githubusercontent 等への実アクセスは行わない。GitHub 側の一時障害で
+# 赤くならないことが、このガードを「常設」にできる前提になっている。
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# 同一 PR に続けて push した場合、古い実行はキャンセルして最新だけを走らせる。
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vitest:
+    name: vitest
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run vitest
+        run: npx vitest run
