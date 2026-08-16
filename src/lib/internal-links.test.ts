@@ -13,8 +13,10 @@ import { INSIGHTS } from "./insights";
 //
 // 検証対象外（走査してスキップ）:
 //   - 外部リンク http(s):// ・プロトコル相対 //host ・アンカーのみ #sec
-//   - /catalog/<id>  … 系列はビルド時にリモート取得のため slug 検証不可
-//   - /compare?ids=… … ids は catalog 系列を指すため同上
+//   - /catalog/<id>  … 系列 id の実在検証は catalog-ids.test.ts に委譲
+//                      （catalog id スナップショット照合。2026-08-15 の総点検で
+//                        「リモート取得だから検証不可」を fixture 化で解消した）
+//   - /compare?ids=… … 同上。ids の実在検証も catalog-ids.test.ts が行う
 //   - /domain/<id>   … ドメイン別ページ（動的）
 //   - /today/<date>  … 朝刊アーカイブ（日付動的、/today/archive は固定ページとして検証）
 
@@ -97,6 +99,8 @@ export function verifyLink(raw: string): LinkVerdict {
   const first = segments[0];
 
   // --- 動的ルートは検証対象外 ---
+  // /catalog/<id> と /compare?ids=… の系列 id はここでは判定しない。
+  // 実在検証は catalog-ids.test.ts（catalog id スナップショット照合）に委譲済み。
   if (first === "catalog" && segments.length >= 2) return { kind: "skip" }; // /catalog/<id>
   if (first === "domain" && segments.length >= 2) return { kind: "skip" }; // /domain/<id>
   if (first === "compare" && hasQuery) return { kind: "skip" }; // /compare?ids=…

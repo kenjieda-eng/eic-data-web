@@ -7,7 +7,7 @@
  * 仕様:
  *   - 期待値の真実のソース = eic-data-pipeline の data/catalog/indicators.json (raw URL)
  *   - hard-code 禁止: catalog raw URL から indicator_count を動的取得 (122 系列)
- *   - 7 endpoints チェック:
+ *   - 7 endpoints チェック + スナップショット陳腐化チェック 1 件:
  *     1. /api/catalog               → indicators.length === catalog raw indicator_count
  *     2. /api/indicator/jepx-spot-tokyo       → data.length > 0 + meta.count 整合
  *     3. /api/indicator/us-fed-funds-rate     → data.length > 0 + meta.count 整合
@@ -15,16 +15,39 @@
  *     5. /api/usage-stats           → HTTP 200 + {month, counts:{apiReq,csvDl,citeCopy}, sinceIso, persistent} スキーマ整合
  *     6. /api/og/insight/fed-funds-vs-fx → HTTP 200 + content-type image/png
  *     7. /api/og/catalog/jepx-spot-tokyo → HTTP 200 + content-type image/png
+ *     8. fixture vs live catalog 双方向差分 (案B: スナップショット陳腐化検知)
+ *
+ * 8 の位置づけ (2026-08-16 追加):
+ *   src/lib/catalog-ids.test.ts は fixture (src/lib/__fixtures__/catalog-ids.json)
+ *   を「真実」として完全オフラインで照合する常設ガード (案A)。速くて決定的な代わり、
+ *   fixture 自体が live catalog からズレたことは検知できない。ここでは live を取りに
+ *   行ける利点を活かして双方向で報告する:
+ *     - live にあって fixture に無い id … スナップショットの陳腐化
+ *       (新系列を参照する記事を書くと catalog-ids.test.ts が誤って赤くなる)
+ *     - fixture にあって live に無い id … 系列の退役
+ *       (その系列を参照している記事・コードが本番で壊れる予兆)
+ *   どちらの向きも「差分あり = fail」。解消は `pnpm catalog:snapshot` で fixture を
+ *   更新し、退役側は参照元 (記事 MDX / ハードコード) を直すこと。
  *
  * 使用:
  *   pnpm dlx tsx scripts/api-data-consistency.ts
  *   pnpm dlx tsx scripts/api-data-consistency.ts --base http://localhost:3000
  */
 
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const DEFAULT_BASE = "https://data.eic-jp.org";
 const CATALOG_RAW =
   "https://raw.githubusercontent.com/kenjieda-eng/eic-data-pipeline/main/data/catalog/indicators.json";
 const TIMEOUT_MS = 15_000;
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const FIXTURE_PATH = path.resolve(
+  HERE,
+  "../src/lib/__fixtures__/catalog-ids.json",
+);
 
 interface Check {
   name: string;
@@ -63,6 +86,29 @@ interface IndicatorApiShape {
   id: string;
   data?: Array<{ date: string; value: number | null }>;
   meta?: { range?: { count?: number } };
+}
+
+interface CatalogIdSnapshot {
+  count: number;
+  ids: string[];
+}
+
+/** fixture (src/lib/__fixtures__/catalog-ids.json) の id 集合を読む。 */
+function readFixtureIds(): string[] {
+  const parsed = JSON.parse(
+    readFileSync(FIXTURE_PATH, "utf8"),
+  ) as CatalogIdSnapshot;
+  if (!Array.isArray(parsed.ids) || parsed.ids.length === 0) {
+    throw new Error(`fixture の ids が空です: ${FIXTURE_PATH}`);
+  }
+  return parsed.ids;
+}
+
+/** 先頭 n 件だけを "a, b, c ほか N 件" 形式に整える (ログが膨らまないように)。 */
+function preview(ids: string[], n = 10): string {
+  if (ids.length === 0) return "(なし)";
+  const head = ids.slice(0, n).join(", ");
+  return ids.length > n ? `${head} ほか ${ids.length - n} 件` : head;
 }
 
 interface UsageStatsShape {
@@ -182,6 +228,33 @@ async function main(): Promise<void> {
         return {
           pass: res.ok && ct.includes("image/png"),
           detail: `status=${res.status} content-type=${ct}`,
+        };
+      },
+    },
+    {
+      name: "8. catalog id スナップショット (fixture) vs live catalog → 双方向差分 0",
+      async run() {
+        const fixtureIds = readFixtureIds();
+        const liveIds = expectedCatalog.indicators.map((i) => i.id);
+        const fixtureSet = new Set(fixtureIds);
+        const liveSet = new Set(liveIds);
+
+        // live にあって fixture に無い = スナップショットの陳腐化
+        const staleFixture = liveIds.filter((id) => !fixtureSet.has(id)).sort();
+        // fixture にあって live に無い = 系列の退役 (記事参照が壊れる予兆)
+        const retired = fixtureIds.filter((id) => !liveSet.has(id)).sort();
+
+        const parts = [`fixture=${fixtureIds.length} live=${liveIds.length}`];
+        parts.push(
+          `陳腐化 (live のみ, 要 \`pnpm catalog:snapshot\`) ${staleFixture.length} 件: ${preview(staleFixture)}`,
+        );
+        parts.push(
+          `退役 (fixture のみ, 参照元の修正が必要) ${retired.length} 件: ${preview(retired)}`,
+        );
+
+        return {
+          pass: staleFixture.length === 0 && retired.length === 0,
+          detail: parts.join("\n     "),
         };
       },
     },

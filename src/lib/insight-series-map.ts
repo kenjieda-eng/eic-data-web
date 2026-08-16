@@ -29,9 +29,11 @@ export interface RelatedInsight {
  * - ChartSpread:   spreadAId / spreadBId / comparisonId(任意)
  * - ChartDecomp:   factorAId / factorBId
  *
- * ChartHeatmap の indicatorIds={[...]} は配列なので別処理。
+ * ChartHeatmap の indicatorIds={[...]} / MultiSeriesChart の ids={[...]} は
+ * 配列なので別処理 (ARRAY_ID_PROPS)。
  * BalancingProductsCompareChart は系列 id をコンポーネント内にハードコード
  * しており props を取らないため、ここでは graceful に取りこぼす(意図通り)。
+ * ハードコード側は src/lib/catalog-ids.test.ts が別途照合する。
  */
 const SINGLE_ID_PROPS = [
   "id",
@@ -46,8 +48,24 @@ const SINGLE_ID_PROPS = [
   "factorBId",
 ] as const;
 
-/** 1 本の MDX 本文から参照系列 id を重複なしで抽出する。 */
-function extractSeriesIds(mdx: string): string[] {
+/**
+ * 系列 id の配列を受け取るプロップ。
+ * - ChartHeatmap:     indicatorIds={[...]}
+ * - MultiSeriesChart: ids={[...]}（現状 MDX からの利用は 0 件。将来の直書きに備える）
+ *
+ * `ids` は単語境界のため negative lookbehind 付きでマッチする（`indicatorIds` は
+ * 大文字 `Ids` なので小文字 `ids` とは衝突しない）。
+ */
+const ARRAY_ID_PROPS = ["indicatorIds", "ids"] as const;
+
+/**
+ * 1 本の MDX 本文から参照系列 id を重複なしで抽出する。
+ *
+ * catalog 逆引きマップの構築だけでなく、src/lib/catalog-ids.test.ts の
+ * 「記事のチャート系列 id が catalog に実在するか」照合でも再利用する
+ * （抽出ロジックを 1 本に保ち、テストと本番でズレないようにするため export）。
+ */
+export function extractSeriesIds(mdx: string): string[] {
   const ids = new Set<string>();
 
   // 単一値プロップ: propName="series-id"
@@ -61,15 +79,17 @@ function extractSeriesIds(mdx: string): string[] {
     }
   }
 
-  // ChartHeatmap: indicatorIds={[ "id-a", "id-b", ... ]}(複数行可)
-  const heatmapRe = /indicatorIds=\{\[([\s\S]*?)\]\}/g;
-  let hm: RegExpExecArray | null;
-  while ((hm = heatmapRe.exec(mdx)) !== null) {
-    const inner = hm[1];
-    const strRe = /"([^"]+)"/g;
-    let s: RegExpExecArray | null;
-    while ((s = strRe.exec(inner)) !== null) {
-      ids.add(s[1]);
+  // 配列プロップ: propName={[ "id-a", "id-b", ... ]}(複数行可)
+  for (const prop of ARRAY_ID_PROPS) {
+    const re = new RegExp(`(?<![A-Za-z])${prop}=\\{\\[([\\s\\S]*?)\\]\\}`, "g");
+    let hm: RegExpExecArray | null;
+    while ((hm = re.exec(mdx)) !== null) {
+      const inner = hm[1];
+      const strRe = /"([^"]+)"/g;
+      let s: RegExpExecArray | null;
+      while ((s = strRe.exec(inner)) !== null) {
+        ids.add(s[1]);
+      }
     }
   }
 
