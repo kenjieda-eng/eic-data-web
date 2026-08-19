@@ -164,6 +164,12 @@ export const DOMAINS_DAY6: DomainPageMeta[] = [
         description: "Newcastle 指標（豪州）",
         matcher: (id) => id.includes("coal"),
       },
+      {
+        name: "コモディティ",
+        description:
+          "鉄鉱石 CFR スポット（中国輸入指標）。エネルギー燃料ではないが、資源市況・海上輸送・中国需要を通じて燃料価格と連動する",
+        matcher: (id) => id.startsWith("commodity-"),
+      },
     ],
   },
 ];
