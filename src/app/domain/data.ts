@@ -51,6 +51,13 @@ export function resolveDomainDescription(
   return meta.description.split(SERIES_COUNT_TOKEN).join(String(seriesCount));
 }
 
+/**
+ * EIA 国際 CO2 の派生（原単位）系列 ID。international の 2 グループが表裏で参照する
+ * ため、片方だけ直しても分離が崩れないよう 1 箇所に置く。
+ * 絶対量: `eia-co2-<地域>` / `eia-co2-jp-<燃料>`、原単位: `eia-co2-per-{capita,gdp}-<地域>`。
+ */
+const EIA_CO2_DERIVED_RE = /^eia-co2-per-(capita|gdp)-/;
+
 export const DOMAINS_DAY6: DomainPageMeta[] = [
   {
     id: "power",
@@ -342,7 +349,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "国際",
     emoji: "🌐",
     description:
-      `ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・発電量・電力需要と 5 ヶ国 × 7 電源の発電量シェア、中国 NBS 製造業 PMI（ここまで月次）、EIA 国際 CO2 排出量 9 系列（世界・日本・中国・米国・EU27・OECD の合計と日本の燃料別内訳、年次）を、計 ${SERIES_COUNT_TOKEN} 系列で揃えるドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策・国際的な脱炭素動向と結びつける編集の起点として機能する。`,
+      `ECB（欧州中央銀行）政策金利 3 系列（DFR / MLF / MRR）と EUR/USD・EUR/JPY 為替（ECB Reference Rate 月平均）、Ember 主要 5 ヶ国（日米英独中）の電力部門 CO2 排出強度・発電量・電力需要と 5 ヶ国 × 7 電源の発電量シェア、中国 NBS 製造業 PMI（ここまで月次）、EIA 国際 CO2 排出量 9 系列（世界・日本・中国・米国・EU27・OECD の合計と日本の燃料別内訳）と同 6 地域の一人当たり CO2・GDP 当たり CO2 の原単位 12 系列（ここまで年次）を、計 ${SERIES_COUNT_TOKEN} 系列で揃えるドメイン。日米金利差 × USD/JPY と並ぶ「ECB × Fed × EUR/USD」軸を提供し、日本国内の燃料・電力市場を海外電力市況・主要中央銀行政策・国際的な脱炭素動向と結びつける編集の起点として機能する。`,
     insightKeywords: [
       "国際",
       "ECB",
@@ -394,14 +401,30 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         matcher: (id) => id.startsWith("china-nbs-"),
       },
       {
-        // 本ドメイン唯一の年次グループ。EIA 独自のエネルギー収支 × 排出係数による
-        // 暦年値で、UNFCCC インベントリ（esg ドメインの jp-ghg-*、年度）とは
-        // 方法論・期間定義が異なり数値は一致しない（日本 2024 年: EIA 941.0 /
-        // GIO エネルギー起源 906.6 Mt-CO2）。両者を同一チャートに並べないこと。
+        // EIA 独自のエネルギー収支 × 排出係数による暦年値で、UNFCCC インベントリ
+        //（esg ドメインの jp-ghg-*、年度）とは方法論・期間定義が異なり数値は
+        // 一致しない（日本 2024 年: EIA 941.0 / GIO エネルギー起源 906.6 Mt-CO2）。
+        // 両者を同一チャートに並べないこと。
+        // 素の `eia-co2-` 前方一致だと直後の原単位 12 系列（per-capita / per-gdp）
+        // まで飲み込み、絶対量と原単位が 1 グループに同居して「排出量の一覧」と
+        // 誤読される。groupIndicatorsBySubcategory は先勝ちのため、ここで除外する。
         name: "EIA 国際 CO2 排出量",
         description:
           "世界・日本・中国・米国・EU27・OECD の合計と日本の燃料別内訳、年次 Mt-CO2",
-        matcher: (id) => id.startsWith("eia-co2-"),
+        matcher: (id) =>
+          id.startsWith("eia-co2-") && !EIA_CO2_DERIVED_RE.test(id),
+      },
+      {
+        // 分母は EIA 提供の人口（productId 4702、千人）と実質 GDP（productId 4701、
+        // 2015 年基準・購買力平価 PPP ドル、履歴値の出所は Oxford Economics）で、
+        // EIA 自身のエネルギー原単位算出と同一の分母。
+        // 同ドメインの電力部門 CO2 排出強度（ember-co2-intensity-*、gCO2/kWh）とは
+        // 分子・分母とも異なる別概念なので同一視しないこと。系列 ID を intensity では
+        // なく per-gdp にしているのはこのため。
+        name: "EIA 一人当たり・GDP当たりCO2",
+        description:
+          "同6地域の CO2 を人口・実質GDP で割った原単位。年次、t-CO2/人 と t-CO2/百万2015年PPPドル",
+        matcher: (id) => EIA_CO2_DERIVED_RE.test(id),
       },
     ],
   },
