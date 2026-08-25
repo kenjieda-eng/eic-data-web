@@ -239,7 +239,7 @@ export default async function BalancingMarketPage() {
             年次・手動更新／出典 EPRX
           </span>
           <span className="inline-flex items-center gap-1 rounded border border-slate-200 bg-slate-50 px-2 py-1 text-slate-700">
-            最終観測: {observationCutoff} (FY2025 上期・暫定)
+            最終観測: {observationCutoff} (FY2025 通年・確報)
           </span>
           <span className="inline-flex items-center gap-1 rounded border border-slate-200 bg-slate-50 px-2 py-1 text-faint tabular-nums">
             updated {updatedAt.slice(0, 10)}
@@ -351,7 +351,7 @@ export default async function BalancingMarketPage() {
 
       {/* (3) 主役チャート */}
       <section className="mb-10">
-        <h2 className="text-2xl font-semibold text-ink">商品別 年間平均落札単価 (FY2021〜FY2025 上期)</h2>
+        <h2 className="text-2xl font-semibold text-ink">商品別 年間平均落札単価 (FY2021〜FY2025)</h2>
         <p className="mt-3 text-base text-subink leading-relaxed">
           6 商品の年間平均落札単価 ({products[0].indicator.unit}) を 1 枚に重ねたもの。
           点線は EPRX 取りまとめ PDF に示される上限価格 {CEILING_PRICE} 円/ΔkW・30分 (参照線) です。
@@ -372,7 +372,7 @@ export default async function BalancingMarketPage() {
                 <th className="text-left px-3 py-2 border-b border-slate-200">商品</th>
                 <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums">FY2024</th>
                 <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums">
-                  FY2025 上期 (暫定)
+                  FY2025 (通年確報)
                 </th>
                 <th className="text-left px-3 py-2 border-b border-slate-200">系列詳細</th>
               </tr>
@@ -412,7 +412,7 @@ export default async function BalancingMarketPage() {
           </table>
         </div>
         <p className="mt-3 text-xs text-faint leading-relaxed">
-          単位: {products[0].indicator.unit}。FY2025 は上期 (2025-04 〜 2025-09) のみの集計に基づく暫定値で、全年度公表後に改訂予定。
+          単位: {products[0].indicator.unit}。FY2025 は通年確報 (2026-06-18 公表)。
           EPRX 年次取りまとめ PDF より転記・編集 (加工した旨を明記)。
         </p>
       </section>
@@ -424,7 +424,7 @@ export default async function BalancingMarketPage() {
           <p className="mt-3 text-base text-subink leading-relaxed">
             三次調整力② は需給調整市場の最古参商品 (2021 年 4 月開設) で、5 年分の年間平均落札単価が公表されています。
             ゲートクローズが前日のため気象予測精度に左右されやすく、燃料価格・JEPX スポット価格と一定の相関 (2021〜2023 で相関係数 0.7 前後) を示してきました。
-            近年は蓄電池・VPP の高値応札と再エネ予測誤差の縮小が交錯し、{formatPrice(tertiary2LastFy)} 円 (FY2025 上期暫定) と低水準まで戻しています。
+            近年は蓄電池・VPP の高値応札と再エネ予測誤差の縮小が交錯し、{formatPrice(tertiary2LastFy)} 円 (FY2025 通年) と低水準まで戻しています。
           </p>
           <div className="mt-4">
             <ChartLine id="balancing-price-tertiary-2" height={280} showZoom={false} />
@@ -443,7 +443,7 @@ export default async function BalancingMarketPage() {
         </h2>
         <p className="mt-3 text-base text-subink leading-relaxed">
           各商品の <strong className="text-ink">年間不足率 = 調達不足量 ÷ 募集量</strong>{" "}
-          (EPRX 公表)。価格が 2.67〜3.30 円/ΔkW・30分 の狭い帯に収まるのに対し、不足率は商品ごとに大きく分かれ、
+          (EPRX 公表)。FY2024 は価格が 2.67〜3.30 円/ΔkW・30分 の狭い帯に収まるのに対し、不足率は商品ごとに大きく分かれ、
           <strong className="text-ink">応動が速い商品ほど集めにくい (不足率が高い)</strong>{" "}
           という市場設計の性格が現れます。
           特に一次調整力 (FY2024 = {formatShortage(shortages[0]?.points.find((p) => p.date === "2024-04-01")?.value ?? null)}) は
@@ -467,7 +467,7 @@ export default async function BalancingMarketPage() {
                 <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums w-24">FY2024</th>
                 <th className="text-left px-3 py-2 border-b border-slate-200">FY2024 バー</th>
                 <th className="text-right px-3 py-2 border-b border-slate-200 tabular-nums w-32">
-                  FY2025 上期 (暫定)
+                  FY2025 (通年確報)
                 </th>
                 <th className="text-left px-3 py-2 border-b border-slate-200">系列詳細</th>
               </tr>
@@ -523,8 +523,8 @@ export default async function BalancingMarketPage() {
 
         <p className="mt-3 text-xs text-faint leading-relaxed">
           単位: % (調達不足量 ÷ 募集量)。バーは FY2024 値を 0〜100% にそのまま写像 (商品色は上節の階層図と共通)。
-          FY2025 は上期 (4〜9 月) のみの暫定値で、全年度公表後に改訂予定。
-          一次の高不足率は GF 並列義務 + 週間断面応札に起因し、二次② の低不足率 (FY2024 18.5% → FY2025 上期 2.6%) は
+          FY2025 は通年確報 (2026-06-18 公表)。
+          一次の高不足率は GF 並列義務 + 週間断面応札に起因し、二次② の低不足率 (FY2024 18.5% → FY2025 4.3%) は
           蓄電池・VPP の参入で急速に解消が進む構造を示唆しています。
         </p>
       </section>
