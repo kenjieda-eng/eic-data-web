@@ -873,6 +873,14 @@ export const INSIGHTS: Insight[] = [
     sources: ["EIC Data 編集部"],
     updated: "2026-08-11",
   },
+  {
+    slug: "balancing-shortage-rate",
+    title: "需給調整市場の調達不足率 — FY2025 に全 6 商品で急改善、価格構造を書き換えた",
+    lede: "EPRX 年次取りまとめより、需給調整市場 6 商品の年間調達不足率 (調達不足量 ÷ 募集量、FY2024 新定義) を可視化。FY2025 は全 6 商品で不足率が二桁ポイント改善し、ほぼ解消した三次調整力② (36.9%→2.1%) は単価 −65%、不足率が最も高いまま残る一次調整力 (60.4%) は単価上昇。「価格を駆動するのは応動速度ではなく調達不足率」を不足率の側から裏付ける",
+    tags: ["電力", "需給調整市場", "EPRX", "ΔkW", "蓄電池"],
+    sources: ["電力需給調整力取引所 (EPRX) 取引実績の取りまとめ結果"],
+    updated: "2026-08-25",
+  },
 ];
 
 export function getInsightBySlug(slug: string): Insight | undefined {
