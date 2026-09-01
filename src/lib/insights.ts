@@ -534,18 +534,18 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "world-power-co2-intensity",
     title: "電気の「きれいさ」を主要5か国で比べる — 日本の電力 CO2 強度はどこに立つか",
-    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 205) の電力部門 CO2 強度 (gCO2/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べ、日本がどこに立っているかを確かめる。2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 gCO2/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.5 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 205) の電力部門 CO2 強度 (gCO2e/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べ、日本がどこに立っているかを確かめる。2025-12 で 中国 594 / 日本 476 / 米国 383 / ドイツ 357 / 英国 200 gCO2e/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.4 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾",
     tags: ["国際", "電力", "CO2", "脱炭素", "電源構成", "Ember"],
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
-    updated: "2026-05-28",
+    updated: "2026-09-01",
   },
   {
     slug: "world-power-mix-compare",
     title: "なぜ日本の電気は CO2 強度が高いのか — 主要 5 か国の電源構成で読み解く",
-    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240、5 か国 × 7 燃料 = 35 系列の ember-share-{fuel}-{cc}) で主要 5 か国の電源別発電量シェアを並べ、#67 の CO2 強度ランキングを電源構成から説明する。2025-12 で 中国 石炭 58.5% / 日本 石炭 32.0% + ガス 30.7% / 米国 ガス 38.2% / ドイツ 再エネ 54% + 原子力 0% / 英国 石炭 0% + 再エネ 56% という分岐。CO2 強度を最も強く規定するのは石炭シェアであることを実データで示す、Phase 2 国際ドメイン Ember 第 2 弾",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240、5 か国 × 7 燃料 = 35 系列の ember-share-{fuel}-{cc}) で主要 5 か国の電源別発電量シェアを並べ、#67 の CO2 強度ランキングを電源構成から説明する。2025-12 で 中国 石炭 58.3% / 日本 石炭 32.0% + ガス 30.7% / 米国 ガス 38.2% / ドイツ 再エネ 54% + 原子力 0% / 英国 石炭 0% + 再エネ 58% という分岐。CO2 強度を最も強く規定するのは石炭シェアであることを実データで示す、Phase 2 国際ドメイン Ember 第 2 弾",
     tags: ["国際", "電力", "電源構成", "脱炭素", "石炭", "再エネ", "Ember"],
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
-    updated: "2026-05-28",
+    updated: "2026-09-01",
   },
   {
     slug: "japan-power-mix-trend",
@@ -684,10 +684,10 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "coal-phaseout-5countries",
     title: "脱石炭の通信簿：英国ゼロ、日本だけ止まったまま — 主要5か国の石炭シェア10年",
-    lede: "電気に占める石炭の割合はこの10年でどう動いたか。英国は25.5%→0.0%でゼロ達成、独・米はほぼ半減、中国も72%→56%へ低下。だが日本は30%→29%でほぼ横ばいで、先進国の中で唯一止まっている。Ember月次の年平均で読む。",
+    lede: "電気に占める石炭の割合はこの10年でどう動いたか。英国は23.4%→0.0%でゼロ達成、独・米はほぼ半減、中国も72%→55%へ低下。だが日本は30%→29%でほぼ横ばいで、先進国の中で唯一止まっている。Ember月次の年平均で読む。",
     tags: ["国際", "電力", "電源構成", "脱炭素", "石炭", "Ember"],
     sources: ["Ember Monthly Electricity Data"],
-    updated: "2026-06-17",
+    updated: "2026-09-01",
   },
   {
     slug: "renewables-rise-5countries",
@@ -695,7 +695,7 @@ export const INSIGHTS: Insight[] = [
     lede: "脱石炭の裏側。電気に占める風力＋太陽光の割合はこの10年で、英国16%→43%・ドイツ20%→47%と急伸し、抜けた石炭をほぼ1対1で置き換えた。米中も伸ばす中、日本は7%(2018)→12%で最も出遅れ——とくに風力が1.4%とほぼ存在しない。",
     tags: ["国際", "電力", "再エネ", "電源構成", "脱炭素", "Ember"],
     sources: ["Ember Monthly Electricity Data"],
-    updated: "2026-06-18",
+    updated: "2026-09-01",
   },
   {
     slug: "gas-share-5countries",
@@ -703,7 +703,7 @@ export const INSIGHTS: Insight[] = [
     lede: "脱石炭3部作の締め。電気に占める天然ガスのシェアを主要5か国で10年並べると、ガスが主役なのは米国(約40%)だけ。英・日はガス大国だが再エネ・原子力に押されて縮小、独は低位、中はほぼゼロ。この10年の脱石炭の主役はガスではなく再エネだった。",
     tags: ["国際", "電力", "電源構成", "脱炭素", "ガス", "Ember"],
     sources: ["Ember Monthly Electricity Data"],
-    updated: "2026-06-19",
+    updated: "2026-09-01",
   },
   {
     slug: "power9-roa",
@@ -716,10 +716,10 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "co2-intensity-trend-5countries",
     title: "電気は実際どれだけきれいになったか：CO2強度の10年 — 英国は半減、日本は1割減",
-    lede: "脱石炭3部作の締め。石炭が抜け(#85)、風力＋太陽光が増えた(#86)結果、各国の電気はどれだけクリーンになったか。CO2強度(gCO2/kWh)を5か国で10年並べると、英国は428→203と半減(-53%)、電源構成を動かさなかった日本は-12%にとどまり中国に次ぐ2番目に高い。電源構成を変えた国ほど電気がきれいになった。",
+    lede: "脱石炭3部作の締め。石炭が抜け(#85)、風力＋太陽光が増えた(#86)結果、各国の電気はどれだけクリーンになったか。CO2強度(gCO2e/kWh)を5か国で10年並べると、英国は426→214と半減近い水準まで低下(-50%)、電源構成を動かさなかった日本は-12%にとどまり中国に次ぐ2番目に高い。電源構成を変えた国ほど電気がきれいになった。",
     tags: ["国際", "電力", "脱炭素", "電源構成", "CO2", "Ember"],
     sources: ["Ember Monthly Electricity Data"],
-    updated: "2026-06-21",
+    updated: "2026-09-01",
   },
   {
     slug: "jp-russia-decoupling",
