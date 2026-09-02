@@ -480,7 +480,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "co2-intensity",
     name: "電力 CO2 強度",
     description:
-      "発電 1 kWh あたりに排出される二酸化炭素の量（gCO2/kWh）。電源構成（石炭・ガス・原子力・再エネの比率）でほぼ決まり、同じ kWh でも石炭発電と再エネ発電では大きく異なる。Ember 月次推計の 2025-12 で 中国 592 / 日本 476 / 米国 384 / ドイツ 357 / 英国 192 と、国によって 3 倍以上の差がつく。[[power-mix]] が主因、[[coal-phase-out]] が最も効く要因。Insight #67 world-power-co2-intensity（断面）で可視化、10 年トレンドは #89 co2-intensity-trend-5countries（英 −53% vs 日 −12%）で扱う。",
+      "発電 1 kWh あたりに排出される温室効果ガスの量（CO2 換算、gCO2e/kWh）。電源構成（石炭・ガス・原子力・再エネの比率）でほぼ決まり、同じ kWh でも石炭発電と再エネ発電では大きく異なる。Ember 月次推計の 2025-12 で 中国 594 / 日本 476 / 米国 383 / ドイツ 357 / 英国 200 と、国によって約 3 倍の差がつく。[[power-mix]] が主因、[[coal-phase-out]] が最も効く要因。Insight #67 world-power-co2-intensity（断面）で可視化、10 年トレンドは #89 co2-intensity-trend-5countries（英 −50% vs 日 −12%）で扱う。",
     category: "power",
   },
   {

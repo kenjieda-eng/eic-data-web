@@ -374,7 +374,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
       },
       {
         name: "Ember 電力部門 CO2 排出強度（5 ヶ国）",
-        description: "日米英独中の電力部門 gCO2/kWh、月次",
+        description: "日米英独中の電力部門 gCO2e/kWh、月次",
         matcher: (id) => id.startsWith("ember-co2-intensity-"),
       },
       {
@@ -418,7 +418,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
         // 分母は EIA 提供の人口（productId 4702、千人）と実質 GDP（productId 4701、
         // 2015 年基準・購買力平価 PPP ドル、履歴値の出所は Oxford Economics）で、
         // EIA 自身のエネルギー原単位算出と同一の分母。
-        // 同ドメインの電力部門 CO2 排出強度（ember-co2-intensity-*、gCO2/kWh）とは
+        // 同ドメインの電力部門 CO2 排出強度（ember-co2-intensity-*、gCO2e/kWh）とは
         // 分子・分母とも異なる別概念なので同一視しないこと。系列 ID を intensity では
         // なく per-gdp にしているのはこのため。
         name: "EIA 一人当たり・GDP当たりCO2",
