@@ -1,8 +1,9 @@
-name: Newsletter Weekly Broadcast
+name: Newsletter Monthly Broadcast
 
 # Day 5 午後第 5 弾 (2026-05-16) で scaffold 作成。
 # 現状: workflow_dispatch のみ (手動 trigger)、cron は Phase D で有効化予定。
-# 想定: 毎週金曜 23:00 UTC = 土曜 8:00 JST に配信。
+# 想定: 毎月第 1 土曜 8:00 JST に配信（2026-09-25 に週刊 → 月刊へ。読者は業務で読む層で、
+#   月 1 の「今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集」のほうが密度が出る）。
 on:
   workflow_dispatch:
     inputs:
@@ -12,7 +13,7 @@ on:
         type: boolean
         default: true
   # schedule:
-  #   - cron: '0 23 * * 5'  # 毎週金曜 23:00 UTC = 土曜 8:00 JST
+  #   - cron: '0 23 * * 5'  # 金曜 23:00 UTC = 土曜 8:00 JST（第 1 土曜だけ送るガードは Phase D で入れる）
 
 jobs:
   broadcast:

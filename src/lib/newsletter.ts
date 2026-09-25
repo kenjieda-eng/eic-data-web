@@ -224,12 +224,12 @@ export function buildConfirmEmail(
   const subject = "[EIC Data] ニュースレター購読確認";
   const text = `${email} 様
 
-EIC Data 週次ニュースレターへの購読リクエストを受け付けました。
+EIC Data 月刊ニュースレターへの購読リクエストを受け付けました。
 以下のリンクをクリックして購読を確定してください (7 日間有効):
 
 ${links.confirmUrl}
 
-毎週土曜朝 8:00 JST に Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。
+毎月第 1 土曜の朝 8:00 JST に、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。
 
 ※ このリクエストに心当たりがない場合は、このメールを破棄してください。購読は確定されません。
 ※ いつでも以下のリンクで解除できます:
@@ -238,10 +238,10 @@ ${links.unsubscribeUrl}
 EIC Data — エネルギー情報センター
 https://data.eic-jp.org`;
   const html = `<p>${email} 様</p>
-<p>EIC Data 週次ニュースレターへの購読リクエストを受け付けました。<br>
+<p>EIC Data 月刊ニュースレターへの購読リクエストを受け付けました。<br>
 以下のボタン (リンク) をクリックして購読を確定してください (7 日間有効):</p>
 <p><a href="${links.confirmUrl}" style="display:inline-block;padding:10px 20px;background:#047857;color:#fff;text-decoration:none;border-radius:6px;">購読を確定する</a></p>
-<p>毎週土曜朝 8:00 JST に Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。</p>
+<p>毎月第 1 土曜の朝 8:00 JST に、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。</p>
 <hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0">
 <p style="font-size:12px;color:#64748b">※ このリクエストに心当たりがない場合は、このメールを破棄してください。購読は確定されません。<br>
 ※ いつでも <a href="${links.unsubscribeUrl}">こちらから解除</a> できます。</p>
@@ -378,14 +378,14 @@ export function buildWelcomeEmail(data: SubscriptionData): {
   const subject = "EIC Data Newsletter 購読登録ありがとうございます";
   const text = `${data.email} 様
 
-EIC Data 週次ニュースレターへの購読登録が完了しました。
-毎週土曜朝に Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。
+EIC Data 月刊ニュースレターへの購読登録が完了しました。
+毎月第 1 土曜の朝に、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。
 
 EIC Data — エネルギー情報センター
 https://data.eic-jp.org`;
   const html = `<p>${data.email} 様</p>
-<p>EIC Data 週次ニュースレターへの購読登録が完了しました。<br>
-毎週土曜朝に Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。</p>
+<p>EIC Data 月刊ニュースレターへの購読登録が完了しました。<br>
+毎月第 1 土曜の朝に、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。</p>
 <p><a href="https://data.eic-jp.org">EIC Data — エネルギー情報センター</a></p>`;
   return { subject, html, text };
 }

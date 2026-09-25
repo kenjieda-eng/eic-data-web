@@ -2,7 +2,7 @@
 /**
  * Day 5 午後第 5 弾 (2026-05-16) で scaffold 作成。
  *
- * 週次ニュースレター本文生成。現状 stub:
+ * 月刊ニュースレター本文生成。現状 stub:
  *   - dist/newsletter-preview.html を出力 (ハードコード文言、Phase D で動的化)
  *
  * Phase D で実装予定:
@@ -17,9 +17,9 @@ import { mkdir, writeFile } from "node:fs/promises";
 const today = new Date().toISOString().slice(0, 10);
 
 const html = `<!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"><title>EIC Data Weekly ${today}</title></head>
+<html lang="ja"><head><meta charset="utf-8"><title>EIC Data Monthly ${today}</title></head>
 <body style="font-family:-apple-system,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#1e293b">
-<h1 style="color:#047857">EIC Data Weekly — ${today}</h1>
+<h1 style="color:#047857">EIC Data Monthly — ${today}</h1>
 <p>※ scaffold 版。Phase D で Insight / JEPX 特異日 / 用語集新項目を動的に挿入予定。</p>
 
 <h2>今週の Insight</h2>

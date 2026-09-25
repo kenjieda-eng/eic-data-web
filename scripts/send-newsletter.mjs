@@ -28,7 +28,7 @@ const today = new Date().toISOString().slice(0, 10);
 const payload = {
   audience_id: RESEND_AUDIENCE_ID ?? "(auto-resolve)",
   from: "EIC Data <onboarding@resend.dev>",
-  subject: `EIC Data Weekly — ${today}`,
+  subject: `EIC Data Monthly — ${today}`,
   html,
 };
 

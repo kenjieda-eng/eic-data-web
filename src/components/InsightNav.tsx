@@ -62,8 +62,8 @@ export default function InsightNav() {
     <NewsletterSubscribeBox
       utmSource="insight-footer"
       utmCampaign={`insight-${slug}`}
-      heading="続報を週次で受け取る"
-      subtext="EIC Data の Insight 新着 + JEPX 特異日 + 用語集新項目を、毎週土曜朝にお届けします。"
+      heading="続報を月刊で受け取る"
+      subtext="EIC Data の Insight 新着・JEPX 月間サマリー・データの追加と訂正を、毎月第 1 土曜の朝にお届けします。"
     />
     </>
   );
