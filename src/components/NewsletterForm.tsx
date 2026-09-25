@@ -20,7 +20,7 @@ type Status =
 export default function NewsletterForm({
   utmSource = "top-hero",
   utmMedium = "web",
-  utmCampaign = "weekly-newsletter",
+  utmCampaign = "monthly-newsletter",
   endpoint = "/api/newsletter",
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
@@ -71,10 +71,10 @@ export default function NewsletterForm({
       aria-label="EIC Data Newsletter 購読フォーム"
     >
       <p className="mb-2 text-sm font-medium text-ink">
-        EIC Data 週次ニュースレター
+        EIC Data 月刊ニュースレター
       </p>
       <p className="mb-3 text-xs text-subink">
-        毎週土曜朝、Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。
+        毎月第 1 土曜の朝、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <input

@@ -25,7 +25,7 @@ export interface NewsletterSubscribeBoxProps {
 export default function NewsletterSubscribeBox({
   utmSource = "top-hero",
   utmMedium = "web",
-  utmCampaign = "weekly-newsletter",
+  utmCampaign = "monthly-newsletter",
   heading,
   subtext,
 }: NewsletterSubscribeBoxProps) {

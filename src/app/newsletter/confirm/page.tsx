@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 export const metadata = {
   title: "ニュースレター購読確認 | EIC Data",
   description:
-    "EIC Data 週次ニュースレターの購読確認結果。Double opt-in 完了後の表示ページ。",
+    "EIC Data 月刊ニュースレターの購読確認結果。Double opt-in 完了後の表示ページ。",
 };
 
 interface PageProps {
@@ -22,7 +22,7 @@ const STATUS_MESSAGES: Record<
   ok: {
     tone: "success",
     title: "✓ 購読を確定しました",
-    body: "EIC Data 週次ニュースレターへの購読が完了しました。毎週土曜朝 8:00 JST に最新の Insight + JEPX 特異日 + 用語集新項目をお届けします。",
+    body: "EIC Data 月刊ニュースレターへの購読が完了しました。毎月第 1 土曜の朝 8:00 JST に、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。",
   },
   scaffold: {
     tone: "warning",

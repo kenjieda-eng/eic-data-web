@@ -160,8 +160,8 @@ export default async function HomePage() {
 
       <NewsletterSubscribeBox
         utmSource="top-hero"
-        heading="EIC Data 週次ニュースレター"
-        subtext="毎週土曜朝、Insight ハイライト + JEPX 特異日 + 用語集新項目をお届けします。"
+        heading="EIC Data 月刊ニュースレター"
+        subtext="毎月第 1 土曜の朝、今月の Insight・JEPX 月間サマリー・データの追加と訂正・用語集の新項目をお届けします。"
       />
     </Container>
   );

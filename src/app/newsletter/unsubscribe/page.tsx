@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 export const metadata = {
   title: "ニュースレター購読解除 | EIC Data",
   description:
-    "EIC Data 週次ニュースレターの購読解除結果。1-click 解除リンク後の表示ページ。",
+    "EIC Data 月刊ニュースレターの購読解除結果。1-click 解除リンク後の表示ページ。",
 };
 
 interface PageProps {
@@ -22,7 +22,7 @@ const STATUS_MESSAGES: Record<
   ok: {
     tone: "success",
     title: "✓ 購読を解除しました",
-    body: "EIC Data 週次ニュースレターの購読を解除しました。今後のメール配信は停止されます。またのご利用をお待ちしています。",
+    body: "EIC Data 月刊ニュースレターの購読を解除しました。今後のメール配信は停止されます。またのご利用をお待ちしています。",
   },
   scaffold: {
     tone: "warning",
