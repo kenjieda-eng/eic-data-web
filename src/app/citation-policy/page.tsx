@@ -30,7 +30,7 @@ export default function CitationPolicyPage() {
           で即座にコピーできるようにしています。
         </p>
         <p className="mt-2 text-xs text-faint">
-          初版: 2026-05-12 ／ 最終改定: 2026-05-26 (ライセンス表現の精緻化)
+          初版: 2026-05-12 ／ 最終改定: 2026-09-29 (§6 出典元からの要請への対応を追加)
         </p>
       </header>
 
@@ -294,7 +294,16 @@ export default function CitationPolicyPage() {
 
       <section className="prose-section space-y-3 max-w-3xl mx-auto">
         <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
-          6. 問い合わせ
+          6. 出典元からの要請への対応
+        </h2>
+        <p className="text-base md:text-lg leading-relaxed text-subink">
+          当サイトに掲載しているデータ・図表のうち、公表機関の資料から転記・加工したもの（各系列の <code className="font-mono">license_notice</code> に出典と加工の旨を記載）について、出典元から表記の訂正、掲載方法の変更、または掲載の取りやめの要請があった場合は、内容を確認のうえ速やかに対応します。ご連絡は下記「問い合わせ」のメールアドレスまでお願いします。
+        </p>
+      </section>
+
+      <section className="prose-section space-y-3 max-w-3xl mx-auto">
+        <h2 className="mt-10 text-2xl md:text-3xl font-semibold text-ink">
+          7. 問い合わせ
         </h2>
         <div className="rounded-md border border-slate-200 bg-slate-50 p-4">
           <p className="text-base md:text-lg leading-relaxed text-ink">
