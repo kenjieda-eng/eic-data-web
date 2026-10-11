@@ -25,7 +25,9 @@ concurrency:
 jobs:
   vitest:
     name: vitest
-    runs-on: ubuntu-latest
+    # 2026-10-09: ubuntu-latest は 2026-10-19 から Ubuntu 26 へ移行する（actions/runner-images#14748）。
+    # Node・pnpm・Chrome の版が予告なく変わる事故を避けるため 24.04 に固定（pipeline #62 と同じ）。26.04 で動作確認してから上げる。
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - name: Checkout
