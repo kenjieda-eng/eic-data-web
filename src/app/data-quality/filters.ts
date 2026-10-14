@@ -5,6 +5,7 @@ export const STATUS_LABELS: Record<SlaStatus, string> = {
   warning: "🟡 警告",
   breach: "🔴 SLA 違反",
   unknown: "⚪ 不明",
+  retired: "⚫ 終了（後継あり）",
 };
 
 export const STATUS_COLORS: Record<SlaStatus, string> = {
@@ -12,6 +13,7 @@ export const STATUS_COLORS: Record<SlaStatus, string> = {
   warning: "#d97706",
   breach: "#dc2626",
   unknown: "#94a3b8",
+  retired: "#64748b",
 };
 
 // WCAG AA (4.5:1) compliant text colors for use ON light-tinted backgrounds.
@@ -22,6 +24,7 @@ export const STATUS_TEXT_COLORS: Record<SlaStatus, string> = {
   warning: "#92400e", // amber-800
   breach: "#991b1b", // red-800
   unknown: "#475569", // slate-600
+  retired: "#334155", // slate-700
 };
 
 export interface DataQualityFilters {
@@ -29,7 +32,7 @@ export interface DataQualityFilters {
   status: SlaStatus | null;
 }
 
-const STATUS_VALUES: SlaStatus[] = ["healthy", "warning", "breach", "unknown"];
+const STATUS_VALUES: SlaStatus[] = ["healthy", "warning", "breach", "unknown", "retired"];
 
 export function parseFilters(
   raw: Record<string, string | string[] | undefined>,

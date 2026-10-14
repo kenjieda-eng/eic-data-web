@@ -27,6 +27,7 @@ const STATUS_LABELS: Record<SlaStatus, { label: string; cls: string }> = {
   warning: { label: "Warning", cls: "text-amber-700 bg-amber-50" },
   breach: { label: "Breach", cls: "text-rose-700 bg-rose-50" },
   unknown: { label: "Unknown", cls: "text-slate-500 bg-slate-100" },
+  retired: { label: "Retired", cls: "text-slate-600 bg-slate-100" },
 };
 
 function IndicatorRows({ rows }: { rows: EnrichedIndicator[] }) {

@@ -160,6 +160,15 @@ describe("Phase B-B Day 1: catalog 集計ヘルパ", () => {
     expect(counts.breach).toBeGreaterThanOrEqual(1);
   });
 
+  test("slaStatusOf: catalog の status=retired は SLA 判定をせず retired（違反に数えない）", () => {
+    const retired: Indicator = { ...fixture[3], id: "retired-series", status: "retired", successor_id: "jma-snow-osaka" };
+    expect(slaStatusOf(fixture[3], NOW).status).toBe("breach");
+    expect(slaStatusOf(retired, NOW).status).toBe("retired");
+    const counts = summarizeStatus(enrichIndicators([fixture[3], retired], NOW));
+    expect(counts.breach).toBe(1);
+    expect(counts.retired).toBe(1);
+  });
+
   test("recentlyUpdated: 7 日以内の更新のみ、updated_at 降順", () => {
     const recent = recentlyUpdated(fixture, 7, NOW);
     const ids = recent.map((r) => r.id);

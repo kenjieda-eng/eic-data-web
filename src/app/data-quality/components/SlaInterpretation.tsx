@@ -27,6 +27,7 @@ export default function SlaInterpretation({
         <b>「データ取得が違法・不正」を意味するものではありません</b>。 全 {total}{" "}
         系列は公開・無料・ライセンス OK のソース（D-002 / D-005 準拠）からのみ取得されており、
         「違反」表示は単に「観測値の最終確定日が <code>freshness_sla_days</code> を超えた」状態を可視化しています。
+        出典側の区分変更などで更新を終えた系列（後継の系列あり、CSV は配信継続）は「⚫ 終了」として別に数え、違反には含めません。
         内訳を読み解くと、原因は 3 種類に分かれます:
       </p>
       <div className="grid md:grid-cols-3 gap-3 mt-3">

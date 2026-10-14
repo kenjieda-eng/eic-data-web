@@ -4,6 +4,7 @@ import {
   type Indicator,
   type SlaStatus,
 } from "@/lib/catalog";
+import Link from "next/link";
 import { STATUS_TEXT_COLORS } from "@/app/data-quality/filters";
 
 interface IndicatorMetadataPanelProps {
@@ -17,6 +18,7 @@ const STATUS_LABELS: Record<SlaStatus, string> = {
   warning: "🟡 警告",
   breach: "🔴 SLA 違反",
   unknown: "⚪ 不明",
+  retired: "⚫ 終了（後継あり）",
 };
 
 // バッジ背景のティント色。前景は STATUS_TEXT_COLORS (AA 4.5:1) を使う。
@@ -25,6 +27,7 @@ const STATUS_COLORS: Record<SlaStatus, string> = {
   warning: "#d97706",
   breach: "#dc2626",
   unknown: "#94a3b8",
+  retired: "#64748b",
 };
 
 const FREQUENCY_LABELS: Record<string, string> = {
@@ -152,6 +155,22 @@ export default function IndicatorMetadataPanel({
                 : "freshness_sla_days 未設定 (default 30)"}
             </span>
           </Row>
+          {i.status === "retired" && (
+            <Row label="終了・後継">
+              この系列は更新を終了しました（CSV は引き続き配信）。
+              {i.successor_id && (
+                <>
+                  {" "}後継:{" "}
+                  <Link
+                    href={`/catalog/${i.successor_id}`}
+                    className="text-emerald-700 underline hover:text-emerald-800"
+                  >
+                    <code>{i.successor_id}</code>
+                  </Link>
+                </>
+              )}
+            </Row>
+          )}
           <Row label="バックフィル開始">
             <span className="tabular-nums">{i.backfill_start || "—"}</span>
           </Row>
