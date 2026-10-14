@@ -25,6 +25,10 @@ export interface Indicator {
   notes?: string;
   depends_on?: string | string[] | null;
   freshness_sla_days?: number;
+  // D-020 §9.6: 終端（retired）系列と後継。出典側の区分変更などで更新が止まった系列で、CSV は配信を続ける。
+  // pipeline は retired を鮮度監視（軸 1・軸 2）の対象外にしている。web の SLA 判定も同じに揃える。
+  status?: "active" | "retired" | null;
+  successor_id?: string | null;
 }
 
 export interface Catalog {
@@ -66,9 +70,10 @@ export function fetchCatalog(): Promise<Catalog> {
 // モック側 #/data-quality (mockups/index-v2.html L2772-) の SLA / フィルタ仕様に追随。
 // =============================================================================
 
-export type SlaStatus = "healthy" | "warning" | "breach" | "unknown";
+export type SlaStatus = "healthy" | "warning" | "breach" | "unknown" | "retired";
 
-export interface EnrichedIndicator extends Indicator {
+// status は SLA 判定の結果で上書きする（catalog の status=retired は SLA の "retired" として引き継ぐ）。
+export interface EnrichedIndicator extends Omit<Indicator, "status"> {
   ageDays: number | null;
   status: SlaStatus;
 }
@@ -151,10 +156,12 @@ export function daysSinceCutoff(
 }
 
 export function slaStatusOf(
-  indicator: Pick<Indicator, "observation_cutoff" | "freshness_sla_days">,
+  indicator: Pick<Indicator, "observation_cutoff" | "freshness_sla_days" | "status">,
   now: Date = new Date(),
 ): { ageDays: number | null; status: SlaStatus } {
   const ageDays = daysSinceCutoff(indicator, now);
+  // 終端系列は鮮度の監視対象外（pipeline の軸 1・軸 2 と同じ）。「違反」に数えない。
+  if (indicator.status === "retired") return { ageDays, status: "retired" };
   if (ageDays === null) return { ageDays: null, status: "unknown" };
   const sla = indicator.freshness_sla_days ?? DEFAULT_SLA_DAYS;
   if (ageDays <= sla) return { ageDays, status: "healthy" };
@@ -250,6 +257,7 @@ export function summarizeStatus(
     warning: 0,
     breach: 0,
     unknown: 0,
+    retired: 0,
   };
   for (const r of rows) out[r.status]++;
   return out;

@@ -10,7 +10,7 @@ const CARD_BASE =
 
 export default function SummaryCards({ total, counts }: SummaryCardsProps) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
       <div className={CARD_BASE}>
         <div className="text-[11px] uppercase tracking-wider text-faint">
           登録系列
@@ -55,6 +55,18 @@ export default function SummaryCards({ total, counts }: SummaryCardsProps) {
           {counts.breach}
         </div>
         <div className="text-[10px] text-faint">要対応</div>
+      </div>
+      <div className={CARD_BASE}>
+        <div className="text-[11px] uppercase tracking-wider text-faint">
+          ⚫ 終了
+        </div>
+        <div
+          className="text-[26px] font-semibold tabular-nums"
+          style={{ color: "#64748b" }}
+        >
+          {counts.retired}
+        </div>
+        <div className="text-[10px] text-faint">後継系列あり・SLA 対象外</div>
       </div>
     </div>
   );

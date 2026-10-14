@@ -56,7 +56,7 @@ export default function FilterChips({
         SLA ステータスで絞る
       </div>
       <div className="flex flex-wrap gap-2">
-        {(["healthy", "warning", "breach"] as SlaStatus[]).map((s) => {
+        {(["healthy", "warning", "breach", "retired"] as SlaStatus[]).map((s) => {
           const active = filters.status === s;
           return (
             <Link
