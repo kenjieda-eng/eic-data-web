@@ -324,7 +324,7 @@ const DOMAINS_DAY8_ADDITIONS: DomainPageMeta[] = [
     name: "技術",
     emoji: "🔋",
     description:
-      `NREL ATB（Annual Technology Baseline）を一次出典とする米国の発電技術コストドメイン。発電コスト LCOE（$/MWh）・資本費 CAPEX（$/kW）・容量率（%）の 3 指標を、太陽光・陸上/洋上風力・原子力・地熱・水力・バイオマス・CSP など 10 技術 + 蓄電池 CAPEX の計 ${SERIES_COUNT_TOKEN} 系列で揃える。米国コスト前提・各年版の当年値（2021-2024 年版、将来射影は非収載）で、技術別のコスト水準と年版間の変化を横断比較できる。ライセンスは CC BY 4.0。`,
+      `NREL ATB（Annual Technology Baseline）を一次出典とする米国の発電技術コストドメイン。発電コスト LCOE（$/MWh）・資本費 CAPEX（$/kW）・容量率（%）の 3 指標を、太陽光・陸上/洋上風力・原子力・地熱・水力・バイオマス・CSP など 10 技術 + 蓄電池 CAPEX の計 ${SERIES_COUNT_TOKEN} 系列で揃える。米国コスト前提・各年版の当年値（2021-2025 年版、将来射影は非収載）で、技術別のコスト水準と年版間の変化を横断比較できる。ライセンスは CC BY 4.0。`,
     insightKeywords: ["技術", "LCOE", "蓄電池", "太陽光", "風力", "原子力", "発電コスト", "CAPEX"],
     subcategories: [
       {
