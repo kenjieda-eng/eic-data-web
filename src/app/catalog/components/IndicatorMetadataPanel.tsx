@@ -18,7 +18,7 @@ const STATUS_LABELS: Record<SlaStatus, string> = {
   warning: "🟡 警告",
   breach: "🔴 SLA 違反",
   unknown: "⚪ 不明",
-  retired: "⚫ 終了（後継あり）",
+  retired: "⚫ 終了",
 };
 
 // バッジ背景のティント色。前景は STATUS_TEXT_COLORS (AA 4.5:1) を使う。
@@ -156,7 +156,7 @@ export default function IndicatorMetadataPanel({
             </span>
           </Row>
           {i.status === "retired" && (
-            <Row label="終了・後継">
+            <Row label="更新終了">
               この系列は更新を終了しました（CSV は引き続き配信）。
               {i.successor_id && (
                 <>

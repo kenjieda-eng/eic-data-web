@@ -53,7 +53,7 @@ export default function DomainQualitySummary({ rows }: DomainQualitySummaryProps
             )}
             {status.retired > 0 && (
               <li className="flex items-center justify-between">
-                <span className="text-slate-500">Retired（終了・後継あり）</span>
+                <span className="text-slate-500">Retired（更新終了）</span>
                 <span className="tabular-nums text-ink">
                   {status.retired} 系列
                 </span>

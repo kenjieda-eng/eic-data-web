@@ -5,7 +5,7 @@ export const STATUS_LABELS: Record<SlaStatus, string> = {
   warning: "🟡 警告",
   breach: "🔴 SLA 違反",
   unknown: "⚪ 不明",
-  retired: "⚫ 終了（後継あり）",
+  retired: "⚫ 終了",
 };
 
 export const STATUS_COLORS: Record<SlaStatus, string> = {
