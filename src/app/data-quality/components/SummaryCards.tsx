@@ -66,7 +66,7 @@ export default function SummaryCards({ total, counts }: SummaryCardsProps) {
         >
           {counts.retired}
         </div>
-        <div className="text-[10px] text-faint">後継系列あり・SLA 対象外</div>
+        <div className="text-[10px] text-faint">更新終了・SLA 対象外</div>
       </div>
     </div>
   );
