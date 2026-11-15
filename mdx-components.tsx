@@ -71,6 +71,28 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </pre>
     ),
+    // 2026-11-15: GFM の表（next.config.ts の remark-gfm）。狭い画面では表だけ横に動かす。
+    // 列の寄せ（|---:| など）は th / td の style で来るので props をそのまま渡す。
+    table: ({ children }) => (
+      <div className="mt-4 overflow-x-auto">
+        <table className="min-w-full border-collapse text-sm md:text-base text-subink">
+          {children}
+        </table>
+      </div>
+    ),
+    th: ({ children, ...props }) => (
+      <th
+        {...props}
+        className="border-b-2 border-slate-300 bg-slate-50 px-3 py-2 text-left font-semibold text-ink whitespace-nowrap"
+      >
+        {children}
+      </th>
+    ),
+    td: ({ children, ...props }) => (
+      <td {...props} className="border-b border-slate-200 px-3 py-2 align-top">
+        {children}
+      </td>
+    ),
     ...components,
   };
 }
