@@ -71,6 +71,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </pre>
     ),
+    // 2026-11-16: 本文中の `code`（記事末の構成系列など）。長い系列 ID が切れずに狭い画面で横にはみ出すので、どこでも折り返せるようにする。
+    // pre の中は white-space: pre なので折り返さない（見た目は変わらない）。
+    code: ({ children, ...props }) => (
+      <code {...props} className={`wrap-anywhere ${props.className ?? ""}`.trim()}>
+        {children}
+      </code>
+    ),
     // 2026-11-15: GFM の表（next.config.ts の remark-gfm）。狭い画面では表だけ横に動かす。
     // 列の寄せ（|---:| など）は th / td の style で来るので props をそのまま渡す。
     table: ({ children }) => (

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
-// 2026-11-15: GFM の表（| a | b |）を表として出す。これまで表は縦棒入りの文字のまま段落に出ていた（Insight 77 本）。
+// 2026-11-15: GFM の表（| a | b |）を表として出す。これまで表は縦棒入りの文字のまま段落に出ていた（Insight 76 本）。
 // Turbopack では plugin を文字列で渡す。
 const withMDX = createMDX({
   options: {
