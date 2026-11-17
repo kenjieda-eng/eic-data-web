@@ -30,7 +30,7 @@ export const metadata = {
 
 2030 年目標 36-38% は、特に太陽光の追加導入と洋上風力の本格立ち上げを前提とした水準で、達成には政策的・技術的・経済的な課題が多い。
 
-本記事の `meti-renewables-share` 系列は、D-011 メタデータスキーマで **`depends_on` を初めて非 null で埋める派生系列**。`(meti-gen-\{solar+wind+hydro+geothermal+biomass\}) / meti-gen-total × 100` で計算される。
+本記事の `meti-renewables-share` 系列は、D-011 メタデータスキーマで **`depends_on` を初めて非 null で埋める派生系列**。`(meti-gen-{solar+wind+hydro+geothermal+biomass}) / meti-gen-total × 100` で計算される。
 
 ## 全国再エネ比率（%、月次、5 年トレンド）
 
@@ -93,7 +93,7 @@ export const metadata = {
 
 ---
 
-*構成系列: `meti-renewables-share`（D-011 depends_on: `meti-gen-\{solar,wind,hydro,geothermal,biomass\}` ÷ `meti-gen-total`）*
+*構成系列: `meti-renewables-share`（D-011 depends_on: `meti-gen-{solar,wind,hydro,geothermal,biomass}` ÷ `meti-gen-total`）*
 *編集物著作権: EIC Data (CC BY 4.0)*
 *Phase B-A Day 8 で MDX 化（2026-05-06、リン）／ Phase B-B で ChartTrend 拡張予定*
 
