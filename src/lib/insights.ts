@@ -534,10 +534,10 @@ export const INSIGHTS: Insight[] = [
   {
     slug: "world-power-co2-intensity",
     title: "電気の「きれいさ」を主要5か国で比べる — 日本の電力 CO2 強度はどこに立つか",
-    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 205) の電力部門 CO2 強度 (gCO2e/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べ、日本がどこに立っているかを確かめる。2025-12 で 中国 594 / 日本 481 / 米国 383 / ドイツ 359 / 英国 203 gCO2e/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.4 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾",
+    lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 205) の電力部門 CO2 強度 (gCO2e/kWh、月次) を主要 5 か国 (日本・米国・中国・ドイツ・英国) で並べ、日本がどこに立っているかを確かめる。2025-12 で 中国 593 / 日本 481 / 米国 383 / ドイツ 359 / 英国 203 gCO2e/kWh、日本は中国に次いで 2 番目に高く、英国比で約 2.4 倍。電源構成 (石炭依存度・原子力・再エネ) の刻印を読み解く、Phase 2 国際ドメイン Ember 第 1 弾",
     tags: ["国際", "電力", "CO2", "脱炭素", "電源構成", "Ember"],
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
-    updated: "2026-10-22",
+    updated: "2026-11-20",
   },
   {
     slug: "world-power-mix-compare",
@@ -545,7 +545,7 @@ export const INSIGHTS: Insight[] = [
     lede: "Ember Monthly Electricity Data (CC-BY-4.0、catalog 240、5 か国 × 7 燃料 = 35 系列の ember-share-{fuel}-{cc}) で主要 5 か国の電源別発電量シェアを並べ、#67 の CO2 強度ランキングを電源構成から説明する。2025-12 で 中国 石炭 58.3% / 日本 石炭 31.3% + ガス 31.3% / 米国 ガス 38.2% / ドイツ 再エネ 54% + 原子力 0% / 英国 石炭 0% + 再エネ 57% という分岐。CO2 強度を最も強く規定するのは石炭シェアであることを実データで示す、Phase 2 国際ドメイン Ember 第 2 弾",
     tags: ["国際", "電力", "電源構成", "脱炭素", "石炭", "再エネ", "Ember"],
     sources: ["Ember Monthly Electricity Data (CC-BY-4.0)"],
-    updated: "2026-10-22",
+    updated: "2026-11-20",
   },
   {
     slug: "japan-power-mix-trend",
