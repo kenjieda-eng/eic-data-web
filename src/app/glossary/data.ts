@@ -487,7 +487,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: "power-mix",
     name: "電源構成",
     description:
-      "ある国・地域の発電量を電源（石炭・ガス・原子力・太陽光・風力・水力・バイオ等）別に分けた構成比率。CO2 強度・電気料金・供給安定性を規定する根幹。日本は化石 6 割超・原子力 1 割の構造、英国は石炭 0%・再エネ 6 割と国際的に分岐が大きい。[[co2-intensity]] [[capacity-factor]] [[renewables]] と密接。Insight #68 world-power-mix-compare / #69 japan-power-mix-trend で可視化。",
+      "ある国・地域の発電量を電源（石炭・ガス・原子力・太陽光・風力・水力・バイオ等）別に分けた構成比率。CO2 強度・電気料金・供給安定性を規定する根幹。日本は 2025 年 12 月の断面で化石 6 割超・原子力 1 割の構造、英国は石炭 0%・再エネ 6 割と国際的に分岐が大きい。[[co2-intensity]] [[capacity-factor]] [[renewables]] と密接。Insight #68 world-power-mix-compare / #69 japan-power-mix-trend で可視化。",
     category: "power",
   },
   {
